@@ -7,3 +7,4 @@
     - [Drivers](./quickstart/drivers.md)
 - [Tutorial](./tutorial/README.md)
 - [Endb SQL](./sql/README.md)
+- [Architecture](./architecture/README.md)
