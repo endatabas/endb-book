@@ -1,0 +1,6 @@
+[book]
+authors = ["Steven Deobald", "Håkan Råberg"]
+language = "en"
+multilingual = false
+src = "src"
+title = "The Endatabas Book"
