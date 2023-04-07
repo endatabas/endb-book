@@ -17,6 +17,6 @@ renderer = ["html", "pdf"]
 enable = true
 
 [output.pdf]
-theme = "ayu"
+# theme = "ayu"
 
 [output.pdf-outline]
