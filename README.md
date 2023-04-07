@@ -7,6 +7,7 @@ The Endatabas Book
 ```
 cargo install mdbook
 cargo install mdbook-pdf
+cargo install mdbook-toc
 pip install mdbook-pdf-outline
 # you'll need ~/.local/bin on your PATH
 ```
@@ -21,4 +22,3 @@ pip install mdbook-pdf-outline
 * https://archive.org/details/TheCProgrammingLanguageFirstEdition/mode/2up
 * https://lalrpop.github.io/lalrpop/
 * https://doc.rust-lang.org/stable/book/
-

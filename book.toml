@@ -5,6 +5,12 @@ multilingual = false
 src = "src"
 title = "The Endatabas Book"
 
+# chapter-level ToC ... perhaps not necessary,
+# but it's here if we want it.
+[preprocessor.toc]
+command = "mdbook-toc"
+renderer = ["html", "pdf"]
+
 [output.html]
 
 [output.html.print]
@@ -14,4 +20,3 @@ enable = true
 theme = "ayu"
 
 [output.pdf-outline]
-
