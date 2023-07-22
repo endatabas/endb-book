@@ -1,5 +1,7 @@
 # Endb SQL
 
+TODO: This document isn't valid yet (objects are not supported).
+
 Here is some sample SQL:
 
 ```SQL
