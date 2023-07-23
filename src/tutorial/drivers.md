@@ -1,7 +1,7 @@
 # Drivers
 
 At this experimental stage, only raw HTTP drivers are available.
-Any HTTP client may be used.
+Any HTTP client may be used but in the examples below, we'll use `curl`.
 
 ## HTTP / cURL
 

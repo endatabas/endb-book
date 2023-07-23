@@ -9,14 +9,9 @@ title = "The Endatabas Book"
 # but it's here if we want it.
 [preprocessor.toc]
 command = "mdbook-toc"
-renderer = ["html", "pdf"]
+renderer = ["html"]
 
 [output.html]
 
 [output.html.print]
 enable = true
-
-[output.pdf]
-# theme = "ayu"
-
-[output.pdf-outline]
