@@ -1,4 +1,4 @@
-# Endb SQL
+# Endb SQL Reference
 
 TODO: This document isn't valid yet (objects are not supported).
 
