@@ -6,22 +6,12 @@ The Endatabas Book
 
 ```
 cargo install mdbook
-cargo install mdbook-pdf
-cargo install mdbook-toc
-pip install mdbook-pdf-outline
-# you'll need ~/.local/bin on your PATH
 ```
 
-## Bugs
+## Limitations
 
-* `mdbook-pdf-outline` and/or mdbook itself has a bug in it
-that prevents the outline page from rendering at all:
-https://github.com/HollowMan6/mdbook-pdf#common-issues
-...I'm not actually sure that link bug or the associated PR
-fix the problem we're having, but the `writer.add_outline_item`
-calls are never executed on our book. Hopefully the bug is
-fixed soon. Issue raised:
-    * https://github.com/HollowMan6/mdbook-pdf/issues/18
+The `mdbook-pdf` build has been removed for now, as the TOC is too buggy.
+The HTML print feature works reasonably well.
 
 ## Open Questions
 
