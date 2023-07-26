@@ -1,7 +1,5 @@
 # Tutorial
 
-TODO: Arguably, this chapter is more "reference docs" than "tutorial" ... we're still figuring it out.
-
 - [Installation](installation.md)
-- [Drivers](drivers.md)
+- [HTTP API](http_api.md)
 - [Endb SQL](sql.md)

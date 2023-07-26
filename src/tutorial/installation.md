@@ -32,13 +32,13 @@ podman run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 
 If you want to run `endb` from the main branch, compile and build the Docker image:
 
-* https://github.com/endatabas/endb/#building
-* https://github.com/endatabas/endb/#docker
+* [https://github.com/endatabas/endb/#building](https://github.com/endatabas/endb/#building)
+* [https://github.com/endatabas/endb/#docker](https://github.com/endatabas/endb/#docker)
 
 
 ## Installing from Git: Binary
 
 If you don't want Docker at all, you can compile and run the `endb` binary:
 
-* https://github.com/endatabas/endb/#building
+* [https://github.com/endatabas/endb/#building](https://github.com/endatabas/endb/#building)
 * `./target/endb`

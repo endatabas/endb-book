@@ -19,4 +19,4 @@ curl -d "INSERT INTO cars (name, year) VALUES ('Toyota Tundra', DATE('2004-01-01
 curl -d "SELECT * from cars" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-See [tutorial/drivers](/tutorial/drivers.md) for more ways to talk to `endb`.
+See [tutorial/http_api](/tutorial/http_api.md) for more ways to talk to `endb`.

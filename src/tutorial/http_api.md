@@ -1,9 +1,7 @@
-# Drivers
+# HTTP API
 
 At this experimental stage, only raw HTTP drivers are available.
 Any HTTP client may be used but in the examples below, we'll use `curl`.
-
-## HTTP / cURL
 
 You can send SQL statements to `endb` over HTTP:
 
@@ -12,7 +10,10 @@ curl -d "INSERT INTO users (name) VALUES ('Deepthi')" -H "Content-Type: applicat
 curl -d "SELECT * FROM users -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-### HTTP Verbs
+You can send SQL to `endb` with standard HTTP Verbs, Content Types, and Accept Headers.
+Each one is outlined below.
+
+## HTTP Verbs
 
 `POST` allows explicit Content Types and Accept headers:
 
@@ -26,7 +27,7 @@ curl -d 'SELECT 1' -H "Content-Type: application/sql" -H "Accept: text/csv" -X P
 curl -X GET "http://localhost:3803/sql?q=SELECT%201"
 ```
 
-### Content Types
+## Content Types
 
 `application/sql` is the only accepted Content Type for now:
 
@@ -34,11 +35,11 @@ curl -X GET "http://localhost:3803/sql?q=SELECT%201"
 curl -d 'SELECT 1' -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-### Accept Headers
+## Accept Headers
 
 The default accept header is `application/json`.
 
-#### text/csv
+### text/csv
 
 `text/csv` returns comma-separated rows:
 
@@ -54,7 +55,7 @@ returns:
 1,"hello"
 ```
 
-#### application/json
+### application/json
 
 `application/json` returns rows as standard JSON tuples:
 
@@ -69,7 +70,7 @@ returns:
 ```
 
 
-#### application/x-ndjson
+### application/x-ndjson
 
 `application/x-ndjson` returns columnar newline-delimited JSON records:
 
@@ -86,7 +87,7 @@ returns:
 {"column2":"hello"}
 ```
 
-#### application/ld+json
+### application/ld+json
 
 `application/ld+json` returns documents of strongly-typed ("Linking Data") JSON records:
 

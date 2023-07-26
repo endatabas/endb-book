@@ -9,5 +9,6 @@
     - [Endb SQL](./tutorial/sql.md)
 - [Reference](./reference/README.md)
     - [SQL](./reference/sql.md)
-- [SQL Reference](./sql/README.md)
-- [Architecture](./architecture/README.md)
+- [Appendix](./appendix/README.md)
+    - [Architecture](./appendix/architecture.md)
+    - [Roadmap](./appendix/roadmap.md)
