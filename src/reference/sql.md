@@ -2,7 +2,7 @@
 
 TODO: This document isn't valid yet (objects are not supported).
 
-Here is some eSQL:
+Here is some Endb SQL:
 
 ```SQL
 INSERT INTO people (id, name, friends)
