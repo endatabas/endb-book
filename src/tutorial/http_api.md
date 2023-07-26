@@ -6,7 +6,7 @@ Any HTTP client may be used but in the examples below, we'll use `curl`.
 You can send SQL statements to `endb` over HTTP:
 
 ```sh
-curl -d "INSERT INTO users (name) VALUES ('Deepthi')" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
+curl -d "INSERT INTO users (name) VALUES ('Tianyu')" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 curl -d "SELECT * FROM users -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 

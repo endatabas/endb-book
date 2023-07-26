@@ -43,7 +43,7 @@ Adding a user with id `456` allows a join with the previous `posts` table.
 
 ```SQL
 INSERT INTO users (id, name)
-  VALUES (456, 'Linda');
+  VALUES (456, 'Vikram');
 
 SELECT * from posts p JOIN users u ON p.user_id = u.id;
 ```
@@ -55,7 +55,7 @@ Let's add another user with more columns.
 
 ```SQL
 INSERT INTO users (id, name, email)
-  VALUES (789, 'Preethi', 'preethi@endatabas.com');
+  VALUES (789, 'Daniela', 'daniela@endatabas.com');
 
 SELECT * from users;
 ```
@@ -69,13 +69,13 @@ It may seem strange to leave jagged columns lying around.
 Endb doesn't discourage you from cleaning up your data, if you can:
 
 ```SQL
-UPDATE users SET email = 'linda@stockholm.se' WHERE name = 'Linda';
+UPDATE users SET email = vikram@stockholm.se' WHERE name = 'Vikram';
 
 SELECT * from users;
 ```
 
 The difference in Endb is that we haven't "migrated" the old data — it's still there.
-If you query for Linda's `user` document as of 2 minutes ago, you will see the old record without an `email`.
+If you query for Vikram's `user` document as of 2 minutes ago, you will see the old record without an `email`.
 Queries in Endb always default to "as-of-now", which is why the results of the query above shouldn't be surprising.
 
 ## Error Messages

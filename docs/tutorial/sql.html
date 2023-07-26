@@ -174,7 +174,7 @@ which exists to remove data for user safety and compliance with laws like GDPR.<
 <p>Relationships are also dynamic.
 Adding a user with id <code>456</code> allows a join with the previous <code>posts</code> table.</p>
 <pre><code class="language-SQL">INSERT INTO users (id, name)
-  VALUES (456, 'Linda');
+  VALUES (456, 'Vikram');
 
 SELECT * from posts p JOIN users u ON p.user_id = u.id;
 </code></pre>
@@ -182,7 +182,7 @@ SELECT * from posts p JOIN users u ON p.user_id = u.id;
 <p>Endb allows you to insert asymmetrical, jagged data.
 Let's add another user with more columns.</p>
 <pre><code class="language-SQL">INSERT INTO users (id, name, email)
-  VALUES (789, 'Preethi', 'preethi@endatabas.com');
+  VALUES (789, 'Daniela', 'daniela@endatabas.com');
 
 SELECT * from users;
 </code></pre>
@@ -191,12 +191,12 @@ It doesn't have any difficulty with the previous <code>user</code> document, eve
 <h2 id="data-migration"><a class="header" href="#data-migration">Data &quot;Migration&quot;</a></h2>
 <p>It may seem strange to leave jagged columns lying around.
 Endb doesn't discourage you from cleaning up your data, if you can:</p>
-<pre><code class="language-SQL">UPDATE users SET email = 'linda@stockholm.se' WHERE name = 'Linda';
+<pre><code class="language-SQL">UPDATE users SET email = vikram@stockholm.se' WHERE name = 'Vikram';
 
 SELECT * from users;
 </code></pre>
 <p>The difference in Endb is that we haven't &quot;migrated&quot; the old data — it's still there.
-If you query for Linda's <code>user</code> document as of 2 minutes ago, you will see the old record without an <code>email</code>.
+If you query for Vikram's <code>user</code> document as of 2 minutes ago, you will see the old record without an <code>email</code>.
 Queries in Endb always default to &quot;as-of-now&quot;, which is why the results of the query above shouldn't be surprising.</p>
 <h2 id="error-messages"><a class="header" href="#error-messages">Error Messages</a></h2>
 <p>Endb will always do its best to provide you with meaningful error messages that point you to a solution:</p>

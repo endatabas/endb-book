@@ -148,7 +148,7 @@
 <p>At this experimental stage, only raw HTTP drivers are available.
 Any HTTP client may be used but in the examples below, we'll use <code>curl</code>.</p>
 <p>You can send SQL statements to <code>endb</code> over HTTP:</p>
-<pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Deepthi')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+<pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 curl -d &quot;SELECT * FROM users -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>You can send SQL to <code>endb</code> with standard HTTP Verbs, Content Types, and Accept Headers.

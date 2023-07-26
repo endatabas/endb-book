@@ -7,7 +7,7 @@ Here is some Endb SQL:
 ```SQL
 INSERT INTO people (id, name, friends)
   VALUES (5678, 'Steven',
-          [{'user': 'Preethi'},
+          [{'user': 'Deepthi'},
            {'user': 'Sandy'},
            {'user': 'Håkan'}]);
 
