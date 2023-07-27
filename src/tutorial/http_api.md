@@ -57,7 +57,7 @@ returns:
 
 ### application/json
 
-`application/json` returns rows as standard JSON tuples:
+`application/json` returns rows as an array of JSON tuples:
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/json" -X POST http://localhost:3803/sql
@@ -72,7 +72,7 @@ returns:
 
 ### application/x-ndjson
 
-`application/x-ndjson` returns columnar newline-delimited JSON records:
+`application/x-ndjson` returns newline-delimited JSON documents:
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/x-ndjson" -X POST http://localhost:3803/sql
@@ -81,10 +81,8 @@ curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Cont
 returns:
 
 ```json
-{"column1":2}
-{"column2":"2023-07-22"}
-{"column1":1}
-{"column2":"hello"}
+{"column1":2,"column2":"2023-07-22"}
+{"column1":1,"column2":"hello"}
 ```
 
 ### application/ld+json

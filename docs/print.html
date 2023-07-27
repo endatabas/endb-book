@@ -205,7 +205,7 @@ podman run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 Any HTTP client may be used but in the examples below, we'll use <code>curl</code>.</p>
 <p>You can send SQL statements to <code>endb</code> over HTTP:</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
-curl -d &quot;SELECT * FROM users -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>You can send SQL to <code>endb</code> with standard HTTP Verbs, Content Types, and Accept Headers.
 Each one is outlined below.</p>
@@ -232,21 +232,19 @@ Each one is outlined below.</p>
 1,&quot;hello&quot;
 </code></pre>
 <h3 id="applicationjson"><a class="header" href="#applicationjson">application/json</a></h3>
-<p><code>application/json</code> returns rows as standard JSON tuples:</p>
+<p><code>application/json</code> returns rows as an array of JSON tuples:</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
 <pre><code>[[2,&quot;2023-07-22&quot;],[1,&quot;hello&quot;]]
 </code></pre>
 <h3 id="applicationx-ndjson"><a class="header" href="#applicationx-ndjson">application/x-ndjson</a></h3>
-<p><code>application/x-ndjson</code> returns columnar newline-delimited JSON records:</p>
+<p><code>application/x-ndjson</code> returns newline-delimited JSON documents:</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/x-ndjson&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
-<pre><code class="language-json">{&quot;column1&quot;:2}
-{&quot;column2&quot;:&quot;2023-07-22&quot;}
-{&quot;column1&quot;:1}
-{&quot;column2&quot;:&quot;hello&quot;}
+<pre><code class="language-json">{&quot;column1&quot;:2,&quot;column2&quot;:&quot;2023-07-22&quot;}
+{&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}
 </code></pre>
 <h3 id="applicationldjson"><a class="header" href="#applicationldjson">application/ld+json</a></h3>
 <p><code>application/ld+json</code> returns documents of strongly-typed (&quot;Linking Data&quot;) JSON records:</p>
