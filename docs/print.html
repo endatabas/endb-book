@@ -89,11 +89,33 @@
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
                                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -262,36 +284,40 @@ Hopefully it is pleasant to use without feeling foreign.</p>
 <p>Endb is a schemaless document database.
 You do not need <code>CREATE TABLE</code> — tables are dynamically created when you insert data.
 The following SQL is valid as soon as you start <code>endb</code>:</p>
-<pre><code class="language-SQL">INSERT INTO posts (id, user_id, text)
-  VALUES (123, 456, 'Hello World');
+<pre><code class="language-SQL">INSERT INTO posts (id, user_id, text) VALUES (123, 456, 'Hello World');
 
 SELECT * from posts;
 </code></pre>
 <h2 id="immutable"><a class="header" href="#immutable">Immutable</a></h2>
-<p>Endb is immutable, so it does not permit <code>DELETE</code> — explicitly or implicitly.
-For example, if you run an <code>UPDATE</code>, your previous <code>INSERT</code> isn't lost:</p>
-<pre><code class="language-SQL">UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
+<p>Endb is immutable, so it does not permit destructive <code>UPDATE</code> or <code>DELETE</code>.
+For example, if you run an <code>UPDATE</code>, your previous <code>INSERT</code> isn't lost.
+Before we update the record, we'll make note of the current time, according to the database.
+(Any time after the <code>INSERT</code> and before the <code>UPDATE</code> would suffice.)</p>
+<pre><code class="language-SQL">SELECT CURRENT_TIMESTAMP;
+-- for the sake of example, let's say this returns 2023-08-17T00:00:00
+
+UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
 
 SELECT * from posts;
 </code></pre>
 <p>You'll note that <code>Hello World</code> from your original insert isn't visible.
-That's because it only exists in the past.
-You would need a time-travelling query to see it.</p>
+That's because it only exists in the past and, by default, <code>SELECT</code> will show the state of the database <em>as of now</em>.</p>
+<p>To see the old version, you can time-travel back to a time when the old record was visible:</p>
+<pre><code class="language-SQL">SELECT * from posts FOR SYSTEM_TIME AS OF 2023-08-17T00:00:00;
+</code></pre>
 <p>NOTE: Although there is no <code>DELETE</code> in the traditional sense, there is <code>ERASE</code>,
 which exists to remove data for user safety and compliance with laws like GDPR.</p>
 <h2 id="dynamic-joins"><a class="header" href="#dynamic-joins">Dynamic Joins</a></h2>
 <p>Relationships are also dynamic.
 Adding a user with id <code>456</code> allows a join with the previous <code>posts</code> table.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name)
-  VALUES (456, 'Vikram');
+<pre><code class="language-SQL">INSERT INTO users (id, name) VALUES (456, 'Vikram');
 
 SELECT * from posts p JOIN users u ON p.user_id = u.id;
 </code></pre>
 <h2 id="semi-structured-data"><a class="header" href="#semi-structured-data">Semi-Structured Data</a></h2>
 <p>Endb allows you to insert asymmetrical, jagged data.
 Let's add another user with more columns.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name, email)
-  VALUES (789, 'Daniela', 'daniela@endatabas.com');
+<pre><code class="language-SQL">INSERT INTO users (id, name, email) VALUES (789, 'Daniela', 'daniela@endatabas.com');
 
 SELECT * from users;
 </code></pre>
@@ -307,6 +333,16 @@ SELECT * from users;
 <p>The difference in Endb is that we haven't &quot;migrated&quot; the old data — it's still there.
 If you query for Vikram's <code>user</code> document as of 2 minutes ago, you will see the old record without an <code>email</code>.
 Queries in Endb always default to &quot;as-of-now&quot;, which is why the results of the query above shouldn't be surprising.</p>
+<h2 id="nested-data"><a class="header" href="#nested-data">Nested Data</a></h2>
+<p>Endb eschews <a href="https://www.postgresql.org/docs/current/datatype-json.html">nested json</a> in favour of
+a native, strongly-typed, document-relational model.</p>
+<pre><code class="language-SQL">INSERT INTO users (id, name, friends) VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},{name: 'Amit', country: 'Japan'}]);
+
+SELECT users.friends[1] FROM users WHERE id = 123;
+</code></pre>
+<p>The <code>users.friends[1]</code> path expression seen above is one of many inspired by <a href="https://datatracker.ietf.org/doc/draft-ietf-jsonpath-base/">JSONPath</a>,
+<a href="https://www.iso.org/standard/78937.html">SQL/JSON</a>, and their derivatives in legacy relational databases.
+A detailed explanation of Endb's arrays and objects is provided in the <a href="tutorial//reference/sql.html">Reference Docs</a></p>
 <h2 id="error-messages"><a class="header" href="#error-messages">Error Messages</a></h2>
 <p>Endb will always do its best to provide you with meaningful error messages that point you to a solution:</p>
 <pre><code class="language-sql">SELECT * FROM im_not_here;
@@ -381,6 +417,22 @@ so early users can get a taste of what it feels like to use it.</p>
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
