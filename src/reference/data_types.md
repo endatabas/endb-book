@@ -36,8 +36,5 @@ JSON literal types are implicit so a `@value/@type` pair is not returned for a J
 | `NUMERIC`   | `xsd:integer`          | -123456789012345678901234567890      | Unsupported. Use `VARCHAR`                    |
 | `URI`       | `xsd:anyURI`           | https://endb.io                      | Unsupported. Use `VARCHAR`                    |
 | `UUID`      | `@json` (`xsd:string`) | a81bc81b-dead-4e5d-abff-90865d1e13b1 | Unsupported. Use `VARCHAR`                    |
-| `SYMBOL`    | `@json` (`xsd:string`) | hello                                | Unsupported. Use `VARCHAR`                    |
-| `KEYWORD`   | `@json` (`xsd:string`) | :yellow                              | Unsupported. Use `VARCHAR`                    |
-
 
 If you strongly feel you need a native representation of one of these types, email us: [hello@endatabas.com](mailto:hello@endatabas.com)
