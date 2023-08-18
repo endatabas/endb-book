@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../quickstart/index.html"><strong aria-hidden="true">1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../tutorial/http_api.html"><strong aria-hidden="true">2.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../tutorial/sql.html"><strong aria-hidden="true">2.3.</strong> Endb SQL</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/data_types.html" class="active"><strong aria-hidden="true">3.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../reference/sql.html"><strong aria-hidden="true">3.2.</strong> SQL</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="../tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../sql/data_manipulation.html"><strong aria-hidden="true">2.1.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="../sql/queries.html"><strong aria-hidden="true">2.2.</strong> Queries</a></li><li class="chapter-item expanded "><a href="../sql/path_navigation.html"><strong aria-hidden="true">2.3.</strong> Path Navigation</a></li><li class="chapter-item expanded "><a href="../sql/data_types.html"><strong aria-hidden="true">2.4.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../sql/functions_operators.html"><strong aria-hidden="true">2.5.</strong> Functions and Operators</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/installation.html"><strong aria-hidden="true">3.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../reference/http_api.html"><strong aria-hidden="true">3.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../reference/data_types.html" class="active"><strong aria-hidden="true">3.3.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -185,6 +185,7 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 <tr><td><code>BLOB</code></td><td><code>xsd:base64Binary</code></td><td>x'DEADBEEF'</td><td>Binary large object</td></tr>
 </tbody></table>
 </div>
+<p><a href="/sql/data_types.html">SQL Data Types</a> are covered in detail in the SQL Reference.</p>
 <h2 id="collections"><a class="header" href="#collections">Collections</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>ARRAY</code></td><td><code>@json</code></td><td>[&quot;Joe&quot;, &quot;Dan&quot;, &quot;Dwayne&quot;]</td><td>Zero-based array</td></tr>
@@ -205,11 +206,11 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../reference/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../reference/http_api.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../reference/sql.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../appendix/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -219,11 +220,11 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../reference/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../reference/http_api.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../reference/sql.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../appendix/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

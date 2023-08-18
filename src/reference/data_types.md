@@ -21,6 +21,8 @@ JSON literal types are implicit so a `@value/@type` pair is not returned for a J
 | `TIME`      | `xsd:time`              | 23:30:00             | ISO time                              |
 | `BLOB`      | `xsd:base64Binary`      | x'DEADBEEF'          | Binary large object                   |
 
+[SQL Data Types](/sql/data_types.md) are covered in detail in the SQL Reference.
+
 ## Collections
 
 | SQL         | JSON-LD            | Example Literal                      | Description                 |

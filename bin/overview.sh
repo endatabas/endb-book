@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-tree -I "book"
+tree -I "book" -I "docs"
 

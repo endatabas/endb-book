@@ -52,3 +52,22 @@ unknown panic!!
 
 Descriptions should probably refer only to their internal representation and not to interpretation or rendering, but
 it's probably worth a chat.
+
+## Posting json
+
+...how?
+
+## DELETE FROM table;
+
+Should this work?
+
+```
+-> DELETE FROM users;
+400 Bad Request
+Error: found end of input expected something else
+   ╭─[<unknown>:1:1]
+   │
+ 1 │ DELETE FROM users;
+   │ ───┬──
+   │    ╰──── found end of input expected something else
+```

@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="quickstart/index.html"><strong aria-hidden="true">1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="tutorial/index.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="tutorial/http_api.html"><strong aria-hidden="true">2.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="tutorial/sql.html"><strong aria-hidden="true">2.3.</strong> Endb SQL</a></li></ol></li><li class="chapter-item expanded "><a href="reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/data_types.html"><strong aria-hidden="true">3.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="reference/sql.html"><strong aria-hidden="true">3.2.</strong> SQL</a></li></ol></li><li class="chapter-item expanded "><a href="appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="sql/data_manipulation.html"><strong aria-hidden="true">2.1.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="sql/queries.html"><strong aria-hidden="true">2.2.</strong> Queries</a></li><li class="chapter-item expanded "><a href="sql/path_navigation.html"><strong aria-hidden="true">2.3.</strong> Path Navigation</a></li><li class="chapter-item expanded "><a href="sql/data_types.html"><strong aria-hidden="true">2.4.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="sql/functions_operators.html"><strong aria-hidden="true">2.5.</strong> Functions and Operators</a></li></ol></li><li class="chapter-item expanded "><a href="reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/installation.html"><strong aria-hidden="true">3.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="reference/http_api.html"><strong aria-hidden="true">3.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="reference/data_types.html"><strong aria-hidden="true">3.3.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -172,24 +172,229 @@
 <p>Endatabas is a SQL document database with complete history.
 It will store anything, forever.</p>
 <p>The best way to understand Endatabas is to use it.
-Head on over to the <a href="quickstart/">Quickstart</a> to try it out.</p>
+Head on over to the <a href="/tutorial/quickstart.html">Quickstart</a> to try it out.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h1>
+<p>This quick tutorial intends to walk you through the core aspects of Endb.
+By the end, you will have <code>endb</code> installed and you will have used it to
+learn some of what it can do.</p>
+<ul>
+<li><a href="tutorial/quickstart.html">Quickstart</a></li>
+<li><a href="tutorial/try_it.html">Try It!</a></li>
+<li><a href="tutorial/sql_basics.html">Endb SQL Basics</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h1>
-<h2 id="installing"><a class="header" href="#installing">Installing</a></h2>
+<h2 id="install-endb"><a class="header" href="#install-endb">Install Endb</a></h2>
 <pre><code class="language-sh">mkdir -p endb_data
 docker pull endatabas/endb
 docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/endb
 </code></pre>
-<p>See <a href="quickstart//tutorial/installation.html">tutorial/installation</a> for more options to install and build <code>endb</code>.</p>
-<h2 id="try-it"><a class="header" href="#try-it">Try It!</a></h2>
-<pre><code class="language-sh">curl -d &quot;INSERT INTO cars (name, year) VALUES ('Toyota Tundra', DATE('2004-01-01'))&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
-curl -d &quot;SELECT * from cars&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+<p>See <a href="tutorial//reference/installation.html">Installation</a> for more ways to install
+and build <code>endb</code>.</p>
+<h2 id="run-your-first-query"><a class="header" href="#run-your-first-query">Run your first query</a></h2>
+<pre><code class="language-sh">curl -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
-<p>See <a href="quickstart//tutorial/http_api.html">tutorial/http_api</a> for more ways to talk to <code>endb</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="try-it"><a class="header" href="#try-it">Try It!</a></h1>
+<p>You can send SQL statements to <code>endb</code> over HTTP.
+Any HTTP client will do.</p>
+<h2 id="curl"><a class="header" href="#curl">curl</a></h2>
+<p>Our first couple examples will use <a href="https://everything.curl.dev/get">curl</a>,
+which you probably already have installed.</p>
+<pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<h2 id="example-libraries"><a class="header" href="#example-libraries">Example Libraries</a></h2>
+<p>Ultimately, Endb will ship with permissively-licensed client libraries for all major languages.
+For now, we have provided some example code you can try:</p>
+<p><a href="https://github.com/endatabas/endb/tree/main/examples">https://github.com/endatabas/endb/tree/main/examples</a></p>
+<h2 id="example-terminal"><a class="header" href="#example-terminal">Example Terminal</a></h2>
+<p>Endb does not yet provide an official terminal.
+However, you can try Endb SQL (without writing any code) with the example terminal:</p>
+<pre><code class="language-sh">git clone git@github.com:endatabas/endb.git
+cd endb/examples
+./endb_repl.py
+</code></pre>
+<p>This example terminal wraps the Python example library.
+Assuming you inserted a user with curl above, you can query that table directly:</p>
+<pre><code class="language-sh">-&gt; SELECT * FROM users;
+</code></pre>
+<p>You can use any of these tools (or any other HTTP client you prefer) for the rest of this tutorial.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="endb-sql-basics"><a class="header" href="#endb-sql-basics">Endb SQL Basics</a></h1>
+<p>If you know SQL, Endb SQL will feel instantly familiar.
+It is not &quot;SQL-like&quot;. It <em>is</em> SQL.
+However, Endb SQL is <em>dynamic</em>, <em>strongly-typed</em>, <em>time-aware</em>, and <em>shuns language embedding</em>.
+Hopefully it is pleasant to use without feeling foreign.</p>
+<h2 id="just-begin"><a class="header" href="#just-begin">Just Begin</a></h2>
+<p>Endb is a schemaless document database.
+You do not need <code>CREATE TABLE</code> — tables are dynamically created when you insert data.
+The following SQL is valid as soon as you start <code>endb</code>:</p>
+<pre><code class="language-SQL">INSERT INTO posts (id, user_id, text) VALUES (123, 456, 'Hello World');
+
+SELECT * from posts;
+</code></pre>
+<h2 id="immutable"><a class="header" href="#immutable">Immutable</a></h2>
+<p>Endb is immutable, so it does not permit destructive <code>UPDATE</code> or <code>DELETE</code>.
+For example, if you run an <code>UPDATE</code>, your previous <code>INSERT</code> isn't lost.
+Before we update the record, we'll make note of the current time, according to the database.
+(Any time after the <code>INSERT</code> and before the <code>UPDATE</code> would suffice.)</p>
+<pre><code class="language-SQL">SELECT CURRENT_TIMESTAMP;
+-- for the sake of example, let's say this returns 2023-08-17T00:00:00
+
+UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
+
+SELECT * from posts;
+</code></pre>
+<p>You'll note that <code>Hello World</code> from your original insert isn't visible.
+That's because it only exists in the past and, by default, <code>SELECT</code> will show the state of the database <em>as of now</em>.</p>
+<p>To see the old version, you can time-travel back to a time when the old record was visible:</p>
+<pre><code class="language-SQL">SELECT * from posts FOR SYSTEM_TIME AS OF 2023-08-17T00:00:00;
+</code></pre>
+<p>NOTE: Although there is no <code>DELETE</code> in the traditional sense, there is <code>ERASE</code>,
+which exists to remove data for user safety and compliance with laws like GDPR.</p>
+<h2 id="dynamic-joins"><a class="header" href="#dynamic-joins">Dynamic Joins</a></h2>
+<p>Relationships are also dynamic.
+You can join any two tables on any two columns.
+Adding a user with id <code>456</code> allows a join with the previous <code>posts</code> table.</p>
+<pre><code class="language-SQL">INSERT INTO users (id, name) VALUES (456, 'Vikram');
+
+SELECT * from posts p JOIN users u ON p.user_id = u.id;
+</code></pre>
+<h2 id="semi-structured-data"><a class="header" href="#semi-structured-data">Semi-Structured Data</a></h2>
+<p>Endb allows you to insert asymmetrical, jagged data.
+Let's add another user with more columns.</p>
+<pre><code class="language-SQL">INSERT INTO users (id, name, email) VALUES (789, 'Daniela', 'daniela@endatabas.com');
+
+SELECT * from users;
+</code></pre>
+<p>Note that the <code>SELECT *</code> is an implicitly dynamic query.
+It doesn't have any difficulty with the previous <code>user</code> document, even though it lacked an <code>email</code> column.</p>
+<h2 id="data-migration"><a class="header" href="#data-migration">Data &quot;Migration&quot;</a></h2>
+<p>It may seem strange to leave jagged columns lying around.
+Endb doesn't discourage you from cleaning up your data, if you can:</p>
+<pre><code class="language-SQL">UPDATE users SET email = 'vikram@stockholm.se' WHERE name = 'Vikram';
+
+SELECT * from users;
+</code></pre>
+<p>The difference in Endb is that we haven't &quot;migrated&quot; the old data — it's still there.
+If you query for Vikram's <code>user</code> document as of 2 minutes ago, you will see the old record without an <code>email</code>.
+Queries in Endb always default to <em>as-of-now</em>, which is why the results of the query above shouldn't be surprising.</p>
+<h2 id="nested-data"><a class="header" href="#nested-data">Nested Data</a></h2>
+<p>Endb eschews <a href="https://www.postgresql.org/docs/current/datatype-json.html">nested json</a>
+in favour of a native, strongly-typed, document-relational model.</p>
+<pre><code class="language-SQL">INSERT INTO users (id, name, friends) VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},{name: 'Amit', country: 'Japan'}]);
+
+SELECT users.friends[1] FROM users WHERE id = 123;
+</code></pre>
+<p>The <code>users.friends[1]</code> expression above is one of many path expressions inspired by
+<a href="https://datatracker.ietf.org/doc/draft-ietf-jsonpath-base/">JSONPath</a>,
+<a href="https://www.iso.org/standard/78937.html">SQL/JSON</a>,
+and their derivatives in legacy relational databases.
+A detailed explanation of Endb's arrays and objects is provided in the
+<a href="tutorial//sql/README.html">SQL Reference</a></p>
+<h2 id="documents"><a class="header" href="#documents">Documents</a></h2>
+<p>Because of Endb's native document-relational model, rows are documents and vice-versa.
+You can use an <code>INSERT</code> statement to add a document directly to the database:</p>
+<pre><code class="language-SQL">INSERT INTO users {id: 890, name: 'Aaron', friends: [{name: 'Jeff', country: 'Canada'},{name: 'Kaia', country: 'Japan'}]};
+</code></pre>
+<h2 id="error-messages"><a class="header" href="#error-messages">Error Messages</a></h2>
+<p>Endb will always do its best to provide you with meaningful error messages that point you to a solution:</p>
+<pre><code class="language-sql">SELECT * FROM im_not_here;
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sql-reference"><a class="header" href="#sql-reference">SQL Reference</a></h1>
 <ul>
-<li><a href="tutorial/installation.html">Installation</a></li>
-<li><a href="tutorial/http_api.html">HTTP API</a></li>
-<li><a href="tutorial/sql.html">Endb SQL</a></li>
+<li><a href="sql/data_manipulation.html">Data Manipulation</a></li>
+<li><a href="sql/queries.html">Queries</a></li>
+<li><a href="sql/path_navigation.html">Path Navigation</a></li>
+<li><a href="sql/data_types.html">Data Types</a></li>
+<li><a href="sql/functions_operators.html">Functions and Operators</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="data-manipulation"><a class="header" href="#data-manipulation">Data Manipulation</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="queries"><a class="header" href="#queries">Queries</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="path-navigation"><a class="header" href="#path-navigation">Path Navigation</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="sql-data-types"><a class="header" href="#sql-data-types">SQL Data Types</a></h1>
+<h2 id="null"><a class="header" href="#null">NULL</a></h2>
+<p>Null serves a variety of purposes in Endb.</p>
+<ul>
+<li>Explicit: You can provide an explicit <code>NULL</code> value</li>
+<li>&quot;Unknown&quot;: As with any SQL, you will receive a null when <a href="https://en.wikipedia.org/wiki/Three-valued_logic#SQL">3-Valued Logic</a>
+cannot determine if a statement is true or false</li>
+<li>&quot;Missing&quot;: Jagged rows will return <code>NULL</code> for columns projected
+for a document which does not contain them</li>
+</ul>
+<h2 id="varchar"><a class="header" href="#varchar">VARCHAR</a></h2>
+<p>Endb accepts unbounded, variable-length strings with either single or double quotes.</p>
+<pre><code class="language-SQL">INSERT INTO users (name, title) VALUES ('River', &quot;Prodigy&quot;);
+</code></pre>
+<h2 id="boolean"><a class="header" href="#boolean">BOOLEAN</a></h2>
+<p>Boolean values can be <code>true</code>, <code>false</code>, or <code>NULL</code>.</p>
+<h2 id="integer"><a class="header" href="#integer">INTEGER</a></h2>
+<p>32-bit integers with a minimum value of -9007199254740991
+and a maximum value of 9007199254740991.</p>
+<h2 id="real"><a class="header" href="#real">REAL</a></h2>
+<p>A 64-bit IEEE 754 floating point number, or double.</p>
+<h2 id="bigint"><a class="header" href="#bigint">BIGINT</a></h2>
+<p>32-bit integers with a minimum value of -9223372036854775807
+and a maximum value of 9223372036854775807.</p>
+<h2 id="timestamp"><a class="header" href="#timestamp">TIMESTAMP</a></h2>
+<p>Timestamps can be represented as either SQL timestamps, according to the SQL Specification,
+or ISO timestamps.
+The following are legal timestamp literals:</p>
+<ul>
+<li><code>2007-01-01T00:00:00</code></li>
+<li><code>2007-01-01T00:00:00.123Z</code></li>
+<li><code>2007-01-01T00:00:00.000000Z</code></li>
+<li><code>TIMESTAMP '2007-01-01 00:00:00'</code></li>
+<li><code>TIMESTAMP '2007-01-01 00:00:00.000000Z'</code></li>
+</ul>
+<h2 id="date"><a class="header" href="#date">DATE</a></h2>
+<p>Dates can be represented as either SQL dates, according to the SQL Specification,
+or ISO dates.
+The following are legal date literals:</p>
+<ul>
+<li><code>2007-01-01</code></li>
+<li><code>DATE '2007-01-01'</code></li>
+</ul>
+<h2 id="time"><a class="header" href="#time">TIME</a></h2>
+<p>Times can be represented as either SQL times, according to the SQL Specification,
+or ISO times.
+The following are legal time literals:</p>
+<ul>
+<li><code>23:59:12</code></li>
+<li><code>23:59:12.12345</code></li>
+<li><code>TIME '23:59:12'</code></li>
+<li><code>TIME '23:59:12.12345'</code></li>
+</ul>
+<h2 id="blob"><a class="header" href="#blob">BLOB</a></h2>
+<p>Binary Large Objects can be encoded as literals or cast from strings.</p>
+<ul>
+<li><code>x'DEADBEEF'</code></li>
+<li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
+</ul>
+<h2 id="array"><a class="header" href="#array">ARRAY</a></h2>
+<p>Arrays can be created using a syntax similar to that in the SQL Specification,
+or array literals similar to JSON.</p>
+<ul>
+<li><code>ARRAY(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></li>
+<li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
+</ul>
+<h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
+<p>Objects can be created using a syntax similar to that in the SQL Specification,
+or object literals similar to JSON.</p>
+<ul>
+<li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
+<li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="functions-and-operators"><a class="header" href="#functions-and-operators">Functions and Operators</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
+<p>Reference documentation exists as a detailed perspective on each feature of Endb.
+It does not need to be read from beginning to end.</p>
+<ul>
+<li><a href="reference/installation.html">Installation</a></li>
+<li><a href="reference/http_api.html">HTTP API</a></li>
+<li><a href="reference/data_types.html">Data Types</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>At this stage, Endatabas is highly experimental.
@@ -239,8 +444,11 @@ Each one is outlined below.</p>
 <pre><code class="language-sh">curl -X GET &quot;http://localhost:3803/sql?q=SELECT%201&quot;
 </code></pre>
 <h2 id="content-types"><a class="header" href="#content-types">Content Types</a></h2>
-<p><code>application/sql</code> is the only accepted Content Type for now:</p>
+<p><code>application/sql</code> is the most common Content Type:</p>
 <pre><code class="language-sh">curl -d 'SELECT 1' -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<p><code>application/json</code> is also accepted:</p>
+<pre><code class="language-sh">TODO
 </code></pre>
 <h2 id="accept-headers"><a class="header" href="#accept-headers">Accept Headers</a></h2>
 <p>The default accept header is <code>application/json</code>.</p>
@@ -275,83 +483,6 @@ Each one is outlined below.</p>
 <p>returns:</p>
 <pre><code class="language-json">[[2,{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}],[1,&quot;hello&quot;]]
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="endb-sql"><a class="header" href="#endb-sql">Endb SQL</a></h1>
-<p>If you know SQL, Endb SQL will feel instantly familiar.
-It is not &quot;SQL-like&quot;. It <em>is</em> SQL.
-However, Endb SQL is <em>dynamic</em>, <em>strongly-typed</em>, <em>time-aware</em>, and <em>shuns language embedding</em>.
-Hopefully it is pleasant to use without feeling foreign.</p>
-<h2 id="just-begin"><a class="header" href="#just-begin">Just Begin</a></h2>
-<p>Endb is a schemaless document database.
-You do not need <code>CREATE TABLE</code> — tables are dynamically created when you insert data.
-The following SQL is valid as soon as you start <code>endb</code>:</p>
-<pre><code class="language-SQL">INSERT INTO posts (id, user_id, text) VALUES (123, 456, 'Hello World');
-
-SELECT * from posts;
-</code></pre>
-<h2 id="immutable"><a class="header" href="#immutable">Immutable</a></h2>
-<p>Endb is immutable, so it does not permit destructive <code>UPDATE</code> or <code>DELETE</code>.
-For example, if you run an <code>UPDATE</code>, your previous <code>INSERT</code> isn't lost.
-Before we update the record, we'll make note of the current time, according to the database.
-(Any time after the <code>INSERT</code> and before the <code>UPDATE</code> would suffice.)</p>
-<pre><code class="language-SQL">SELECT CURRENT_TIMESTAMP;
--- for the sake of example, let's say this returns 2023-08-17T00:00:00
-
-UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
-
-SELECT * from posts;
-</code></pre>
-<p>You'll note that <code>Hello World</code> from your original insert isn't visible.
-That's because it only exists in the past and, by default, <code>SELECT</code> will show the state of the database <em>as of now</em>.</p>
-<p>To see the old version, you can time-travel back to a time when the old record was visible:</p>
-<pre><code class="language-SQL">SELECT * from posts FOR SYSTEM_TIME AS OF 2023-08-17T00:00:00;
-</code></pre>
-<p>NOTE: Although there is no <code>DELETE</code> in the traditional sense, there is <code>ERASE</code>,
-which exists to remove data for user safety and compliance with laws like GDPR.</p>
-<h2 id="dynamic-joins"><a class="header" href="#dynamic-joins">Dynamic Joins</a></h2>
-<p>Relationships are also dynamic.
-Adding a user with id <code>456</code> allows a join with the previous <code>posts</code> table.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name) VALUES (456, 'Vikram');
-
-SELECT * from posts p JOIN users u ON p.user_id = u.id;
-</code></pre>
-<h2 id="semi-structured-data"><a class="header" href="#semi-structured-data">Semi-Structured Data</a></h2>
-<p>Endb allows you to insert asymmetrical, jagged data.
-Let's add another user with more columns.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name, email) VALUES (789, 'Daniela', 'daniela@endatabas.com');
-
-SELECT * from users;
-</code></pre>
-<p>Note that the <code>SELECT *</code> is an implicitly dynamic query.
-It doesn't have any difficulty with the previous <code>user</code> document, even though it lacked an <code>email</code> column.</p>
-<h2 id="data-migration"><a class="header" href="#data-migration">Data &quot;Migration&quot;</a></h2>
-<p>It may seem strange to leave jagged columns lying around.
-Endb doesn't discourage you from cleaning up your data, if you can:</p>
-<pre><code class="language-SQL">UPDATE users SET email = vikram@stockholm.se' WHERE name = 'Vikram';
-
-SELECT * from users;
-</code></pre>
-<p>The difference in Endb is that we haven't &quot;migrated&quot; the old data — it's still there.
-If you query for Vikram's <code>user</code> document as of 2 minutes ago, you will see the old record without an <code>email</code>.
-Queries in Endb always default to &quot;as-of-now&quot;, which is why the results of the query above shouldn't be surprising.</p>
-<h2 id="nested-data"><a class="header" href="#nested-data">Nested Data</a></h2>
-<p>Endb eschews <a href="https://www.postgresql.org/docs/current/datatype-json.html">nested json</a> in favour of
-a native, strongly-typed, document-relational model.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name, friends) VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},{name: 'Amit', country: 'Japan'}]);
-
-SELECT users.friends[1] FROM users WHERE id = 123;
-</code></pre>
-<p>The <code>users.friends[1]</code> path expression seen above is one of many inspired by <a href="https://datatracker.ietf.org/doc/draft-ietf-jsonpath-base/">JSONPath</a>,
-<a href="https://www.iso.org/standard/78937.html">SQL/JSON</a>, and their derivatives in legacy relational databases.
-A detailed explanation of Endb's arrays and objects is provided in the <a href="tutorial//reference/sql.html">Reference Docs</a></p>
-<h2 id="error-messages"><a class="header" href="#error-messages">Error Messages</a></h2>
-<p>Endb will always do its best to provide you with meaningful error messages that point you to a solution:</p>
-<pre><code class="language-sql">SELECT * FROM im_not_here;
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
-<ul>
-<li><a href="reference/data_types.html">Data Types</a></li>
-<li><a href="reference/sql.html">SQL</a></li>
-</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="data-types"><a class="header" href="#data-types">Data Types</a></h1>
 <h2 id="scalars"><a class="header" href="#scalars">Scalars</a></h2>
 <p>Endb supports the following native scalar types for now.</p>
@@ -371,6 +502,7 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 <tr><td><code>BLOB</code></td><td><code>xsd:base64Binary</code></td><td>x'DEADBEEF'</td><td>Binary large object</td></tr>
 </tbody></table>
 </div>
+<p><a href="reference//sql/data_types.html">SQL Data Types</a> are covered in detail in the SQL Reference.</p>
 <h2 id="collections"><a class="header" href="#collections">Collections</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>ARRAY</code></td><td><code>@json</code></td><td>[&quot;Joe&quot;, &quot;Dan&quot;, &quot;Dwayne&quot;]</td><td>Zero-based array</td></tr>
@@ -386,17 +518,6 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 </tbody></table>
 </div>
 <p>If you strongly feel you need a native representation of one of these types, email us: <a href="mailto:hello@endatabas.com">hello@endatabas.com</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="sql-reference"><a class="header" href="#sql-reference">SQL Reference</a></h1>
-<p>TODO: This document isn't valid yet (objects are not supported).</p>
-<p>Here is some Endb SQL:</p>
-<pre><code class="language-SQL">INSERT INTO people (id, name, friends)
-  VALUES (5678, 'Steven',
-          [{'user': 'Deepthi'},
-           {'user': 'Sandy'},
-           {'user': 'Håkan'}]);
-
-SELECT people.friends[2] FROM people;
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="appendix"><a class="header" href="#appendix">Appendix</a></h1>
 <ul>
 <li><a href="appendix/architecture.html">Architecture</a></li>

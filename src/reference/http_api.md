@@ -29,10 +29,16 @@ curl -X GET "http://localhost:3803/sql?q=SELECT%201"
 
 ## Content Types
 
-`application/sql` is the only accepted Content Type for now:
+`application/sql` is the most common Content Type:
 
 ```sh
 curl -d 'SELECT 1' -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
+```
+
+`application/json` is also accepted:
+
+```sh
+TODO
 ```
 
 ## Accept Headers
