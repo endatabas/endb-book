@@ -41,6 +41,13 @@ SQL> select 9.007199254740992e15
 {"@context":{"xsd":"http://www.w3.org/2001/XMLSchema#","@vocab":"http://endb.io/"},"@graph":[{"e15":9.007199254740993}]}
 ```
 
+## Numeric and Decimal
+
+```
+SQL> select -123456789012345678901234567890;
+unknown panic!!
+```
+
 ## Descriptions
 
 Descriptions should probably refer only to their internal representation and not to interpretation or rendering, but
