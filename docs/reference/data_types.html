@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Roadmap - The Endatabas Book</title>
+        <title>Data Types - The Endatabas Book</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../quickstart/index.html"><strong aria-hidden="true">1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../tutorial/http_api.html"><strong aria-hidden="true">2.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../tutorial/sql.html"><strong aria-hidden="true">2.3.</strong> Endb SQL</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/data_types.html"><strong aria-hidden="true">3.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../reference/sql.html"><strong aria-hidden="true">3.2.</strong> SQL</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html" class="active"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../quickstart/index.html"><strong aria-hidden="true">1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../tutorial/http_api.html"><strong aria-hidden="true">2.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../tutorial/sql.html"><strong aria-hidden="true">2.3.</strong> Endb SQL</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/data_types.html" class="active"><strong aria-hidden="true">3.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../reference/sql.html"><strong aria-hidden="true">3.2.</strong> SQL</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -166,19 +166,40 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
-<p>In the near-term (Q3 2023), we expect to solidify the Endatabas SQL dialect
-so early users can get a taste of what it feels like to use it.</p>
-<p>You can read our high-level <a href="https://github.com/endatabas/endb/blob/main/ROADMAP.md">roadmap on GitHub</a>.</p>
+                        <h1 id="data-types"><a class="header" href="#data-types">Data Types</a></h1>
+<h2 id="scalars"><a class="header" href="#scalars">Scalars</a></h2>
+<p>Endb supports the following native scalar types for now.
+JSON-LD values with a type of <code>@json</code> are implicit and will be returned from Endb as JSON literals.
+A <code>@value/@type</code> pair is not returned for a JSON literal.</p>
+<div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>NULL</code></td><td><code>@json</code></td><td>null</td><td></td></tr>
+<tr><td><code>VARCHAR</code></td><td><code>@json</code></td><td>&quot;hello&quot;</td><td>Unicode string</td></tr>
+<tr><td><code>BOOLEAN</code></td><td><code>@json</code></td><td>FALSE</td><td>8-bit boolean</td></tr>
+<tr><td><code>INTEGER</code></td><td><code>@json</code></td><td>42</td><td>32-bit two's complement integer (?)</td></tr>
+<tr><td><code>REAL</code></td><td><code>@json</code></td><td>9007199254740992.123</td><td>64-bit IEEE 754 floating point number</td></tr>
+<tr><td><code>DECIMAL</code></td><td><code>@json</code></td><td>9007199254740992.123</td><td>Unsupported, renders as <code>REAL</code></td></tr>
+<tr><td><code>BIGINT</code></td><td><code>xsd:long</code></td><td>9007199254740992</td><td>64-bit two's complement integer</td></tr>
+<tr><td><code>TIMESTAMP</code></td><td><code>xsd:dateTime</code></td><td>2007-01-01T00:00:00</td><td>ISO microsecond precision timestamp</td></tr>
+<tr><td><code>DATE</code></td><td><code>xsd:date</code></td><td>2007-01-01</td><td>ISO date</td></tr>
+<tr><td><code>TIME</code></td><td><code>xsd:time</code></td><td>23:30:00</td><td>ISO time</td></tr>
+<tr><td><code>BLOB</code></td><td><code>xsd:base64Binary</code></td><td>x'DEADBEEF'</td><td>binary large object</td></tr>
+</tbody></table>
+</div>
+<p>Depending on your programming environment, you may be accustomed to the following types: UUID, URI, Symbol, Keyword.
+For now, please use a VARCHAR/string to represent these.
+If you strongly feel you need a native representation of one of these types, email us: <a href="mailto:hello@endatabas.com">hello@endatabas.com</a></p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../appendix/architecture.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../reference/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="../reference/sql.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -186,10 +207,13 @@ so early users can get a taste of what it feels like to use it.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../appendix/architecture.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../reference/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="../reference/sql.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

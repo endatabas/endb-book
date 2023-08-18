@@ -8,6 +8,7 @@
     - [HTTP API](./tutorial/http_api.md)
     - [Endb SQL](./tutorial/sql.md)
 - [Reference](./reference/README.md)
+    - [Data Types](./reference/data_types.md)
     - [SQL](./reference/sql.md)
 - [Appendix](./appendix/README.md)
     - [Architecture](./appendix/architecture.md)

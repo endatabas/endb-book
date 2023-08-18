@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="quickstart/index.html"><strong aria-hidden="true">1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="tutorial/index.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="tutorial/http_api.html"><strong aria-hidden="true">2.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="tutorial/sql.html"><strong aria-hidden="true">2.3.</strong> Endb SQL</a></li></ol></li><li class="chapter-item expanded "><a href="reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/sql.html"><strong aria-hidden="true">3.1.</strong> SQL</a></li></ol></li><li class="chapter-item expanded "><a href="appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="quickstart/index.html"><strong aria-hidden="true">1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="tutorial/index.html"><strong aria-hidden="true">2.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tutorial/installation.html"><strong aria-hidden="true">2.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="tutorial/http_api.html"><strong aria-hidden="true">2.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="tutorial/sql.html"><strong aria-hidden="true">2.3.</strong> Endb SQL</a></li></ol></li><li class="chapter-item expanded "><a href="reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="reference/data_types.html"><strong aria-hidden="true">3.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="reference/sql.html"><strong aria-hidden="true">3.2.</strong> SQL</a></li></ol></li><li class="chapter-item expanded "><a href="appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -349,8 +349,31 @@ A detailed explanation of Endb's arrays and objects is provided in the <a href="
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <ul>
+<li><a href="reference/data_types.html">Data Types</a></li>
 <li><a href="reference/sql.html">SQL</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="data-types"><a class="header" href="#data-types">Data Types</a></h1>
+<h2 id="scalars"><a class="header" href="#scalars">Scalars</a></h2>
+<p>Endb supports the following native scalar types for now.
+JSON-LD values with a type of <code>@json</code> are implicit and will be returned from Endb as JSON literals.
+A <code>@value/@type</code> pair is not returned for a JSON literal.</p>
+<div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>NULL</code></td><td><code>@json</code></td><td>null</td><td></td></tr>
+<tr><td><code>VARCHAR</code></td><td><code>@json</code></td><td>&quot;hello&quot;</td><td>Unicode string</td></tr>
+<tr><td><code>BOOLEAN</code></td><td><code>@json</code></td><td>FALSE</td><td>8-bit boolean</td></tr>
+<tr><td><code>INTEGER</code></td><td><code>@json</code></td><td>42</td><td>32-bit two's complement integer (?)</td></tr>
+<tr><td><code>REAL</code></td><td><code>@json</code></td><td>9007199254740992.123</td><td>64-bit IEEE 754 floating point number</td></tr>
+<tr><td><code>DECIMAL</code></td><td><code>@json</code></td><td>9007199254740992.123</td><td>Unsupported, renders as <code>REAL</code></td></tr>
+<tr><td><code>BIGINT</code></td><td><code>xsd:long</code></td><td>9007199254740992</td><td>64-bit two's complement integer</td></tr>
+<tr><td><code>TIMESTAMP</code></td><td><code>xsd:dateTime</code></td><td>2007-01-01T00:00:00</td><td>ISO microsecond precision timestamp</td></tr>
+<tr><td><code>DATE</code></td><td><code>xsd:date</code></td><td>2007-01-01</td><td>ISO date</td></tr>
+<tr><td><code>TIME</code></td><td><code>xsd:time</code></td><td>23:30:00</td><td>ISO time</td></tr>
+<tr><td><code>BLOB</code></td><td><code>xsd:base64Binary</code></td><td>x'DEADBEEF'</td><td>binary large object</td></tr>
+</tbody></table>
+</div>
+<p>Depending on your programming environment, you may be accustomed to the following types: UUID, URI, Symbol, Keyword.
+For now, please use a VARCHAR/string to represent these.
+If you strongly feel you need a native representation of one of these types, email us: <a href="mailto:hello@endatabas.com">hello@endatabas.com</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sql-reference"><a class="header" href="#sql-reference">SQL Reference</a></h1>
 <p>TODO: This document isn't valid yet (objects are not supported).</p>
 <p>Here is some Endb SQL:</p>
