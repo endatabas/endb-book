@@ -379,10 +379,10 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 </div>
 <h2 id="limited-and-unsupported-scalar-types"><a class="header" href="#limited-and-unsupported-scalar-types">Limited and Unsupported Scalar Types</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>DECIMAL</code></td><td><code>xsd:decimal</code></td><td>9007199254740992.123M</td><td>Limited support. Use 2 <code>BIGINT</code>s or <code>VARCHAR</code></td></tr>
-<tr><td><code>NUMERIC</code></td><td><code>xsd:integer</code></td><td>-123456789012345678901234567890</td><td>Unsupported. Use <code>VARCHAR</code></td></tr>
-<tr><td><code>URI</code></td><td><code>xsd:anyURI</code></td><td>https://endb.io</td><td>Unsupported. Use <code>VARCHAR</code></td></tr>
-<tr><td><code>UUID</code></td><td><code>@json</code> (<code>xsd:string</code>)</td><td>a81bc81b-dead-4e5d-abff-90865d1e13b1</td><td>Unsupported. Use <code>VARCHAR</code></td></tr>
+<tr><td><code>DECIMAL</code></td><td><code>xsd:decimal</code></td><td>9007199254740992.123M</td><td>Arbitrary precision decimal. Limited support. Use 2 <code>BIGINT</code>s or <code>VARCHAR</code></td></tr>
+<tr><td><code>NUMERIC</code></td><td><code>xsd:integer</code></td><td>-123456789012345678901234567890N</td><td>Arbitrary precision integer. Unsupported. Use <code>VARCHAR</code></td></tr>
+<tr><td><code>URI</code></td><td><code>xsd:anyURI</code></td><td>https://endb.io</td><td>Uniform Resource Identifier. Unsupported. Use <code>VARCHAR</code></td></tr>
+<tr><td><code>UUID</code></td><td><code>@json</code> (<code>xsd:string</code>)</td><td>a81bc81b-dead-4e5d-abff-90865d1e13b1</td><td>128-bit Universally Unique Identifier. Unsupported. Use <code>VARCHAR</code></td></tr>
 </tbody></table>
 </div>
 <p>If you strongly feel you need a native representation of one of these types, email us: <a href="mailto:hello@endatabas.com">hello@endatabas.com</a></p>
