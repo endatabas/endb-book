@@ -42,3 +42,6 @@ If you don't want Docker at all, you can compile and run the `endb` binary:
 
 * [https://github.com/endatabas/endb/#building](https://github.com/endatabas/endb/#building)
 * `./target/endb`
+
+NOTE: If you move the `endb` binary, be sure to copy libendb.so (Linux)
+or libendb.dylib (MacOS) to the same directory.

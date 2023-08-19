@@ -10,7 +10,7 @@
     - [Data Manipulation](./sql/data_manipulation.md)
     - [Queries](./sql/queries.md)
     - [Path Navigation](./sql/path_navigation.md)
-    - [Data Types](./sql/data_types.md)
+    - [SQL Data Types](./sql/data_types.md)
     - [Functions and Operators](./sql/functions_operators.md)
 - [Reference](./reference/README.md)
     - [Installation](./reference/installation.md)

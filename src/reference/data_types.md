@@ -15,7 +15,7 @@ JSON literal types are implicit so a `@value/@type` pair is not returned for a J
 | `BOOLEAN`   | `@json` (`xsd:boolean`) | FALSE                | 8-bit boolean                         |
 | `INTEGER`   | `@json` (`xsd:int`)     | 42                   | 32-bit two's complement integer (?)   |
 | `REAL`      | `@json` (`xsd:double`)  | 9007199254740992.123 | 64-bit IEEE 754 floating point number |
-| `BIGINT`    | `xsd:long`              | 9007199254740992     | 64-bit two's complement integer       |
+| `BIGINT`    | `xsd:integer`           | 9007199254740992     | 64-bit two's complement integer, auto-promoted internally |
 | `TIMESTAMP` | `xsd:dateTime`          | 2007-01-01T00:00:00  | ISO microsecond precision timestamp   |
 | `DATE`      | `xsd:date`              | 2007-01-01           | ISO date                              |
 | `TIME`      | `xsd:time`              | 23:30:00             | ISO time                              |

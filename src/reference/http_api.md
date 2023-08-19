@@ -5,6 +5,8 @@ Any HTTP client may be used but in the examples below, we'll use `curl`.
 
 You can send SQL statements to `endb` over HTTP:
 
+TODO: revisit all URLs with q and p, positional vs named
+
 ```sh
 curl -d "INSERT INTO users (name) VALUES ('Tianyu')" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 curl -d "SELECT * FROM users" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
@@ -21,7 +23,8 @@ Each one is outlined below.
 curl -d 'SELECT 1' -H "Content-Type: application/sql" -H "Accept: text/csv" -X POST http://localhost:3803/sql
 ```
 
-`GET` allows a single URL with no header data:
+`GET` allows a single, simple URL.
+`GET` does not permit DML.
 
 ```sh
 curl -X GET "http://localhost:3803/sql?q=SELECT%201"
@@ -29,21 +32,25 @@ curl -X GET "http://localhost:3803/sql?q=SELECT%201"
 
 ## Content Types
 
-`application/sql` is the most common Content Type:
+### `application/sql`:
 
 ```sh
 curl -d 'SELECT 1' -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-`application/json` is also accepted:
+### `application/json`:
+
+Resolves JSON-LD scalars
 
 ```sh
 TODO
 ```
 
+TODO: url/form-encoded, multipart, ld+json
+
 ## Accept Headers
 
-The default accept header is `application/json`.
+The default returned content type is `application/json`.
 
 ### text/csv
 
