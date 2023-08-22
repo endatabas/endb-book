@@ -11,6 +11,8 @@ it's probably worth a chat.
 
 ## On Conflict - lingering columns (e)?
 
+...it occurs to me this is normal, since it's just the widest set of columns known. Duh.
+
 ```
 -> select * from t2;
 [{'c': 4, 'e': 5, 'v': 3}]
