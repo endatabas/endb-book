@@ -9,6 +9,7 @@ title = "The Endatabas Book"
 build-dir = "docs"
 
 [output.html]
+cname = "docs.endatabas.com"
 
 [output.html.print]
 enable = true
