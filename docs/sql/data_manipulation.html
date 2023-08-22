@@ -167,7 +167,26 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="data-manipulation"><a class="header" href="#data-manipulation">Data Manipulation</a></h1>
-<p>TODO</p>
+<p>Creating, updating, and deleting data in Endb is done using standard SQL Data Manipulation Language (DML),
+but Endb contains a number of shorthands and document-oriented conveniences.</p>
+<p>Endb does not require any Data Definition Language (DDL).</p>
+<h2 id="insert"><a class="header" href="#insert">Insert</a></h2>
+<p>To create a new document, use the <code>INSERT</code> command.</p>
+<pre><code class="language-sql">INSERT INTO products (product_no, name, price) VALUES (1, 'Tofu', 7.99);
+</code></pre>
+<p>To create multiple new documents at once, delimit their value lists with commas:</p>
+<pre><code class="language-sql">INSERT INTO products (product_no, name, price) VALUES (1, 'Butter', 5.99), (2, 'Margarine', 4.99);
+</code></pre>
+<p>It is also possible to insert a document directly.</p>
+<pre><code class="language-sql">INSERT INTO products {product_no: 3, name: 'Tea', price: 3.99};
+</code></pre>
+<p>To insert multiple documents directly, delimit documents with commas:</p>
+<pre><code class="language-sql">INSERT INTO products {name: 'Coffee', price: 3.99}, {name: 'Croissant', price: 2.99};
+</code></pre>
+<p>It is possible to insert the results of a query:</p>
+<pre><code class="language-sql">INSERT INTO cheap_products SELECT * FROM products WHERE price &lt; 4.00;
+</code></pre>
+<h2 id="update"><a class="header" href="#update">Update</a></h2>
 
                     </main>
 
