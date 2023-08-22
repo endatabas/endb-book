@@ -314,7 +314,7 @@ You can use an <code>INSERT</code> statement to add a document directly to the d
 but Endb contains a number of shorthands and document-oriented conveniences.</p>
 <p>Endb does not require any Data Definition Language (DDL).</p>
 <h2 id="insert"><a class="header" href="#insert">Insert</a></h2>
-<p>To create a new document, use the <code>INSERT</code> command.</p>
+<p>To create a new document, you can use the standard SQL <code>INSERT</code> command.</p>
 <pre><code class="language-sql">INSERT INTO products (product_no, name, price) VALUES (1, 'Tofu', 7.99);
 </code></pre>
 <p>To create multiple new documents at once, delimit their value lists with commas:</p>
@@ -330,6 +330,19 @@ but Endb contains a number of shorthands and document-oriented conveniences.</p>
 <pre><code class="language-sql">INSERT INTO cheap_products SELECT * FROM products WHERE price &lt; 4.00;
 </code></pre>
 <h2 id="update"><a class="header" href="#update">Update</a></h2>
+<p>To update an existing row, you can use the standard SQL <code>UPDATE</code> command:</p>
+<pre><code class="language-sql">UPDATE products SET price = 4.99 WHERE name = 'Coffee';
+</code></pre>
+<p>Because Endb is schemaless, each document (or row) has its own schema.
+As a result, you may want to remove a column from an individual row.
+You can do this with the <code>UNSET</code> command:</p>
+<pre><code class="language-sql">UPDATE products UNSET product_no WHERE name = 'Coffee';
+</code></pre>
+<p>It is possible to set and unset values in a single update.
+Unsetting a column which doesn't exist is not an error:</p>
+<pre><code class="language-sql">UPDATE products SET price = 5.98 UNSET product_no WHERE name = 'Coffee';
+</code></pre>
+<h2 id="delete"><a class="header" href="#delete">Delete</a></h2>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="queries"><a class="header" href="#queries">Queries</a></h1>
 <p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="path-navigation"><a class="header" href="#path-navigation">Path Navigation</a></h1>
