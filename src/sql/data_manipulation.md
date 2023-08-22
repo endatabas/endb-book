@@ -1,7 +1,8 @@
 # Data Manipulation
 
-Creating, updating, and deleting data in Endb is done using standard SQL Data Manipulation Language (DML),
-but Endb contains a number of shorthands and document-oriented conveniences.
+Creating, updating, and deleting data in Endb is done using standard SQL Data Manipulation Language (DML).
+Endb is also immutable and schemaless,
+so it contains a number of shorthands and document-oriented conveniences.
 
 Endb does not require any Data Definition Language (DDL).
 
@@ -45,6 +46,12 @@ To update an existing row, you can use the standard SQL `UPDATE` command:
 UPDATE products SET price = 4.99 WHERE name = 'Coffee';
 ```
 
+Set multiple columns by separating them with commads;
+
+```sql
+UPDATE products SET price = 4.99, name = 'Kaapi' WHERE name = 'Coffee';
+```
+
 Because Endb is schemaless, each document (or row) has its own schema.
 As a result, you may want to remove a column from an individual row.
 You can do this with the `UNSET` command:
@@ -61,3 +68,46 @@ UPDATE products SET price = 5.98 UNSET product_no WHERE name = 'Coffee';
 ```
 
 ## Delete
+
+To delete an existing row, use the standard SQL `DELETE` command.
+
+```SQL
+DELETE FROM products WHERE price = 5.98;
+```
+
+You may delete all rows from a table by eliding the `WHERE` clause:
+
+```SQL
+DELETE FROM products;
+```
+
+## Upsert
+
+Endb provides flexible upserts with the common `ON CONFLICT` clause.
+When the `INSERT` command detects a conflict, it will perform the instructions in the `DO` clause.
+The following command needs to be executed twice to see the upsert effect.
+
+```sql
+INSERT INTO products {name: 'Pepper', price: 9.99} ON CONFLICT (name, price) DO UPDATE SET v = 2;
+```
+
+To specify no operation on conflict, use `DO NOTHING`:
+
+```sql
+INSERT INTO products {name: 'Pepper', price: 9.99} ON CONFLICT (name, price) DO NOTHING;
+```
+
+To reference the document currently being inserted, the `DO` clause provides
+a statement-local relation named `excluded`.
+
+```sql
+INSERT INTO products {name: 'Salt', price: 6};
+INSERT INTO products {name: 'Salt', price: 7} ON CONFLICT (name) DO UPDATE SET price = excluded.price;
+```
+
+Similarly, the existing table is still available in the `DO` clause to provide further filtering:
+
+```sql
+INSERT INTO products {product_no: 99, name: 'Cumin', price: 3.00, v: 5};
+INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v < 6;
+```

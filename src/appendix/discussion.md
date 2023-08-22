@@ -71,3 +71,16 @@ Error: found end of input expected something else
    │ ───┬──
    │    ╰──── found end of input expected something else
 ```
+
+## On Conflict - lingering columns (e)?
+
+```
+-> select * from t2;
+[{'c': 4, 'e': 5, 'v': 3}]
+-> delete from t2;
+[{'result': 1}]
+-> INSERT INTO t2 {c: 4, d: 6} ON CONFLICT (c) DO UPDATE SET d = excluded.d;
+[{'result': 1}]
+-> select * from t2
+[{'c': 4, 'd': 6, 'e': None, 'v': None}]
+```
