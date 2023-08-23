@@ -167,7 +167,16 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="functions-and-operators"><a class="header" href="#functions-and-operators">Functions and Operators</a></h1>
-<p>TODO</p>
+<h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
+<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
+SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
+SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
+</code></pre>
+<h2 id="in-list-comparison"><a class="header" href="#in-list-comparison">In: List Comparison</a></h2>
+<p>The standard SQL <code>IN</code> clause can be used to filter rows against lists.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE price IN (5.00, 5.99);
+</code></pre>
 
                     </main>
 

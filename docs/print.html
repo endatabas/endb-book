@@ -372,7 +372,65 @@ INSERT INTO products {name: 'Salt', price: 7} ON CONFLICT (name) DO UPDATE SET p
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v &lt; 6;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="queries"><a class="header" href="#queries">Queries</a></h1>
-<p>TODO</p>
+<p>Endb SQL strives to empower the query author.
+Basic SQL queries should be familiar.
+Advanced SQL queries should be simple.</p>
+<h2 id="select-"><a class="header" href="#select-">Select *</a></h2>
+<p>The most common hand-written SQL query tends to be the easiest:</p>
+<pre><code class="language-sql">SELECT * FROM products;
+</code></pre>
+<p>Without a <code>WHERE</code> clause (discussed below) the entire table is returned.
+Because Endb is schemaless, <code>*</code> has a special meaning.
+Each document (row) in Endb carries with it its own schema.
+As a result, <code>*</code> refers to the widest possible set of columns, across all the rows returned.</p>
+<p>In many SQL dialects, columns are strictly ordered.
+Because Endb columns cannot have a strict order, <code>*</code> returns them in alphabetical order.</p>
+<h2 id="select-by-name"><a class="header" href="#select-by-name">Select By Name</a></h2>
+<p>In programmatic environments, it is almost always preferable to query for specific columns by name:</p>
+<pre><code class="language-sql">SELECT product_no FROM products;
+</code></pre>
+<p>Select a list of columns by delimiting them with commas.
+If your client accepts <code>text/csv</code> as a content type, columns will be returned in the order specified.
+JSON keys are inherently unordered so the order of columns is ignored for accepted content types of
+<code>application/json</code>, <code>application/x-ndjson</code>, and <code>application/ld+json</code>.</p>
+<pre><code class="language-sql">SELECT product_no, v, price, name FROM products;
+</code></pre>
+<h2 id="where-filtering"><a class="header" href="#where-filtering">Where Filtering</a></h2>
+<p>Rather than returning the entire table, documents (rows) can be filtered with a <code>WHERE</code> clause.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE price &gt; 4;
+</code></pre>
+<h3 id="comparison"><a class="header" href="#comparison">Comparison</a></h3>
+<p>The most common way of filtering columns is to compare them.
+Endb provides <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> operators.
+These work on all column types, though comparing two disparate types may produce unexpected results.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE product_no = 99;
+SELECT * FROM products WHERE price &lt; 4;
+SELECT * FROM products WHERE name &gt;= 'Cabin';
+</code></pre>
+<h3 id="aliases"><a class="header" href="#aliases">Aliases</a></h3>
+<p>For convenience, tables can be given aliases immediately following their name in the <code>FROM</code> clause.</p>
+<pre><code class="language-sql">SELECT p.name FROM products p;
+</code></pre>
+<p>This is most useful when joining tables, as seen below.</p>
+<h3 id="joins"><a class="header" href="#joins">Joins</a></h3>
+<p>Because Endb is schemaless, documents (rows) can be joined on any fields (columns) which have equivalent values.</p>
+<pre><code class="language-sql">INSERT INTO coupons {name: 'Salt', price: 3.0};
+SELECT * FROM products p JOIN coupons c ON p.name = c.name;
+</code></pre>
+<h3 id="as-alias-tables-joins-and-columns"><a class="header" href="#as-alias-tables-joins-and-columns">As: Alias Tables, Joins, and Columns</a></h3>
+<p>The <code>AS</code> operator can be used to provide an alias for a table or join.</p>
+<pre><code class="language-sql">SELECT p.name FROM products AS p;
+</code></pre>
+<p>It is also used to alias columns.
+This is useful when column names conflict in a join.</p>
+<pre><code class="language-sql">SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
+</code></pre>
+<p>If the same column is specified more than once, the last reference to that column name
+is the one which will be returned:</p>
+<pre><code class="language-sql">SELECT c.price, p.price FROM products p JOIN coupons c ON p.name = c.name;
+</code></pre>
+<h3 id="advanced-filtering"><a class="header" href="#advanced-filtering">Advanced Filtering</a></h3>
+<p>More advanced filters are possible and documented in <a href="sql//sql/functions_operators.html">Functions and Operators</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="path-navigation"><a class="header" href="#path-navigation">Path Navigation</a></h1>
 <p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sql-data-types"><a class="header" href="#sql-data-types">SQL Data Types</a></h1>
@@ -449,7 +507,16 @@ or object literals similar to JSON.</p>
 <li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions-and-operators"><a class="header" href="#functions-and-operators">Functions and Operators</a></h1>
-<p>TODO</p>
+<h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
+<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
+SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
+SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
+</code></pre>
+<h2 id="in-list-comparison"><a class="header" href="#in-list-comparison">In: List Comparison</a></h2>
+<p>The standard SQL <code>IN</code> clause can be used to filter rows against lists.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE price IN (5.00, 5.99);
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <p>Reference documentation exists as a detailed perspective on each feature of Endb.
 It does not need to be read from beginning to end.</p>
