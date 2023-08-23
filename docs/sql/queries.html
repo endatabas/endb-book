@@ -224,8 +224,19 @@ This is useful when column names conflict in a join.</p>
 is the one which will be returned:</p>
 <pre><code class="language-sql">SELECT c.price, p.price FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
+<h3 id="order"><a class="header" href="#order">Order</a></h3>
+<p>Results from queries can be ordered with standard SQL <code>ORDER BY</code>.</p>
+<pre><code class="language-sql">SELECT * FROM products ORDER BY price;
+</code></pre>
+<p>By default, ordering is ascending.
+For descending order, suffix the <code>ORDER BY</code> clause with <code>DESC</code>:</p>
+<pre><code class="language-sql">SELECT * FROM products ORDER BY price DESC;
+</code></pre>
+<p>To force ascending order, use <code>ASC</code>:</p>
+<pre><code class="language-sql">SELECT * FROM products ORDER BY price ASC;
+</code></pre>
 <h3 id="advanced-filtering"><a class="header" href="#advanced-filtering">Advanced Filtering</a></h3>
-<p>More advanced filters are possible and documented in <a href="/sql/functions_operators.html">Functions and Operators</a>.</p>
+<p>More advanced filters are documented in <a href="/sql/functions_operators.html">Functions and Operators</a>.</p>
 
                     </main>
 

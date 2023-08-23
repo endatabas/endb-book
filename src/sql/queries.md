@@ -98,7 +98,27 @@ is the one which will be returned:
 SELECT c.price, p.price FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
+### Order
+
+Results from queries can be ordered with standard SQL `ORDER BY`.
+
+```sql
+SELECT * FROM products ORDER BY price;
+```
+
+By default, ordering is ascending.
+For descending order, suffix the `ORDER BY` clause with `DESC`:
+
+```sql
+SELECT * FROM products ORDER BY price DESC;
+```
+
+To force ascending order, use `ASC`:
+
+```sql
+SELECT * FROM products ORDER BY price ASC;
+```
 
 ### Advanced Filtering
 
-More advanced filters are possible and documented in [Functions and Operators](/sql/functions_operators.md).
+More advanced filters are documented in [Functions and Operators](/sql/functions_operators.md).
