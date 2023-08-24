@@ -180,14 +180,14 @@ curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&q
 <p>Ultimately, Endb will ship with permissively-licensed client libraries for all major languages.
 For now, we have provided some example code you can try:</p>
 <p><a href="https://github.com/endatabas/endb/tree/main/examples">https://github.com/endatabas/endb/tree/main/examples</a></p>
-<h2 id="example-terminal"><a class="header" href="#example-terminal">Example Terminal</a></h2>
-<p>Endb does not yet provide an official terminal.
+<h2 id="example-console"><a class="header" href="#example-console">Example Console</a></h2>
+<p>Endb does not yet provide an official SQL console.
 However, you can try Endb SQL (without writing any code) with the example terminal:</p>
 <pre><code class="language-sh">git clone git@github.com:endatabas/endb.git
 cd endb/examples
-./endb_repl.py
+./endb_console.py
 </code></pre>
-<p>This example terminal wraps the Python example library.
+<p>This example console wraps the Python example library.
 Assuming you inserted a user with curl above, you can query that table directly:</p>
 <pre><code class="language-sh">-&gt; SELECT * FROM users;
 </code></pre>
@@ -222,22 +222,6 @@ Assuming you inserted a user with curl above, you can query that table directly:
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

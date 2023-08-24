@@ -22,18 +22,18 @@ For now, we have provided some example code you can try:
 
 [https://github.com/endatabas/endb/tree/main/examples](https://github.com/endatabas/endb/tree/main/examples)
 
-## Example Terminal
+## Example Console
 
-Endb does not yet provide an official terminal.
+Endb does not yet provide an official SQL console.
 However, you can try Endb SQL (without writing any code) with the example terminal:
 
 ```sh
 git clone git@github.com:endatabas/endb.git
 cd endb/examples
-./endb_repl.py
+./endb_console.py
 ```
 
-This example terminal wraps the Python example library.
+This example console wraps the Python example library.
 Assuming you inserted a user with curl above, you can query that table directly:
 
 ```sh
