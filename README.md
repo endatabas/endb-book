@@ -33,7 +33,8 @@ The HTML print feature works reasonably well.
 
 ### Queries
 
-* Order expressions: https://github.com/endatabas/endb/commit/0de5c556567ddf2036bf6487a0d7739b41928640
+* LIMIT
+* GROUP BY
 * LIKE / regex / glob
 * WITH RECURSIVE
 * ARRAY_AGG
