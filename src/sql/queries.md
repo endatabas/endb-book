@@ -76,9 +76,9 @@ INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
-### As: Alias Tables, Joins, and Columns
+### As: Alias Tables and Columns
 
-The `AS` operator can be used to provide an alias for a table or join.
+The `AS` operator can optionally be used to provide an alias for a table.
 
 ```sql
 SELECT p.name FROM products AS p;
@@ -86,11 +86,6 @@ SELECT p.name FROM products AS p;
 
 It is also used to alias columns.
 This is useful when column names conflict in a join.
-
-```sql
-SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
-```
-
 If the same column is specified more than once, the last reference to that column name
 is the one which will be returned:
 
@@ -98,7 +93,18 @@ is the one which will be returned:
 SELECT c.price, p.price FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
-### Order
+If both columns are required, `AS` can be used to rename one or both of the columns:
+
+```sql
+SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
+```
+
+### Advanced Filtering
+
+More advanced filters are documented in [Functions and Operators](/sql/functions_operators.md).
+
+
+## Order
 
 Results from queries can be ordered with standard SQL `ORDER BY`.
 
@@ -119,6 +125,12 @@ To force ascending order, use `ASC`:
 SELECT * FROM products ORDER BY price ASC;
 ```
 
-### Advanced Filtering
+It is also possible to order by an expression:
 
-More advanced filters are documented in [Functions and Operators](/sql/functions_operators.md).
+```sql
+SELECT * FROM products ORDER BY LENGTH(name);
+SELECT * FROM products ORDER BY -price;
+```
+
+In the example above, `LENGTH` is an example of a function.
+A complete list of functions can be found in the [Functions and Operators](/sql/functions_operators.md) documentation.
