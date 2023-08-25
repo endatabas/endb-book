@@ -239,6 +239,15 @@ or object literals similar to JSON.</p>
 <li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
 <li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
 </ul>
+<h2 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h2>
+<p>It is possible return an entire document (row) as a single literal value.
+The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.</p>
+<ul>
+<li><code>{ table.* }</code></li>
+</ul>
+<p>Example usage:</p>
+<pre><code class="language-sql">SELECT { products.* } FROM products;
+</code></pre>
 
                     </main>
 

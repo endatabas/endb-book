@@ -90,3 +90,16 @@ or object literals similar to JSON.
 
 * `OBJECT(name: 'Hanna', birthday: 1982-12-31)`
 * `{name: "Hanna", birthday: 1982-12-31}`
+
+## Row Literals
+
+It is possible return an entire document (row) as a single literal value.
+The syntax is akin to Postgres [`ROW` literals](https://www.postgresql.org/docs/current/rowtypes.html).
+
+* `{ table.* }`
+
+Example usage:
+
+```sql
+SELECT { products.* } FROM products;
+```
