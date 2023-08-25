@@ -76,7 +76,7 @@ INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
-### As: Alias Tables and Columns
+### As: Alias Tables, Expressions, and Columns
 
 The `AS` operator can optionally be used to provide an alias for a table.
 
@@ -84,7 +84,15 @@ The `AS` operator can optionally be used to provide an alias for a table.
 SELECT p.name FROM products AS p;
 ```
 
-It is also used to alias columns.
+More usefully, it can give a temporary table name to an expression.
+The temporary table name can either have anonymous columns or named columns.
+
+```sql
+SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
+SELECT p.price FROM (VALUES ('Paprika', 4.77)) AS p(name, price);
+```
+
+The `AS` keyword is also used to alias columns.
 This is useful when column names conflict in a join.
 If the same column is specified more than once, the last reference to that column name
 is the one which will be returned:

@@ -33,6 +33,8 @@ The HTML print feature works reasonably well.
 
 ### Queries
 
+* AS for anonymous expressions
+* row literals: `{ t.* }`
 * LIMIT
 * GROUP BY
 * LIKE / regex / glob

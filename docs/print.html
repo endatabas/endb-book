@@ -417,11 +417,16 @@ SELECT * FROM products WHERE name &gt;= 'Cabin';
 <pre><code class="language-sql">INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
-<h3 id="as-alias-tables-and-columns"><a class="header" href="#as-alias-tables-and-columns">As: Alias Tables and Columns</a></h3>
+<h3 id="as-alias-tables-expressions-and-columns"><a class="header" href="#as-alias-tables-expressions-and-columns">As: Alias Tables, Expressions, and Columns</a></h3>
 <p>The <code>AS</code> operator can optionally be used to provide an alias for a table.</p>
 <pre><code class="language-sql">SELECT p.name FROM products AS p;
 </code></pre>
-<p>It is also used to alias columns.
+<p>More usefully, it can give a temporary table name to an expression.
+The temporary table name can either have anonymous columns or named columns.</p>
+<pre><code class="language-sql">SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
+SELECT p.price FROM (VALUES ('Paprika', 4.77)) AS p(name, price);
+</code></pre>
+<p>The <code>AS</code> keyword is also used to alias columns.
 This is useful when column names conflict in a join.
 If the same column is specified more than once, the last reference to that column name
 is the one which will be returned:</p>
