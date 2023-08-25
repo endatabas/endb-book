@@ -249,6 +249,14 @@ SELECT * FROM products ORDER BY -price;
 </code></pre>
 <p>In the example above, <code>LENGTH</code> is an example of a function.
 A complete list of functions can be found in the <a href="/sql/functions_operators.html">Functions and Operators</a> documentation.</p>
+<h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
+<p>No more than the number of rows specified by the <code>LIMIT</code> clause will be returned from the query.</p>
+<pre><code class="language-sql">SELECT * FROM products LIMIT 2;
+</code></pre>
+<p>It always makes sense to control the order of returned rows so <code>LIMIT</code> always returns the same rows
+for the same query -- unless you don't care which rows are returned.</p>
+<pre><code class="language-sql">SELECT * FROM products ORDER BY price ASC LIMIT 2;
+</code></pre>
 <h2 id="set-operations-union-intersect-except"><a class="header" href="#set-operations-union-intersect-except">Set Operations: UNION, INTERSECT, EXCEPT</a></h2>
 <p>The set operations union, intersection, and difference are available to the results of two queries.</p>
 <h3 id="union"><a class="header" href="#union">UNION</a></h3>

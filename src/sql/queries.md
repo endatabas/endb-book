@@ -144,6 +144,22 @@ In the example above, `LENGTH` is an example of a function.
 A complete list of functions can be found in the [Functions and Operators](/sql/functions_operators.md) documentation.
 
 
+## LIMIT
+
+No more than the number of rows specified by the `LIMIT` clause will be returned from the query.
+
+```sql
+SELECT * FROM products LIMIT 2;
+```
+
+It always makes sense to control the order of returned rows so `LIMIT` always returns the same rows
+for the same query -- unless you don't care which rows are returned.
+
+```sql
+SELECT * FROM products ORDER BY price ASC LIMIT 2;
+```
+
+
 ## Set Operations: UNION, INTERSECT, EXCEPT
 
 The set operations union, intersection, and difference are available to the results of two queries.

@@ -33,7 +33,6 @@ The HTML print feature works reasonably well.
 
 ### Queries
 
-* LIMIT
 * GROUP BY
 * LIKE / regex / glob
 * WITH RECURSIVE
