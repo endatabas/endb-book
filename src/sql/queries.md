@@ -112,7 +112,7 @@ SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.nam
 More advanced filters are documented in [Functions and Operators](/sql/functions_operators.md).
 
 
-## Order
+## Order (Sorting Results)
 
 Results from queries can be ordered with standard SQL `ORDER BY`.
 
@@ -142,3 +142,59 @@ SELECT * FROM products ORDER BY -price;
 
 In the example above, `LENGTH` is an example of a function.
 A complete list of functions can be found in the [Functions and Operators](/sql/functions_operators.md) documentation.
+
+
+## Set Operations: UNION, INTERSECT, EXCEPT
+
+The set operations union, intersection, and difference are available to the results of two queries.
+
+### UNION
+
+Append the results of one query to another.
+Duplicate rows are removed.
+
+```sql
+select * from products UNION select * from new_products;
+```
+
+To keep duplicate rows, use `UNION ALL`:
+
+```sql
+select * from products UNION ALL select * from new_products;
+```
+
+### INTERSECT
+
+The intersection of two queries returns results which are found in both.
+
+```sql
+select * from products INTERSECT select * from new_products;
+```
+
+### EXCEPT
+
+The difference of two queries returns only results from the first query which are not found in the second.
+Another way of thinking about this is that results of the second query are removed from the first.
+
+```sql
+select * from products EXCEPT select * from ignored_products;
+```
+
+### Union-Compatibility
+
+"Union Compatibility" refers to the ability of two queries to be used in a union, intersection, or difference.
+Because Endb is dynamically-typed, the only constraint on union compatibility is the number of columns returned.
+
+In general, it only makes sense to use set operations on two queries which return either: (1) explicit columns, so
+order and naming are respected or (2) columns with the same names, so they are guaranteed to return in order, in
+the case of `*` queries.
+When applying set operations to `*` queries, keep in mind that the widest column set (across the entire history of
+the table) will be returned.
+
+If the queries return a different number of columns, set operations will result in an error:
+
+```sql
+-> select * from products UNION select * from new_products;
+400 Bad Request
+Number of UNION left columns: 3 does not match right columns: 2
+```

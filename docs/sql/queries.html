@@ -232,7 +232,7 @@ is the one which will be returned:</p>
 </code></pre>
 <h3 id="advanced-filtering"><a class="header" href="#advanced-filtering">Advanced Filtering</a></h3>
 <p>More advanced filters are documented in <a href="/sql/functions_operators.html">Functions and Operators</a>.</p>
-<h2 id="order"><a class="header" href="#order">Order</a></h2>
+<h2 id="order-sorting-results"><a class="header" href="#order-sorting-results">Order (Sorting Results)</a></h2>
 <p>Results from queries can be ordered with standard SQL <code>ORDER BY</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products ORDER BY price;
 </code></pre>
@@ -249,6 +249,38 @@ SELECT * FROM products ORDER BY -price;
 </code></pre>
 <p>In the example above, <code>LENGTH</code> is an example of a function.
 A complete list of functions can be found in the <a href="/sql/functions_operators.html">Functions and Operators</a> documentation.</p>
+<h2 id="set-operations-union-intersect-except"><a class="header" href="#set-operations-union-intersect-except">Set Operations: UNION, INTERSECT, EXCEPT</a></h2>
+<p>The set operations union, intersection, and difference are available to the results of two queries.</p>
+<h3 id="union"><a class="header" href="#union">UNION</a></h3>
+<p>Append the results of one query to another.
+Duplicate rows are removed.</p>
+<pre><code class="language-sql">select * from products UNION select * from new_products;
+</code></pre>
+<p>To keep duplicate rows, use <code>UNION ALL</code>:</p>
+<pre><code class="language-sql">select * from products UNION ALL select * from new_products;
+</code></pre>
+<h3 id="intersect"><a class="header" href="#intersect">INTERSECT</a></h3>
+<p>The intersection of two queries returns results which are found in both.</p>
+<pre><code class="language-sql">select * from products INTERSECT select * from new_products;
+</code></pre>
+<h3 id="except"><a class="header" href="#except">EXCEPT</a></h3>
+<p>The difference of two queries returns only results from the first query which are not found in the second.
+Another way of thinking about this is that results of the second query are removed from the first.</p>
+<pre><code class="language-sql">select * from products EXCEPT select * from ignored_products;
+</code></pre>
+<h3 id="union-compatibility"><a class="header" href="#union-compatibility">Union-Compatibility</a></h3>
+<p>&quot;Union Compatibility&quot; refers to the ability of two queries to be used in a union, intersection, or difference.
+Because Endb is dynamically-typed, the only constraint on union compatibility is the number of columns returned.</p>
+<p>In general, it only makes sense to use set operations on two queries which return either: (1) explicit columns, so
+order and naming are respected or (2) columns with the same names, so they are guaranteed to return in order, in
+the case of <code>*</code> queries.
+When applying set operations to <code>*</code> queries, keep in mind that the widest column set (across the entire history of
+the table) will be returned.</p>
+<p>If the queries return a different number of columns, set operations will result in an error:</p>
+<pre><code class="language-sql">-&gt; select * from products UNION select * from new_products;
+400 Bad Request
+Number of UNION left columns: 3 does not match right columns: 2
+</code></pre>
 
                     </main>
 
