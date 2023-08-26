@@ -76,7 +76,7 @@ INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
-### As: Alias Tables, Expressions, and Columns
+### AS: Alias Tables, Expressions, and Columns
 
 The `AS` operator can optionally be used to provide an alias for a table.
 
@@ -86,6 +86,8 @@ SELECT p.name FROM products AS p;
 
 More usefully, it can give a temporary table name to an expression.
 The temporary table name can either have anonymous columns or named columns.
+(The [`VALUES` keyword](/sql/queries.md#values-lists) is explained in the following
+_VALUES Lists_ section.)
 
 ```sql
 SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
@@ -157,6 +159,26 @@ for the same query -- unless you don't care which rows are returned.
 
 ```sql
 SELECT * FROM products ORDER BY price ASC LIMIT 2;
+```
+
+
+## VALUES Lists
+
+The `VALUES` keyword is used to create a static table of documents (rows).
+Each row is denoted by a pair of parentheses.
+All rows must have [Union Compatibility](/sql/queries.md#union-compatibility)
+which, for Endb, means they have the same number of columns.
+
+```sql
+VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar');
+```
+
+Endb assigns anonymous columns the names `column1`, `column2`, etc.
+Columns can instead be given names with a
+[table alias](/sql/queries.md#as-alias-tables-expressions-and-columns):
+
+```sql
+SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_no, name);
 ```
 
 
