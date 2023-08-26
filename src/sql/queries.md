@@ -146,7 +146,7 @@ A complete list of functions can be found in the [Functions and Operators](/sql/
 
 ## LIMIT
 
-No more than the number of rows specified by the `LIMIT` clause will be returned from the query.
+`LIMIT` specifies the maximum number of rows to be returned by the query.
 
 ```sql
 SELECT * FROM products LIMIT 2;
