@@ -172,7 +172,7 @@
 <p>Endatabas is a SQL document database with complete history.
 It will store anything, forever.</p>
 <p>The best way to understand Endatabas is to use it.
-Head on over to the <a href="/tutorial/quickstart.html">Quickstart</a> to try it out.</p>
+Head on over to the <a href="tutorial/quickstart.html">Quickstart</a> to try it out.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h1>
 <p>This quick tutorial intends to walk you through the core aspects of Endb.
 By the end, you will have <code>endb</code> installed and you will have used it to
@@ -188,7 +188,7 @@ learn some of what it can do.</p>
 docker pull endatabas/endb
 docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/endb
 </code></pre>
-<p>See <a href="tutorial//reference/installation.html">Installation</a> for more ways to install
+<p>See <a href="tutorial/../reference/installation.html">Installation</a> for more ways to install
 and build <code>endb</code>.</p>
 <h2 id="run-your-first-query"><a class="header" href="#run-your-first-query">Run your first query</a></h2>
 <pre><code class="language-sh">curl -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
@@ -202,7 +202,7 @@ which you probably already have installed.</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
-<p>Read more in the <a href="tutorial//reference/http_api.html">full HTTP API docs</a>.</p>
+<p>Read more in the <a href="tutorial/../reference/http_api.html">full HTTP API docs</a>.</p>
 <h2 id="example-libraries"><a class="header" href="#example-libraries">Example Libraries</a></h2>
 <p>Ultimately, Endb will ship with permissively-licensed client libraries for all major languages.
 For now, we have provided some example code you can try:</p>
@@ -290,7 +290,7 @@ SELECT users.friends[1] FROM users WHERE id = 123;
 <a href="https://www.iso.org/standard/78937.html">SQL/JSON</a>,
 and their derivatives in legacy relational databases.
 A detailed explanation of Endb's arrays and objects is provided in the
-<a href="tutorial//sql/README.html">SQL Reference</a></p>
+<a href="tutorial/../sql/README.html">SQL Reference</a></p>
 <h2 id="documents"><a class="header" href="#documents">Documents</a></h2>
 <p>Because of Endb's native document-relational model, rows are documents and vice-versa.
 You can use an <code>INSERT</code> statement to add a document directly to the database:</p>
@@ -430,7 +430,7 @@ SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <p>More usefully, it can give a temporary table name to an expression.
 The temporary table name can either have anonymous columns or named columns.
-(The <a href="sql//sql/queries.html#values-lists"><code>VALUES</code> keyword</a> is explained in the following
+(The <a href="sql/queries.html#values-lists"><code>VALUES</code> keyword</a> is explained in the following
 <em>VALUES Lists</em> section.)</p>
 <pre><code class="language-sql">SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
 SELECT p.price FROM (VALUES ('Paprika', 4.77)) AS p(name, price);
@@ -445,7 +445,8 @@ is the one which will be returned:</p>
 <pre><code class="language-sql">SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <h3 id="advanced-filtering"><a class="header" href="#advanced-filtering">Advanced Filtering</a></h3>
-<p>More advanced filters are documented in <a href="sql//sql/functions_operators.html">Functions and Operators</a>.</p>
+<p>More advanced filters are documented in <a href="sql/operators.html">Operators</a>
+and <a href="sql/functions.html">Functions</a>.</p>
 <h2 id="order-sorting-results"><a class="header" href="#order-sorting-results">Order (Sorting Results)</a></h2>
 <p>Results from queries can be ordered with standard SQL <code>ORDER BY</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products ORDER BY price;
@@ -462,7 +463,7 @@ For descending order, suffix the <code>ORDER BY</code> clause with <code>DESC</c
 SELECT * FROM products ORDER BY -price;
 </code></pre>
 <p>In the example above, <code>LENGTH</code> is an example of a function.
-A complete list of functions can be found in the <a href="sql//sql/functions_operators.html">Functions and Operators</a> documentation.</p>
+A complete list of functions can be found in the <a href="sql/functions.html">Functions</a> documentation.</p>
 <h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;
@@ -474,13 +475,13 @@ for the same query -- unless you don't care which rows are returned.</p>
 <h2 id="values-lists"><a class="header" href="#values-lists">VALUES Lists</a></h2>
 <p>The <code>VALUES</code> keyword is used to create a static table of documents (rows).
 Each row is denoted by a pair of parentheses.
-All rows must have <a href="sql//sql/queries.html#union-compatibility">Union Compatibility</a>
+All rows must have <a href="sql/queries.html#union-compatibility">Union Compatibility</a>
 which, for Endb, means they have the same number of columns.</p>
 <pre><code class="language-sql">VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar');
 </code></pre>
 <p>Endb assigns anonymous columns the names <code>column1</code>, <code>column2</code>, etc.
 Columns can instead be given names with a
-<a href="sql//sql/queries.html#as-alias-tables-expressions-and-columns">table alias</a>:</p>
+<a href="sql/queries.html#as-alias-tables-expressions-and-columns">table alias</a>:</p>
 <pre><code class="language-sql">SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_no, name);
 </code></pre>
 <h2 id="set-operations-union-intersect-except"><a class="header" href="#set-operations-union-intersect-except">Set Operations: UNION, INTERSECT, EXCEPT</a></h2>
@@ -631,7 +632,8 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
 <h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
-<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators.</p>
+<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators:
+<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, and <code>=</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
 SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
 SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
@@ -696,7 +698,7 @@ SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
 <h2 id="single-row-comparison"><a class="header" href="#single-row-comparison">Single-Row Comparison</a></h2>
 <p>It is possible to compare
-<a href="sql//sql/data_types.html#row-literals">row literals</a>
+<a href="sql/data_types.html#row-literals">row literals</a>
 against a subquery which returns exactly one row.</p>
 <pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 </code></pre>
@@ -821,11 +823,11 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 <tr><td><code>BLOB</code></td><td><code>xsd:base64Binary</code></td><td>x'DEADBEEF'</td><td>Binary large object</td></tr>
 </tbody></table>
 </div>
-<p><a href="reference//sql/data_types.html">SQL Data Types</a> are covered in detail in the SQL Reference.</p>
+<p><a href="reference/../sql/data_types.html">SQL Data Types</a> are covered in detail in the SQL Reference.</p>
 <h2 id="collections"><a class="header" href="#collections">Collections</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>ARRAY</code></td><td><code>@json</code></td><td>[&quot;Joe&quot;, &quot;Dan&quot;, &quot;Dwayne&quot;]</td><td>Zero-based array</td></tr>
-<tr><td><code>OBJECT</code></td><td><code>@json</code></td><td>{n: 3, b: 2023-01-01}</td><td>Object, map, dict, document</td></tr>
+<tr><td><code>ARRAY</code></td><td><code>@json</code></td><td><code>[&quot;Joe&quot;, &quot;Dan&quot;, &quot;Dwayne&quot;]</code></td><td>Zero-based array</td></tr>
+<tr><td><code>OBJECT</code></td><td><code>@json</code></td><td><code>{n: 3, b: 2023-01-01}</code></td><td>Object, map, dict, document</td></tr>
 </tbody></table>
 </div>
 <h2 id="limited-and-unsupported-scalar-types"><a class="header" href="#limited-and-unsupported-scalar-types">Limited and Unsupported Scalar Types</a></h2>

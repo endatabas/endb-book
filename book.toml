@@ -6,7 +6,8 @@ src = "src"
 title = "The Endatabas Book"
 
 [build]
-build-dir = "docs"
+# we use a non-standard build dir so it's clearer that it isn't the destination
+build-dir = "output"
 
 [output.html]
 cname = "docs.endatabas.com"

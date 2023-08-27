@@ -168,7 +168,8 @@
                     <main>
                         <h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
 <h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
-<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators.</p>
+<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators:
+<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, and <code>=</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
 SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
 SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
@@ -233,7 +234,7 @@ SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
 <h2 id="single-row-comparison"><a class="header" href="#single-row-comparison">Single-Row Comparison</a></h2>
 <p>It is possible to compare
-<a href="/sql/data_types.html#row-literals">row literals</a>
+<a href="data_types.html#row-literals">row literals</a>
 against a subquery which returns exactly one row.</p>
 <pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 </code></pre>

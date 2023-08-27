@@ -172,7 +172,7 @@
 docker pull endatabas/endb
 docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/endb
 </code></pre>
-<p>See <a href="/reference/installation.html">Installation</a> for more ways to install
+<p>See <a href="../reference/installation.html">Installation</a> for more ways to install
 and build <code>endb</code>.</p>
 <h2 id="run-your-first-query"><a class="header" href="#run-your-first-query">Run your first query</a></h2>
 <pre><code class="language-sh">curl -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql

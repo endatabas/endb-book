@@ -3,7 +3,7 @@
 ## Boolean Operators
 
 `WHERE` clauses can be modified and combined using standard SQL boolean operators:
-`<`, `<=`, `>`, `>=`, `=`.
+`<`, `<=`, `>`, `>=`, and `=`.
 
 ```sql
 SELECT * FROM products WHERE NOT name = 'Coffee';

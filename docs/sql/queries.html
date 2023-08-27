@@ -218,7 +218,7 @@ SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <p>More usefully, it can give a temporary table name to an expression.
 The temporary table name can either have anonymous columns or named columns.
-(The <a href="/sql/queries.html#values-lists"><code>VALUES</code> keyword</a> is explained in the following
+(The <a href="queries.html#values-lists"><code>VALUES</code> keyword</a> is explained in the following
 <em>VALUES Lists</em> section.)</p>
 <pre><code class="language-sql">SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
 SELECT p.price FROM (VALUES ('Paprika', 4.77)) AS p(name, price);
@@ -233,7 +233,8 @@ is the one which will be returned:</p>
 <pre><code class="language-sql">SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <h3 id="advanced-filtering"><a class="header" href="#advanced-filtering">Advanced Filtering</a></h3>
-<p>More advanced filters are documented in <a href="/sql/functions_operators.html">Functions and Operators</a>.</p>
+<p>More advanced filters are documented in <a href="operators.html">Operators</a>
+and <a href="functions.html">Functions</a>.</p>
 <h2 id="order-sorting-results"><a class="header" href="#order-sorting-results">Order (Sorting Results)</a></h2>
 <p>Results from queries can be ordered with standard SQL <code>ORDER BY</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products ORDER BY price;
@@ -250,7 +251,7 @@ For descending order, suffix the <code>ORDER BY</code> clause with <code>DESC</c
 SELECT * FROM products ORDER BY -price;
 </code></pre>
 <p>In the example above, <code>LENGTH</code> is an example of a function.
-A complete list of functions can be found in the <a href="/sql/functions_operators.html">Functions and Operators</a> documentation.</p>
+A complete list of functions can be found in the <a href="functions.html">Functions</a> documentation.</p>
 <h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;
@@ -262,13 +263,13 @@ for the same query -- unless you don't care which rows are returned.</p>
 <h2 id="values-lists"><a class="header" href="#values-lists">VALUES Lists</a></h2>
 <p>The <code>VALUES</code> keyword is used to create a static table of documents (rows).
 Each row is denoted by a pair of parentheses.
-All rows must have <a href="/sql/queries.html#union-compatibility">Union Compatibility</a>
+All rows must have <a href="queries.html#union-compatibility">Union Compatibility</a>
 which, for Endb, means they have the same number of columns.</p>
 <pre><code class="language-sql">VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar');
 </code></pre>
 <p>Endb assigns anonymous columns the names <code>column1</code>, <code>column2</code>, etc.
 Columns can instead be given names with a
-<a href="/sql/queries.html#as-alias-tables-expressions-and-columns">table alias</a>:</p>
+<a href="queries.html#as-alias-tables-expressions-and-columns">table alias</a>:</p>
 <pre><code class="language-sql">SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_no, name);
 </code></pre>
 <h2 id="set-operations-union-intersect-except"><a class="header" href="#set-operations-union-intersect-except">Set Operations: UNION, INTERSECT, EXCEPT</a></h2>
