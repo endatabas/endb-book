@@ -2,7 +2,8 @@
 
 ## Boolean Operators
 
-`WHERE` clauses can be modified and combined using standard SQL boolean operators.
+`WHERE` clauses can be modified and combined using standard SQL boolean operators:
+`<`, `<=`, `>`, `>=`, `=`.
 
 ```sql
 SELECT * FROM products WHERE NOT name = 'Coffee';
@@ -110,7 +111,7 @@ SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 ## Single-Row Comparison
 
 It is possible to compare
-[row literals](/sql/data_types.md#row-literals)
+[row literals](data_types.md#row-literals)
 against a subquery which returns exactly one row.
 
 ```sql

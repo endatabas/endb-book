@@ -13,3 +13,5 @@ cname = "docs.endatabas.com"
 
 [output.html.print]
 enable = true
+
+[output.linkcheck]

@@ -13,7 +13,7 @@ curl -d "INSERT INTO users (name) VALUES ('Tianyu')" -H "Content-Type: applicati
 curl -d "SELECT * FROM users" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-Read more in the [full HTTP API docs](/reference/http_api.md).
+Read more in the [full HTTP API docs](../reference/http_api.md).
 
 ## Example Libraries
 

@@ -9,7 +9,7 @@ docker pull endatabas/endb
 docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/endb
 ```
 
-See [Installation](/reference/installation.md) for more ways to install
+See [Installation](../reference/installation.md) for more ways to install
 and build `endb`.
 
 

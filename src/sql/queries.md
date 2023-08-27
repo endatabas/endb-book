@@ -86,7 +86,7 @@ SELECT p.name FROM products AS p;
 
 More usefully, it can give a temporary table name to an expression.
 The temporary table name can either have anonymous columns or named columns.
-(The [`VALUES` keyword](/sql/queries.md#values-lists) is explained in the following
+(The [`VALUES` keyword](queries.md#values-lists) is explained in the following
 _VALUES Lists_ section.)
 
 ```sql
@@ -111,7 +111,8 @@ SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.nam
 
 ### Advanced Filtering
 
-More advanced filters are documented in [Functions and Operators](/sql/functions_operators.md).
+More advanced filters are documented in [Operators](operators.md)
+and [Functions](functions.md).
 
 
 ## Order (Sorting Results)
@@ -143,7 +144,7 @@ SELECT * FROM products ORDER BY -price;
 ```
 
 In the example above, `LENGTH` is an example of a function.
-A complete list of functions can be found in the [Functions and Operators](/sql/functions_operators.md) documentation.
+A complete list of functions can be found in the [Functions](functions.md) documentation.
 
 
 ## LIMIT
@@ -166,7 +167,7 @@ SELECT * FROM products ORDER BY price ASC LIMIT 2;
 
 The `VALUES` keyword is used to create a static table of documents (rows).
 Each row is denoted by a pair of parentheses.
-All rows must have [Union Compatibility](/sql/queries.md#union-compatibility)
+All rows must have [Union Compatibility](queries.md#union-compatibility)
 which, for Endb, means they have the same number of columns.
 
 ```sql
@@ -175,7 +176,7 @@ VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar');
 
 Endb assigns anonymous columns the names `column1`, `column2`, etc.
 Columns can instead be given names with a
-[table alias](/sql/queries.md#as-alias-tables-expressions-and-columns):
+[table alias](queries.md#as-alias-tables-expressions-and-columns):
 
 ```sql
 SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_no, name);
