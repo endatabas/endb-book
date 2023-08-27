@@ -1,4 +1,4 @@
-# Functions and Operators
+# Operators
 
 ## Boolean Operators
 

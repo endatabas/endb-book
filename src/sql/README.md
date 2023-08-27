@@ -6,4 +6,5 @@ The SQL Reference contains details and edge cases about Endb SQL.
 - [Queries](queries.md)
 - [Path Navigation](path_navigation.md)
 - [SQL Data Types](data_types.md)
-- [Functions and Operators](functions_operators.md)
+- [Operators](operators.md)
+- [Functions](functions.md)

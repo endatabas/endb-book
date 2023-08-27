@@ -6,6 +6,7 @@ The Endatabas Book
 
 ```
 cargo install mdbook
+cargo install mdbook-linkcheck
 ```
 
 ## Limitations
