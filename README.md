@@ -35,8 +35,6 @@ The HTML print feature works reasonably well.
 
 * ARRAY_AGG
     * order: https://github.com/endatabas/endb/commit/f218446efc3b06accf715a5b76a58f41c861979a
-* match: https://github.com/endatabas/endb/commit/0fbb285ea9ddda7c6b827f8d3aa3feb7df2ad056
-    * containment: @> (convenience)
 
 ### Paths / Objects
 

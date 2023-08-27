@@ -57,6 +57,30 @@ SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
 
 NOTE: `GLOB` is case-sensitive.
 
+## MATCH (Containment)
+
+`MATCH` returns `true` if the value on the left contains the value on the right, at the top level.
+
+The following expressions return `true`:
+
+```sql
+SELECT 'foo' MATCH 'foo';
+SELECT [1, 2, 3] MATCH [3, 1];
+SELECT {user: 'foo', age: 42} MATCH {age: 42};
+SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 1]};
+```
+
+The following expressions return `false`:
+
+```sql
+SELECT [1, 2, [1, 3]] MATCH [1, 3];
+SELECT {foo: {bar: 'baz'}} MATCH {bar: 'baz'};
+SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
+```
+
+NOTE: The `@>` operator is a synonym for `MATCH`.
+It is provided as a convenience for users accustomed to the equivalent JSON Containment Operator in Postgres.
+
 ## EXISTS
 
 `EXISTS` returns `true` if the subquery which follows it returns at least one row.
