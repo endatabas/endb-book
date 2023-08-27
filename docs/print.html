@@ -629,6 +629,35 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
 SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
 </code></pre>
+<h2 id="like"><a class="header" href="#like">LIKE</a></h2>
+<p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
+<p>A pattern can be a string literal.
+It can also contain underscores (<code>_</code>) and/or percentage symbols (<code>%</code>).
+An underscore matches exactly one character.
+A percentage symbol matches zero or more characters.
+Backslash escapes the following character to make it a literal.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Tofu';
+SELECT * FROM products WHERE name LIKE 'Tof_';
+SELECT * FROM products WHERE name LIKE '%of%';
+SELECT * FROM products WHERE name LIKE '\%of\%';
+</code></pre>
+<p><code>NOT LIKE</code> is used to invert the results of the match.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE name NOT LIKE '%of%';
+</code></pre>
+<p>NOTE: Endb <code>LIKE</code> is case-sensitive.</p>
+<h2 id="regexp"><a class="header" href="#regexp">REGEXP</a></h2>
+<p><code>REGEXP</code> returns <code>true</code> if a string matches the supplied regular expression.
+<code>REGEXP</code> may be prefixed with <code>NOT</code>.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE name REGEXP '.*ee|.*ea';
+SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
+</code></pre>
+<h2 id="glob"><a class="header" href="#glob">GLOB</a></h2>
+<p><code>GLOB</code> returns <code>true</code> if a string matches the supplied UNIX glob.
+<code>GLOB</code> may be prefixed with <code>NOT</code>.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE name GLOB '*of*';
+SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
+</code></pre>
+<p>NOTE: <code>GLOB</code> is case-sensitive.</p>
 <h2 id="exists"><a class="header" href="#exists">EXISTS</a></h2>
 <p><code>EXISTS</code> returns <code>true</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);

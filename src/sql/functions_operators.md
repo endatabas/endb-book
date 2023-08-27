@@ -10,6 +10,53 @@ SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
 SELECT * FROM products WHERE name > 'Cake' AND price > 5.00;
 ```
 
+## LIKE
+
+`LIKE` returns `true` if a string matches the supplied _LIKE_ pattern, as defined below:
+
+A pattern can be a string literal.
+It can also contain underscores (`_`) and/or percentage symbols (`%`).
+An underscore matches exactly one character.
+A percentage symbol matches zero or more characters.
+Backslash escapes the following character to make it a literal.
+
+```sql
+SELECT * FROM products WHERE name LIKE 'Tofu';
+SELECT * FROM products WHERE name LIKE 'Tof_';
+SELECT * FROM products WHERE name LIKE '%of%';
+SELECT * FROM products WHERE name LIKE '\%of\%';
+```
+
+`NOT LIKE` is used to invert the results of the match.
+
+```sql
+SELECT * FROM products WHERE name NOT LIKE '%of%';
+```
+
+NOTE: Endb `LIKE` is case-sensitive.
+
+## REGEXP
+
+`REGEXP` returns `true` if a string matches the supplied regular expression.
+`REGEXP` may be prefixed with `NOT`.
+
+```sql
+SELECT * FROM products WHERE name REGEXP '.*ee|.*ea';
+SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
+```
+
+## GLOB
+
+`GLOB` returns `true` if a string matches the supplied UNIX glob.
+`GLOB` may be prefixed with `NOT`.
+
+```sql
+SELECT * FROM products WHERE name GLOB '*of*';
+SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
+```
+
+NOTE: `GLOB` is case-sensitive.
+
 ## EXISTS
 
 `EXISTS` returns `true` if the subquery which follows it returns at least one row.
