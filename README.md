@@ -28,10 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-### DML
-
-* patch, update patch
-
 ### Queries
 
 * ARRAY_AGG

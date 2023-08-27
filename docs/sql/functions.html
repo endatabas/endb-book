@@ -167,6 +167,18 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
+<h2 id="patch"><a class="header" href="#patch">PATCH</a></h2>
+<p>The <code>PATCH</code> function takes two documents.
+The document returned is the first document &quot;patched&quot; with any fields found in the second document.
+If the second document does not specify a field, that field is left untouched.
+If the second document specifies any fields with values of <code>NULL</code>, those fields are removed.</p>
+<pre><code class="language-sql">SELECT PATCH(
+  {name: 'Salt', nutrition: {sodium: 100, ingredients: 'Kosher Salt'}},
+  {name: 'Sea Salt', nutrition: {ingredients: NULL}}
+);
+</code></pre>
+<p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
+<a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
 
                     </main>
 

@@ -315,7 +315,7 @@ You can use an <code>INSERT</code> statement to add a document directly to the d
 Endb is also immutable and schemaless,
 so it contains a number of shorthands and document-oriented conveniences.</p>
 <p>Endb does not require any Data Definition Language (DDL), such as <code>CREATE TABLE</code>.</p>
-<h2 id="insert"><a class="header" href="#insert">Insert</a></h2>
+<h2 id="insert"><a class="header" href="#insert">INSERT</a></h2>
 <p>To create a new document, you can use the standard SQL <code>INSERT</code> command.</p>
 <pre><code class="language-sql">INSERT INTO products (product_no, name, price) VALUES (1, 'Tofu', 7.99);
 </code></pre>
@@ -331,7 +331,7 @@ so it contains a number of shorthands and document-oriented conveniences.</p>
 <p>It is possible to insert the results of a query:</p>
 <pre><code class="language-sql">INSERT INTO cheap_products SELECT * FROM products WHERE price &lt; 4.00;
 </code></pre>
-<h2 id="update"><a class="header" href="#update">Update</a></h2>
+<h2 id="update"><a class="header" href="#update">UPDATE</a></h2>
 <p>To update an existing row, you can use the standard SQL <code>UPDATE</code> command:</p>
 <pre><code class="language-sql">UPDATE products SET price = 4.99 WHERE name = 'Coffee';
 </code></pre>
@@ -347,20 +347,20 @@ You can do this with the <code>UNSET</code> command:</p>
 Unsetting a column which doesn't exist is not an error:</p>
 <pre><code class="language-sql">UPDATE products SET price = 5.98 UNSET product_no WHERE name = 'Coffee';
 </code></pre>
-<h2 id="update-patch"><a class="header" href="#update-patch">Update Patch</a></h2>
-<p>Endb provides a <code>PATCH</code> operator, similar to the <a href="sql/"><code>PATCH</code> function</a>.
-The <code>PATCH</code> operator is used to set fields on a document (columns on a row)
-in a declarative fashion.</p>
+<h2 id="update-patch"><a class="header" href="#update-patch">UPDATE PATCH</a></h2>
+<p>Endb provides a <code>PATCH</code> operator, similar to the <a href="sql/functions.html#patch"><code>PATCH</code> function</a>.
+The <code>PATCH</code> operator is used in conjunction with <code>UPDATE</code>
+to set fields on a document (columns on a row) in a declarative fashion.</p>
 <pre><code class="language-sql">UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 </code></pre>
-<h2 id="delete"><a class="header" href="#delete">Delete</a></h2>
+<h2 id="delete"><a class="header" href="#delete">DELETE</a></h2>
 <p>To delete an existing row, use the standard SQL <code>DELETE</code> command.</p>
 <pre><code class="language-SQL">DELETE FROM products WHERE price = 5.98;
 </code></pre>
 <p>You may delete all rows from a table by eliding the <code>WHERE</code> clause:</p>
 <pre><code class="language-SQL">DELETE FROM products;
 </code></pre>
-<h2 id="upsert"><a class="header" href="#upsert">Upsert</a></h2>
+<h2 id="on-conflict-upsert"><a class="header" href="#on-conflict-upsert">ON CONFLICT (Upsert)</a></h2>
 <p>Endb provides flexible upserts with the common <code>ON CONFLICT</code> clause.
 When the <code>INSERT</code> command detects a conflict, it will perform the instructions in the <code>DO</code> clause.
 The following command needs to be executed twice to see the upsert effect.</p>
@@ -710,6 +710,18 @@ against a subquery which returns exactly one row.</p>
 <pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
+<h2 id="patch"><a class="header" href="#patch">PATCH</a></h2>
+<p>The <code>PATCH</code> function takes two documents.
+The document returned is the first document &quot;patched&quot; with any fields found in the second document.
+If the second document does not specify a field, that field is left untouched.
+If the second document specifies any fields with values of <code>NULL</code>, those fields are removed.</p>
+<pre><code class="language-sql">SELECT PATCH(
+  {name: 'Salt', nutrition: {sodium: 100, ingredients: 'Kosher Salt'}},
+  {name: 'Sea Salt', nutrition: {ingredients: NULL}}
+);
+</code></pre>
+<p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
+<a href="sql/data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <p>Reference documentation exists as a detailed perspective on each feature of Endb.
 It does not need to be read from beginning to end.</p>

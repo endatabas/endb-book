@@ -6,7 +6,7 @@ so it contains a number of shorthands and document-oriented conveniences.
 
 Endb does not require any Data Definition Language (DDL), such as `CREATE TABLE`.
 
-## Insert
+## INSERT
 
 To create a new document, you can use the standard SQL `INSERT` command.
 
@@ -38,7 +38,7 @@ It is possible to insert the results of a query:
 INSERT INTO cheap_products SELECT * FROM products WHERE price < 4.00;
 ```
 
-## Update
+## UPDATE
 
 To update an existing row, you can use the standard SQL `UPDATE` command:
 
@@ -67,17 +67,17 @@ Unsetting a column which doesn't exist is not an error:
 UPDATE products SET price = 5.98 UNSET product_no WHERE name = 'Coffee';
 ```
 
-## Update Patch
+## UPDATE PATCH
 
-Endb provides a `PATCH` operator, similar to the [`PATCH` function]().
-The `PATCH` operator is used to set fields on a document (columns on a row)
-in a declarative fashion.
+Endb provides a `PATCH` operator, similar to the [`PATCH` function](functions.md#patch).
+The `PATCH` operator is used in conjunction with `UPDATE`
+to set fields on a document (columns on a row) in a declarative fashion.
 
 ```sql
 UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 ```
 
-## Delete
+## DELETE
 
 To delete an existing row, use the standard SQL `DELETE` command.
 
@@ -91,7 +91,7 @@ You may delete all rows from a table by eliding the `WHERE` clause:
 DELETE FROM products;
 ```
 
-## Upsert
+## ON CONFLICT (Upsert)
 
 Endb provides flexible upserts with the common `ON CONFLICT` clause.
 When the `INSERT` command detects a conflict, it will perform the instructions in the `DO` clause.
