@@ -1,14 +1,20 @@
 # Operators
 
-## Boolean Operators
+## Comparison
 
-`WHERE` clauses can be modified and combined using standard SQL boolean operators:
-`<`, `<=`, `>`, `>=`, and `=`.
+`WHERE` clauses can be modified and combined using standard SQL comparison operators:
+
+* `=` (equals)
+* `>` (greater than)
+* `<` (less than)
+* `>=` (greater than or equal to)
+* `<=` (less than or equal to)
+* `<>` (not equal to)
 
 ```sql
 SELECT * FROM products WHERE NOT name = 'Coffee';
-SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
-SELECT * FROM products WHERE name > 'Cake' AND price > 5.00;
+SELECT * FROM products WHERE name = 'Coffee' AND name <> 'Kaapi';
+SELECT * FROM products WHERE name > 'Cake' AND price >= 5.00;
 ```
 
 ## LIKE

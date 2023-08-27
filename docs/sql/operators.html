@@ -167,12 +167,19 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
-<h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
-<p><code>WHERE</code> clauses can be modified and combined using standard SQL boolean operators:
-<code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, and <code>=</code>.</p>
+<h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
+<p><code>WHERE</code> clauses can be modified and combined using standard SQL comparison operators:</p>
+<ul>
+<li><code>=</code> (equals)</li>
+<li><code>&gt;</code> (greater than)</li>
+<li><code>&lt;</code> (less than)</li>
+<li><code>&gt;=</code> (greater than or equal to)</li>
+<li><code>&lt;=</code> (less than or equal to)</li>
+<li><code>&lt;&gt;</code> (not equal to)</li>
+</ul>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
-SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
-SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
+SELECT * FROM products WHERE name = 'Coffee' AND name &lt;&gt; 'Kaapi';
+SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt;= 5.00;
 </code></pre>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
 <p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
