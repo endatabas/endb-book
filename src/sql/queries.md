@@ -236,3 +236,44 @@ If the queries return a different number of columns, set operations will result 
 400 Bad Request
 Number of UNION left columns: 3 does not match right columns: 2
 ```
+
+
+## WITH Queries (Common Table Expressions)
+
+The `WITH` keyword is used to create _Common Table Expressions_, or CTEs.
+CTEs act like temporary tables or views within the context of a query.
+CTEs are used in place of a sub-select to simplify the appearance of a query.
+`WITH` clauses take the form `WITH <cte-name> AS (<cte-select>)`.
+
+```sql
+WITH top_margin_products AS (SELECT product_no FROM products WHERE (price - cost) > 5.00)
+SELECT name FROM products
+WHERE product_no IN (SELECT product_no FROM top_margin_products);
+```
+
+## WITH RECURSIVE
+
+The `RECURSIVE` keyword can be added to `WITH` to create recursive CTEs
+which can refer to themselves.
+Recursive CTEs will always have the form `<initial-select> UNION <recursive-select>`
+or `<initial-select> UNION ALL <recursive-select>`.
+
+Here is a naive example, demonstrating the recursive construction of a Fibonacci Sequence:
+
+```sql
+WITH RECURSIVE fib(previous, current) AS (
+  VALUES (0, 1)
+    UNION ALL
+  SELECT fib.current, fib.previous + fib.current
+  FROM fib
+  WHERE fib.previous + fib.current < 5000
+)
+SELECT * FROM fib;
+```
+
+The most beneficial uses for `WITH RECURSIVE` are walking hierarchical and graph-shaped data sets
+-- capabilities ordinary SQL lacks.
+However, Endb recursive queries are also capable of solving Sudoku puzzles and constructing fractals,
+[as seen in the test suite](https://github.com/endatabas/endb/blob/main/test/sql.lisp).
+(Credit goes to SQLite's delightful
+[Outlandish Recursive Query Examples](https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples).)

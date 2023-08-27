@@ -508,6 +508,36 @@ the table) will be returned.</p>
 400 Bad Request
 Number of UNION left columns: 3 does not match right columns: 2
 </code></pre>
+<h2 id="with-queries-common-table-expressions"><a class="header" href="#with-queries-common-table-expressions">WITH Queries (Common Table Expressions)</a></h2>
+<p>The <code>WITH</code> keyword is used to create <em>Common Table Expressions</em>, or CTEs.
+CTEs act like temporary tables or views within the context of a query.
+CTEs are used in place of a sub-select to simplify the appearance of a query.
+<code>WITH</code> clauses take the form <code>WITH &lt;cte-name&gt; AS (&lt;cte-select&gt;)</code>.</p>
+<pre><code class="language-sql">WITH top_margin_products AS (SELECT product_no FROM products WHERE (price - cost) &gt; 5.00)
+SELECT name FROM products
+WHERE product_no IN (SELECT product_no FROM top_margin_products);
+</code></pre>
+<h2 id="with-recursive"><a class="header" href="#with-recursive">WITH RECURSIVE</a></h2>
+<p>The <code>RECURSIVE</code> keyword can be added to <code>WITH</code> to create recursive CTEs
+which can refer to themselves.
+Recursive CTEs will always have the form <code>&lt;initial-select&gt; UNION &lt;recursive-select&gt;</code>
+or <code>&lt;initial-select&gt; UNION ALL &lt;recursive-select&gt;</code>.</p>
+<p>Here is a naive example, demonstrating the recursive construction of a Fibonacci Sequence:</p>
+<pre><code class="language-sql">WITH RECURSIVE fib(previous, current) AS (
+  VALUES (0, 1)
+    UNION ALL
+  SELECT fib.current, fib.previous + fib.current
+  FROM fib
+  WHERE fib.previous + fib.current &lt; 5000
+)
+SELECT * FROM fib;
+</code></pre>
+<p>The most beneficial uses for <code>WITH RECURSIVE</code> are walking hierarchical and graph-shaped data sets
+-- capabilities ordinary SQL lacks.
+However, Endb recursive queries are also capable of solving Sudoku puzzles and constructing fractals,
+<a href="https://github.com/endatabas/endb/blob/main/test/sql.lisp">as seen in the test suite</a>.
+(Credit goes to SQLite's delightful
+<a href="https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples">Outlandish Recursive Query Examples</a>.)</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="path-navigation"><a class="header" href="#path-navigation">Path Navigation</a></h1>
 <p>TODO</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sql-data-types"><a class="header" href="#sql-data-types">SQL Data Types</a></h1>
