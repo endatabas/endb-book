@@ -2,7 +2,7 @@
 
 ## Comparison
 
-`WHERE` clauses can be modified and combined using standard SQL comparison operators:
+Two values can be compared using standard SQL comparison operators:
 
 * `=` (equals)
 * `>` (greater than)
@@ -15,6 +15,62 @@
 SELECT * FROM products WHERE NOT name = 'Coffee';
 SELECT * FROM products WHERE name = 'Coffee' AND name <> 'Kaapi';
 SELECT * FROM products WHERE name > 'Cake' AND price >= 5.00;
+```
+
+## Boolean Operators
+
+`WHERE` clauses can be modified and combined with standard SQL boolean operators:
+
+`IS` and `IS NOT` are used to test for `NULL`,
+which is the third boolean value, representing "unknown":
+
+```sql
+SELECT * FROM products WHERE product_no IS NULL;
+SELECT * FROM products WHERE product_no IS NOT NULL;
+```
+
+`NOT` can be prefixed to any clause to negate it:
+
+```sql
+SELECT * FROM products WHERE NOT (name = 'Coffee');
+```
+
+`AND` returns true if two clauses both return true:
+
+```sql
+SELECT * FROM products WHERE name = 'Coffee' AND price > 2.99;
+```
+
+`OR` returns true if either of two clauses return true:
+
+```sql
+SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
+```
+
+## Math
+
+Standard SQL mathemetical operators are available to any two numeric values:
+
+* `+` (addition)
+* `-` (subtraction)
+* `*` (multiplication)
+* `/` (division)
+* `%` (modulo; integer remainder of division)
+* `<<` (left bit shift)
+* `>>` (right bit shift)
+* `+NUMBER` (unary plus)
+* `-NUMBER` (unary minus)
+
+```sql
+SELECT 1 + 3.555;
+SELECT 1 - 3.555;
+SELECT 2 * 3.555;
+SELECT 2 / 3.555;
+SELECT 2 % 3.555;
+SELECT 62 << 2;
+SELECT 62 >> 2;
+SELECT +128.5;
+SELECT -128.5;
 ```
 
 ## LIKE

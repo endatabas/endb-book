@@ -632,7 +632,7 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
 <h2 id="comparison-1"><a class="header" href="#comparison-1">Comparison</a></h2>
-<p><code>WHERE</code> clauses can be modified and combined using standard SQL comparison operators:</p>
+<p>Two values can be compared using standard SQL comparison operators:</p>
 <ul>
 <li><code>=</code> (equals)</li>
 <li><code>&gt;</code> (greater than)</li>
@@ -644,6 +644,45 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
 SELECT * FROM products WHERE name = 'Coffee' AND name &lt;&gt; 'Kaapi';
 SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt;= 5.00;
+</code></pre>
+<h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
+<p><code>WHERE</code> clauses can be modified and combined with standard SQL boolean operators:</p>
+<p><code>IS</code> and <code>IS NOT</code> are used to test for <code>NULL</code>,
+which is the third boolean value, representing &quot;unknown&quot;:</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE product_no IS NULL;
+SELECT * FROM products WHERE product_no IS NOT NULL;
+</code></pre>
+<p><code>NOT</code> can be prefixed to any clause to negate it:</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE NOT (name = 'Coffee');
+</code></pre>
+<p><code>AND</code> returns true if two clauses both return true:</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE name = 'Coffee' AND price &gt; 2.99;
+</code></pre>
+<p><code>OR</code> returns true if either of two clauses return true:</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
+</code></pre>
+<h2 id="math"><a class="header" href="#math">Math</a></h2>
+<p>Standard SQL mathemetical operators are available to any two numeric values:</p>
+<ul>
+<li><code>+</code> (addition)</li>
+<li><code>-</code> (subtraction)</li>
+<li><code>*</code> (multiplication)</li>
+<li><code>/</code> (division)</li>
+<li><code>%</code> (modulo; integer remainder of division)</li>
+<li><code>&lt;&lt;</code> (left bit shift)</li>
+<li><code>&gt;&gt;</code> (right bit shift)</li>
+<li><code>+NUMBER</code> (unary plus)</li>
+<li><code>-NUMBER</code> (unary minus)</li>
+</ul>
+<pre><code class="language-sql">SELECT 1 + 3.555;
+SELECT 1 - 3.555;
+SELECT 2 * 3.555;
+SELECT 2 / 3.555;
+SELECT 2 % 3.555;
+SELECT 62 &lt;&lt; 2;
+SELECT 62 &gt;&gt; 2;
+SELECT +128.5;
+SELECT -128.5;
 </code></pre>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
 <p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
