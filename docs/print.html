@@ -447,7 +447,7 @@ is the one which will be returned:</p>
 <h3 id="advanced-filtering"><a class="header" href="#advanced-filtering">Advanced Filtering</a></h3>
 <p>More advanced filters are documented in <a href="sql/operators.html">Operators</a>
 and <a href="sql/functions.html">Functions</a>.</p>
-<h2 id="order-sorting-results"><a class="header" href="#order-sorting-results">Order (Sorting Results)</a></h2>
+<h2 id="order-by-sorting-results"><a class="header" href="#order-by-sorting-results">ORDER BY (Sorting Results)</a></h2>
 <p>Results from queries can be ordered with standard SQL <code>ORDER BY</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products ORDER BY price;
 </code></pre>
@@ -710,6 +710,19 @@ against a subquery which returns exactly one row.</p>
 <pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
+<h2 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h2>
+<p>The <code>ARRAY_AGG</code> function concatenates an expression into an array.
+The parameter may be <a href="sql/queries.html#order-by-sorting-results">ordered</a>
+within <code>ARRAY_AGG</code>.</p>
+<pre><code class="language-sql">SELECT ARRAY_AGG(price) FROM products;
+SELECT ARRAY_AGG(name ORDER BY price DESC) FROM products;
+</code></pre>
+<p>Note that when operating on arrays, the arrays themselves will be concatenated,
+not the contents of the arrays.
+The result will be an array of one higher dimension:</p>
+<pre><code class="language-sql">SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
+-- [{'column1': [[1, 2], [3, 4]]}]
+</code></pre>
 <h2 id="patch"><a class="header" href="#patch">PATCH</a></h2>
 <p>The <code>PATCH</code> function takes two documents.
 The document returned is the first document &quot;patched&quot; with any fields found in the second document.

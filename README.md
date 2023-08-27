@@ -28,11 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-### Queries
-
-* ARRAY_AGG
-    * order: https://github.com/endatabas/endb/commit/f218446efc3b06accf715a5b76a58f41c861979a
-
 ### Paths / Objects
 
 * unnest, `object_keys`, `object_values`

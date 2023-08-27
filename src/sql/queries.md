@@ -115,7 +115,7 @@ More advanced filters are documented in [Operators](operators.md)
 and [Functions](functions.md).
 
 
-## Order (Sorting Results)
+## ORDER BY (Sorting Results)
 
 Results from queries can be ordered with standard SQL `ORDER BY`.
 
