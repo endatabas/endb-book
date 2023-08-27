@@ -629,9 +629,25 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 SELECT * FROM products WHERE name = 'Coffee' OR name = 'Kaapi';
 SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt; 5.00;
 </code></pre>
-<h2 id="in-list-comparison"><a class="header" href="#in-list-comparison">In: List Comparison</a></h2>
-<p>The standard SQL <code>IN</code> clause can be used to filter rows against lists.</p>
+<h2 id="exists"><a class="header" href="#exists">EXISTS</a></h2>
+<p><code>EXISTS</code> returns <code>true</code> if the subquery which follows it returns at least one row.</p>
+<pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
+</code></pre>
+<h2 id="in"><a class="header" href="#in">IN</a></h2>
+<p>The standard SQL <code>IN</code> clause can be used to test lists and subqueries for containment of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price IN (5.00, 5.99);
+SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
+</code></pre>
+<h2 id="not-in"><a class="header" href="#not-in">NOT IN</a></h2>
+<p>The standard SQL <code>NOT IN</code> clause can be used to test lists and subqueries for absence of a value.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
+SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
+</code></pre>
+<h2 id="single-row-comparison"><a class="header" href="#single-row-comparison">Single-Row Comparison</a></h2>
+<p>It is possible to compare
+<a href="sql//sql/data_types.html#row-literals">row literals</a>
+against a subquery which returns exactly one row.</p>
+<pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <p>Reference documentation exists as a detailed perspective on each feature of Endb.
