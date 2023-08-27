@@ -28,9 +28,13 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
+### HTTP
+
+* JSON payload
+
 ### Paths / Objects
 
-* unnest, `object_keys`, `object_values`
+* path language
 
 ### Functions
 

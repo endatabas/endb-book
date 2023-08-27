@@ -168,7 +168,7 @@
                     <main>
                         <h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
 <h2 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h2>
-<p>The <code>ARRAY_AGG</code> function concatenates an expression into an array.
+<p>The <code>ARRAY_AGG</code> function concatenates the results of an expression into an array.
 The parameter may be <a href="queries.html#order-by-sorting-results">ordered</a>
 within <code>ARRAY_AGG</code>.</p>
 <pre><code class="language-sql">SELECT ARRAY_AGG(price) FROM products;
@@ -179,6 +179,35 @@ not the contents of the arrays.
 The result will be an array of one higher dimension:</p>
 <pre><code class="language-sql">SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
 -- [{'column1': [[1, 2], [3, 4]]}]
+</code></pre>
+<h2 id="unnest"><a class="header" href="#unnest">UNNEST</a></h2>
+<p>The <code>UNNEST</code> function can be thought of as the inverse of <code>ARRAY_AGG</code>,
+although it offers more power than just unlinking elements.
+It takes an array or object and pulls its elements into separate rows.</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
+</code></pre>
+<p>It is possible to unnest multiple arrays.
+If the arrays do not have the same number of elements, the shorter array(s) will
+have those values filled with <code>NULL</code>:</p>
+<pre><code class="language-sql">SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
+</code></pre>
+<p>When unnesting an object, keys and values will be made explicit within
+<a href="data_types.html#row-literals">row literals</a>.
+This behaviour is useful for manipulating collections:</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
+-- [{'price': {'key': 'sale_price', 'value': 1.5}},
+--  {'price': {'key': 'coupon_price', 'value': 1.4}},
+--  {'price': {'key': 'original_price', 'value': 1.99}}]
+</code></pre>
+<p>To append an ordinal to each row in the results, use
+<a href="operators.html#with-ordinality"><code>WITH ORDINALITY</code></a>.</p>
+<h2 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h2>
+<p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
+<pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
+</code></pre>
+<h2 id="object_values"><a class="header" href="#object_values">OBJECT_VALUES</a></h2>
+<p>An object's values can be selected using <code>OBJECT_VALUES</code>.</p>
+<pre><code class="language-sql">SELECT OBJECT_VALUES({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
 </code></pre>
 <h2 id="patch"><a class="header" href="#patch">PATCH</a></h2>
 <p>The <code>PATCH</code> function takes two documents.

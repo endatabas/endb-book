@@ -123,3 +123,16 @@ against a subquery which returns exactly one row.
 ```sql
 SELECT { p.name, p.price } < (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 ```
+
+## WITH ORDINALITY
+
+When a set-returning function (such as [`UNNEST`](functions.md#unnest))
+is used in a `FROM` clause, it can be suffixed with `WITH ORDINALITY`
+to append an ordinal column to the results.
+
+```sql
+SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+```
+
+NOTE: Endb ordinals are zero-indexed.

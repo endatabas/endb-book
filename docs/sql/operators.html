@@ -245,6 +245,14 @@ SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 against a subquery which returns exactly one row.</p>
 <pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
 </code></pre>
+<h2 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h2>
+<p>When a set-returning function (such as <a href="functions.html#unnest"><code>UNNEST</code></a>)
+is used in a <code>FROM</code> clause, it can be suffixed with <code>WITH ORDINALITY</code>
+to append an ordinal column to the results.</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+</code></pre>
+<p>NOTE: Endb ordinals are zero-indexed.</p>
 
                     </main>
 
