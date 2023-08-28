@@ -248,3 +248,39 @@ It returns the second parameter if the condition is true and the third parameter
 ```sql
 SELECT IIF(price > 5.99, 'Expensive!', 'Cheap') FROM products;
 ```
+
+## Math
+
+Endb provides all standard SQL math functions:
+
+* ROUND
+* SIN
+* COS
+* TAN
+* SINH
+* COSH
+* TANH
+* ASIN
+* ACOS
+* ATAN
+* ASINH
+* ACOSH
+* ATANH
+* ATAN2
+* FLOOR
+* CEILING, CEIL
+* SIGN
+* SQRT
+* EXP
+* POWER, POW
+* LOG, LOG10
+* LOG2
+* LN
+* DEGREES
+* RADIANS
+* PI
+
+NOTE: Endb follows the choice of most SQL databases and aliases `LOG` to `LOG10`
+rather than `LN` (natural log), as specified by the SQL standard.
+
+NOTE: Mathematical operators are documented under [Operators](operators.md#math).

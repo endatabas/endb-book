@@ -692,6 +692,7 @@ SELECT 62 &gt;&gt; 2;
 SELECT +128.5;
 SELECT -128.5;
 </code></pre>
+<p>NOTE: Mathematical functions are documented under <a href="sql/functions.html#math">Functions</a>.</p>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
 <p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
 <p>A pattern can be a string literal.
@@ -919,6 +920,39 @@ SELECT ZEROBLOB(32);
 It returns the second parameter if the condition is true and the third parameter if the condition is false.</p>
 <pre><code class="language-sql">SELECT IIF(price &gt; 5.99, 'Expensive!', 'Cheap') FROM products;
 </code></pre>
+<h2 id="math-1"><a class="header" href="#math-1">Math</a></h2>
+<p>Endb provides all standard SQL math functions:</p>
+<ul>
+<li>ROUND</li>
+<li>SIN</li>
+<li>COS</li>
+<li>TAN</li>
+<li>SINH</li>
+<li>COSH</li>
+<li>TANH</li>
+<li>ASIN</li>
+<li>ACOS</li>
+<li>ATAN</li>
+<li>ASINH</li>
+<li>ACOSH</li>
+<li>ATANH</li>
+<li>ATAN2</li>
+<li>FLOOR</li>
+<li>CEILING, CEIL</li>
+<li>SIGN</li>
+<li>SQRT</li>
+<li>EXP</li>
+<li>POWER, POW</li>
+<li>LOG, LOG10</li>
+<li>LOG2</li>
+<li>LN</li>
+<li>DEGREES</li>
+<li>RADIANS</li>
+<li>PI</li>
+</ul>
+<p>NOTE: Endb follows the choice of most SQL databases and aliases <code>LOG</code> to <code>LOG10</code>
+rather than <code>LN</code> (natural log), as specified by the SQL standard.</p>
+<p>NOTE: Mathematical operators are documented under <a href="sql/operators.html#math">Operators</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
 <h2 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h2>
 <p><code>CURRENT_TIMESTAMP</code> gets the current time in UTC.</p>

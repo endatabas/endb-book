@@ -87,6 +87,8 @@ SELECT +128.5;
 SELECT -128.5;
 ```
 
+NOTE: Mathematical functions are documented under [Functions](functions.md#math).
+
 ## LIKE
 
 `LIKE` returns `true` if a string matches the supplied _LIKE_ pattern, as defined below:
