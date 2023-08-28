@@ -91,18 +91,23 @@ Binary Large Objects can be encoded as hexidecimal literals or cast from strings
 
 ## ARRAY
 
-Arrays can be created using a syntax similar to that in the SQL Specification,
+Arrays can be created using a literal syntax similar to that in the SQL Specification,
+a constructor function,
 or array literals similar to JSON.
 
+* `ARRAY ["one", "two", "three"]`
 * `ARRAY("one", "two", "three")`
 * `["one", "two", "three"]`
 
 ## OBJECT
 
-Objects can be created using a syntax similar to that in the SQL Specification,
-or object literals similar to JSON.
+Objects can be created using either an `OBJECT` constructor keyword,
+similar to that in the SQL Specification,
+or object literals similar to JSON enclosed in curly braces.
+Keys in object literals can be quoted or unquoted.
 
 * `OBJECT(name: 'Hanna', birthday: 1982-12-31)`
+* `{'name': "Hanna", 'birthday': 1982-12-31}`
 * `{name: "Hanna", birthday: 1982-12-31}`
 
 ## Row Literals

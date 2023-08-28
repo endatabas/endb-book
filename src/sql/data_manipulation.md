@@ -20,7 +20,8 @@ To create multiple new documents at once, delimit their value lists with commas:
 INSERT INTO products (product_no, name, price) VALUES (1, 'Butter', 5.99), (2, 'Margarine', 4.99);
 ```
 
-It is also possible to insert a document directly.
+It is also possible to insert a document directly using an
+[`OBJECT` literal](data_types.md#object).
 
 ```sql
 INSERT INTO products {product_no: 3, name: 'Tea', price: 3.99};

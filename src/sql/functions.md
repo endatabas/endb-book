@@ -233,8 +233,9 @@ NOTE: `CONCAT` is equivalent to the [Concatenation Operator (||)](operators.md#c
 
 ## HEX, UNHEX
 
-The `HEX` function takes a decimal number and turns it into a hexidecimal string.
-The `UNHEX` function takes a hexidecimal string and turns it into a decimal number.
+The `HEX` function takes a string (or coerces its argument into a string)
+and turns its unicode bytes into a hexidecimal string.
+The `UNHEX` function takes a hexidecimal string and turns it into bytes.
 
 ```sql
 SELECT HEX(15);

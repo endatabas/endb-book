@@ -28,6 +28,27 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
+* add "caveat"
+* SQLite-ness
+
+### DDL?
+
+* create/drop view?
+
+### HEX
+
+* sqlite docs
+
+### Period
+
+* closed/open example? -- check spec
+
+### Literals
+
+* OBJECTS {}, {}
+* object, array literal order
+* spread, etc. move to literals
+
 ### HTTP
 
 * JSON payload

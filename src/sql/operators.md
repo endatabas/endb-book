@@ -138,7 +138,10 @@ NOTE: `GLOB` is case-sensitive.
 
 ## MATCH (Containment)
 
-`MATCH` returns `true` if the value on the left contains the value on the right, at the top level.
+`MATCH` returns `true` if the value on the left contains the value on the right,
+at the top level.
+Note that a top-level array to the right of the `MATCH` refers to a set of values
+that all need to match, not a literal array.
 
 The following expressions return `true`:
 
@@ -158,7 +161,8 @@ SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 ```
 
 NOTE: The `@>` operator is a synonym for `MATCH`.
-It is provided as a convenience for users accustomed to the equivalent JSON Containment Operator in Postgres.
+It is provided as a convenience for users accustomed to the equivalent
+[JSON Containment Operator in Postgres](https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT).
 
 ## EXISTS
 
