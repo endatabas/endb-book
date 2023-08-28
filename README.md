@@ -32,10 +32,6 @@ The HTML print feature works reasonably well.
 
 * JSON payload
 
-### Paths / Objects
-
-* path language
-
 ### Parameters
 
 * anonymous

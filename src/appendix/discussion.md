@@ -54,3 +54,20 @@ it seems like this isn't true? Is that intentional?
 ### Information Schema:
 
 Should we just expose it to read-only queries?
+
+### Path Navigation:
+
+Getting very tired. Should I be allowed to do this?
+
+```
+-> SELECT * FROM paths;
+[{'a': 2, 'b': {'a': 3}, 'c': [{'a': 1}, 2]}]
+-> SELECT c.a FROM paths;
+[{'a': [1]}]
+```
+
+Should (non-numeric) computed properties work yet?
+
+```
+SELECT { foo: 2, zig[2+2]: 5 }; -- errors
+```

@@ -102,7 +102,7 @@ The `users.friends[1]` expression above is one of many path expressions inspired
 [SQL/JSON](https://www.iso.org/standard/78937.html),
 and their derivatives in legacy relational databases.
 A detailed explanation of Endb's arrays and objects is provided in the
-[SQL Reference](../sql/README.md)
+[SQL Reference](../sql/path_navigation.md)
 
 ## Documents
 

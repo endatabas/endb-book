@@ -121,3 +121,7 @@ Similarly, the existing table is still available in the `DO` clause to provide f
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 3.00, v: 5};
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v < 6;
 ```
+
+## Parameters
+
+TODO

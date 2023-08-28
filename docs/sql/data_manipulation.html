@@ -234,6 +234,8 @@ INSERT INTO products {name: 'Salt', price: 7} ON CONFLICT (name) DO UPDATE SET p
 <pre><code class="language-sql">INSERT INTO products {product_no: 99, name: 'Cumin', price: 3.00, v: 5};
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v &lt; 6;
 </code></pre>
+<h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
+<p>TODO</p>
 
                     </main>
 
