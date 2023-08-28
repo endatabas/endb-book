@@ -68,9 +68,23 @@ The following are legal time literals:
 * `TIME '23:59:12'`
 * `TIME '23:59:12.12345'`
 
+## INTERVAL, DURATION
+
+An interval (or _duration_) is created whenever two times are subtracted.
+
+```sql
+SELECT 2001-01-02 - 2001-01-01;
+```
+
+Intervals literals can also be constructed with
+[ISO 8601 syntax](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals):
+
+* `PT12H30M5S`
+* `P1Y2M10DT2H30M`
+
 ## BLOB
 
-Binary Large Objects can be encoded as literals or cast from strings.
+Binary Large Objects can be encoded as hexidecimal literals or cast from strings.
 
 * `x'DEADBEEF'`
 * `CAST("hello" AS BLOB)`

@@ -600,8 +600,18 @@ The following are legal time literals:</p>
 <li><code>TIME '23:59:12'</code></li>
 <li><code>TIME '23:59:12.12345'</code></li>
 </ul>
+<h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL, DURATION</a></h2>
+<p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
+<pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;
+</code></pre>
+<p>Intervals literals can also be constructed with
+<a href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO 8601 syntax</a>:</p>
+<ul>
+<li><code>PT12H30M5S</code></li>
+<li><code>P1Y2M10DT2H30M</code></li>
+</ul>
 <h2 id="blob"><a class="header" href="#blob">BLOB</a></h2>
-<p>Binary Large Objects can be encoded as literals or cast from strings.</p>
+<p>Binary Large Objects can be encoded as hexidecimal literals or cast from strings.</p>
 <ul>
 <li><code>x'DEADBEEF'</code></li>
 <li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
@@ -949,10 +959,21 @@ It returns the second parameter if the condition is true and the third parameter
 <li>DEGREES</li>
 <li>RADIANS</li>
 <li>PI</li>
+<li>ABS</li>
 </ul>
 <p>NOTE: Endb follows the choice of most SQL databases and aliases <code>LOG</code> to <code>LOG10</code>
 rather than <code>LN</code> (natural log), as specified by the SQL standard.</p>
 <p>NOTE: Mathematical operators are documented under <a href="sql/operators.html#math">Operators</a>.</p>
+<h2 id="cast"><a class="header" href="#cast">CAST</a></h2>
+<p>The <code>CAST</code> function forces a value into a particular data type.
+Note that not all types are cast-compatible with each other.</p>
+<pre><code class="language-sql">SELECT CAST(price AS INTEGER) FROM products;
+</code></pre>
+<h2 id="nullif"><a class="header" href="#nullif">NULLIF</a></h2>
+<p>The <code>NULLIF</code> function returns <code>true</code> if the two supplied expressions are equal.</p>
+<pre><code class="language-sql">SELECT NULLIF(1, 1);
+SELECT NULLIF(1, 'zig');
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
 <h2 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h2>
 <p><code>CURRENT_TIMESTAMP</code> gets the current time in UTC.</p>

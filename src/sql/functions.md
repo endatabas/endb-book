@@ -279,8 +279,27 @@ Endb provides all standard SQL math functions:
 * DEGREES
 * RADIANS
 * PI
+* ABS
 
 NOTE: Endb follows the choice of most SQL databases and aliases `LOG` to `LOG10`
 rather than `LN` (natural log), as specified by the SQL standard.
 
 NOTE: Mathematical operators are documented under [Operators](operators.md#math).
+
+## CAST
+
+The `CAST` function forces a value into a particular data type.
+Note that not all types are cast-compatible with each other.
+
+```sql
+SELECT CAST(price AS INTEGER) FROM products;
+```
+
+## NULLIF
+
+The `NULLIF` function returns `true` if the two supplied expressions are equal.
+
+```sql
+SELECT NULLIF(1, 1);
+SELECT NULLIF(1, 'zig');
+```

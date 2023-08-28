@@ -219,8 +219,18 @@ The following are legal time literals:</p>
 <li><code>TIME '23:59:12'</code></li>
 <li><code>TIME '23:59:12.12345'</code></li>
 </ul>
+<h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL, DURATION</a></h2>
+<p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
+<pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;
+</code></pre>
+<p>Intervals literals can also be constructed with
+<a href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO 8601 syntax</a>:</p>
+<ul>
+<li><code>PT12H30M5S</code></li>
+<li><code>P1Y2M10DT2H30M</code></li>
+</ul>
 <h2 id="blob"><a class="header" href="#blob">BLOB</a></h2>
-<p>Binary Large Objects can be encoded as literals or cast from strings.</p>
+<p>Binary Large Objects can be encoded as hexidecimal literals or cast from strings.</p>
 <ul>
 <li><code>x'DEADBEEF'</code></li>
 <li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
