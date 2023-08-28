@@ -46,5 +46,11 @@ Maybe I'm just tired but I'm not sure I understand what '3135' is.
 [{'column1': b'15'}]
 ```
 
-Time Queries: Note on SQL:2011 closed-open period model ...
+### Time Queries:
+
+Note on SQL:2011 closed-open period model ...
 it seems like this isn't true? Is that intentional?
+
+### Information Schema:
+
+Should we just expose it to read-only queries?

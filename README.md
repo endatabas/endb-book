@@ -36,21 +36,11 @@ The HTML print feature works reasonably well.
 
 * path language
 
-### Temporal
-
-* AS OF
-* BETWEEN
-
 ### Parameters
 
 * anonymous
 * named
 
-### Functions
-
-* fn list: https://github.com/endatabas/endb/blob/main/src/sql/expr.lisp
-* SQLite fns: https://github.com/endatabas/endb/commit/8e7bb400db736f59ac84163a84da17fa337c82d4
-
 ### Inspecting Schema
 
-* hard-coded tables
+* hard-coded tables?

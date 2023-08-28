@@ -208,3 +208,15 @@ SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
 ```
 
 NOTE: Endb ordinals are zero-indexed.
+
+## Concatenation
+
+The concatenation operator (`||`) concatenates two strings.
+Multiple operators can be chained together.
+
+```sql
+SELECT 'Hello' || 'World';
+SELECT "Hello" || "World" || "And" || "Friends";
+```
+
+The Concatenation Operator is equivalent to the [`CONCAT` function](functions.md#concat).

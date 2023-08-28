@@ -182,18 +182,6 @@ with the second parameter (if found) replaced by the third.
 SELECT REPLACE('Relatable Algebra', 'Rela', 'Infla');
 ```
 
-## HEX, UNHEX
-
-The `HEX` function takes a decimal number and turns it into a hexidecimal string.
-The `UNHEX` function takes a hexidecimal string and turns it into a decimal number.
-
-```sql
-SELECT HEX(15);
--- '3135'
-SELECT UNHEX('3135');
--- b'15'
-```
-
 ## INSTR
 
 The `INSTR` function returns the first character of a substring match on the second parameter,
@@ -214,6 +202,47 @@ SELECT SUBSTRING('Hello Edgar', 4);
 SELECT SUBSTR('Hello Edgar', 4, 2);
 ```
 
+## UNICODE
+
+The `UNICODE` function returns an integer unicode value for the first character
+of the parameter given.
+
+```sql
+SELECT UNICODE('Adam');
+```
+
+## CHAR
+
+The `CHAR` function returns a string corresponding to the supplied integer
+character codes.
+
+```sql
+SELECT CHAR(65, 66, 67);
+```
+
+## CONCAT
+
+The `CONCAT` function concatenates two strings supplied as arguments.
+If either argument is not a string, it will be cast to a string automatically.
+
+```sql
+SELECT CONCAT("Hello", "World");
+```
+
+NOTE: `CONCAT` is equivalent to the [Concatenation Operator (||)](operators.md#concatenation).
+
+## HEX, UNHEX
+
+The `HEX` function takes a decimal number and turns it into a hexidecimal string.
+The `UNHEX` function takes a hexidecimal string and turns it into a decimal number.
+
+```sql
+SELECT HEX(15);
+-- '3135'
+SELECT UNHEX('3135');
+-- b'15'
+```
+
 ## MIN, MAX
 
 The `MIN` and `MAX` functions return the minimum and maximum values for an expression,
@@ -222,15 +251,6 @@ respectively.
 ```sql
 SELECT MIN(price) FROM products;
 SELECT MAX(price) FROM products;
-```
-
-## UNICODE
-
-The `UNICODE` function returns an integer unicode value for the first character
-of the parameter given.
-
-```sql
-SELECT UNICODE('Adam');
 ```
 
 ## RANDOM

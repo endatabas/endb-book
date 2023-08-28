@@ -282,14 +282,6 @@ SELECT UPPER('Shouting Calculus');
 with the second parameter (if found) replaced by the third.</p>
 <pre><code class="language-sql">SELECT REPLACE('Relatable Algebra', 'Rela', 'Infla');
 </code></pre>
-<h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
-<p>The <code>HEX</code> function takes a decimal number and turns it into a hexidecimal string.
-The <code>UNHEX</code> function takes a hexidecimal string and turns it into a decimal number.</p>
-<pre><code class="language-sql">SELECT HEX(15);
--- '3135'
-SELECT UNHEX('3135');
--- b'15'
-</code></pre>
 <h2 id="instr"><a class="header" href="#instr">INSTR</a></h2>
 <p>The <code>INSTR</code> function returns the first character of a substring match on the second parameter,
 if found, and <code>0</code> if it is not found.</p>
@@ -302,16 +294,35 @@ If the (optional) third parameter is provided, the substring will be of that len
 <pre><code class="language-sql">SELECT SUBSTRING('Hello Edgar', 4);
 SELECT SUBSTR('Hello Edgar', 4, 2);
 </code></pre>
+<h2 id="unicode"><a class="header" href="#unicode">UNICODE</a></h2>
+<p>The <code>UNICODE</code> function returns an integer unicode value for the first character
+of the parameter given.</p>
+<pre><code class="language-sql">SELECT UNICODE('Adam');
+</code></pre>
+<h2 id="char"><a class="header" href="#char">CHAR</a></h2>
+<p>The <code>CHAR</code> function returns a string corresponding to the supplied integer
+character codes.</p>
+<pre><code class="language-sql">SELECT CHAR(65, 66, 67);
+</code></pre>
+<h2 id="concat"><a class="header" href="#concat">CONCAT</a></h2>
+<p>The <code>CONCAT</code> function concatenates two strings supplied as arguments.
+If either argument is not a string, it will be cast to a string automatically.</p>
+<pre><code class="language-sql">SELECT CONCAT(&quot;Hello&quot;, &quot;World&quot;);
+</code></pre>
+<p>NOTE: <code>CONCAT</code> is equivalent to the <a href="operators.html#concatenation">Concatenation Operator (||)</a>.</p>
+<h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
+<p>The <code>HEX</code> function takes a decimal number and turns it into a hexidecimal string.
+The <code>UNHEX</code> function takes a hexidecimal string and turns it into a decimal number.</p>
+<pre><code class="language-sql">SELECT HEX(15);
+-- '3135'
+SELECT UNHEX('3135');
+-- b'15'
+</code></pre>
 <h2 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h2>
 <p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,
 respectively.</p>
 <pre><code class="language-sql">SELECT MIN(price) FROM products;
 SELECT MAX(price) FROM products;
-</code></pre>
-<h2 id="unicode"><a class="header" href="#unicode">UNICODE</a></h2>
-<p>The <code>UNICODE</code> function returns an integer unicode value for the first character
-of the parameter given.</p>
-<pre><code class="language-sql">SELECT UNICODE('Adam');
 </code></pre>
 <h2 id="random"><a class="header" href="#random">RANDOM</a></h2>
 <p>The <code>RANDOM</code> function returns a random integer.</p>

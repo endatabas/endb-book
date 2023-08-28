@@ -46,6 +46,17 @@ depending on the time of day when your query is run.
 SELECT CURRENT_DATE;
 ```
 
+## AS OF (Time Travel)
+
+Endb permits time-traveling queries with the SQL:2011-compatible
+`AS OF` operator.
+The query will treat the `DATE` or `TIMESTAMP` supplied after `AS OF`
+as if it were that time _now_.
+
+```sql
+SELECT * FROM products FOR SYSTEM_TIME AS OF 2023-08-25T00:00:00;
+```
+
 ## BETWEEN
 
 The syntax for time-aware `BETWEEN` is the same as the

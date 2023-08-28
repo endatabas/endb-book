@@ -302,6 +302,13 @@ to append an ordinal column to the results.</p>
 -- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
 </code></pre>
 <p>NOTE: Endb ordinals are zero-indexed.</p>
+<h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
+<p>The concatenation operator (<code>||</code>) concatenates two strings.
+Multiple operators can be chained together.</p>
+<pre><code class="language-sql">SELECT 'Hello' || 'World';
+SELECT &quot;Hello&quot; || &quot;World&quot; || &quot;And&quot; || &quot;Friends&quot;;
+</code></pre>
+<p>The Concatenation Operator is equivalent to the <a href="functions.html#concat"><code>CONCAT</code> function</a>.</p>
 
                     </main>
 
