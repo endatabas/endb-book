@@ -323,7 +323,8 @@ so it contains a number of shorthands and document-oriented conveniences.</p>
 <p>To create multiple new documents at once, delimit their value lists with commas:</p>
 <pre><code class="language-sql">INSERT INTO products (product_no, name, price) VALUES (1, 'Butter', 5.99), (2, 'Margarine', 4.99);
 </code></pre>
-<p>It is also possible to insert a document directly.</p>
+<p>It is also possible to insert a document directly using an
+<a href="sql/data_types.html#object"><code>OBJECT</code> literal</a>.</p>
 <pre><code class="language-sql">INSERT INTO products {product_no: 3, name: 'Tea', price: 3.99};
 </code></pre>
 <p>To insert multiple documents directly, delimit documents with commas:</p>
@@ -620,17 +621,22 @@ The following are legal time literals:</p>
 <li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
 </ul>
 <h2 id="array"><a class="header" href="#array">ARRAY</a></h2>
-<p>Arrays can be created using a syntax similar to that in the SQL Specification,
+<p>Arrays can be created using a literal syntax similar to that in the SQL Specification,
+a constructor function,
 or array literals similar to JSON.</p>
 <ul>
+<li><code>ARRAY [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 <li><code>ARRAY(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></li>
 <li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 </ul>
 <h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
-<p>Objects can be created using a syntax similar to that in the SQL Specification,
-or object literals similar to JSON.</p>
+<p>Objects can be created using either an <code>OBJECT</code> constructor keyword,
+similar to that in the SQL Specification,
+or object literals similar to JSON enclosed in curly braces.
+Keys in object literals can be quoted or unquoted.</p>
 <ul>
 <li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
+<li><code>{'name': &quot;Hanna&quot;, 'birthday': 1982-12-31}</code></li>
 <li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
 </ul>
 <h2 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h2>
@@ -736,7 +742,10 @@ SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
 </code></pre>
 <p>NOTE: <code>GLOB</code> is case-sensitive.</p>
 <h2 id="match-containment"><a class="header" href="#match-containment">MATCH (Containment)</a></h2>
-<p><code>MATCH</code> returns <code>true</code> if the value on the left contains the value on the right, at the top level.</p>
+<p><code>MATCH</code> returns <code>true</code> if the value on the left contains the value on the right,
+at the top level.
+Note that a top-level array to the right of the <code>MATCH</code> refers to a set of values
+that all need to match, not a literal array.</p>
 <p>The following expressions return <code>true</code>:</p>
 <pre><code class="language-sql">SELECT 'foo' MATCH 'foo';
 SELECT [1, 2, 3] MATCH [3, 1];
@@ -749,7 +758,8 @@ SELECT {foo: {bar: 'baz'}} MATCH {bar: 'baz'};
 SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 </code></pre>
 <p>NOTE: The <code>@&gt;</code> operator is a synonym for <code>MATCH</code>.
-It is provided as a convenience for users accustomed to the equivalent JSON Containment Operator in Postgres.</p>
+It is provided as a convenience for users accustomed to the equivalent
+<a href="https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT">JSON Containment Operator in Postgres</a>.</p>
 <h2 id="exists"><a class="header" href="#exists">EXISTS</a></h2>
 <p><code>EXISTS</code> returns <code>true</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
@@ -930,8 +940,9 @@ If either argument is not a string, it will be cast to a string automatically.</
 </code></pre>
 <p>NOTE: <code>CONCAT</code> is equivalent to the <a href="sql/operators.html#concatenation">Concatenation Operator (||)</a>.</p>
 <h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
-<p>The <code>HEX</code> function takes a decimal number and turns it into a hexidecimal string.
-The <code>UNHEX</code> function takes a hexidecimal string and turns it into a decimal number.</p>
+<p>The <code>HEX</code> function takes a string (or coerces its argument into a string)
+and turns its unicode bytes into a hexidecimal string.
+The <code>UNHEX</code> function takes a hexidecimal string and turns it into bytes.</p>
 <pre><code class="language-sql">SELECT HEX(15);
 -- '3135'
 SELECT UNHEX('3135');
@@ -1191,6 +1202,8 @@ SELECT [1, 2, ...&quot;foo&quot;, 5];
 computed properties.</p>
 <pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
 -- [{'column1': {'4': 5, 'foo': 2}}]
+SELECT { foo: 2, ['foo' || 2]: 5 };
+-- [{'column1': {'foo': 2, 'foo2': 5}}]
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reference"><a class="header" href="#reference">Reference</a></h1>
 <p>Reference documentation exists as a detailed perspective on each feature of Endb.

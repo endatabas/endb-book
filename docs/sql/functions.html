@@ -311,8 +311,9 @@ If either argument is not a string, it will be cast to a string automatically.</
 </code></pre>
 <p>NOTE: <code>CONCAT</code> is equivalent to the <a href="operators.html#concatenation">Concatenation Operator (||)</a>.</p>
 <h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
-<p>The <code>HEX</code> function takes a decimal number and turns it into a hexidecimal string.
-The <code>UNHEX</code> function takes a hexidecimal string and turns it into a decimal number.</p>
+<p>The <code>HEX</code> function takes a string (or coerces its argument into a string)
+and turns its unicode bytes into a hexidecimal string.
+The <code>UNHEX</code> function takes a hexidecimal string and turns it into bytes.</p>
 <pre><code class="language-sql">SELECT HEX(15);
 -- '3135'
 SELECT UNHEX('3135');

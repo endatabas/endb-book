@@ -260,7 +260,10 @@ SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
 </code></pre>
 <p>NOTE: <code>GLOB</code> is case-sensitive.</p>
 <h2 id="match-containment"><a class="header" href="#match-containment">MATCH (Containment)</a></h2>
-<p><code>MATCH</code> returns <code>true</code> if the value on the left contains the value on the right, at the top level.</p>
+<p><code>MATCH</code> returns <code>true</code> if the value on the left contains the value on the right,
+at the top level.
+Note that a top-level array to the right of the <code>MATCH</code> refers to a set of values
+that all need to match, not a literal array.</p>
 <p>The following expressions return <code>true</code>:</p>
 <pre><code class="language-sql">SELECT 'foo' MATCH 'foo';
 SELECT [1, 2, 3] MATCH [3, 1];
@@ -273,7 +276,8 @@ SELECT {foo: {bar: 'baz'}} MATCH {bar: 'baz'};
 SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 </code></pre>
 <p>NOTE: The <code>@&gt;</code> operator is a synonym for <code>MATCH</code>.
-It is provided as a convenience for users accustomed to the equivalent JSON Containment Operator in Postgres.</p>
+It is provided as a convenience for users accustomed to the equivalent
+<a href="https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT">JSON Containment Operator in Postgres</a>.</p>
 <h2 id="exists"><a class="header" href="#exists">EXISTS</a></h2>
 <p><code>EXISTS</code> returns <code>true</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);

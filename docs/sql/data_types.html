@@ -236,17 +236,22 @@ The following are legal time literals:</p>
 <li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
 </ul>
 <h2 id="array"><a class="header" href="#array">ARRAY</a></h2>
-<p>Arrays can be created using a syntax similar to that in the SQL Specification,
+<p>Arrays can be created using a literal syntax similar to that in the SQL Specification,
+a constructor function,
 or array literals similar to JSON.</p>
 <ul>
+<li><code>ARRAY [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 <li><code>ARRAY(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></li>
 <li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 </ul>
 <h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
-<p>Objects can be created using a syntax similar to that in the SQL Specification,
-or object literals similar to JSON.</p>
+<p>Objects can be created using either an <code>OBJECT</code> constructor keyword,
+similar to that in the SQL Specification,
+or object literals similar to JSON enclosed in curly braces.
+Keys in object literals can be quoted or unquoted.</p>
 <ul>
 <li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
+<li><code>{'name': &quot;Hanna&quot;, 'birthday': 1982-12-31}</code></li>
 <li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
 </ul>
 <h2 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h2>
