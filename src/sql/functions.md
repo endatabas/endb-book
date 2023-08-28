@@ -203,6 +203,17 @@ if found, and `0` if it is not found.
 SELECT INSTR('Coffee', 'ee');
 ```
 
+## SUBSTRING
+
+The `SUBSTRING` function returns the substring starting from the index provided as the second parameter.
+If the (optional) third parameter is provided, the substring will be of that length (or less, if the end of the source string is reached).
+`SUBSTR` is a synonym for `SUBSTRING`.
+
+```sql
+SELECT SUBSTRING('Hello Edgar', 4);
+SELECT SUBSTR('Hello Edgar', 4, 2);
+```
+
 ## MIN, MAX
 
 The `MIN` and `MAX` functions return the minimum and maximum values for an expression,
@@ -302,4 +313,43 @@ The `NULLIF` function returns `true` if the two supplied expressions are equal.
 ```sql
 SELECT NULLIF(1, 1);
 SELECT NULLIF(1, 'zig');
+```
+
+## STRFTIME
+
+The `STRFTIME` function formats a date or time value as a string.
+
+```sql
+SELECT strftime('%Y/%m/%d', date('2001-01-01'));
+SELECT strftime('%Y %m %d at %H %M %S', datetime('2001-01-01 03:04:05'));
+```
+
+## UNIXEPOCH
+
+The `UNIXEPOCH` function returns the number of seconds since the UNIX epoch.
+Accepts a `DATE`, `TIMESTAMP`, or `STRING`.
+
+```sql
+SELECT UNIXEPOCH('2023-01-01');
+SELECT UNIXEPOCH(1970-01-01T00:00:00Z);
+```
+
+## JULIANDAY
+
+The `JULIANDAY` function returns the Julian Day, which is the number of days since
+noon in UTC on November 24, 4714 B.C.
+Accepts a `DATE`, `TIMESTAMP`, or `STRING`.
+
+```sql
+SELECT JULIANDAY(1970-01-01);
+```
+
+## TYPEOF
+
+The `TYPEOF` function returns the type of the provided value.
+
+```sql
+SELECT TYPEOF('hi2u');
+SELECT TYPEOF(1.12345678901234);
+SELECT TYPEOF(2018-01-01T00:00:00);
 ```

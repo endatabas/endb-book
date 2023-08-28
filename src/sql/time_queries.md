@@ -1,5 +1,17 @@
 # Time Queries
 
+To make best use of Time Queries, it is a good idea to review the
+time-related SQL data types, such as `TIMESTAMP`, `DATE`, `TIME`,
+and `INTERVAL`.
+These are covered in the [SQL Data Types](data_types.md) section.
+
+It is also a good idea to review Endb's other time-related functions,
+in case they are helpful to you:
+
+* [`STRFTIME`](functions.md#strftime)
+* [`UNIXEPOCH`](functions.md#unixepoch)
+* [`JULIANDAY`](functions.md#julianday)
+
 ## CURRENT_TIMESTAMP
 
 `CURRENT_TIMESTAMP` gets the current time in UTC.

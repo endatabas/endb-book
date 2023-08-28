@@ -904,6 +904,13 @@ SELECT UNHEX('3135');
 if found, and <code>0</code> if it is not found.</p>
 <pre><code class="language-sql">SELECT INSTR('Coffee', 'ee');
 </code></pre>
+<h2 id="substring"><a class="header" href="#substring">SUBSTRING</a></h2>
+<p>The <code>SUBSTRING</code> function returns the substring starting from the index provided as the second parameter.
+If the (optional) third parameter is provided, the substring will be of that length (or less, if the end of the source string is reached).
+<code>SUBSTR</code> is a synonym for <code>SUBSTRING</code>.</p>
+<pre><code class="language-sql">SELECT SUBSTRING('Hello Edgar', 4);
+SELECT SUBSTR('Hello Edgar', 4, 2);
+</code></pre>
 <h2 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h2>
 <p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,
 respectively.</p>
@@ -974,7 +981,41 @@ Note that not all types are cast-compatible with each other.</p>
 <pre><code class="language-sql">SELECT NULLIF(1, 1);
 SELECT NULLIF(1, 'zig');
 </code></pre>
+<h2 id="strftime"><a class="header" href="#strftime">STRFTIME</a></h2>
+<p>The <code>STRFTIME</code> function formats a date or time value as a string.</p>
+<pre><code class="language-sql">SELECT strftime('%Y/%m/%d', date('2001-01-01'));
+SELECT strftime('%Y %m %d at %H %M %S', datetime('2001-01-01 03:04:05'));
+</code></pre>
+<h2 id="unixepoch"><a class="header" href="#unixepoch">UNIXEPOCH</a></h2>
+<p>The <code>UNIXEPOCH</code> function returns the number of seconds since the UNIX epoch.
+Accepts a <code>DATE</code>, <code>TIMESTAMP</code>, or <code>STRING</code>.</p>
+<pre><code class="language-sql">SELECT UNIXEPOCH('2023-01-01');
+SELECT UNIXEPOCH(1970-01-01T00:00:00Z);
+</code></pre>
+<h2 id="julianday"><a class="header" href="#julianday">JULIANDAY</a></h2>
+<p>The <code>JULIANDAY</code> function returns the Julian Day, which is the number of days since
+noon in UTC on November 24, 4714 B.C.
+Accepts a <code>DATE</code>, <code>TIMESTAMP</code>, or <code>STRING</code>.</p>
+<pre><code class="language-sql">SELECT JULIANDAY(1970-01-01);
+</code></pre>
+<h2 id="typeof"><a class="header" href="#typeof">TYPEOF</a></h2>
+<p>The <code>TYPEOF</code> function returns the type of the provided value.</p>
+<pre><code class="language-sql">SELECT TYPEOF('hi2u');
+SELECT TYPEOF(1.12345678901234);
+SELECT TYPEOF(2018-01-01T00:00:00);
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
+<p>To make best use of Time Queries, it is a good idea to review the
+time-related SQL data types, such as <code>TIMESTAMP</code>, <code>DATE</code>, <code>TIME</code>,
+and <code>INTERVAL</code>.
+These are covered in the <a href="sql/data_types.html">SQL Data Types</a> section.</p>
+<p>It is also a good idea to review Endb's other time-related functions,
+in case they are helpful to you:</p>
+<ul>
+<li><a href="sql/functions.html#strftime"><code>STRFTIME</code></a></li>
+<li><a href="sql/functions.html#unixepoch"><code>UNIXEPOCH</code></a></li>
+<li><a href="sql/functions.html#julianday"><code>JULIANDAY</code></a></li>
+</ul>
 <h2 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h2>
 <p><code>CURRENT_TIMESTAMP</code> gets the current time in UTC.</p>
 <pre><code class="language-sql">SELECT CURRENT_TIMESTAMP;
