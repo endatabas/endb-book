@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="../tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../sql/data_manipulation.html"><strong aria-hidden="true">2.1.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="../sql/queries.html"><strong aria-hidden="true">2.2.</strong> Queries</a></li><li class="chapter-item expanded "><a href="../sql/path_navigation.html"><strong aria-hidden="true">2.3.</strong> Path Navigation</a></li><li class="chapter-item expanded "><a href="../sql/data_types.html"><strong aria-hidden="true">2.4.</strong> SQL Data Types</a></li><li class="chapter-item expanded "><a href="../sql/operators.html"><strong aria-hidden="true">2.5.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../sql/functions.html" class="active"><strong aria-hidden="true">2.6.</strong> Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/installation.html"><strong aria-hidden="true">3.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../reference/http_api.html"><strong aria-hidden="true">3.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../reference/data_types.html"><strong aria-hidden="true">3.3.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="../tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../sql/data_manipulation.html"><strong aria-hidden="true">2.1.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="../sql/queries.html"><strong aria-hidden="true">2.2.</strong> Queries</a></li><li class="chapter-item expanded "><a href="../sql/data_types.html"><strong aria-hidden="true">2.3.</strong> SQL Data Types</a></li><li class="chapter-item expanded "><a href="../sql/operators.html"><strong aria-hidden="true">2.4.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../sql/functions.html" class="active"><strong aria-hidden="true">2.5.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../sql/time_queries.html"><strong aria-hidden="true">2.6.</strong> Time Queries</a></li><li class="chapter-item expanded "><a href="../sql/path_navigation.html"><strong aria-hidden="true">2.7.</strong> Path Navigation</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/installation.html"><strong aria-hidden="true">3.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../reference/http_api.html"><strong aria-hidden="true">3.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../reference/data_types.html"><strong aria-hidden="true">3.3.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -180,6 +180,15 @@ The result will be an array of one higher dimension:</p>
 <pre><code class="language-sql">SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
 -- [{'column1': [[1, 2], [3, 4]]}]
 </code></pre>
+<h2 id="group_concat"><a class="header" href="#group_concat">GROUP_CONCAT</a></h2>
+<p>The <code>GROUP_CONCAT</code> function returns a string with concatenated
+non-null values from a column or group.
+Given a second parameter,
+It defaults to a comma-delimited list, but the second (optional) parameter
+can override the delimiter.</p>
+<pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
+SELECT GROUP_CONCAT(name, ':') FROM products;
+</code></pre>
 <h2 id="unnest"><a class="header" href="#unnest">UNNEST</a></h2>
 <p>The <code>UNNEST</code> function can be thought of as the inverse of <code>ARRAY_AGG</code>,
 although it offers more power than just unlinking elements.
@@ -221,6 +230,97 @@ If the second document specifies any fields with values of <code>NULL</code>, th
 </code></pre>
 <p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
 <a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
+<h2 id="coalesce"><a class="header" href="#coalesce">COALESCE</a></h2>
+<p>The <code>COALESCE</code> function returns its first non-null argument.
+The following example returns <code>'zig'</code>:</p>
+<pre><code class="language-sql">SELECT COALESCE(NULL, NULL, 'zig', 'zag');
+</code></pre>
+<h2 id="cardinality"><a class="header" href="#cardinality">CARDINALITY</a></h2>
+<p>The <code>CARDINALITY</code> function returns the number of the elements in a given set.</p>
+<pre><code class="language-sql">SELECT CARDINALITY([3,3,4,5,6]) AS element_count;
+</code></pre>
+<h2 id="character_length"><a class="header" href="#character_length">CHARACTER_LENGTH</a></h2>
+<p>The <code>CHARACTER_LENGTH</code> function returns the number of unicode characters in a string.</p>
+<pre><code class="language-sql">SELECT CHARACTER_LENGTH('josé');
+-- 4
+SELECT CHARACTER_LENGTH('❤️🥫');
+-- 3
+</code></pre>
+<h2 id="octet_length"><a class="header" href="#octet_length">OCTET_LENGTH</a></h2>
+<p>The <code>OCTET_LENGTH</code> function returns the length of a string, in bytes (octets).</p>
+<pre><code class="language-sql">SELECT OCTET_LENGTH('josé');
+-- 5
+SELECT OCTET_LENGTH('❤️🥫');
+-- 10
+</code></pre>
+<h2 id="length"><a class="header" href="#length">LENGTH</a></h2>
+<p>The <code>LENGTH</code> function counts the number of entries in a collection.
+When supplied with a string, it is a synonym for <code>CHARACTER_LENGTH</code>.</p>
+<pre><code class="language-sql">SELECT LENGTH([3, 2]);
+SELECT LENGTH({name: 'Peas', price: 8.99, product_no: 77});
+SELECT LENGTH('josé');
+</code></pre>
+<h2 id="trim-ltrim-rtrim"><a class="header" href="#trim-ltrim-rtrim">TRIM, LTRIM, RTRIM</a></h2>
+<p>The <code>TRIM</code>, <code>LTRIM</code>, and <code>RTRIM</code> functions trim surrounding whitespace,
+whitespace to the left, and whitespace to the right of a string, respectively.</p>
+<pre><code class="language-sql">SELECT TRIM('  hello  ');
+-- 'hello'
+SELECT LTRIM('  hello  ');
+-- 'hello  '
+SELECT RTRIM('  hello  ');
+-- '  hello'
+</code></pre>
+<h2 id="lower-upper"><a class="header" href="#lower-upper">LOWER, UPPER</a></h2>
+<p>The <code>LOWER</code> and <code>UPPER</code> functions downcase and upcase a string, respectively.</p>
+<pre><code class="language-sql">SELECT LOWER('Relatable Algebra');
+-- 'relatable algebra'
+SELECT UPPER('Shouting Calculus');
+-- 'SHOUTING CALCULUS'
+</code></pre>
+<h2 id="replace"><a class="header" href="#replace">REPLACE</a></h2>
+<p>The <code>REPLACE</code> function returns the string in the first parameter,
+with the second parameter (if found) replaced by the third.</p>
+<pre><code class="language-sql">SELECT REPLACE('Relatable Algebra', 'Rela', 'Infla');
+</code></pre>
+<h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
+<p>The <code>HEX</code> function takes a decimal number and turns it into a hexidecimal string.
+The <code>UNHEX</code> function takes a hexidecimal string and turns it into a decimal number.</p>
+<pre><code class="language-sql">SELECT HEX(15);
+-- '3135'
+SELECT UNHEX('3135');
+-- b'15'
+</code></pre>
+<h2 id="instr"><a class="header" href="#instr">INSTR</a></h2>
+<p>The <code>INSTR</code> function returns the first character of a substring match on the second parameter,
+if found, and <code>0</code> if it is not found.</p>
+<pre><code class="language-sql">SELECT INSTR('Coffee', 'ee');
+</code></pre>
+<h2 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h2>
+<p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,
+respectively.</p>
+<pre><code class="language-sql">SELECT MIN(price) FROM products;
+SELECT MAX(price) FROM products;
+</code></pre>
+<h2 id="unicode"><a class="header" href="#unicode">UNICODE</a></h2>
+<p>The <code>UNICODE</code> function returns an integer unicode value for the first character
+of the parameter given.</p>
+<pre><code class="language-sql">SELECT UNICODE('Adam');
+</code></pre>
+<h2 id="random"><a class="header" href="#random">RANDOM</a></h2>
+<p>The <code>RANDOM</code> function returns a random integer.</p>
+<pre><code class="language-sql">SELECT RANDOM();
+</code></pre>
+<h2 id="randomblob-zeroblob"><a class="header" href="#randomblob-zeroblob">RANDOMBLOB, ZEROBLOB</a></h2>
+<p>The <code>RANDOMBLOB</code> function returns a random binary large object of the size given, in bytes.
+The <code>ZEROBLOB</code> function returns a zeroed-out binary large object of the size given, in bytes.</p>
+<pre><code class="language-sql">SELECT RANDOMBLOB(32);
+SELECT ZEROBLOB(32);
+</code></pre>
+<h2 id="iif"><a class="header" href="#iif">IIF</a></h2>
+<p>The <code>IIF</code> function is a conditional shorthand.
+It returns the second parameter if the condition is true and the third parameter if the condition is false.</p>
+<pre><code class="language-sql">SELECT IIF(price &gt; 5.99, 'Expensive!', 'Cheap') FROM products;
+</code></pre>
 
                     </main>
 
@@ -230,7 +330,7 @@ If the second document specifies any fields with values of <code>NULL</code>, th
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../reference/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../sql/time_queries.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -244,7 +344,7 @@ If the second document specifies any fields with values of <code>NULL</code>, th
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../reference/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../sql/time_queries.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

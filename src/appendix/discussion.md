@@ -35,3 +35,13 @@ SELECT [1, 2, [1, 3]] MATCH [[1, 3]]; -- true
 SELECT [1, 2, [1, 3]] MATCH [[3, 1]]; -- false
 SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 1]}; -- true? why?
 ```
+
+Are these the expected behaviours of `HEX` and `UNHEX`?
+Maybe I'm just tired but I'm not sure I understand what '3135' is.
+
+```sql
+-> SELECT HEX(15);
+[{'column1': '3135'}]
+-> SELECT UNHEX('3135');
+[{'column1': b'15'}]
+```

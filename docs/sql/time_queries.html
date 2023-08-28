@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Roadmap - The Endatabas Book</title>
+        <title>Time Queries - The Endatabas Book</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="../tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../sql/data_manipulation.html"><strong aria-hidden="true">2.1.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="../sql/queries.html"><strong aria-hidden="true">2.2.</strong> Queries</a></li><li class="chapter-item expanded "><a href="../sql/data_types.html"><strong aria-hidden="true">2.3.</strong> SQL Data Types</a></li><li class="chapter-item expanded "><a href="../sql/operators.html"><strong aria-hidden="true">2.4.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../sql/functions.html"><strong aria-hidden="true">2.5.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../sql/time_queries.html"><strong aria-hidden="true">2.6.</strong> Time Queries</a></li><li class="chapter-item expanded "><a href="../sql/path_navigation.html"><strong aria-hidden="true">2.7.</strong> Path Navigation</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/installation.html"><strong aria-hidden="true">3.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../reference/http_api.html"><strong aria-hidden="true">3.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../reference/data_types.html"><strong aria-hidden="true">3.3.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html" class="active"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="../tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../sql/data_manipulation.html"><strong aria-hidden="true">2.1.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="../sql/queries.html"><strong aria-hidden="true">2.2.</strong> Queries</a></li><li class="chapter-item expanded "><a href="../sql/data_types.html"><strong aria-hidden="true">2.3.</strong> SQL Data Types</a></li><li class="chapter-item expanded "><a href="../sql/operators.html"><strong aria-hidden="true">2.4.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../sql/functions.html"><strong aria-hidden="true">2.5.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../sql/time_queries.html" class="active"><strong aria-hidden="true">2.6.</strong> Time Queries</a></li><li class="chapter-item expanded "><a href="../sql/path_navigation.html"><strong aria-hidden="true">2.7.</strong> Path Navigation</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">3.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/installation.html"><strong aria-hidden="true">3.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../reference/http_api.html"><strong aria-hidden="true">3.2.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../reference/data_types.html"><strong aria-hidden="true">3.3.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">4.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">4.1.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">4.2.</strong> Roadmap</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -166,19 +166,35 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
-<p>In the near-term (Q3 2023), we expect to solidify the Endatabas SQL dialect
-so early users can get a taste of what it feels like to use it.</p>
-<p>You can read our high-level <a href="https://github.com/endatabas/endb/blob/main/ROADMAP.md">roadmap on GitHub</a>.</p>
+                        <h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
+<h2 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h2>
+<p><code>CURRENT_TIMESTAMP</code> gets the current time in UTC.</p>
+<pre><code class="language-sql">SELECT CURRENT_TIMESTAMP;
+</code></pre>
+<h2 id="current_date"><a class="header" href="#current_date">CURRENT_DATE</a></h2>
+<p><code>CURRENT_DATE</code> gets the current date in UTC.
+Note that this may be different from your <em>local</em> date,
+depending on the time of day when your query is run.</p>
+<pre><code class="language-sql">SELECT CURRENT_DATE;
+</code></pre>
+<h2 id="between"><a class="header" href="#between">BETWEEN</a></h2>
+<p>The syntax for time-aware <code>BETWEEN</code> is the same as the
+<a href="operators.html#between">normal <code>BETWEEN</code> operator</a>.
+Inspect System Time with the form <code>FOR SYSTEM_TIME BETWEEN x AND y</code>.</p>
+<pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../appendix/architecture.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../sql/functions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="../sql/path_navigation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -186,10 +202,13 @@ so early users can get a taste of what it feels like to use it.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../appendix/architecture.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../sql/functions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="../sql/path_navigation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

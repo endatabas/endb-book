@@ -17,6 +17,20 @@ SELECT * FROM products WHERE name = 'Coffee' AND name <> 'Kaapi';
 SELECT * FROM products WHERE name > 'Cake' AND price >= 5.00;
 ```
 
+## BETWEEN
+
+`BETWEEN` returns `true` when a value is greater-than-or-equal-to the first limit
+and less-than-or-equal-to the second.
+It has the form `BETWEEN x AND y`.
+It can be negated with the form `NOT BETWEEN x AND y`.
+
+```sql
+SELECT * FROM products WHERE price BETWEEN 2.00 AND 4.00;
+SELECT * FROM products WHERE price NOT BETWEEN 2.00 AND 4.00;
+```
+
+NOTE: `BETWEEN` can also be used with [System Time](time_queries.md#between).
+
 ## Boolean Operators
 
 `WHERE` clauses can be modified and combined with standard SQL boolean operators:

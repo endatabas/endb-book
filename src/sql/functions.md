@@ -20,6 +20,19 @@ SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
 -- [{'column1': [[1, 2], [3, 4]]}]
 ```
 
+## GROUP_CONCAT
+
+The `GROUP_CONCAT` function returns a string with concatenated
+non-null values from a column or group.
+Given a second parameter,
+It defaults to a comma-delimited list, but the second (optional) parameter
+can override the delimiter.
+
+```sql
+SELECT GROUP_CONCAT(name) FROM products;
+SELECT GROUP_CONCAT(name, ':') FROM products;
+```
+
 ## UNNEST
 
 The `UNNEST` function can be thought of as the inverse of `ARRAY_AGG`,
@@ -84,3 +97,154 @@ SELECT PATCH(
 
 The `PATCH` function has an equivalent operator for data manipulation:
 [`UPDATE PATCH`](data_manipulation.html#update-patch)
+
+## COALESCE
+
+The `COALESCE` function returns its first non-null argument.
+The following example returns `'zig'`:
+
+```sql
+SELECT COALESCE(NULL, NULL, 'zig', 'zag');
+```
+
+## CARDINALITY
+
+The `CARDINALITY` function returns the number of the elements in a given set.
+
+```sql
+SELECT CARDINALITY([3,3,4,5,6]) AS element_count;
+```
+
+## CHARACTER_LENGTH
+
+The `CHARACTER_LENGTH` function returns the number of unicode characters in a string.
+
+```sql
+SELECT CHARACTER_LENGTH('josé');
+-- 4
+SELECT CHARACTER_LENGTH('❤️🥫');
+-- 3
+```
+
+## OCTET_LENGTH
+
+The `OCTET_LENGTH` function returns the length of a string, in bytes (octets).
+
+```sql
+SELECT OCTET_LENGTH('josé');
+-- 5
+SELECT OCTET_LENGTH('❤️🥫');
+-- 10
+```
+
+## LENGTH
+
+The `LENGTH` function counts the number of entries in a collection.
+When supplied with a string, it is a synonym for `CHARACTER_LENGTH`.
+
+```sql
+SELECT LENGTH([3, 2]);
+SELECT LENGTH({name: 'Peas', price: 8.99, product_no: 77});
+SELECT LENGTH('josé');
+```
+
+## TRIM, LTRIM, RTRIM
+
+The `TRIM`, `LTRIM`, and `RTRIM` functions trim surrounding whitespace,
+whitespace to the left, and whitespace to the right of a string, respectively.
+
+```sql
+SELECT TRIM('  hello  ');
+-- 'hello'
+SELECT LTRIM('  hello  ');
+-- 'hello  '
+SELECT RTRIM('  hello  ');
+-- '  hello'
+```
+
+## LOWER, UPPER
+
+The `LOWER` and `UPPER` functions downcase and upcase a string, respectively.
+
+```sql
+SELECT LOWER('Relatable Algebra');
+-- 'relatable algebra'
+SELECT UPPER('Shouting Calculus');
+-- 'SHOUTING CALCULUS'
+```
+
+## REPLACE
+
+The `REPLACE` function returns the string in the first parameter,
+with the second parameter (if found) replaced by the third.
+
+```sql
+SELECT REPLACE('Relatable Algebra', 'Rela', 'Infla');
+```
+
+## HEX, UNHEX
+
+The `HEX` function takes a decimal number and turns it into a hexidecimal string.
+The `UNHEX` function takes a hexidecimal string and turns it into a decimal number.
+
+```sql
+SELECT HEX(15);
+-- '3135'
+SELECT UNHEX('3135');
+-- b'15'
+```
+
+## INSTR
+
+The `INSTR` function returns the first character of a substring match on the second parameter,
+if found, and `0` if it is not found.
+
+```sql
+SELECT INSTR('Coffee', 'ee');
+```
+
+## MIN, MAX
+
+The `MIN` and `MAX` functions return the minimum and maximum values for an expression,
+respectively.
+
+```sql
+SELECT MIN(price) FROM products;
+SELECT MAX(price) FROM products;
+```
+
+## UNICODE
+
+The `UNICODE` function returns an integer unicode value for the first character
+of the parameter given.
+
+```sql
+SELECT UNICODE('Adam');
+```
+
+## RANDOM
+
+The `RANDOM` function returns a random integer.
+
+```sql
+SELECT RANDOM();
+```
+
+## RANDOMBLOB, ZEROBLOB
+
+The `RANDOMBLOB` function returns a random binary large object of the size given, in bytes.
+The `ZEROBLOB` function returns a zeroed-out binary large object of the size given, in bytes.
+
+```sql
+SELECT RANDOMBLOB(32);
+SELECT ZEROBLOB(32);
+```
+
+## IIF
+
+The `IIF` function is a conditional shorthand.
+It returns the second parameter if the condition is true and the third parameter if the condition is false.
+
+```sql
+SELECT IIF(price > 5.99, 'Expensive!', 'Cheap') FROM products;
+```
