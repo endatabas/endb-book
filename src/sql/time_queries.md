@@ -12,12 +12,28 @@ in case they are helpful to you:
 * [`UNIXEPOCH`](functions.md#unixepoch)
 * [`JULIANDAY`](functions.md#julianday)
 
+## Note on SQL:2011 closed-open period model
+
+All Endb temporal predicates (`CONTAINS`, `OVERLAPS`, `PRECEDES`,
+`SUCCEDES`, `IMMEDIATELY PRECEDES`, and `IMMEDIATELY SUCCEDES`)
+follow the SQL:2011 standard's "closed-open period model".
+This means that a period represents all times starting from (and including)
+the start time up to (but excluding) the end time.
+
 ## CURRENT_TIMESTAMP
 
-`CURRENT_TIMESTAMP` gets the current time in UTC.
+`CURRENT_TIMESTAMP` gets the current date and time in UTC.
 
 ```sql
 SELECT CURRENT_TIMESTAMP;
+```
+
+## CURRENT_TIME
+
+`CURRENT_TIME` gets the current time in UTC.
+
+```sql
+SELECT CURRENT_TIME;
 ```
 
 ## CURRENT_DATE
@@ -38,4 +54,52 @@ Inspect System Time with the form `FOR SYSTEM_TIME BETWEEN x AND y`.
 
 ```sql
 SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
+```
+
+## CONTAINS
+
+Returns `true` if the second period is contained within the first.
+
+```sql
+SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};
+```
+
+## OVERLAPS
+
+Returns `true` if any part of the first period is found within the second.
+
+```sql
+SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 2001-04-01};
+```
+
+## PRECEDES
+
+Returns `true` if the first period ends before the second period begins.
+
+```sql
+SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
+```
+
+## SUCCEDES
+
+Returns `true` if the first period begins after the second period ends.
+
+```sql
+SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
+```
+
+## IMMEDIATELY PRECEDES
+
+Returns `true` if the first period ends exactly as the second period begins.
+
+```sql
+SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
+```
+
+## IMMEDIATELY SUCCEDES
+
+Returns `true` if the first period begins exactly as the second period ends.
+
+```sql
+SELECT 2001-05-01 IMMEDIATELY SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 ```
