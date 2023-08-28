@@ -4,7 +4,7 @@ Endb SQL strives to empower the query author.
 Basic SQL queries should be familiar.
 Advanced SQL queries should be simple.
 
-## Select \*
+## SELECT \*
 
 The most common hand-written SQL query tends to be the easiest:
 
@@ -37,7 +37,7 @@ JSON keys are inherently unordered so the order of columns is ignored for accept
 SELECT product_no, v, price, name FROM products;
 ```
 
-## Where Filtering
+## WHERE (Filtering)
 
 Rather than returning the entire table, documents (rows) can be filtered with a `WHERE` clause.
 
@@ -67,9 +67,10 @@ SELECT p.name FROM products p;
 
 This is most useful when joining tables, as seen below.
 
-### Joins
+### JOIN
 
-Because Endb is schemaless, documents (rows) can be joined on any fields (columns) which have equivalent values.
+Because Endb is schemaless, documents (rows) can be joined
+on any fields (columns) which have equivalent values.
 
 ```sql
 INSERT INTO coupons {name: 'Salt', price: 3.0};

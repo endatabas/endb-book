@@ -383,7 +383,7 @@ INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFL
 <p>Endb SQL strives to empower the query author.
 Basic SQL queries should be familiar.
 Advanced SQL queries should be simple.</p>
-<h2 id="select-"><a class="header" href="#select-">Select *</a></h2>
+<h2 id="select-"><a class="header" href="#select-">SELECT *</a></h2>
 <p>The most common hand-written SQL query tends to be the easiest:</p>
 <pre><code class="language-sql">SELECT * FROM products;
 </code></pre>
@@ -403,7 +403,7 @@ JSON keys are inherently unordered so the order of columns is ignored for accept
 <code>application/json</code>, <code>application/x-ndjson</code>, and <code>application/ld+json</code>.</p>
 <pre><code class="language-sql">SELECT product_no, v, price, name FROM products;
 </code></pre>
-<h2 id="where-filtering"><a class="header" href="#where-filtering">Where Filtering</a></h2>
+<h2 id="where-filtering"><a class="header" href="#where-filtering">WHERE (Filtering)</a></h2>
 <p>Rather than returning the entire table, documents (rows) can be filtered with a <code>WHERE</code> clause.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price &gt; 4;
 </code></pre>
@@ -420,8 +420,9 @@ SELECT * FROM products WHERE name &gt;= 'Cabin';
 <pre><code class="language-sql">SELECT p.name FROM products p;
 </code></pre>
 <p>This is most useful when joining tables, as seen below.</p>
-<h3 id="joins"><a class="header" href="#joins">Joins</a></h3>
-<p>Because Endb is schemaless, documents (rows) can be joined on any fields (columns) which have equivalent values.</p>
+<h3 id="join"><a class="header" href="#join">JOIN</a></h3>
+<p>Because Endb is schemaless, documents (rows) can be joined
+on any fields (columns) which have equivalent values.</p>
 <pre><code class="language-sql">INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
