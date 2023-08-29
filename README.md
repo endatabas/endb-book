@@ -28,10 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-### Period
-
-* closed/open example? -- check spec
-
 ### HTTP
 
 * JSON payload
