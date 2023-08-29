@@ -5,15 +5,22 @@ Any HTTP client may be used but in the examples below, we'll use `curl`.
 
 You can send SQL statements to `endb` over HTTP:
 
-TODO: revisit all URLs with q and p, positional vs named
-
 ```sh
 curl -d "INSERT INTO users (name) VALUES ('Tianyu')" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 curl -d "SELECT * FROM users" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-You can send SQL to `endb` with standard HTTP Verbs, Content Types, and Accept Headers.
+You can send SQL to `endb` with standard HTTP Query Parameters, Verbs,
+Content Types, and Accept Headers.
 Each one is outlined below.
+
+## HTTP Query Parameters
+
+The query parameters Endb's HTTP endpoint accepts are:
+
+* `q` - (q)uery: a SQL query, optionally parameterized
+* `p` - (p)arameters: named or positional [parameters](http_api.md#parameters)
+* `m` - (m)ultiple statements: [bulk parameters](http_api.md#bulk-parameters), used for bulk insert/update
 
 ## HTTP Verbs
 
@@ -32,25 +39,67 @@ curl -X GET "http://localhost:3803/sql?q=SELECT%201"
 
 ## Content Types
 
+The HTTP `Content-Type` header is used to specify what
+format the client is sending data to Endb.
+
+### `application/json`:
+
+```sh
+curl -d '{"q": "SELECT * from products;"}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+curl -d '{"q": "SELECT * from products WHERE name = ?;", "p": ["Salt"]}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+curl -d '{"q": "INSERT INTO products {name: :name};", "p": {"name": "Paprika"}}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+```
+
+NOTE: To enable strongly-typed values, payloads sent with
+the `application/json` content type have values resolved with JSON-LD scalars.
+Standard JSON values are a subset of JSON-LD scalars, so data sent as regular
+JSON is unaffected by this behaviour.
+
+### `application/ld+json`
+
+Although values in the `application/json` content type are resolved using
+JSON-LD scalars, you can explicitly specify an `application/ld+json`
+content type to avoid all ambiguity.
+See [JSON-LD](https://json-ld.org/).
+
+```sh
+curl -d '{"q": "INSERT INTO events {start: :start};", "p": {"start": {"@type": "xsd:dateTime", "@value": "2011-04-09T20:00:00Z"}}}' -H "Content-Type: application/ld+json" -X POST http://localhost:3803/sql
+```
+
 ### `application/sql`:
+
+The `application/sql` content type does not permit parameters.
 
 ```sh
 curl -d 'SELECT 1' -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```
 
-### `application/json`:
-
-Resolves JSON-LD scalars
+### `multipart/form-data`
 
 ```sh
-TODO
+curl -F q="SELECT * from products;" -H "Content-Type: multipart/form-data" -X POST http://localhost:3803/sql
+curl -F q="INSERT INTO products {name: ?};" -F p='["Sriracha"]' -X POST http://localhost:3803/sql
 ```
 
-TODO: url/form-encoded, multipart, ld+json
+NOTE: Many HTTP clients (including `curl`) automatically assume a content type of
+`multipart/form-data` when form fields are provided.
+This is true for `curl` when the `-F` (`--form`) argument is used and it has
+been elided from further examples.
+
+### `application/x-www-form-urlencoded`
+
+Although the other content types are preferable for obvious reasons,
+`application/x-www-form-urlencoded` is offered for completeness.
+
+```sh
+curl -d 'q=SELECT%20*%20FROM%20products;' -H "Content-Type: application/x-www-form-urlencoded" -X POST http://localhost:3803/sql
+```
 
 ## Accept Headers
 
-The default returned content type is `application/json`.
+The HTTP `Accept` header is used to specify how data is returned to
+the Endb client.
+The default `Accept` header content type is `application/json`.
 
 ### text/csv
 
@@ -110,4 +159,46 @@ returns:
 
 ```json
 [[2,{"@value":"2023-07-22","@type":"xsd:date"}],[1,"hello"]]
+```
+
+See [JSON-LD](https://json-ld.org/).
+
+## Parameters
+
+SQL parameters are available to `application/json`, `application/ld+json`,
+`multipart/form-data`, and `application/x-www-form-urlencoded` content types.
+The `application/sql` content type does not support parameters.
+
+### Named Parameters
+
+Named parameters substitute parameter placeholders with the form `:param`
+by the parameter key with the corresponding name.
+Named parameters are represented as a JSON object.
+
+```sh
+curl -d '{"q": "INSERT INTO products {name: :name, price: :price};", "p": {"name": "Paprika", "price": 2.99}}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+curl -d '{"q": "INSERT INTO events {start: :start};", "p": {"start": {"@type": "xsd:dateTime", "@value": "2011-04-09T20:00:00Z"}}}' -H "Content-Type: application/ld+json" -X POST http://localhost:3803/sql
+curl -F q="INSERT INTO products {name: :sauce};" -F p='{"sauce": "Sriracha"}' -X POST http://localhost:3803/sql
+```
+
+### Positional Parameters
+
+Positional parameters substitute parameter placeholders with the form `?`
+by the parameter values, in the order they appear.
+Positional parameters are respresented as a JSON array.
+
+```sh
+curl -d '{"q": "SELECT * from products WHERE name = ? AND price > ?;", "p": ["Salt", 3.99]}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+curl -d '{"q": "INSERT INTO events {start: ?};", "p": [{"@type": "xsd:dateTime", "@value": "2011-04-09T20:00:00Z"}]}' -H "Content-Type: application/ld+json" -X POST http://localhost:3803/sql
+curl -F q="INSERT INTO products {name: ?};" -F p='["Sriracha"]' -X POST http://localhost:3803/sql
+```
+
+### Bulk Parameters
+
+Bulk operations are possible by turning the `m` flag to `true`.
+Bulk operations are available to both named and positional parameters.
+
+```sh
+curl -d '{"q": "INSERT INTO products {name: :name};", "p": [{"name": "Soda"}, {"name": "Tonic"}], "m": true}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+curl -F q="INSERT INTO sauces {name: ?, color: ?};" -F p='[["Mustard", "Yellow"], ["Ketchup", "Red"]]' -F m=true -X POST http://localhost:3803/sql
 ```

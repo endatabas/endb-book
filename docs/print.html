@@ -1337,12 +1337,19 @@ or libendb.dylib (MacOS) to the same directory.</p>
 <p>At this experimental stage, only raw HTTP drivers are available.
 Any HTTP client may be used but in the examples below, we'll use <code>curl</code>.</p>
 <p>You can send SQL statements to <code>endb</code> over HTTP:</p>
-<p>TODO: revisit all URLs with q and p, positional vs named</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
-<p>You can send SQL to <code>endb</code> with standard HTTP Verbs, Content Types, and Accept Headers.
+<p>You can send SQL to <code>endb</code> with standard HTTP Query Parameters, Verbs,
+Content Types, and Accept Headers.
 Each one is outlined below.</p>
+<h2 id="http-query-parameters"><a class="header" href="#http-query-parameters">HTTP Query Parameters</a></h2>
+<p>The query parameters Endb's HTTP endpoint accepts are:</p>
+<ul>
+<li><code>q</code> - (q)uery: a SQL query, optionally parameterized</li>
+<li><code>p</code> - (p)arameters: named or positional <a href="reference/http_api.html#parameters">parameters</a></li>
+<li><code>m</code> - (m)ultiple statements: <a href="reference/http_api.html#bulk-parameters">bulk parameters</a>, used for bulk insert/update</li>
+</ul>
 <h2 id="http-verbs"><a class="header" href="#http-verbs">HTTP Verbs</a></h2>
 <p><code>POST</code> allows explicit Content Types and Accept headers:</p>
 <pre><code class="language-sh">curl -d 'SELECT 1' -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: text/csv&quot; -X POST http://localhost:3803/sql
@@ -1352,16 +1359,45 @@ Each one is outlined below.</p>
 <pre><code class="language-sh">curl -X GET &quot;http://localhost:3803/sql?q=SELECT%201&quot;
 </code></pre>
 <h2 id="content-types"><a class="header" href="#content-types">Content Types</a></h2>
+<p>The HTTP <code>Content-Type</code> header is used to specify what
+format the client is sending data to Endb.</p>
+<h3 id="applicationjson"><a class="header" href="#applicationjson"><code>application/json</code>:</a></h3>
+<pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;SELECT * from products;&quot;}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
+curl -d '{&quot;q&quot;: &quot;SELECT * from products WHERE name = ?;&quot;, &quot;p&quot;: [&quot;Salt&quot;]}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
+curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: {&quot;name&quot;: &quot;Paprika&quot;}}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<p>NOTE: To enable strongly-typed values, payloads sent with
+the <code>application/json</code> content type have values resolved with JSON-LD scalars.
+Standard JSON values are a subset of JSON-LD scalars, so data sent as regular
+JSON is unaffected by this behaviour.</p>
+<h3 id="applicationldjson"><a class="header" href="#applicationldjson"><code>application/ld+json</code></a></h3>
+<p>Although values in the <code>application/json</code> content type are resolved using
+JSON-LD scalars, you can explicitly specify an <code>application/ld+json</code>
+content type to avoid all ambiguity.
+See <a href="https://json-ld.org/">JSON-LD</a>.</p>
+<pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO events {start: :start};&quot;, &quot;p&quot;: {&quot;start&quot;: {&quot;@type&quot;: &quot;xsd:dateTime&quot;, &quot;@value&quot;: &quot;2011-04-09T20:00:00Z&quot;}}}' -H &quot;Content-Type: application/ld+json&quot; -X POST http://localhost:3803/sql
+</code></pre>
 <h3 id="applicationsql"><a class="header" href="#applicationsql"><code>application/sql</code>:</a></h3>
+<p>The <code>application/sql</code> content type does not permit parameters.</p>
 <pre><code class="language-sh">curl -d 'SELECT 1' -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
-<h3 id="applicationjson"><a class="header" href="#applicationjson"><code>application/json</code>:</a></h3>
-<p>Resolves JSON-LD scalars</p>
-<pre><code class="language-sh">TODO
+<h3 id="multipartform-data"><a class="header" href="#multipartform-data"><code>multipart/form-data</code></a></h3>
+<pre><code class="language-sh">curl -F q=&quot;SELECT * from products;&quot; -H &quot;Content-Type: multipart/form-data&quot; -X POST http://localhost:3803/sql
+curl -F q=&quot;INSERT INTO products {name: ?};&quot; -F p='[&quot;Sriracha&quot;]' -X POST http://localhost:3803/sql
 </code></pre>
-<p>TODO: url/form-encoded, multipart, ld+json</p>
+<p>NOTE: Many HTTP clients (including <code>curl</code>) automatically assume a content type of
+<code>multipart/form-data</code> when form fields are provided.
+This is true for <code>curl</code> when the <code>-F</code> (<code>--form</code>) argument is used and it has
+been elided from further examples.</p>
+<h3 id="applicationx-www-form-urlencoded"><a class="header" href="#applicationx-www-form-urlencoded"><code>application/x-www-form-urlencoded</code></a></h3>
+<p>Although the other content types are preferable for obvious reasons,
+<code>application/x-www-form-urlencoded</code> is offered for completeness.</p>
+<pre><code class="language-sh">curl -d 'q=SELECT%20*%20FROM%20products;' -H &quot;Content-Type: application/x-www-form-urlencoded&quot; -X POST http://localhost:3803/sql
+</code></pre>
 <h2 id="accept-headers"><a class="header" href="#accept-headers">Accept Headers</a></h2>
-<p>The default returned content type is <code>application/json</code>.</p>
+<p>The HTTP <code>Accept</code> header is used to specify how data is returned to
+the Endb client.
+The default <code>Accept</code> header content type is <code>application/json</code>.</p>
 <h3 id="textcsv"><a class="header" href="#textcsv">text/csv</a></h3>
 <p><code>text/csv</code> returns comma-separated rows:</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,'csv')) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: text/csv&quot; -X POST http://localhost:3803/sql
@@ -1386,12 +1422,39 @@ Each one is outlined below.</p>
 <pre><code class="language-json">{&quot;column1&quot;:2,&quot;column2&quot;:&quot;2023-07-22&quot;}
 {&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}
 </code></pre>
-<h3 id="applicationldjson"><a class="header" href="#applicationldjson">application/ld+json</a></h3>
+<h3 id="applicationldjson-1"><a class="header" href="#applicationldjson-1">application/ld+json</a></h3>
 <p><code>application/ld+json</code> returns documents of strongly-typed (&quot;Linking Data&quot;) JSON records:</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/ld+json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
 <pre><code class="language-json">[[2,{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}],[1,&quot;hello&quot;]]
+</code></pre>
+<p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
+<h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
+<p>SQL parameters are available to <code>application/json</code>, <code>application/ld+json</code>,
+<code>multipart/form-data</code>, and <code>application/x-www-form-urlencoded</code> content types.
+The <code>application/sql</code> content type does not support parameters.</p>
+<h3 id="named-parameters"><a class="header" href="#named-parameters">Named Parameters</a></h3>
+<p>Named parameters substitute parameter placeholders with the form <code>:param</code>
+by the parameter key with the corresponding name.
+Named parameters are represented as a JSON object.</p>
+<pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name, price: :price};&quot;, &quot;p&quot;: {&quot;name&quot;: &quot;Paprika&quot;, &quot;price&quot;: 2.99}}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
+curl -d '{&quot;q&quot;: &quot;INSERT INTO events {start: :start};&quot;, &quot;p&quot;: {&quot;start&quot;: {&quot;@type&quot;: &quot;xsd:dateTime&quot;, &quot;@value&quot;: &quot;2011-04-09T20:00:00Z&quot;}}}' -H &quot;Content-Type: application/ld+json&quot; -X POST http://localhost:3803/sql
+curl -F q=&quot;INSERT INTO products {name: :sauce};&quot; -F p='{&quot;sauce&quot;: &quot;Sriracha&quot;}' -X POST http://localhost:3803/sql
+</code></pre>
+<h3 id="positional-parameters"><a class="header" href="#positional-parameters">Positional Parameters</a></h3>
+<p>Positional parameters substitute parameter placeholders with the form <code>?</code>
+by the parameter values, in the order they appear.
+Positional parameters are respresented as a JSON array.</p>
+<pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;SELECT * from products WHERE name = ? AND price &gt; ?;&quot;, &quot;p&quot;: [&quot;Salt&quot;, 3.99]}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
+curl -d '{&quot;q&quot;: &quot;INSERT INTO events {start: ?};&quot;, &quot;p&quot;: [{&quot;@type&quot;: &quot;xsd:dateTime&quot;, &quot;@value&quot;: &quot;2011-04-09T20:00:00Z&quot;}]}' -H &quot;Content-Type: application/ld+json&quot; -X POST http://localhost:3803/sql
+curl -F q=&quot;INSERT INTO products {name: ?};&quot; -F p='[&quot;Sriracha&quot;]' -X POST http://localhost:3803/sql
+</code></pre>
+<h3 id="bulk-parameters"><a class="header" href="#bulk-parameters">Bulk Parameters</a></h3>
+<p>Bulk operations are possible by turning the <code>m</code> flag to <code>true</code>.
+Bulk operations are available to both named and positional parameters.</p>
+<pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: [{&quot;name&quot;: &quot;Soda&quot;}, {&quot;name&quot;: &quot;Tonic&quot;}], &quot;m&quot;: true}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
+curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="data-types"><a class="header" href="#data-types">Data Types</a></h1>
 <h2 id="scalars"><a class="header" href="#scalars">Scalars</a></h2>
