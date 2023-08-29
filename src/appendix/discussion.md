@@ -15,9 +15,6 @@ Should this be legal? There is more than one row in `coupons`:
  {'column1': True}]
 ```
 
-### Information Schema:
-
-Should we just expose it to read-only queries?
 
 ### HEX / UNHEX:
 
@@ -50,3 +47,8 @@ sqlite> select unhex('3135');
 [{'column1': b'\xf1'}]
 -> select unhex('3135');
 [{'column1': b'15'}]
+
+### Literals
+
+* do `VALUES`, `OBJECTS`, spreads, and computeds all deserve a 'Literals' section?
+  (how do we avoid duplication from the Data Types section, though?)
