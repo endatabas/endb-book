@@ -35,10 +35,6 @@ The HTML print feature works reasonably well.
 
 * create/drop view?
 
-### HEX
-
-* sqlite docs
-
 ### Period
 
 * closed/open example? -- check spec

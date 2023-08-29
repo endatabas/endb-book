@@ -233,15 +233,26 @@ NOTE: `CONCAT` is equivalent to the [Concatenation Operator (||)](operators.md#c
 
 ## HEX, UNHEX
 
-The `HEX` function takes a string (or coerces its argument into a string)
-and turns its unicode bytes into a hexidecimal string.
-The `UNHEX` function takes a hexidecimal string and turns it into bytes.
+The `HEX` function takes a BLOB (or coerces its argument into a UTF-8 string,
+which in turn is interpreted as a BLOB)
+and turns the BLOB into an upper-case hexadecimal string.
+
+The `UNHEX` function takes a hexadecimal string and turns it into a BLOB.
+The hexadecimal string provided must contain _character pairs_.
+`UNHEX` takes an optional second parameter: a string containing non-hexadecimal
+characters to be ignored in the first parameter.
+If non-hexadecimal characters are found in the first parameter but not ignored
+in the second parameter, `UNHEX` returns `NULL`.
 
 ```sql
 SELECT HEX(15);
 -- '3135'
 SELECT UNHEX('3135');
 -- b'15'
+SELECT UNHEX('3135ZZ', 'Z');
+-- b'15'
+SELECT UNHEX('3135ZZ', 'M');
+-- NULL
 ```
 
 ## MIN, MAX
