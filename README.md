@@ -28,7 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* add "caveat"
 * SQLite-ness
 
 ### DDL?
