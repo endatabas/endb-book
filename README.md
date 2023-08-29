@@ -28,8 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* SQLite-ness
-
 ### DDL?
 
 * create/drop view?

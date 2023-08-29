@@ -7,6 +7,7 @@
     - [Try It!](./tutorial/try_it.md)
     - [Endb SQL Basics](./tutorial/sql_basics.md)
 - [SQL Reference](./sql/README.md)
+    - [Intention](./sql/intention.md)
     - [Data Manipulation](./sql/data_manipulation.md)
     - [Queries](./sql/queries.md)
     - [SQL Data Types](./sql/data_types.md)
