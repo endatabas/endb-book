@@ -236,25 +236,32 @@ The following are legal time literals:</p>
 <li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
 </ul>
 <h2 id="array"><a class="header" href="#array">ARRAY</a></h2>
-<p>Arrays can be created using a literal syntax similar to that in the SQL Specification,
-a constructor function,
-or array literals similar to JSON.</p>
+<p>Arrays can be created with array literals similar to JSON.</p>
+<ul>
+<li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
+</ul>
+<p>Alternatively, arrays can also be created using a literal syntax similar
+to that in the SQL Specification or a constructor function.</p>
 <ul>
 <li><code>ARRAY [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 <li><code>ARRAY(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></li>
-<li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 </ul>
 <h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
-<p>Objects can be created using either an <code>OBJECT</code> constructor keyword,
-similar to that in the SQL Specification,
-or object literals similar to JSON enclosed in curly braces.
+<p>Objects (which can also be thought of as documents, or rows)
+can be created with object literals enclosed in curly braces,
+similar to JSON.
 Keys in object literals can be quoted or unquoted.</p>
 <ul>
-<li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
-<li><code>{'name': &quot;Hanna&quot;, 'birthday': 1982-12-31}</code></li>
 <li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
+<li><code>{'name': &quot;Hanna&quot;, 'birthday': 1982-12-31}</code></li>
 </ul>
-<h2 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h2>
+<p>Alternatively, objects can be created using either an <code>OBJECT</code>
+constructor keyword, similar to that in the SQL Specification.</p>
+<ul>
+<li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
+</ul>
+<h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
+<h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
 The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.</p>
 <ul>
@@ -262,6 +269,29 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 </ul>
 <p>Example usage:</p>
 <pre><code class="language-sql">SELECT { products.* } FROM products;
+</code></pre>
+<h3 id="spread"><a class="header" href="#spread">Spread</a></h3>
+<p>The Spread Operator (<code>...</code>, sometimes known as &quot;splat&quot;)
+can be used to directly flatten/unnest one collection
+(an array, object, or row literal) into another.
+Strings are treated as character collections.</p>
+<pre><code class="language-sql">SELECT [1, 2, ...[3, 4], 5];
+-- [{'column1': [1, 2, 3, 4, 5]}]
+
+SELECT [1, 2, ...&quot;foo&quot;, 5];
+-- [{'column1': [1, 2, 'f', 'o', 'o', 5]}]
+</code></pre>
+<p>If an array is spread into an object, its ordinals will be used as properties:</p>
+<pre><code class="language-sql">SELECT { a: 1, ...[2, 3] };
+-- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
+</code></pre>
+<h3 id="computed-properties"><a class="header" href="#computed-properties">Computed Properties</a></h3>
+<p>In the key/property position, square brackets are used to construct
+computed properties in <a href="data_types.html#object">object literals</a>.</p>
+<pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
+-- [{'column1': {'4': 5, 'foo': 2}}]
+SELECT { foo: 2, ['foo' || 2]: 5 };
+-- [{'column1': {'foo': 2, 'foo2': 5}}]
 </code></pre>
 
                     </main>

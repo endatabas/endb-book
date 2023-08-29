@@ -170,12 +170,12 @@
 <h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
 <p>Two values can be compared using standard SQL comparison operators:</p>
 <ul>
-<li><code>=</code> (equals)</li>
+<li><code>=</code>, <code>==</code> (equals)</li>
 <li><code>&gt;</code> (greater than)</li>
 <li><code>&lt;</code> (less than)</li>
 <li><code>&gt;=</code> (greater than or equal to)</li>
 <li><code>&lt;=</code> (less than or equal to)</li>
-<li><code>&lt;&gt;</code> (not equal to)</li>
+<li><code>&lt;&gt;</code>, <code>!=</code> (not equal to)</li>
 </ul>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
 SELECT * FROM products WHERE name = 'Coffee' AND name &lt;&gt; 'Kaapi';
@@ -230,17 +230,33 @@ SELECT +128.5;
 SELECT -128.5;
 </code></pre>
 <p>NOTE: Mathematical functions are documented under <a href="functions.html#math">Functions</a>.</p>
+<h2 id="bitwise-operators"><a class="header" href="#bitwise-operators">Bitwise Operators</a></h2>
+<p>Standard SQL bitwise manipulation operators are available to any two values.</p>
+<ul>
+<li><code>&amp;</code> (bitwise and)</li>
+<li><code>|</code> (bitwise or)</li>
+</ul>
+<p>The bitwise <em>not</em> operator is also available to a single value:</p>
+<ul>
+<li><code>~</code> (bitwise not)</li>
+</ul>
+<pre><code class="language-sql">SELECT 1 &amp; 2;
+SELECT 1 | 2;
+SELECT ~1;
+</code></pre>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
 <p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
 <p>A pattern can be a string literal.
 It can also contain underscores (<code>_</code>) and/or percentage symbols (<code>%</code>).
 An underscore matches exactly one character.
-A percentage symbol matches zero or more characters.
-Backslash escapes the following character to make it a literal.</p>
+A percentage symbol matches zero or more characters.</p>
+<p>Backslash escapes the following character to make it a literal.
+Use <code>ESCAPE</code> to override the default backslash escape character.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Tofu';
 SELECT * FROM products WHERE name LIKE 'Tof_';
 SELECT * FROM products WHERE name LIKE '%of%';
 SELECT * FROM products WHERE name LIKE '\%of\%';
+SELECT * FROM products WHERE name LIKE 'X%ofX%' ESCAPE 'X';
 </code></pre>
 <p><code>NOT LIKE</code> is used to invert the results of the match.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name NOT LIKE '%of%';

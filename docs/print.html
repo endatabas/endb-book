@@ -516,6 +516,15 @@ Columns can instead be given names with a
 <a href="sql/queries.html#as-alias-tables-expressions-and-columns">table alias</a>:</p>
 <pre><code class="language-sql">SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_no, name);
 </code></pre>
+<h2 id="objects-lists"><a class="header" href="#objects-lists">OBJECTS Lists</a></h2>
+<p>The <code>OBJECTS</code> keyword is used to create a static table comprised of
+object literals, each representing a document (row).
+Each row is directly denoted by an object literal.
+All rows must have <a href="sql/queries.html#union-compatibility">Union Compatibility</a>
+which, for Endb, means they have the same number of columns.</p>
+<pre><code class="language-sql">OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'};
+SELECT * FROM (OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'}) as t;
+</code></pre>
 <h2 id="set-operations-union-intersect-except"><a class="header" href="#set-operations-union-intersect-except">Set Operations: UNION, INTERSECT, EXCEPT</a></h2>
 <p>The set operations union, intersection, and difference are available to the results of two queries.</p>
 <h3 id="union"><a class="header" href="#union">UNION</a></h3>
@@ -648,25 +657,32 @@ The following are legal time literals:</p>
 <li><code>CAST(&quot;hello&quot; AS BLOB)</code></li>
 </ul>
 <h2 id="array"><a class="header" href="#array">ARRAY</a></h2>
-<p>Arrays can be created using a literal syntax similar to that in the SQL Specification,
-a constructor function,
-or array literals similar to JSON.</p>
+<p>Arrays can be created with array literals similar to JSON.</p>
+<ul>
+<li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
+</ul>
+<p>Alternatively, arrays can also be created using a literal syntax similar
+to that in the SQL Specification or a constructor function.</p>
 <ul>
 <li><code>ARRAY [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 <li><code>ARRAY(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></li>
-<li><code>[&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 </ul>
 <h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
-<p>Objects can be created using either an <code>OBJECT</code> constructor keyword,
-similar to that in the SQL Specification,
-or object literals similar to JSON enclosed in curly braces.
+<p>Objects (which can also be thought of as documents, or rows)
+can be created with object literals enclosed in curly braces,
+similar to JSON.
 Keys in object literals can be quoted or unquoted.</p>
 <ul>
-<li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
-<li><code>{'name': &quot;Hanna&quot;, 'birthday': 1982-12-31}</code></li>
 <li><code>{name: &quot;Hanna&quot;, birthday: 1982-12-31}</code></li>
+<li><code>{'name': &quot;Hanna&quot;, 'birthday': 1982-12-31}</code></li>
 </ul>
-<h2 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h2>
+<p>Alternatively, objects can be created using either an <code>OBJECT</code>
+constructor keyword, similar to that in the SQL Specification.</p>
+<ul>
+<li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
+</ul>
+<h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
+<h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
 The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.</p>
 <ul>
@@ -675,16 +691,39 @@ The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/
 <p>Example usage:</p>
 <pre><code class="language-sql">SELECT { products.* } FROM products;
 </code></pre>
+<h3 id="spread"><a class="header" href="#spread">Spread</a></h3>
+<p>The Spread Operator (<code>...</code>, sometimes known as &quot;splat&quot;)
+can be used to directly flatten/unnest one collection
+(an array, object, or row literal) into another.
+Strings are treated as character collections.</p>
+<pre><code class="language-sql">SELECT [1, 2, ...[3, 4], 5];
+-- [{'column1': [1, 2, 3, 4, 5]}]
+
+SELECT [1, 2, ...&quot;foo&quot;, 5];
+-- [{'column1': [1, 2, 'f', 'o', 'o', 5]}]
+</code></pre>
+<p>If an array is spread into an object, its ordinals will be used as properties:</p>
+<pre><code class="language-sql">SELECT { a: 1, ...[2, 3] };
+-- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
+</code></pre>
+<h3 id="computed-properties"><a class="header" href="#computed-properties">Computed Properties</a></h3>
+<p>In the key/property position, square brackets are used to construct
+computed properties in <a href="sql/data_types.html#object">object literals</a>.</p>
+<pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
+-- [{'column1': {'4': 5, 'foo': 2}}]
+SELECT { foo: 2, ['foo' || 2]: 5 };
+-- [{'column1': {'foo': 2, 'foo2': 5}}]
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
 <h2 id="comparison-1"><a class="header" href="#comparison-1">Comparison</a></h2>
 <p>Two values can be compared using standard SQL comparison operators:</p>
 <ul>
-<li><code>=</code> (equals)</li>
+<li><code>=</code>, <code>==</code> (equals)</li>
 <li><code>&gt;</code> (greater than)</li>
 <li><code>&lt;</code> (less than)</li>
 <li><code>&gt;=</code> (greater than or equal to)</li>
 <li><code>&lt;=</code> (less than or equal to)</li>
-<li><code>&lt;&gt;</code> (not equal to)</li>
+<li><code>&lt;&gt;</code>, <code>!=</code> (not equal to)</li>
 </ul>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT name = 'Coffee';
 SELECT * FROM products WHERE name = 'Coffee' AND name &lt;&gt; 'Kaapi';
@@ -739,17 +778,33 @@ SELECT +128.5;
 SELECT -128.5;
 </code></pre>
 <p>NOTE: Mathematical functions are documented under <a href="sql/functions.html#math">Functions</a>.</p>
+<h2 id="bitwise-operators"><a class="header" href="#bitwise-operators">Bitwise Operators</a></h2>
+<p>Standard SQL bitwise manipulation operators are available to any two values.</p>
+<ul>
+<li><code>&amp;</code> (bitwise and)</li>
+<li><code>|</code> (bitwise or)</li>
+</ul>
+<p>The bitwise <em>not</em> operator is also available to a single value:</p>
+<ul>
+<li><code>~</code> (bitwise not)</li>
+</ul>
+<pre><code class="language-sql">SELECT 1 &amp; 2;
+SELECT 1 | 2;
+SELECT ~1;
+</code></pre>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
 <p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
 <p>A pattern can be a string literal.
 It can also contain underscores (<code>_</code>) and/or percentage symbols (<code>%</code>).
 An underscore matches exactly one character.
-A percentage symbol matches zero or more characters.
-Backslash escapes the following character to make it a literal.</p>
+A percentage symbol matches zero or more characters.</p>
+<p>Backslash escapes the following character to make it a literal.
+Use <code>ESCAPE</code> to override the default backslash escape character.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name LIKE 'Tofu';
 SELECT * FROM products WHERE name LIKE 'Tof_';
 SELECT * FROM products WHERE name LIKE '%of%';
 SELECT * FROM products WHERE name LIKE '\%of\%';
+SELECT * FROM products WHERE name LIKE 'X%ofX%' ESCAPE 'X';
 </code></pre>
 <p><code>NOT LIKE</code> is used to invert the results of the match.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name NOT LIKE '%of%';
@@ -1219,28 +1274,6 @@ lookup of all descendent children.</p>
 This finds and returns <em>all</em> values:</p>
 <pre><code class="language-sql">SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
-</code></pre>
-<h2 id="spread"><a class="header" href="#spread">Spread</a></h2>
-<p>The Spread Operator (<code>...</code>, sometimes known as &quot;splat&quot;)
-can be used to directly flatten/unnest one collection into another.
-Strings are treated as character collections.</p>
-<pre><code class="language-sql">SELECT [1, 2, ...[3, 4], 5];
--- [{'column1': [1, 2, 3, 4, 5]}]
-
-SELECT [1, 2, ...&quot;foo&quot;, 5];
--- [{'column1': [1, 2, 'f', 'o', 'o', 5]}]
-</code></pre>
-<p>If an array is spread into an object, its ordinals will be used as properties:</p>
-<pre><code class="language-sql">SELECT { a: 1, ...[2, 3] };
--- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
-</code></pre>
-<h2 id="computed-properties"><a class="header" href="#computed-properties">Computed Properties</a></h2>
-<p>In the key/property position, square brackets are used to construct
-computed properties.</p>
-<pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
--- [{'column1': {'4': 5, 'foo': 2}}]
-SELECT { foo: 2, ['foo' || 2]: 5 };
--- [{'column1': {'foo': 2, 'foo2': 5}}]
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="views"><a class="header" href="#views">Views</a></h1>
 <p>Endb provides basic view functionality to support environments
