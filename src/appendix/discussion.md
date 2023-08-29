@@ -18,3 +18,12 @@ Should this be legal? There is more than one row in `coupons`:
 ### Information Schema:
 
 Should we just expose it to read-only queries?
+
+### HEX / UNHEX:
+
+sqlite> select hex(15);
+3135
+sqlite> select hex('15');
+3135
+
+
