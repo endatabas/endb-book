@@ -123,11 +123,15 @@ constructor keyword, similar to that in the SQL Specification.
 
 * `OBJECT(name: 'Hanna', birthday: 1982-12-31)`
 
-Object literals can contain [computed fields](data_types.md#computed-fields),
+Object literals can contain
+[spreads](data_types.md#spreads),
+[computed fields](data_types.md#computed-fields),
 [shorthands](data_types.md#shorthands), and
 [row literals](data_types.md#row-literals).
 
 ```sql
+SELECT { a: 1, ...[2, 3] };
+-- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
 SELECT { foo: 2, ['foo' || 2]: 5 };
 -- [{'column1': {'foo': 2, 'foo2': 5}}]
 SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
