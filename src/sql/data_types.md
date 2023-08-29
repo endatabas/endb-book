@@ -91,26 +91,34 @@ Binary Large Objects can be encoded as hexidecimal literals or cast from strings
 
 ## ARRAY
 
-Arrays can be created using a literal syntax similar to that in the SQL Specification,
-a constructor function,
-or array literals similar to JSON.
+Arrays can be created with array literals similar to JSON.
+
+* `["one", "two", "three"]`
+
+Alternatively, arrays can also be created using a literal syntax similar
+to that in the SQL Specification or a constructor function.
 
 * `ARRAY ["one", "two", "three"]`
 * `ARRAY("one", "two", "three")`
-* `["one", "two", "three"]`
 
 ## OBJECT
 
-Objects can be created using either an `OBJECT` constructor keyword,
-similar to that in the SQL Specification,
-or object literals similar to JSON enclosed in curly braces.
+Objects (which can also be thought of as documents, or rows)
+can be created with object literals enclosed in curly braces,
+similar to JSON.
 Keys in object literals can be quoted or unquoted.
 
-* `OBJECT(name: 'Hanna', birthday: 1982-12-31)`
-* `{'name': "Hanna", 'birthday': 1982-12-31}`
 * `{name: "Hanna", birthday: 1982-12-31}`
+* `{'name': "Hanna", 'birthday': 1982-12-31}`
 
-## Row Literals
+Alternatively, objects can be created using either an `OBJECT`
+constructor keyword, similar to that in the SQL Specification.
+
+* `OBJECT(name: 'Hanna', birthday: 1982-12-31)`
+
+## Dynamic Literals
+
+### Row Literals
 
 It is possible return an entire document (row) as a single literal value.
 The syntax is akin to Postgres [`ROW` literals](https://www.postgresql.org/docs/current/rowtypes.html).
@@ -121,4 +129,38 @@ Example usage:
 
 ```sql
 SELECT { products.* } FROM products;
+```
+
+### Spread
+
+The Spread Operator (`...`, sometimes known as "splat")
+can be used to directly flatten/unnest one collection
+(an array, object, or row literal) into another.
+Strings are treated as character collections.
+
+```sql
+SELECT [1, 2, ...[3, 4], 5];
+-- [{'column1': [1, 2, 3, 4, 5]}]
+
+SELECT [1, 2, ..."foo", 5];
+-- [{'column1': [1, 2, 'f', 'o', 'o', 5]}]
+```
+
+If an array is spread into an object, its ordinals will be used as properties:
+
+```sql
+SELECT { a: 1, ...[2, 3] };
+-- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
+```
+
+### Computed Properties
+
+In the key/property position, square brackets are used to construct
+computed properties in [object literals](data_types.md#object).
+
+```sql
+SELECT { foo: 2, [2 + 2]: 5 };
+-- [{'column1': {'4': 5, 'foo': 2}}]
+SELECT { foo: 2, ['foo' || 2]: 5 };
+-- [{'column1': {'foo': 2, 'foo2': 5}}]
 ```

@@ -183,6 +183,18 @@ Columns can instead be given names with a
 SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_no, name);
 ```
 
+## OBJECTS Lists
+
+The `OBJECTS` keyword is used to create a static table comprised of
+object literals, each representing a document (row).
+Each row is directly denoted by an object literal.
+All rows must have [Union Compatibility](queries.md#union-compatibility)
+which, for Endb, means they have the same number of columns.
+
+```sql
+OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'};
+SELECT * FROM (OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'}) as t;
+```
 
 ## Set Operations: UNION, INTERSECT, EXCEPT
 
