@@ -101,6 +101,13 @@ to that in the SQL Specification or a constructor function.
 * `ARRAY ["one", "two", "three"]`
 * `ARRAY("one", "two", "three")`
 
+Array literals can contain the [spread operator](data_types.md#spread)
+
+```sql
+SELECT [1, 2, ...[3, 4], 5];
+-- [{'column1': [1, 2, 3, 4, 5]}]
+```
+
 ## OBJECT
 
 Objects (which can also be thought of as documents, or rows)
@@ -115,6 +122,19 @@ Alternatively, objects can be created using either an `OBJECT`
 constructor keyword, similar to that in the SQL Specification.
 
 * `OBJECT(name: 'Hanna', birthday: 1982-12-31)`
+
+Object literals can contain [computed fields](data_types.md#computed-fields),
+[shorthands](data_types.md#shorthands), and
+[row literals](data_types.md#row-literals).
+
+```sql
+SELECT { foo: 2, ['foo' || 2]: 5 };
+-- [{'column1': {'foo': 2, 'foo2': 5}}]
+SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
+-- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
+SELECT {product: {p.*}, discounted: c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
+-- [{'column1': {'discounted': 2.99, 'product': {'name': 'Salt', 'price': 5.99}}}]
+```
 
 ## Dynamic Literals
 
@@ -155,14 +175,24 @@ SELECT { a: 1, ...[2, 3] };
 -- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
 ```
 
-### Computed Properties
+### Computed Fields
 
 In the key/property position, square brackets are used to construct
-computed properties in [object literals](data_types.md#object).
+computed fields in [object literals](data_types.md#object).
 
 ```sql
 SELECT { foo: 2, [2 + 2]: 5 };
 -- [{'column1': {'4': 5, 'foo': 2}}]
 SELECT { foo: 2, ['foo' || 2]: 5 };
 -- [{'column1': {'foo': 2, 'foo2': 5}}]
+```
+
+### Shorthands
+
+Column names can be referred to in place of key-value pairs in
+[object literals](data_types.md#object).
+
+```sql
+SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
+-- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
 ```

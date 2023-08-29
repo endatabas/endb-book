@@ -246,6 +246,10 @@ to that in the SQL Specification or a constructor function.</p>
 <li><code>ARRAY [&quot;one&quot;, &quot;two&quot;, &quot;three&quot;]</code></li>
 <li><code>ARRAY(&quot;one&quot;, &quot;two&quot;, &quot;three&quot;)</code></li>
 </ul>
+<p>Array literals can contain the <a href="data_types.html#spread">spread operator</a></p>
+<pre><code class="language-sql">SELECT [1, 2, ...[3, 4], 5];
+-- [{'column1': [1, 2, 3, 4, 5]}]
+</code></pre>
 <h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
 <p>Objects (which can also be thought of as documents, or rows)
 can be created with object literals enclosed in curly braces,
@@ -260,6 +264,16 @@ constructor keyword, similar to that in the SQL Specification.</p>
 <ul>
 <li><code>OBJECT(name: 'Hanna', birthday: 1982-12-31)</code></li>
 </ul>
+<p>Object literals can contain <a href="data_types.html#computed-fields">computed fields</a>,
+<a href="data_types.html#shorthands">shorthands</a>, and
+<a href="data_types.html#row-literals">row literals</a>.</p>
+<pre><code class="language-sql">SELECT { foo: 2, ['foo' || 2]: 5 };
+-- [{'column1': {'foo': 2, 'foo2': 5}}]
+SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
+-- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
+SELECT {product: {p.*}, discounted: c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
+-- [{'column1': {'discounted': 2.99, 'product': {'name': 'Salt', 'price': 5.99}}}]
+</code></pre>
 <h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
 <h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
@@ -287,13 +301,19 @@ SELECT [1, 2, ...&quot;foo&quot;, 5];
 <pre><code class="language-sql">SELECT { a: 1, ...[2, 3] };
 -- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
 </code></pre>
-<h3 id="computed-properties"><a class="header" href="#computed-properties">Computed Properties</a></h3>
+<h3 id="computed-fields"><a class="header" href="#computed-fields">Computed Fields</a></h3>
 <p>In the key/property position, square brackets are used to construct
-computed properties in <a href="data_types.html#object">object literals</a>.</p>
+computed fields in <a href="data_types.html#object">object literals</a>.</p>
 <pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
 -- [{'column1': {'4': 5, 'foo': 2}}]
 SELECT { foo: 2, ['foo' || 2]: 5 };
 -- [{'column1': {'foo': 2, 'foo2': 5}}]
+</code></pre>
+<h3 id="shorthands"><a class="header" href="#shorthands">Shorthands</a></h3>
+<p>Column names can be referred to in place of key-value pairs in
+<a href="data_types.html#object">object literals</a>.</p>
+<pre><code class="language-sql">SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
+-- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
 </code></pre>
 
                     </main>

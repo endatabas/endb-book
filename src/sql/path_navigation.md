@@ -55,6 +55,8 @@ The format of a row literal is `{ <table>.* }`:
 SELECT { paths.* } FROM paths;
 ```
 
+See [Row Literal Data Type](data_types.md#row-literals)
+
 ## Recursive Paths
 
 The double dot (`..`) notation performs a "deep scan" by

@@ -25,12 +25,4 @@ The HTML print feature works reasonably well.
 * https://lalrpop.github.io/lalrpop/
 * https://doc.rust-lang.org/stable/book/
 
-
 ## TODO
-
-
-### Literals
-
-* spreads - arrays
-* computeds, shorthand {x}, row literals - objects
-* row literal section duplicated/separate
