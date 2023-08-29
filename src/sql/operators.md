@@ -4,12 +4,12 @@
 
 Two values can be compared using standard SQL comparison operators:
 
-* `=` (equals)
+* `=`, `==` (equals)
 * `>` (greater than)
 * `<` (less than)
 * `>=` (greater than or equal to)
 * `<=` (less than or equal to)
-* `<>` (not equal to)
+* `<>`, `!=` (not equal to)
 
 ```sql
 SELECT * FROM products WHERE NOT name = 'Coffee';
@@ -89,6 +89,23 @@ SELECT -128.5;
 
 NOTE: Mathematical functions are documented under [Functions](functions.md#math).
 
+## Bitwise Operators
+
+Standard SQL bitwise manipulation operators are available to any two values.
+
+* `&` (bitwise and)
+* `|` (bitwise or)
+
+The bitwise _not_ operator is also available to a single value:
+
+* `~` (bitwise not)
+
+```sql
+SELECT 1 & 2;
+SELECT 1 | 2;
+SELECT ~1;
+```
+
 ## LIKE
 
 `LIKE` returns `true` if a string matches the supplied _LIKE_ pattern, as defined below:
@@ -97,13 +114,16 @@ A pattern can be a string literal.
 It can also contain underscores (`_`) and/or percentage symbols (`%`).
 An underscore matches exactly one character.
 A percentage symbol matches zero or more characters.
+
 Backslash escapes the following character to make it a literal.
+Use `ESCAPE` to override the default backslash escape character.
 
 ```sql
 SELECT * FROM products WHERE name LIKE 'Tofu';
 SELECT * FROM products WHERE name LIKE 'Tof_';
 SELECT * FROM products WHERE name LIKE '%of%';
 SELECT * FROM products WHERE name LIKE '\%of\%';
+SELECT * FROM products WHERE name LIKE 'X%ofX%' ESCAPE 'X';
 ```
 
 `NOT LIKE` is used to invert the results of the match.
