@@ -28,11 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-### Inspecting Schema
-
-* hard-coded tables
-* information_schema.tables / columns / views
-
 ### paths
 
 * https://github.com/endatabas/endb/commit/688fec271078576738d93c89d4cc986016fe8dfb

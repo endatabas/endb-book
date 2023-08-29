@@ -15,6 +15,7 @@
     - [Functions](./sql/functions.md)
     - [Time Queries](./sql/time_queries.md)
     - [Path Navigation](./sql/path_navigation.md)
+    - [Schema](./sql/schema.md)
     - [Views](./sql/views.md)
 - [Reference](./reference/README.md)
     - [Installation](./reference/installation.md)
