@@ -28,10 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-### DDL?
-
-* create/drop view?
-
 ### Period
 
 * closed/open example? -- check spec
