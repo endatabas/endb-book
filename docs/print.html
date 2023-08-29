@@ -408,7 +408,11 @@ INSERT INTO products {name: 'Salt', price: 7} ON CONFLICT (name) DO UPDATE SET p
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v &lt; 6;
 </code></pre>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
-<p>TODO</p>
+<p>Parameters to DML are documented under the <a href="sql/../reference/http_api.html">HTTP API</a>.</p>
+<h2 id="transactions"><a class="header" href="#transactions">Transactions</a></h2>
+<p>Transactions in Endb are implicit.
+Run multiple DML statements in a single transaction by providing multiple statements
+(delimited by semicolons) to a single <code>POST</code> to the <a href="sql/../reference/http_api.html">HTTP API</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="queries"><a class="header" href="#queries">Queries</a></h1>
 <p>Endb SQL strives to empower the query author.
 Basic SQL queries should be familiar.
@@ -684,7 +688,9 @@ constructor keyword, similar to that in the SQL Specification.</p>
 <h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
 <h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
-The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.</p>
+The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.
+Unlike <code>table.*</code>, which pads non-existent columns with <code>NULL</code>,
+a row literal returns exactly the schema specified for each individual row.</p>
 <ul>
 <li><code>{ table.* }</code></li>
 </ul>
@@ -1274,6 +1280,51 @@ lookup of all descendent children.</p>
 This finds and returns <em>all</em> values:</p>
 <pre><code class="language-sql">SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
+</code></pre>
+<h2 id="path-functions"><a class="header" href="#path-functions">Path Functions</a></h2>
+<p>Path editing is accomplished with an extended path syntax, where each
+path begins with <code>$</code>.
+Endb's path editing functions are heavily inspired by
+<a href="https://www.sqlite.org/json1.html">SQLite's JSON Functions</a>.</p>
+<h3 id="path_set"><a class="header" href="#path_set"><code>path_set</code></a></h3>
+<p>Takes an object, a path, and a new value.
+The new value will overwrite existing fields or add a new field if it
+doesn't already exist.</p>
+<pre><code class="language-sql">SELECT path_set({a: 2, c: 4}, $.c, [97,96]);
+-- {'a': 2, 'c': [97, 96]}
+</code></pre>
+<h3 id="path_replace"><a class="header" href="#path_replace"><code>path_replace</code></a></h3>
+<p>Takes an object, a path, and a new value.
+The new value is ignored if the path does not match an existing field.</p>
+<pre><code class="language-sql">SELECT path_replace({a: 2, c: 4}, $.a, 99);
+-- {'a': 99, 'c': 4}
+SELECT path_replace({a: 2, c: 4}, $.e, 99);
+-- {'a': 2, 'c': 4}
+</code></pre>
+<h3 id="path_insert"><a class="header" href="#path_insert"><code>path_insert</code></a></h3>
+<p>Takes an object, a path, and a new value.
+The new value is ignored if the path matches an existing field.</p>
+<pre><code class="language-sql">SELECT path_insert({a: 2, c: 4}, $.e, 99);
+-- {'a': 2, 'c': 4, 'e': 99}
+</code></pre>
+<h3 id="path_remove"><a class="header" href="#path_remove"><code>path_remove</code></a></h3>
+<p>Takes an object and a variable number of arguments specifying which paths to remove.
+If a path is not found, nothing is removed for that argument.
+<code>#</code> represents the last element in a collection.</p>
+<pre><code class="language-sql">SELECT path_remove([0,1,2,3,4], $[#-1], $[0]);
+-- [1, 2, 3]
+SELECT path_remove({x: 25, y: 42}, $.y);
+-- {'x': 25}
+</code></pre>
+<h3 id="path_extract"><a class="header" href="#path_extract"><code>path_extract</code></a></h3>
+<p>Takes an object and a variable number of path arguments.
+Returns the value found at each path, if any, otherwise <code>NULL</code>.
+If only a single path is provided, a scalar is returned.
+If multiple paths are provided, an array is returned.</p>
+<pre><code class="language-sql">SELECT path_extract({a: 2, c: [4, 5, {f: 7}]}, $.c[2].f);
+-- 7
+SELECT path_extract({a: 2, c: [4, 5], f: 7}, $.x, $.a);
+-- [NULL, 2]
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="schema"><a class="header" href="#schema">Schema</a></h1>
 <p>Endb allows introspection of its information schema.

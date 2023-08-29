@@ -263,7 +263,9 @@ constructor keyword, similar to that in the SQL Specification.</p>
 <h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
 <h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
-The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.</p>
+The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.
+Unlike <code>table.*</code>, which pads non-existent columns with <code>NULL</code>,
+a row literal returns exactly the schema specified for each individual row.</p>
 <ul>
 <li><code>{ table.* }</code></li>
 </ul>

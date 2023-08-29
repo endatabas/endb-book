@@ -125,4 +125,10 @@ INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFL
 
 ## Parameters
 
-TODO
+Parameters to DML are documented under the [HTTP API](../reference/http_api.md).
+
+## Transactions
+
+Transactions in Endb are implicit.
+Run multiple DML statements in a single transaction by providing multiple statements
+(delimited by semicolons) to a single `POST` to the [HTTP API](../reference/http_api.md).

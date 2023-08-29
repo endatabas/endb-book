@@ -122,6 +122,8 @@ constructor keyword, similar to that in the SQL Specification.
 
 It is possible return an entire document (row) as a single literal value.
 The syntax is akin to Postgres [`ROW` literals](https://www.postgresql.org/docs/current/rowtypes.html).
+Unlike `table.*`, which pads non-existent columns with `NULL`,
+a row literal returns exactly the schema specified for each individual row.
 
 * `{ table.* }`
 

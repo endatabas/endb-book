@@ -28,18 +28,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-### paths
-
-* https://github.com/endatabas/endb/commit/688fec271078576738d93c89d4cc986016fe8dfb
-* #:sql-path_remove #:sql-path_insert #:sql-path_replace #:sql-path_set
-* extract: https://github.com/endatabas/endb/commit/0703dc07d75667c4d548dd392564d2293584673b
-* https://www.sqlite.org/json1.html
-
-* row literal vs. rows
-
-### transactions
-
-* implicit, multi-statement post
 
 ### Literals
 

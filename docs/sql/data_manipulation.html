@@ -236,7 +236,11 @@ INSERT INTO products {name: 'Salt', price: 7} ON CONFLICT (name) DO UPDATE SET p
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v &lt; 6;
 </code></pre>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
-<p>TODO</p>
+<p>Parameters to DML are documented under the <a href="../reference/http_api.html">HTTP API</a>.</p>
+<h2 id="transactions"><a class="header" href="#transactions">Transactions</a></h2>
+<p>Transactions in Endb are implicit.
+Run multiple DML statements in a single transaction by providing multiple statements
+(delimited by semicolons) to a single <code>POST</code> to the <a href="../reference/http_api.html">HTTP API</a>.</p>
 
                     </main>
 
