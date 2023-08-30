@@ -147,6 +147,19 @@ SELECT * FROM products ORDER BY -price;
 In the example above, `LENGTH` is an example of a function.
 A complete list of functions can be found in the [Functions](functions.md) documentation.
 
+## GROUP BY
+
+`GROUP BY` accepts a list of columns and creates aggregated rows based on
+each of those columns, in order.
+Each aggregate is returned as a single row.
+Each column returned must either be a column specified in the `GROUP BY`
+clause or a column created with an [aggregate function](functions.md#aggregate-functions),
+such as `SUM`.
+
+```sql
+SELECT name, price FROM products GROUP BY name, price;
+SELECT name, sum(price) FROM products GROUP BY name;
+```
 
 ## LIMIT
 

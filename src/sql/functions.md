@@ -1,41 +1,9 @@
 # Functions
 
-## ARRAY_AGG
-
-The `ARRAY_AGG` function concatenates the results of an expression into an array.
-The parameter may be [ordered](queries.html#order-by-sorting-results)
-within `ARRAY_AGG`.
-
-```sql
-SELECT ARRAY_AGG(price) FROM products;
-SELECT ARRAY_AGG(name ORDER BY price DESC) FROM products;
-```
-
-Note that when operating on arrays, the arrays themselves will be concatenated,
-not the contents of the arrays.
-The result will be an array of one higher dimension:
-
-```sql
-SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
--- [{'column1': [[1, 2], [3, 4]]}]
-```
-
-## GROUP_CONCAT
-
-The `GROUP_CONCAT` function returns a string with concatenated
-non-null values from a column or group.
-Given a second parameter,
-It defaults to a comma-delimited list, but the second (optional) parameter
-can override the delimiter.
-
-```sql
-SELECT GROUP_CONCAT(name) FROM products;
-SELECT GROUP_CONCAT(name, ':') FROM products;
-```
-
 ## UNNEST
 
-The `UNNEST` function can be thought of as the inverse of `ARRAY_AGG`,
+The `UNNEST` function can be thought of as the inverse of
+[`ARRAY_AGG`](functions.md#array_agg),
 although it offers more power than just unlinking elements.
 It takes an array or object and pulls its elements into separate rows.
 
@@ -255,16 +223,6 @@ SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 ```
 
-## MIN, MAX
-
-The `MIN` and `MAX` functions return the minimum and maximum values for an expression,
-respectively.
-
-```sql
-SELECT MIN(price) FROM products;
-SELECT MAX(price) FROM products;
-```
-
 ## RANDOM
 
 The `RANDOM` function returns a random integer.
@@ -384,4 +342,49 @@ The `TYPEOF` function returns the type of the provided value.
 SELECT TYPEOF('hi2u');
 SELECT TYPEOF(1.12345678901234);
 SELECT TYPEOF(2018-01-01T00:00:00);
+```
+
+## Aggregate Functions
+
+### MIN, MAX
+
+The `MIN` and `MAX` functions return the minimum and maximum values for an expression,
+respectively.
+
+```sql
+SELECT MIN(price) FROM products;
+SELECT MAX(price) FROM products;
+```
+
+### ARRAY_AGG
+
+The `ARRAY_AGG` function concatenates the results of an expression into an array.
+The parameter may be [ordered](queries.html#order-by-sorting-results)
+within `ARRAY_AGG`.
+
+```sql
+SELECT ARRAY_AGG(price) FROM products;
+SELECT ARRAY_AGG(name ORDER BY price DESC) FROM products;
+```
+
+Note that when operating on arrays, the arrays themselves will be concatenated,
+not the contents of the arrays.
+The result will be an array of one higher dimension:
+
+```sql
+SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
+-- [{'column1': [[1, 2], [3, 4]]}]
+```
+
+### GROUP_CONCAT
+
+The `GROUP_CONCAT` function returns a string with concatenated
+non-null values from a column or group.
+Given a second parameter,
+It defaults to a comma-delimited list, but the second (optional) parameter
+can override the delimiter.
+
+```sql
+SELECT GROUP_CONCAT(name) FROM products;
+SELECT GROUP_CONCAT(name, ':') FROM products;
 ```

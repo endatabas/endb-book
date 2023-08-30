@@ -500,6 +500,16 @@ SELECT * FROM products ORDER BY -price;
 </code></pre>
 <p>In the example above, <code>LENGTH</code> is an example of a function.
 A complete list of functions can be found in the <a href="sql/functions.html">Functions</a> documentation.</p>
+<h2 id="group-by"><a class="header" href="#group-by">GROUP BY</a></h2>
+<p><code>GROUP BY</code> accepts a list of columns and creates aggregated rows based on
+each of those columns, in order.
+Each aggregate is returned as a single row.
+Each column returned must either be a column specified in the <code>GROUP BY</code>
+clause or a column created with an <a href="sql/functions.html#aggregate-functions">aggregate function</a>,
+such as <code>SUM</code>.</p>
+<pre><code class="language-sql">SELECT name, price FROM products GROUP BY name, price;
+SELECT name, sum(price) FROM products GROUP BY name;
+</code></pre>
 <h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;
@@ -908,30 +918,9 @@ SELECT &quot;Hello&quot; || &quot;World&quot; || &quot;And&quot; || &quot;Friend
 </code></pre>
 <p>The Concatenation Operator is equivalent to the <a href="sql/functions.html#concat"><code>CONCAT</code> function</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
-<h2 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h2>
-<p>The <code>ARRAY_AGG</code> function concatenates the results of an expression into an array.
-The parameter may be <a href="sql/queries.html#order-by-sorting-results">ordered</a>
-within <code>ARRAY_AGG</code>.</p>
-<pre><code class="language-sql">SELECT ARRAY_AGG(price) FROM products;
-SELECT ARRAY_AGG(name ORDER BY price DESC) FROM products;
-</code></pre>
-<p>Note that when operating on arrays, the arrays themselves will be concatenated,
-not the contents of the arrays.
-The result will be an array of one higher dimension:</p>
-<pre><code class="language-sql">SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
--- [{'column1': [[1, 2], [3, 4]]}]
-</code></pre>
-<h2 id="group_concat"><a class="header" href="#group_concat">GROUP_CONCAT</a></h2>
-<p>The <code>GROUP_CONCAT</code> function returns a string with concatenated
-non-null values from a column or group.
-Given a second parameter,
-It defaults to a comma-delimited list, but the second (optional) parameter
-can override the delimiter.</p>
-<pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
-SELECT GROUP_CONCAT(name, ':') FROM products;
-</code></pre>
 <h2 id="unnest"><a class="header" href="#unnest">UNNEST</a></h2>
-<p>The <code>UNNEST</code> function can be thought of as the inverse of <code>ARRAY_AGG</code>,
+<p>The <code>UNNEST</code> function can be thought of as the inverse of
+<a href="sql/functions.html#array_agg"><code>ARRAY_AGG</code></a>,
 although it offers more power than just unlinking elements.
 It takes an array or object and pulls its elements into separate rows.</p>
 <pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
@@ -1070,12 +1059,6 @@ SELECT UNHEX('3135ZZ', 'Z');
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 </code></pre>
-<h2 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h2>
-<p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,
-respectively.</p>
-<pre><code class="language-sql">SELECT MIN(price) FROM products;
-SELECT MAX(price) FROM products;
-</code></pre>
 <h2 id="random"><a class="header" href="#random">RANDOM</a></h2>
 <p>The <code>RANDOM</code> function returns a random integer.</p>
 <pre><code class="language-sql">SELECT RANDOM();
@@ -1157,6 +1140,35 @@ Accepts a <code>DATE</code>, <code>TIMESTAMP</code>, or <code>STRING</code>.</p>
 <pre><code class="language-sql">SELECT TYPEOF('hi2u');
 SELECT TYPEOF(1.12345678901234);
 SELECT TYPEOF(2018-01-01T00:00:00);
+</code></pre>
+<h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
+<h3 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h3>
+<p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,
+respectively.</p>
+<pre><code class="language-sql">SELECT MIN(price) FROM products;
+SELECT MAX(price) FROM products;
+</code></pre>
+<h3 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h3>
+<p>The <code>ARRAY_AGG</code> function concatenates the results of an expression into an array.
+The parameter may be <a href="sql/queries.html#order-by-sorting-results">ordered</a>
+within <code>ARRAY_AGG</code>.</p>
+<pre><code class="language-sql">SELECT ARRAY_AGG(price) FROM products;
+SELECT ARRAY_AGG(name ORDER BY price DESC) FROM products;
+</code></pre>
+<p>Note that when operating on arrays, the arrays themselves will be concatenated,
+not the contents of the arrays.
+The result will be an array of one higher dimension:</p>
+<pre><code class="language-sql">SELECT ARRAY_AGG(x.column1) FROM (VALUES ([1,2]), ([3,4])) AS x;
+-- [{'column1': [[1, 2], [3, 4]]}]
+</code></pre>
+<h3 id="group_concat"><a class="header" href="#group_concat">GROUP_CONCAT</a></h3>
+<p>The <code>GROUP_CONCAT</code> function returns a string with concatenated
+non-null values from a column or group.
+Given a second parameter,
+It defaults to a comma-delimited list, but the second (optional) parameter
+can override the delimiter.</p>
+<pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
+SELECT GROUP_CONCAT(name, ':') FROM products;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
 <p>To make best use of Time Queries, it is a good idea to review the

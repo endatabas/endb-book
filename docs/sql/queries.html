@@ -253,6 +253,16 @@ SELECT * FROM products ORDER BY -price;
 </code></pre>
 <p>In the example above, <code>LENGTH</code> is an example of a function.
 A complete list of functions can be found in the <a href="functions.html">Functions</a> documentation.</p>
+<h2 id="group-by"><a class="header" href="#group-by">GROUP BY</a></h2>
+<p><code>GROUP BY</code> accepts a list of columns and creates aggregated rows based on
+each of those columns, in order.
+Each aggregate is returned as a single row.
+Each column returned must either be a column specified in the <code>GROUP BY</code>
+clause or a column created with an <a href="functions.html#aggregate-functions">aggregate function</a>,
+such as <code>SUM</code>.</p>
+<pre><code class="language-sql">SELECT name, price FROM products GROUP BY name, price;
+SELECT name, sum(price) FROM products GROUP BY name;
+</code></pre>
 <h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;
