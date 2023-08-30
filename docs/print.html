@@ -369,7 +369,7 @@ so it contains a number of shorthands and document-oriented conveniences.</p>
 </code></pre>
 <p>Because Endb is schemaless, each document (or row) has its own schema.
 As a result, you may want to remove a column from an individual row.
-You can do this with the <code>UNSET</code> command:</p>
+You can do this with the <code>UNSET</code> operator:</p>
 <pre><code class="language-sql">UPDATE products UNSET product_no WHERE name = 'Coffee';
 UPDATE products REMOVE product_no WHERE name = 'Coffee';
 </code></pre>
@@ -384,6 +384,7 @@ The <code>PATCH</code> operator is used in conjunction with <code>UPDATE</code>
 to set fields on a document (columns on a row) in a declarative fashion.</p>
 <pre><code class="language-sql">UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 </code></pre>
+<p><code>PATCH</code> is based on <a href="https://datatracker.ietf.org/doc/html/rfc7386">RFC 7386: JSON Merge Patch</a>.</p>
 <h2 id="update-set-path"><a class="header" href="#update-set-path">UPDATE SET $path</a></h2>
 <p>The <code>SET</code> operator permits <a href="sql/path_navigation.html#path-functions">paths</a>
 on its left-hand side.
@@ -437,6 +438,9 @@ Each document (row) in Endb carries with it its own schema.
 As a result, <code>*</code> refers to the widest possible set of columns, across all the rows returned.</p>
 <p>In many SQL dialects, columns are strictly ordered.
 Because Endb columns cannot have a strict order, <code>*</code> returns them in alphabetical order.</p>
+<p>You can select the widest set of columns for a specific table with <code>&lt;table&gt;.*</code>:</p>
+<pre><code class="language-sql">SELECT p.* FROM products p JOIN coupons c ON p.price = c.price;
+</code></pre>
 <h2 id="select-by-name"><a class="header" href="#select-by-name">Select By Name</a></h2>
 <p>In programmatic environments, it is almost always preferable to query for specific columns by name:</p>
 <pre><code class="language-sql">SELECT product_no FROM products;
@@ -524,9 +528,13 @@ SELECT name, sum(price) FROM products GROUP BY name;
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;
 </code></pre>
-<p>It always makes sense to control the order of returned rows so <code>LIMIT</code> always returns the same rows
-for the same query -- unless you don't care which rows are returned.</p>
+<p>It always makes sense to control the order of returned rows so <code>LIMIT</code>
+always returns the same rows for the same query
+-- unless you don't care which rows are returned.</p>
 <pre><code class="language-sql">SELECT * FROM products ORDER BY price ASC LIMIT 2;
+</code></pre>
+<p><code>OFFSET</code> allows queries to skip rows before returning a limited set.</p>
+<pre><code class="language-sql">SELECT * FROM products ORDER BY price ASC LIMIT 2 OFFSET 2;
 </code></pre>
 <h2 id="values-lists"><a class="header" href="#values-lists">VALUES Lists</a></h2>
 <p>The <code>VALUES</code> keyword is used to create a static table of documents (rows).
@@ -544,29 +552,30 @@ Columns can instead be given names with a
 <p>The <code>OBJECTS</code> keyword is used to create a static table comprised of
 object literals, each representing a document (row).
 Each row is directly denoted by an object literal.
-All rows must have <a href="sql/queries.html#union-compatibility">Union Compatibility</a>
-which, for Endb, means they have the same number of columns.</p>
-<pre><code class="language-sql">OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'};
+<code>OBJECTS</code> lists do <em>not</em> require <a href="sql/queries.html#union-compatibility">Union Compatibility</a>,
+so jagged lists are permitted.</p>
+<pre><code class="language-sql">OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper', price: 3.99};
 SELECT * FROM (OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'}) as t;
 </code></pre>
 <h2 id="set-operations-union-intersect-except"><a class="header" href="#set-operations-union-intersect-except">Set Operations: UNION, INTERSECT, EXCEPT</a></h2>
-<p>The set operations union, intersection, and difference are available to the results of two queries.</p>
+<p>The set operations union, intersection, and difference
+are available to the results of two queries.</p>
 <h3 id="union"><a class="header" href="#union">UNION</a></h3>
 <p>Append the results of one query to another.
 Duplicate rows are removed.</p>
-<pre><code class="language-sql">select * from products UNION select * from new_products;
+<pre><code class="language-sql">SELECT * FROM products UNION SELECT * FROM new_products;
 </code></pre>
 <p>To keep duplicate rows, use <code>UNION ALL</code>:</p>
-<pre><code class="language-sql">select * from products UNION ALL select * from new_products;
+<pre><code class="language-sql">SELECT * FROM products UNION ALL SELECT * FROM new_products;
 </code></pre>
 <h3 id="intersect"><a class="header" href="#intersect">INTERSECT</a></h3>
 <p>The intersection of two queries returns results which are found in both.</p>
-<pre><code class="language-sql">select * from products INTERSECT select * from new_products;
+<pre><code class="language-sql">SELECT * FROM products INTERSECT SELECT * FROM new_products;
 </code></pre>
 <h3 id="except"><a class="header" href="#except">EXCEPT</a></h3>
 <p>The difference of two queries returns only results from the first query which are not found in the second.
 Another way of thinking about this is that results of the second query are removed from the first.</p>
-<pre><code class="language-sql">select * from products EXCEPT select * from ignored_products;
+<pre><code class="language-sql">SELECT * FROM products EXCEPT SELECT * FROM ignored_products;
 </code></pre>
 <h3 id="union-compatibility"><a class="header" href="#union-compatibility">Union-Compatibility</a></h3>
 <p>&quot;Union Compatibility&quot; refers to the ability of two queries to be used in a union, intersection, or difference.
@@ -577,7 +586,7 @@ the case of <code>*</code> queries.
 When applying set operations to <code>*</code> queries, keep in mind that the widest column set (across the entire history of
 the table) will be returned.</p>
 <p>If the queries return a different number of columns, set operations will result in an error:</p>
-<pre><code class="language-sql">-&gt; select * from products UNION select * from new_products;
+<pre><code class="language-sql">-&gt; SELECT * FROM products UNION SELECT * FROM new_products;
 400 Bad Request
 Number of UNION left columns: 3 does not match right columns: 2
 </code></pre>
@@ -621,15 +630,14 @@ cannot determine if a statement is true or false</li>
 <li>&quot;Missing&quot;: Jagged rows will return <code>NULL</code> for columns projected
 for a document which does not contain them</li>
 </ul>
-<h2 id="varchar"><a class="header" href="#varchar">VARCHAR</a></h2>
+<h2 id="text-varchar"><a class="header" href="#text-varchar">TEXT (VARCHAR)</a></h2>
 <p>Endb accepts unbounded, variable-length strings with either single or double quotes.</p>
 <pre><code class="language-SQL">INSERT INTO users (name, title) VALUES ('River', &quot;Prodigy&quot;);
 </code></pre>
 <h2 id="boolean"><a class="header" href="#boolean">BOOLEAN</a></h2>
-<p>Boolean values can be <code>true</code>, <code>false</code>, or <code>NULL</code>.</p>
+<p>Boolean values can be <code>TRUE</code>, <code>FALSE</code>, or <code>NULL</code>.</p>
 <h2 id="integer"><a class="header" href="#integer">INTEGER</a></h2>
-<p>32-bit integers with a minimum value of -9007199254740991
-and a maximum value of 9007199254740991.</p>
+<p>64-bit integer capable of auto-promotion to 128-bit integer.</p>
 <h2 id="real"><a class="header" href="#real">REAL</a></h2>
 <p>A 64-bit IEEE 754 floating point number, or double.</p>
 <h2 id="bigint"><a class="header" href="#bigint">BIGINT</a></h2>
@@ -664,15 +672,21 @@ The following are legal time literals:</p>
 <li><code>TIME '23:59:12'</code></li>
 <li><code>TIME '23:59:12.12345'</code></li>
 </ul>
-<h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL, DURATION</a></h2>
+<h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL (DURATION)</a></h2>
 <p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
 <pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;
 </code></pre>
-<p>Intervals literals can also be constructed with
+<p>Intervals literals can be constructed with
 <a href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO 8601 syntax</a>:</p>
 <ul>
 <li><code>PT12H30M5S</code></li>
 <li><code>P1Y2M10DT2H30M</code></li>
+</ul>
+<p>Interval literals can also be constructed with
+the classic SQL intervals DSL:</p>
+<ul>
+<li><code>INTERVAL '1-2' YEAR TO MONTH</code></li>
+<li><code>INTERVAL '0 12:34:56.789' DAY TO SECOND</code></li>
 </ul>
 <h2 id="blob"><a class="header" href="#blob">BLOB</a></h2>
 <p>Binary Large Objects can be encoded as hexidecimal literals or cast from strings.</p>
@@ -752,7 +766,8 @@ SELECT [1, 2, ...&quot;foo&quot;, 5];
 </code></pre>
 <h3 id="computed-fields"><a class="header" href="#computed-fields">Computed Fields</a></h3>
 <p>In the key/property position, square brackets are used to construct
-computed fields in <a href="sql/data_types.html#object">object literals</a>.</p>
+computed fields in <a href="sql/data_types.html#object">object literals</a>.
+Computed fields are implicitly cast to string.</p>
 <pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
 -- [{'column1': {'4': 5, 'foo': 2}}]
 SELECT { foo: 2, ['foo' || 2]: 5 };
@@ -780,7 +795,7 @@ SELECT * FROM products WHERE name = 'Coffee' AND name &lt;&gt; 'Kaapi';
 SELECT * FROM products WHERE name &gt; 'Cake' AND price &gt;= 5.00;
 </code></pre>
 <h2 id="between"><a class="header" href="#between">BETWEEN</a></h2>
-<p><code>BETWEEN</code> returns <code>true</code> when a value is greater-than-or-equal-to the first limit
+<p><code>BETWEEN</code> returns <code>TRUE</code> when a value is greater-than-or-equal-to the first limit
 and less-than-or-equal-to the second.
 It has the form <code>BETWEEN x AND y</code>.
 It can be negated with the form <code>NOT BETWEEN x AND y</code>.</p>
@@ -843,7 +858,7 @@ SELECT 1 | 2;
 SELECT ~1;
 </code></pre>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
-<p><code>LIKE</code> returns <code>true</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
+<p><code>LIKE</code> returns <code>TRUE</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
 <p>A pattern can be a string literal.
 It can also contain underscores (<code>_</code>) and/or percentage symbols (<code>%</code>).
 An underscore matches exactly one character.
@@ -861,30 +876,30 @@ SELECT * FROM products WHERE name LIKE 'X%ofX%' ESCAPE 'X';
 </code></pre>
 <p>NOTE: Endb <code>LIKE</code> is case-sensitive.</p>
 <h2 id="regexp"><a class="header" href="#regexp">REGEXP</a></h2>
-<p><code>REGEXP</code> returns <code>true</code> if a string matches the supplied regular expression.
+<p><code>REGEXP</code> returns <code>TRUE</code> if a string matches the supplied regular expression.
 <code>REGEXP</code> may be prefixed with <code>NOT</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name REGEXP '.*ee|.*ea';
 SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
 </code></pre>
 <h2 id="glob"><a class="header" href="#glob">GLOB</a></h2>
-<p><code>GLOB</code> returns <code>true</code> if a string matches the supplied UNIX glob.
+<p><code>GLOB</code> returns <code>TRUE</code> if a string matches the supplied UNIX glob.
 <code>GLOB</code> may be prefixed with <code>NOT</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name GLOB '*of*';
 SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
 </code></pre>
 <p>NOTE: <code>GLOB</code> is case-sensitive.</p>
 <h2 id="match-containment"><a class="header" href="#match-containment">MATCH (Containment)</a></h2>
-<p><code>MATCH</code> returns <code>true</code> if the value on the left contains the value on the right,
+<p><code>MATCH</code> returns <code>TRUE</code> if the value on the left contains the value on the right,
 at the top level.
 Note that a top-level array to the right of the <code>MATCH</code> refers to a set of values
 that all need to match, not a literal array.</p>
-<p>The following expressions return <code>true</code>:</p>
+<p>The following expressions return <code>TRUE</code>:</p>
 <pre><code class="language-sql">SELECT 'foo' MATCH 'foo';
 SELECT [1, 2, 3] MATCH [3, 1];
 SELECT {user: 'foo', age: 42} MATCH {age: 42};
 SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 1]};
 </code></pre>
-<p>The following expressions return <code>false</code>:</p>
+<p>The following expressions return <code>FALSE</code>:</p>
 <pre><code class="language-sql">SELECT [1, 2, [1, 3]] MATCH [1, 3];
 SELECT {foo: {bar: 'baz'}} MATCH {bar: 'baz'};
 SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
@@ -893,7 +908,7 @@ SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 It is provided as a convenience for users accustomed to the equivalent
 <a href="https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT">JSON Containment Operator in Postgres</a>.</p>
 <h2 id="exists"><a class="header" href="#exists">EXISTS</a></h2>
-<p><code>EXISTS</code> returns <code>true</code> if the subquery which follows it returns at least one row.</p>
+<p><code>EXISTS</code> returns <code>TRUE</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
 </code></pre>
 <h2 id="in"><a class="header" href="#in">IN</a></h2>
@@ -907,19 +922,10 @@ SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
 <h2 id="single-row-comparison"><a class="header" href="#single-row-comparison">Single-Row Comparison</a></h2>
-<p>It is possible to compare
-<a href="sql/data_types.html#row-literals">row literals</a>
-against a subquery which returns exactly one row.</p>
-<pre><code class="language-sql">SELECT { p.name, p.price } &lt; (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
+<p>It is possible to compare <a href="sql/data_types.html#row-literals">row literals</a>
+against each other.</p>
+<pre><code class="language-sql">SELECT p.name, { p.name, p.price } &lt; { c.name, c.price } FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
-<h2 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h2>
-<p>When a set-returning function (such as <a href="sql/functions.html#unnest"><code>UNNEST</code></a>)
-is used in a <code>FROM</code> clause, it can be suffixed with <code>WITH ORDINALITY</code>
-to append an ordinal column to the results.</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
--- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
-</code></pre>
-<p>NOTE: Endb ordinals are zero-indexed.</p>
 <h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
 <p>The concatenation operator (<code>||</code>) concatenates two strings.
 Multiple operators can be chained together.</p>
@@ -948,8 +954,13 @@ This behaviour is useful for manipulating collections:</p>
 --  {'price': ['coupon_price', 1.4]},
 --  {'price': ['original_price', 1.99]}]
 </code></pre>
-<p>To append an ordinal to each row in the results, use
-<a href="sql/operators.html#with-ordinality"><code>WITH ORDINALITY</code></a>.</p>
+<h3 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h3>
+<p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
+to append an ordinal column to the results.</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+</code></pre>
+<p>NOTE: Endb ordinals are zero-indexed.</p>
 <h2 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h2>
 <p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
 <pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
@@ -1054,10 +1065,12 @@ of the parameter given.</p>
 character codes.</p>
 <pre><code class="language-sql">SELECT CHAR(65, 66, 67);
 </code></pre>
-<h2 id="concat"><a class="header" href="#concat">CONCAT</a></h2>
-<p>The <code>CONCAT</code> function concatenates two strings supplied as arguments.
-If either argument is not a string, it will be cast to a string automatically.</p>
-<pre><code class="language-sql">SELECT CONCAT(&quot;Hello&quot;, &quot;World&quot;);
+<h2 id=""><a class="header" href="#"><code>||</code></a></h2>
+<p>The <code>||</code> function concatenates two strings or arrays supplied as arguments.
+When concatenating to a string, the second argument will be cast to string.
+When concatenating to an array, blobs and elements are accepted as the second argument.</p>
+<pre><code class="language-sql">SELECT &quot;Hello&quot; || &quot;World&quot;;
+SELECT [1, 2, 3] || [4, 5, 6];
 </code></pre>
 <p>NOTE: <code>CONCAT</code> is equivalent to the <a href="sql/operators.html#concatenation">Concatenation Operator (||)</a>.</p>
 <h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
@@ -1095,7 +1108,7 @@ It returns the second parameter if the condition is true and the third parameter
 <pre><code class="language-sql">SELECT IIF(price &gt; 5.99, 'Expensive!', 'Cheap') FROM products;
 </code></pre>
 <h2 id="math-1"><a class="header" href="#math-1">Math</a></h2>
-<p>Endb provides all standard SQL math functions:</p>
+<p>Endb provides standard SQL math functions based on SQLite's collection of math functions:</p>
 <ul>
 <li>ROUND</li>
 <li>SIN</li>
@@ -1134,7 +1147,7 @@ Note that not all types are cast-compatible with each other.</p>
 <pre><code class="language-sql">SELECT CAST(price AS INTEGER) FROM products;
 </code></pre>
 <h2 id="nullif"><a class="header" href="#nullif">NULLIF</a></h2>
-<p>The <code>NULLIF</code> function returns <code>true</code> if the two supplied expressions are equal.</p>
+<p>The <code>NULLIF</code> function returns <code>TRUE</code> if the two supplied expressions are equal.</p>
 <pre><code class="language-sql">SELECT NULLIF(1, 1);
 SELECT NULLIF(1, 'zig');
 </code></pre>
@@ -1168,6 +1181,8 @@ respectively.</p>
 <pre><code class="language-sql">SELECT MIN(price) FROM products;
 SELECT MAX(price) FROM products;
 </code></pre>
+<p>NOTE: <code>MIN</code> and <code>MAX</code> also have non-aggregate equivalents, which are 2-arity.
+When used that way, they each return the minimum or maximum value of the two values provided.</p>
 <h3 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h3>
 <p>The <code>ARRAY_AGG</code> function concatenates the results of an expression into an array.
 The parameter may be <a href="sql/queries.html#order-by-sorting-results">ordered</a>
@@ -1235,28 +1250,33 @@ as if it were that time <em>now</em>.</p>
 Inspect System Time with the form <code>FOR SYSTEM_TIME BETWEEN x AND y</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
 </code></pre>
+<h2 id="from--to"><a class="header" href="#from--to">FROM ... TO</a></h2>
+<p>Selects rows which fall between the two times, similar to <code>BETWEEN</code>,
+but is exclusive of both the start and end times.</p>
+<pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00:00:00;
+</code></pre>
 <h2 id="contains"><a class="header" href="#contains">CONTAINS</a></h2>
-<p>Returns <code>true</code> if the second period is contained within the first.</p>
+<p>Returns <code>TRUE</code> if the second period is contained within the first.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};
 </code></pre>
 <h2 id="overlaps"><a class="header" href="#overlaps">OVERLAPS</a></h2>
-<p>Returns <code>true</code> if any part of the first period is found within the second.</p>
+<p>Returns <code>TRUE</code> if any part of the first period is found within the second.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 2001-04-01};
 </code></pre>
 <h2 id="precedes"><a class="header" href="#precedes">PRECEDES</a></h2>
-<p>Returns <code>true</code> if the first period ends before the second period begins.</p>
+<p>Returns <code>TRUE</code> if the first period ends before the second period begins.</p>
 <pre><code class="language-sql">SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <h2 id="succedes"><a class="header" href="#succedes">SUCCEDES</a></h2>
-<p>Returns <code>true</code> if the first period begins after the second period ends.</p>
+<p>Returns <code>TRUE</code> if the first period begins after the second period ends.</p>
 <pre><code class="language-sql">SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <h2 id="immediately-precedes"><a class="header" href="#immediately-precedes">IMMEDIATELY PRECEDES</a></h2>
-<p>Returns <code>true</code> if the first period ends exactly as the second period begins.</p>
+<p>Returns <code>TRUE</code> if the first period ends exactly as the second period begins.</p>
 <pre><code class="language-sql">SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <h2 id="immediately-succedes"><a class="header" href="#immediately-succedes">IMMEDIATELY SUCCEDES</a></h2>
-<p>Returns <code>true</code> if the first period begins exactly as the second period ends.</p>
+<p>Returns <code>TRUE</code> if the first period begins exactly as the second period ends.</p>
 <pre><code class="language-sql">SELECT 2001-05-01 IMMEDIATELY SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="path-navigation"><a class="header" href="#path-navigation">Path Navigation</a></h1>
@@ -1301,11 +1321,15 @@ The format of a row literal is <code>{ &lt;table&gt;.* }</code>:</p>
 recursively walking the document to match the name given.</p>
 <pre><code class="language-sql">SELECT { paths.* }..a FROM paths;
 -- [{'a': [2, 3, 1]}]
+SELECT b..a FROM paths;
+-- [{'a': [3]}]
 </code></pre>
 <h2 id="named-child"><a class="header" href="#named-child">Named Child</a></h2>
 <p>The square bracket notation (<code>['&lt;NAME&gt;']</code>) performs a lookup
 of a single descendent child.</p>
 <pre><code class="language-sql">SELECT { paths.* }['b']['a'] FROM paths;
+-- [{'a': 3}]
+SELECT b['a'] FROM paths;
 -- [{'a': 3}]
 </code></pre>
 <p>Named Children can be combined with recursive paths,
@@ -1313,14 +1337,16 @@ though the default recursive path syntax is synonymous with
 named children:</p>
 <pre><code class="language-sql">SELECT { paths.* }..a FROM paths;
 SELECT { paths.* }..['a'] FROM paths;
+SELECT b..['a'] FROM paths;
 </code></pre>
-<p>Both of the above expressions return <code>[{'a': [2, 3, 1]}]</code>.</p>
 <h2 id="numbered-child"><a class="header" href="#numbered-child">Numbered Child</a></h2>
 <p>The square bracket notation (<code>[&lt;NUMBER&gt;]</code>) can also perform indexed
 lookups of a single descendent child.</p>
 <pre><code class="language-sql">SELECT { paths.* }['b'][0] FROM paths;
 -- [{'column1': {'a': 3}}]
 SELECT { paths.* }['c'][1] FROM paths;
+-- [{'column1': 2}]
+SELECT c[1] FROM paths;
 -- [{'column1': 2}]
 </code></pre>
 <p>Numbered Children can be combined with recursive paths.
@@ -1337,6 +1363,8 @@ lookup of all descendent children.</p>
 This finds and returns <em>all</em> values:</p>
 <pre><code class="language-sql">SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
+SELECT c..[*] FROM paths;
+-- [{'column1': [{'a': 1}, 2, 1]}]
 </code></pre>
 <h2 id="path-functions"><a class="header" href="#path-functions">Path Functions</a></h2>
 <p>Path editing is accomplished with an extended path syntax, where each
@@ -1550,7 +1578,8 @@ The default <code>Accept</code> header content type is <code>application/json</c
 1,&quot;hello&quot;
 </code></pre>
 <h3 id="applicationjson-1"><a class="header" href="#applicationjson-1">application/json</a></h3>
-<p><code>application/json</code> returns rows as an array of JSON tuples:</p>
+<p><code>application/json</code> returns rows as an array of JSON tuples.
+Columns maintain a consistent order across tuples.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
@@ -1569,7 +1598,7 @@ The default <code>Accept</code> header content type is <code>application/json</c
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/ld+json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
-<pre><code class="language-json">[[2,{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}],[1,&quot;hello&quot;]]
+<pre><code class="language-json">{&quot;@context&quot;:{&quot;xsd&quot;:&quot;http://www.w3.org/2001/XMLSchema#&quot;,&quot;@vocab&quot;:&quot;http://endb.io/&quot;},&quot;@graph&quot;:[{&quot;column1&quot;:2,&quot;column2&quot;:{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}},{&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}]}
 </code></pre>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
 <h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
@@ -1594,7 +1623,8 @@ curl -F q=&quot;INSERT INTO products {name: ?};&quot; -F p='[&quot;Sriracha&quot
 </code></pre>
 <h3 id="bulk-parameters"><a class="header" href="#bulk-parameters">Bulk Parameters</a></h3>
 <p>Bulk operations are possible by turning the <code>m</code> flag to <code>true</code>.
-Bulk operations are available to both named and positional parameters.</p>
+Bulk operations are available to both named and positional parameters.
+The list of parameters supplied in bulk must be nested in an array.</p>
 <pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: [{&quot;name&quot;: &quot;Soda&quot;}, {&quot;name&quot;: &quot;Tonic&quot;}], &quot;m&quot;: true}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
 curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>
@@ -1606,14 +1636,14 @@ The <code>@type</code> listed in parentheses is for reference purposes only.
 JSON literal types are implicit so a <code>@value/@type</code> pair is not returned for a JSON literal.</p>
 <div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>NULL</code></td><td><code>@json</code></td><td>null</td><td>Null, nil, undefined, or missing</td></tr>
-<tr><td><code>VARCHAR</code></td><td><code>@json</code> (<code>xsd:string</code>)</td><td>&quot;hello&quot;</td><td>UTF-8 string</td></tr>
+<tr><td><code>TEXT</code></td><td><code>@json</code> (<code>xsd:string</code>)</td><td>&quot;hello&quot;</td><td>UTF-8 string</td></tr>
 <tr><td><code>BOOLEAN</code></td><td><code>@json</code> (<code>xsd:boolean</code>)</td><td>FALSE</td><td>8-bit boolean</td></tr>
-<tr><td><code>INTEGER</code></td><td><code>@json</code> (<code>xsd:int</code>)</td><td>42</td><td>32-bit two's complement integer (?)</td></tr>
+<tr><td><code>INTEGER</code></td><td><code>@json</code> (<code>xsd:int[eger]</code>)</td><td>42</td><td>64/128-bit two's complement integer</td></tr>
 <tr><td><code>REAL</code></td><td><code>@json</code> (<code>xsd:double</code>)</td><td>9007199254740992.123</td><td>64-bit IEEE 754 floating point number</td></tr>
-<tr><td><code>BIGINT</code></td><td><code>xsd:integer</code></td><td>9007199254740992</td><td>64-bit two's complement integer, auto-promoted internally</td></tr>
 <tr><td><code>TIMESTAMP</code></td><td><code>xsd:dateTime</code></td><td>2007-01-01T00:00:00</td><td>ISO microsecond precision timestamp</td></tr>
 <tr><td><code>DATE</code></td><td><code>xsd:date</code></td><td>2007-01-01</td><td>ISO date</td></tr>
 <tr><td><code>TIME</code></td><td><code>xsd:time</code></td><td>23:30:00</td><td>ISO time</td></tr>
+<tr><td><code>INTERVAL</code></td><td><code>xsd:duration</code></td><td>PT12H34M56.789S</td><td>ISO interval</td></tr>
 <tr><td><code>BLOB</code></td><td><code>xsd:base64Binary</code></td><td>x'DEADBEEF'</td><td>Binary large object</td></tr>
 </tbody></table>
 </div>
@@ -1649,10 +1679,12 @@ with fast queries made possible by <a href="appendix/architecture.html#adaptive-
 This is used for user safety and compliance with laws like GDPR.
 Immutable records make <code>endb</code> fast.
 Erasure is a complication, which makes <code>ERASE</code> architecturally challenging.</p>
+<p>NOTE: Erasure is not yet implemented.</p>
 <h2 id="dynamic-sql"><a class="header" href="#dynamic-sql">Dynamic SQL</a></h2>
 <p>Both the heart and &quot;UI&quot; of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).
 You can think of it as a JSON-native database with strongly-typed values (not just strings).</p>
-<p>It draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
+<p>Endb SQL bases its core on the SQL dialect and function/operator surface area found in SQLite.
+It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
 Read more in our <a href="https://www.endatabas.com/bibliography.html">bibliography</a>.</p>
 <h2 id="cloud-separation-of-storage-from-compute"><a class="header" href="#cloud-separation-of-storage-from-compute">Cloud: Separation of Storage from Compute</a></h2>
 <p>If you're not sure what this is, think Amazon Aurora, Google AlloyDB, and Neon.

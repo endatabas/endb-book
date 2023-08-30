@@ -55,7 +55,7 @@ UPDATE products SET price = 4.99, name = 'Kaapi' WHERE name = 'Coffee';
 
 Because Endb is schemaless, each document (or row) has its own schema.
 As a result, you may want to remove a column from an individual row.
-You can do this with the `UNSET` command:
+You can do this with the `UNSET` operator:
 
 ```sql
 UPDATE products UNSET product_no WHERE name = 'Coffee';
@@ -80,6 +80,8 @@ to set fields on a document (columns on a row) in a declarative fashion.
 ```sql
 UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 ```
+
+`PATCH` is based on [RFC 7386: JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7386).
 
 ## UPDATE SET $path
 

@@ -176,15 +176,14 @@ cannot determine if a statement is true or false</li>
 <li>&quot;Missing&quot;: Jagged rows will return <code>NULL</code> for columns projected
 for a document which does not contain them</li>
 </ul>
-<h2 id="varchar"><a class="header" href="#varchar">VARCHAR</a></h2>
+<h2 id="text-varchar"><a class="header" href="#text-varchar">TEXT (VARCHAR)</a></h2>
 <p>Endb accepts unbounded, variable-length strings with either single or double quotes.</p>
 <pre><code class="language-SQL">INSERT INTO users (name, title) VALUES ('River', &quot;Prodigy&quot;);
 </code></pre>
 <h2 id="boolean"><a class="header" href="#boolean">BOOLEAN</a></h2>
-<p>Boolean values can be <code>true</code>, <code>false</code>, or <code>NULL</code>.</p>
+<p>Boolean values can be <code>TRUE</code>, <code>FALSE</code>, or <code>NULL</code>.</p>
 <h2 id="integer"><a class="header" href="#integer">INTEGER</a></h2>
-<p>32-bit integers with a minimum value of -9007199254740991
-and a maximum value of 9007199254740991.</p>
+<p>64-bit integer capable of auto-promotion to 128-bit integer.</p>
 <h2 id="real"><a class="header" href="#real">REAL</a></h2>
 <p>A 64-bit IEEE 754 floating point number, or double.</p>
 <h2 id="bigint"><a class="header" href="#bigint">BIGINT</a></h2>
@@ -219,15 +218,21 @@ The following are legal time literals:</p>
 <li><code>TIME '23:59:12'</code></li>
 <li><code>TIME '23:59:12.12345'</code></li>
 </ul>
-<h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL, DURATION</a></h2>
+<h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL (DURATION)</a></h2>
 <p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
 <pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;
 </code></pre>
-<p>Intervals literals can also be constructed with
+<p>Intervals literals can be constructed with
 <a href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO 8601 syntax</a>:</p>
 <ul>
 <li><code>PT12H30M5S</code></li>
 <li><code>P1Y2M10DT2H30M</code></li>
+</ul>
+<p>Interval literals can also be constructed with
+the classic SQL intervals DSL:</p>
+<ul>
+<li><code>INTERVAL '1-2' YEAR TO MONTH</code></li>
+<li><code>INTERVAL '0 12:34:56.789' DAY TO SECOND</code></li>
 </ul>
 <h2 id="blob"><a class="header" href="#blob">BLOB</a></h2>
 <p>Binary Large Objects can be encoded as hexidecimal literals or cast from strings.</p>
@@ -307,7 +312,8 @@ SELECT [1, 2, ...&quot;foo&quot;, 5];
 </code></pre>
 <h3 id="computed-fields"><a class="header" href="#computed-fields">Computed Fields</a></h3>
 <p>In the key/property position, square brackets are used to construct
-computed fields in <a href="data_types.html#object">object literals</a>.</p>
+computed fields in <a href="data_types.html#object">object literals</a>.
+Computed fields are implicitly cast to string.</p>
 <pre><code class="language-sql">SELECT { foo: 2, [2 + 2]: 5 };
 -- [{'column1': {'4': 5, 'foo': 2}}]
 SELECT { foo: 2, ['foo' || 2]: 5 };

@@ -197,7 +197,7 @@ so it contains a number of shorthands and document-oriented conveniences.</p>
 </code></pre>
 <p>Because Endb is schemaless, each document (or row) has its own schema.
 As a result, you may want to remove a column from an individual row.
-You can do this with the <code>UNSET</code> command:</p>
+You can do this with the <code>UNSET</code> operator:</p>
 <pre><code class="language-sql">UPDATE products UNSET product_no WHERE name = 'Coffee';
 UPDATE products REMOVE product_no WHERE name = 'Coffee';
 </code></pre>
@@ -212,6 +212,7 @@ The <code>PATCH</code> operator is used in conjunction with <code>UPDATE</code>
 to set fields on a document (columns on a row) in a declarative fashion.</p>
 <pre><code class="language-sql">UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 </code></pre>
+<p><code>PATCH</code> is based on <a href="https://datatracker.ietf.org/doc/html/rfc7386">RFC 7386: JSON Merge Patch</a>.</p>
 <h2 id="update-set-path"><a class="header" href="#update-set-path">UPDATE SET $path</a></h2>
 <p>The <code>SET</code> operator permits <a href="path_navigation.html#path-functions">paths</a>
 on its left-hand side.

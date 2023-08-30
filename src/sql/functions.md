@@ -30,8 +30,17 @@ SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40
 --  {'price': ['original_price', 1.99]}]
 ```
 
-To append an ordinal to each row in the results, use
-[`WITH ORDINALITY`](operators.html#with-ordinality).
+### WITH ORDINALITY
+
+`UNNEST` can be suffixed with `WITH ORDINALITY`
+to append an ordinal column to the results.
+
+```sql
+SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+```
+
+NOTE: Endb ordinals are zero-indexed.
 
 ## OBJECT_KEYS
 
@@ -206,13 +215,15 @@ character codes.
 SELECT CHAR(65, 66, 67);
 ```
 
-## CONCAT
+## `||`
 
-The `CONCAT` function concatenates two strings supplied as arguments.
-If either argument is not a string, it will be cast to a string automatically.
+The `||` function concatenates two strings or arrays supplied as arguments.
+When concatenating to a string, the second argument will be cast to string.
+When concatenating to an array, blobs and elements are accepted as the second argument.
 
 ```sql
-SELECT CONCAT("Hello", "World");
+SELECT "Hello" || "World";
+SELECT [1, 2, 3] || [4, 5, 6];
 ```
 
 NOTE: `CONCAT` is equivalent to the [Concatenation Operator (||)](operators.md#concatenation).
@@ -270,7 +281,7 @@ SELECT IIF(price > 5.99, 'Expensive!', 'Cheap') FROM products;
 
 ## Math
 
-Endb provides all standard SQL math functions:
+Endb provides standard SQL math functions based on SQLite's collection of math functions:
 
 * ROUND
 * SIN
@@ -316,7 +327,7 @@ SELECT CAST(price AS INTEGER) FROM products;
 
 ## NULLIF
 
-The `NULLIF` function returns `true` if the two supplied expressions are equal.
+The `NULLIF` function returns `TRUE` if the two supplied expressions are equal.
 
 ```sql
 SELECT NULLIF(1, 1);
@@ -373,6 +384,9 @@ respectively.
 SELECT MIN(price) FROM products;
 SELECT MAX(price) FROM products;
 ```
+
+NOTE: `MIN` and `MAX` also have non-aggregate equivalents, which are 2-arity.
+When used that way, they each return the minimum or maximum value of the two values provided.
 
 ### ARRAY_AGG
 

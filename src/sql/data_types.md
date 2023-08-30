@@ -10,7 +10,7 @@ Null serves a variety of purposes in Endb.
 * "Missing": Jagged rows will return `NULL` for columns projected
   for a document which does not contain them
 
-## VARCHAR
+## TEXT (VARCHAR)
 
 Endb accepts unbounded, variable-length strings with either single or double quotes.
 
@@ -20,12 +20,11 @@ INSERT INTO users (name, title) VALUES ('River', "Prodigy");
 
 ## BOOLEAN
 
-Boolean values can be `true`, `false`, or `NULL`.
+Boolean values can be `TRUE`, `FALSE`, or `NULL`.
 
 ## INTEGER
 
-32-bit integers with a minimum value of -9007199254740991
-and a maximum value of 9007199254740991.
+64-bit integer capable of auto-promotion to 128-bit integer.
 
 ## REAL
 
@@ -68,7 +67,7 @@ The following are legal time literals:
 * `TIME '23:59:12'`
 * `TIME '23:59:12.12345'`
 
-## INTERVAL, DURATION
+## INTERVAL (DURATION)
 
 An interval (or _duration_) is created whenever two times are subtracted.
 
@@ -76,11 +75,17 @@ An interval (or _duration_) is created whenever two times are subtracted.
 SELECT 2001-01-02 - 2001-01-01;
 ```
 
-Intervals literals can also be constructed with
+Intervals literals can be constructed with
 [ISO 8601 syntax](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals):
 
 * `PT12H30M5S`
 * `P1Y2M10DT2H30M`
+
+Interval literals can also be constructed with
+the classic SQL intervals DSL:
+
+* `INTERVAL '1-2' YEAR TO MONTH`
+* `INTERVAL '0 12:34:56.789' DAY TO SECOND`
 
 ## BLOB
 
@@ -183,6 +188,7 @@ SELECT { a: 1, ...[2, 3] };
 
 In the key/property position, square brackets are used to construct
 computed fields in [object literals](data_types.md#object).
+Computed fields are implicitly cast to string.
 
 ```sql
 SELECT { foo: 2, [2 + 2]: 5 };

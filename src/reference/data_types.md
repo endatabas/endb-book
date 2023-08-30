@@ -8,18 +8,18 @@ JSON-LD values with a type of `@json` will be returned from Endb as JSON literal
 The `@type` listed in parentheses is for reference purposes only.
 JSON literal types are implicit so a `@value/@type` pair is not returned for a JSON literal.
 
-| SQL         | JSON-LD                 | Example Literal      | Description                           |
-|-------------|-------------------------|----------------------|---------------------------------------|
-| `NULL`      | `@json`                 | null                 | Null, nil, undefined, or missing      |
-| `VARCHAR`   | `@json` (`xsd:string`)  | "hello"              | UTF-8 string                          |
-| `BOOLEAN`   | `@json` (`xsd:boolean`) | FALSE                | 8-bit boolean                         |
-| `INTEGER`   | `@json` (`xsd:int`)     | 42                   | 32-bit two's complement integer (?)   |
-| `REAL`      | `@json` (`xsd:double`)  | 9007199254740992.123 | 64-bit IEEE 754 floating point number |
-| `BIGINT`    | `xsd:integer`           | 9007199254740992     | 64-bit two's complement integer, auto-promoted internally |
-| `TIMESTAMP` | `xsd:dateTime`          | 2007-01-01T00:00:00  | ISO microsecond precision timestamp   |
-| `DATE`      | `xsd:date`              | 2007-01-01           | ISO date                              |
-| `TIME`      | `xsd:time`              | 23:30:00             | ISO time                              |
-| `BLOB`      | `xsd:base64Binary`      | x'DEADBEEF'          | Binary large object                   |
+| SQL         | JSON-LD                   | Example Literal      | Description                           |
+|-------------|---------------------------|----------------------|---------------------------------------|
+| `NULL`      | `@json`                   | null                 | Null, nil, undefined, or missing      |
+| `TEXT`      | `@json` (`xsd:string`)    | "hello"              | UTF-8 string                          |
+| `BOOLEAN`   | `@json` (`xsd:boolean`)   | FALSE                | 8-bit boolean                         |
+| `INTEGER`   | `@json` (`xsd:int[eger]`) | 42                   | 64/128-bit two's complement integer   |
+| `REAL`      | `@json` (`xsd:double`)    | 9007199254740992.123 | 64-bit IEEE 754 floating point number |
+| `TIMESTAMP` | `xsd:dateTime`            | 2007-01-01T00:00:00  | ISO microsecond precision timestamp   |
+| `DATE`      | `xsd:date`                | 2007-01-01           | ISO date                              |
+| `TIME`      | `xsd:time`                | 23:30:00             | ISO time                              |
+| `INTERVAL`  | `xsd:duration`            | PT12H34M56.789S      | ISO interval                          |
+| `BLOB`      | `xsd:base64Binary`        | x'DEADBEEF'          | Binary large object                   |
 
 [SQL Data Types](../sql/data_types.md) are covered in detail in the SQL Reference.
 

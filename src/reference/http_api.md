@@ -119,7 +119,8 @@ returns:
 
 ### application/json
 
-`application/json` returns rows as an array of JSON tuples:
+`application/json` returns rows as an array of JSON tuples.
+Columns maintain a consistent order across tuples.
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/json" -X POST http://localhost:3803/sql
@@ -158,7 +159,7 @@ curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Cont
 returns:
 
 ```json
-[[2,{"@value":"2023-07-22","@type":"xsd:date"}],[1,"hello"]]
+{"@context":{"xsd":"http://www.w3.org/2001/XMLSchema#","@vocab":"http://endb.io/"},"@graph":[{"column1":2,"column2":{"@value":"2023-07-22","@type":"xsd:date"}},{"column1":1,"column2":"hello"}]}
 ```
 
 See [JSON-LD](https://json-ld.org/).
@@ -197,6 +198,7 @@ curl -F q="INSERT INTO products {name: ?};" -F p='["Sriracha"]' -X POST http://l
 
 Bulk operations are possible by turning the `m` flag to `true`.
 Bulk operations are available to both named and positional parameters.
+The list of parameters supplied in bulk must be nested in an array.
 
 ```sh
 curl -d '{"q": "INSERT INTO products {name: :name};", "p": [{"name": "Soda"}, {"name": "Tonic"}], "m": true}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql

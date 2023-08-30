@@ -19,7 +19,7 @@ SELECT * FROM products WHERE name > 'Cake' AND price >= 5.00;
 
 ## BETWEEN
 
-`BETWEEN` returns `true` when a value is greater-than-or-equal-to the first limit
+`BETWEEN` returns `TRUE` when a value is greater-than-or-equal-to the first limit
 and less-than-or-equal-to the second.
 It has the form `BETWEEN x AND y`.
 It can be negated with the form `NOT BETWEEN x AND y`.
@@ -108,7 +108,7 @@ SELECT ~1;
 
 ## LIKE
 
-`LIKE` returns `true` if a string matches the supplied _LIKE_ pattern, as defined below:
+`LIKE` returns `TRUE` if a string matches the supplied _LIKE_ pattern, as defined below:
 
 A pattern can be a string literal.
 It can also contain underscores (`_`) and/or percentage symbols (`%`).
@@ -136,7 +136,7 @@ NOTE: Endb `LIKE` is case-sensitive.
 
 ## REGEXP
 
-`REGEXP` returns `true` if a string matches the supplied regular expression.
+`REGEXP` returns `TRUE` if a string matches the supplied regular expression.
 `REGEXP` may be prefixed with `NOT`.
 
 ```sql
@@ -146,7 +146,7 @@ SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
 
 ## GLOB
 
-`GLOB` returns `true` if a string matches the supplied UNIX glob.
+`GLOB` returns `TRUE` if a string matches the supplied UNIX glob.
 `GLOB` may be prefixed with `NOT`.
 
 ```sql
@@ -158,12 +158,12 @@ NOTE: `GLOB` is case-sensitive.
 
 ## MATCH (Containment)
 
-`MATCH` returns `true` if the value on the left contains the value on the right,
+`MATCH` returns `TRUE` if the value on the left contains the value on the right,
 at the top level.
 Note that a top-level array to the right of the `MATCH` refers to a set of values
 that all need to match, not a literal array.
 
-The following expressions return `true`:
+The following expressions return `TRUE`:
 
 ```sql
 SELECT 'foo' MATCH 'foo';
@@ -172,7 +172,7 @@ SELECT {user: 'foo', age: 42} MATCH {age: 42};
 SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 1]};
 ```
 
-The following expressions return `false`:
+The following expressions return `FALSE`:
 
 ```sql
 SELECT [1, 2, [1, 3]] MATCH [1, 3];
@@ -186,7 +186,7 @@ It is provided as a convenience for users accustomed to the equivalent
 
 ## EXISTS
 
-`EXISTS` returns `true` if the subquery which follows it returns at least one row.
+`EXISTS` returns `TRUE` if the subquery which follows it returns at least one row.
 
 ```sql
 SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
@@ -212,26 +212,12 @@ SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 
 ## Single-Row Comparison
 
-It is possible to compare
-[row literals](data_types.md#row-literals)
-against a subquery which returns exactly one row.
+It is possible to compare [row literals](data_types.md#row-literals)
+against each other.
 
 ```sql
-SELECT { p.name, p.price } < (SELECT name, price FROM coupons WHERE name = 'Tofurky' LIMIT 1) FROM products p;
+SELECT p.name, { p.name, p.price } < { c.name, c.price } FROM products p JOIN coupons c ON p.name = c.name;
 ```
-
-## WITH ORDINALITY
-
-When a set-returning function (such as [`UNNEST`](functions.md#unnest))
-is used in a `FROM` clause, it can be suffixed with `WITH ORDINALITY`
-to append an ordinal column to the results.
-
-```sql
-SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
--- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
-```
-
-NOTE: Endb ordinals are zero-indexed.
 
 ## Concatenation
 

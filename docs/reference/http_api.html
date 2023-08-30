@@ -241,7 +241,8 @@ The default <code>Accept</code> header content type is <code>application/json</c
 1,&quot;hello&quot;
 </code></pre>
 <h3 id="applicationjson-1"><a class="header" href="#applicationjson-1">application/json</a></h3>
-<p><code>application/json</code> returns rows as an array of JSON tuples:</p>
+<p><code>application/json</code> returns rows as an array of JSON tuples.
+Columns maintain a consistent order across tuples.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
@@ -260,7 +261,7 @@ The default <code>Accept</code> header content type is <code>application/json</c
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/ld+json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
-<pre><code class="language-json">[[2,{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}],[1,&quot;hello&quot;]]
+<pre><code class="language-json">{&quot;@context&quot;:{&quot;xsd&quot;:&quot;http://www.w3.org/2001/XMLSchema#&quot;,&quot;@vocab&quot;:&quot;http://endb.io/&quot;},&quot;@graph&quot;:[{&quot;column1&quot;:2,&quot;column2&quot;:{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}},{&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}]}
 </code></pre>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
@@ -285,7 +286,8 @@ curl -F q=&quot;INSERT INTO products {name: ?};&quot; -F p='[&quot;Sriracha&quot
 </code></pre>
 <h3 id="bulk-parameters"><a class="header" href="#bulk-parameters">Bulk Parameters</a></h3>
 <p>Bulk operations are possible by turning the <code>m</code> flag to <code>true</code>.
-Bulk operations are available to both named and positional parameters.</p>
+Bulk operations are available to both named and positional parameters.
+The list of parameters supplied in bulk must be nested in an array.</p>
 <pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: [{&quot;name&quot;: &quot;Soda&quot;}, {&quot;name&quot;: &quot;Tonic&quot;}], &quot;m&quot;: true}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
 curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>

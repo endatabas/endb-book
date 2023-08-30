@@ -14,12 +14,15 @@ This is used for user safety and compliance with laws like GDPR.
 Immutable records make `endb` fast.
 Erasure is a complication, which makes `ERASE` architecturally challenging.
 
+NOTE: Erasure is not yet implemented.
+
 ## Dynamic SQL
 
 Both the heart and "UI" of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).
 You can think of it as a JSON-native database with strongly-typed values (not just strings).
 
-It draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
+Endb SQL bases its core on the SQL dialect and function/operator surface area found in SQLite.
+It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
 Read more in our [bibliography](https://www.endatabas.com/bibliography.html).
 
 ## Cloud: Separation of Storage from Compute

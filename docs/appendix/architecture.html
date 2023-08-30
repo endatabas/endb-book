@@ -177,10 +177,12 @@ with fast queries made possible by <a href="#adaptive-indexing">adaptive indexin
 This is used for user safety and compliance with laws like GDPR.
 Immutable records make <code>endb</code> fast.
 Erasure is a complication, which makes <code>ERASE</code> architecturally challenging.</p>
+<p>NOTE: Erasure is not yet implemented.</p>
 <h2 id="dynamic-sql"><a class="header" href="#dynamic-sql">Dynamic SQL</a></h2>
 <p>Both the heart and &quot;UI&quot; of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).
 You can think of it as a JSON-native database with strongly-typed values (not just strings).</p>
-<p>It draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
+<p>Endb SQL bases its core on the SQL dialect and function/operator surface area found in SQLite.
+It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
 Read more in our <a href="https://www.endatabas.com/bibliography.html">bibliography</a>.</p>
 <h2 id="cloud-separation-of-storage-from-compute"><a class="header" href="#cloud-separation-of-storage-from-compute">Cloud: Separation of Storage from Compute</a></h2>
 <p>If you're not sure what this is, think Amazon Aurora, Google AlloyDB, and Neon.

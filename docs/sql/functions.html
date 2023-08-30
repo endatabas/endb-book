@@ -187,8 +187,13 @@ This behaviour is useful for manipulating collections:</p>
 --  {'price': ['coupon_price', 1.4]},
 --  {'price': ['original_price', 1.99]}]
 </code></pre>
-<p>To append an ordinal to each row in the results, use
-<a href="operators.html#with-ordinality"><code>WITH ORDINALITY</code></a>.</p>
+<h3 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h3>
+<p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
+to append an ordinal column to the results.</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+</code></pre>
+<p>NOTE: Endb ordinals are zero-indexed.</p>
 <h2 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h2>
 <p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
 <pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
@@ -293,10 +298,12 @@ of the parameter given.</p>
 character codes.</p>
 <pre><code class="language-sql">SELECT CHAR(65, 66, 67);
 </code></pre>
-<h2 id="concat"><a class="header" href="#concat">CONCAT</a></h2>
-<p>The <code>CONCAT</code> function concatenates two strings supplied as arguments.
-If either argument is not a string, it will be cast to a string automatically.</p>
-<pre><code class="language-sql">SELECT CONCAT(&quot;Hello&quot;, &quot;World&quot;);
+<h2 id=""><a class="header" href="#"><code>||</code></a></h2>
+<p>The <code>||</code> function concatenates two strings or arrays supplied as arguments.
+When concatenating to a string, the second argument will be cast to string.
+When concatenating to an array, blobs and elements are accepted as the second argument.</p>
+<pre><code class="language-sql">SELECT &quot;Hello&quot; || &quot;World&quot;;
+SELECT [1, 2, 3] || [4, 5, 6];
 </code></pre>
 <p>NOTE: <code>CONCAT</code> is equivalent to the <a href="operators.html#concatenation">Concatenation Operator (||)</a>.</p>
 <h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
@@ -334,7 +341,7 @@ It returns the second parameter if the condition is true and the third parameter
 <pre><code class="language-sql">SELECT IIF(price &gt; 5.99, 'Expensive!', 'Cheap') FROM products;
 </code></pre>
 <h2 id="math"><a class="header" href="#math">Math</a></h2>
-<p>Endb provides all standard SQL math functions:</p>
+<p>Endb provides standard SQL math functions based on SQLite's collection of math functions:</p>
 <ul>
 <li>ROUND</li>
 <li>SIN</li>
@@ -373,7 +380,7 @@ Note that not all types are cast-compatible with each other.</p>
 <pre><code class="language-sql">SELECT CAST(price AS INTEGER) FROM products;
 </code></pre>
 <h2 id="nullif"><a class="header" href="#nullif">NULLIF</a></h2>
-<p>The <code>NULLIF</code> function returns <code>true</code> if the two supplied expressions are equal.</p>
+<p>The <code>NULLIF</code> function returns <code>TRUE</code> if the two supplied expressions are equal.</p>
 <pre><code class="language-sql">SELECT NULLIF(1, 1);
 SELECT NULLIF(1, 'zig');
 </code></pre>
@@ -407,6 +414,8 @@ respectively.</p>
 <pre><code class="language-sql">SELECT MIN(price) FROM products;
 SELECT MAX(price) FROM products;
 </code></pre>
+<p>NOTE: <code>MIN</code> and <code>MAX</code> also have non-aggregate equivalents, which are 2-arity.
+When used that way, they each return the minimum or maximum value of the two values provided.</p>
 <h3 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h3>
 <p>The <code>ARRAY_AGG</code> function concatenates the results of an expression into an array.
 The parameter may be <a href="queries.html#order-by-sorting-results">ordered</a>

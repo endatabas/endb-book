@@ -65,6 +65,8 @@ recursively walking the document to match the name given.
 ```sql
 SELECT { paths.* }..a FROM paths;
 -- [{'a': [2, 3, 1]}]
+SELECT b..a FROM paths;
+-- [{'a': [3]}]
 ```
 
 ## Named Child
@@ -75,6 +77,8 @@ of a single descendent child.
 ```sql
 SELECT { paths.* }['b']['a'] FROM paths;
 -- [{'a': 3}]
+SELECT b['a'] FROM paths;
+-- [{'a': 3}]
 ```
 
 Named Children can be combined with recursive paths,
@@ -84,9 +88,8 @@ named children:
 ```sql
 SELECT { paths.* }..a FROM paths;
 SELECT { paths.* }..['a'] FROM paths;
+SELECT b..['a'] FROM paths;
 ```
-
-Both of the above expressions return `[{'a': [2, 3, 1]}]`.
 
 ## Numbered Child
 
@@ -97,6 +100,8 @@ lookups of a single descendent child.
 SELECT { paths.* }['b'][0] FROM paths;
 -- [{'column1': {'a': 3}}]
 SELECT { paths.* }['c'][1] FROM paths;
+-- [{'column1': 2}]
+SELECT c[1] FROM paths;
 -- [{'column1': 2}]
 ```
 
@@ -123,6 +128,8 @@ This finds and returns _all_ values:
 ```sql
 SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
+SELECT c..[*] FROM paths;
+-- [{'column1': [{'a': 1}, 2, 1]}]
 ```
 
 ## Path Functions

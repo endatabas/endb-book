@@ -67,9 +67,18 @@ Inspect System Time with the form `FOR SYSTEM_TIME BETWEEN x AND y`.
 SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
 ```
 
+## FROM ... TO
+
+Selects rows which fall between the two times, similar to `BETWEEN`,
+but is exclusive of both the start and end times.
+
+```sql
+SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00:00:00;
+```
+
 ## CONTAINS
 
-Returns `true` if the second period is contained within the first.
+Returns `TRUE` if the second period is contained within the first.
 
 ```sql
 SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};
@@ -77,7 +86,7 @@ SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 20
 
 ## OVERLAPS
 
-Returns `true` if any part of the first period is found within the second.
+Returns `TRUE` if any part of the first period is found within the second.
 
 ```sql
 SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 2001-04-01};
@@ -85,7 +94,7 @@ SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 20
 
 ## PRECEDES
 
-Returns `true` if the first period ends before the second period begins.
+Returns `TRUE` if the first period ends before the second period begins.
 
 ```sql
 SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
@@ -93,7 +102,7 @@ SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 
 ## SUCCEDES
 
-Returns `true` if the first period begins after the second period ends.
+Returns `TRUE` if the first period begins after the second period ends.
 
 ```sql
 SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
@@ -101,7 +110,7 @@ SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 
 ## IMMEDIATELY PRECEDES
 
-Returns `true` if the first period ends exactly as the second period begins.
+Returns `TRUE` if the first period ends exactly as the second period begins.
 
 ```sql
 SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
@@ -109,7 +118,7 @@ SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 
 ## IMMEDIATELY SUCCEDES
 
-Returns `true` if the first period begins exactly as the second period ends.
+Returns `TRUE` if the first period begins exactly as the second period ends.
 
 ```sql
 SELECT 2001-05-01 IMMEDIATELY SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];

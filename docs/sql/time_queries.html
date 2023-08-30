@@ -211,28 +211,33 @@ as if it were that time <em>now</em>.</p>
 Inspect System Time with the form <code>FOR SYSTEM_TIME BETWEEN x AND y</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
 </code></pre>
+<h2 id="from--to"><a class="header" href="#from--to">FROM ... TO</a></h2>
+<p>Selects rows which fall between the two times, similar to <code>BETWEEN</code>,
+but is exclusive of both the start and end times.</p>
+<pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00:00:00;
+</code></pre>
 <h2 id="contains"><a class="header" href="#contains">CONTAINS</a></h2>
-<p>Returns <code>true</code> if the second period is contained within the first.</p>
+<p>Returns <code>TRUE</code> if the second period is contained within the first.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};
 </code></pre>
 <h2 id="overlaps"><a class="header" href="#overlaps">OVERLAPS</a></h2>
-<p>Returns <code>true</code> if any part of the first period is found within the second.</p>
+<p>Returns <code>TRUE</code> if any part of the first period is found within the second.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 2001-04-01};
 </code></pre>
 <h2 id="precedes"><a class="header" href="#precedes">PRECEDES</a></h2>
-<p>Returns <code>true</code> if the first period ends before the second period begins.</p>
+<p>Returns <code>TRUE</code> if the first period ends before the second period begins.</p>
 <pre><code class="language-sql">SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <h2 id="succedes"><a class="header" href="#succedes">SUCCEDES</a></h2>
-<p>Returns <code>true</code> if the first period begins after the second period ends.</p>
+<p>Returns <code>TRUE</code> if the first period begins after the second period ends.</p>
 <pre><code class="language-sql">SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <h2 id="immediately-precedes"><a class="header" href="#immediately-precedes">IMMEDIATELY PRECEDES</a></h2>
-<p>Returns <code>true</code> if the first period ends exactly as the second period begins.</p>
+<p>Returns <code>TRUE</code> if the first period ends exactly as the second period begins.</p>
 <pre><code class="language-sql">SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 <h2 id="immediately-succedes"><a class="header" href="#immediately-succedes">IMMEDIATELY SUCCEDES</a></h2>
-<p>Returns <code>true</code> if the first period begins exactly as the second period ends.</p>
+<p>Returns <code>TRUE</code> if the first period begins exactly as the second period ends.</p>
 <pre><code class="language-sql">SELECT 2001-05-01 IMMEDIATELY SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
 

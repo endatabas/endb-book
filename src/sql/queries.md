@@ -20,6 +20,12 @@ As a result, `*` refers to the widest possible set of columns, across all the ro
 In many SQL dialects, columns are strictly ordered.
 Because Endb columns cannot have a strict order, `*` returns them in alphabetical order.
 
+You can select the widest set of columns for a specific table with `<table>.*`:
+
+```sql
+SELECT p.* FROM products p JOIN coupons c ON p.price = c.price;
+```
+
 ## Select By Name
 
 In programmatic environments, it is almost always preferable to query for specific columns by name:
@@ -169,13 +175,19 @@ SELECT name, sum(price) FROM products GROUP BY name;
 SELECT * FROM products LIMIT 2;
 ```
 
-It always makes sense to control the order of returned rows so `LIMIT` always returns the same rows
-for the same query -- unless you don't care which rows are returned.
+It always makes sense to control the order of returned rows so `LIMIT`
+always returns the same rows for the same query
+-- unless you don't care which rows are returned.
 
 ```sql
 SELECT * FROM products ORDER BY price ASC LIMIT 2;
 ```
 
+`OFFSET` allows queries to skip rows before returning a limited set.
+
+```sql
+SELECT * FROM products ORDER BY price ASC LIMIT 2 OFFSET 2;
+```
 
 ## VALUES Lists
 
@@ -201,17 +213,18 @@ SELECT * FROM (VALUES (1, 'Salt'), (2, 'Pepper'), (3, 'Vinegar')) AS t (product_
 The `OBJECTS` keyword is used to create a static table comprised of
 object literals, each representing a document (row).
 Each row is directly denoted by an object literal.
-All rows must have [Union Compatibility](queries.md#union-compatibility)
-which, for Endb, means they have the same number of columns.
+`OBJECTS` lists do _not_ require [Union Compatibility](queries.md#union-compatibility),
+so jagged lists are permitted.
 
 ```sql
-OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'};
+OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper', price: 3.99};
 SELECT * FROM (OBJECTS {product_no: 1, name: 'Salt'}, {product_no: 2, name: 'Pepper'}) as t;
 ```
 
 ## Set Operations: UNION, INTERSECT, EXCEPT
 
-The set operations union, intersection, and difference are available to the results of two queries.
+The set operations union, intersection, and difference
+are available to the results of two queries.
 
 ### UNION
 
@@ -219,13 +232,13 @@ Append the results of one query to another.
 Duplicate rows are removed.
 
 ```sql
-select * from products UNION select * from new_products;
+SELECT * FROM products UNION SELECT * FROM new_products;
 ```
 
 To keep duplicate rows, use `UNION ALL`:
 
 ```sql
-select * from products UNION ALL select * from new_products;
+SELECT * FROM products UNION ALL SELECT * FROM new_products;
 ```
 
 ### INTERSECT
@@ -233,7 +246,7 @@ select * from products UNION ALL select * from new_products;
 The intersection of two queries returns results which are found in both.
 
 ```sql
-select * from products INTERSECT select * from new_products;
+SELECT * FROM products INTERSECT SELECT * FROM new_products;
 ```
 
 ### EXCEPT
@@ -242,7 +255,7 @@ The difference of two queries returns only results from the first query which ar
 Another way of thinking about this is that results of the second query are removed from the first.
 
 ```sql
-select * from products EXCEPT select * from ignored_products;
+SELECT * FROM products EXCEPT SELECT * FROM ignored_products;
 ```
 
 ### Union-Compatibility
@@ -259,7 +272,7 @@ the table) will be returned.
 If the queries return a different number of columns, set operations will result in an error:
 
 ```sql
--> select * from products UNION select * from new_products;
+-> SELECT * FROM products UNION SELECT * FROM new_products;
 400 Bad Request
 Number of UNION left columns: 3 does not match right columns: 2
 ```
