@@ -68,3 +68,5 @@ Architecture page could need a refresher (SQLite focus etc).
 ERASE isn't implemented yet.
 
 In general it would be nice to avoid overflowing the examples so much?
+
+* beef up tutorial
