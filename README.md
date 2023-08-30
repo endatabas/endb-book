@@ -27,6 +27,12 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
+* GROUP BY
+* UNSET, REMOVE alias
+* UPDATE SET $path == path_set
+* object_[from]_entries: https://github.com/endatabas/endb/commit/7a050310d4a6f23256f2adf4b18b7726d77f5fb8
+* unnest object
+
 UNSET isn't strictly a command.
 SELECT foo.*
 columns are ordered in application/json.
