@@ -199,7 +199,9 @@ so it contains a number of shorthands and document-oriented conveniences.</p>
 As a result, you may want to remove a column from an individual row.
 You can do this with the <code>UNSET</code> command:</p>
 <pre><code class="language-sql">UPDATE products UNSET product_no WHERE name = 'Coffee';
+UPDATE products REMOVE product_no WHERE name = 'Coffee';
 </code></pre>
+<p><code>REMOVE</code> is an alias for <code>UNSET</code>.</p>
 <p>It is possible to set and unset values in a single update.
 Unsetting a column which doesn't exist is not an error:</p>
 <pre><code class="language-sql">UPDATE products SET price = 5.98 UNSET product_no WHERE name = 'Coffee';

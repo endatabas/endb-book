@@ -59,7 +59,10 @@ You can do this with the `UNSET` command:
 
 ```sql
 UPDATE products UNSET product_no WHERE name = 'Coffee';
+UPDATE products REMOVE product_no WHERE name = 'Coffee';
 ```
+
+`REMOVE` is an alias for `UNSET`.
 
 It is possible to set and unset values in a single update.
 Unsetting a column which doesn't exist is not an error:
