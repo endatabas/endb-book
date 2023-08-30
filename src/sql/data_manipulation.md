@@ -81,6 +81,18 @@ to set fields on a document (columns on a row) in a declarative fashion.
 UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 ```
 
+## UPDATE SET $path
+
+The `SET` operator permits [paths](path_navigation.md#path-functions)
+on its left-hand side.
+The behaviour of the form `UPDATE <table> SET <path> = <value>`
+is identical to that of the [`path_set`](path_navigation.md#path_set)
+function.
+
+```sql
+UPDATE users SET $.addresses[0].city = 'Chicago' WHERE name = 'Steven';
+```
+
 ## DELETE
 
 To delete an existing row, use the standard SQL `DELETE` command.

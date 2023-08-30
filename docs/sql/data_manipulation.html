@@ -212,6 +212,14 @@ The <code>PATCH</code> operator is used in conjunction with <code>UPDATE</code>
 to set fields on a document (columns on a row) in a declarative fashion.</p>
 <pre><code class="language-sql">UPDATE products PATCH {price: 1.98, product_no: products.product_no + 1000} WHERE price = 2.00;
 </code></pre>
+<h2 id="update-set-path"><a class="header" href="#update-set-path">UPDATE SET $path</a></h2>
+<p>The <code>SET</code> operator permits <a href="path_navigation.html#path-functions">paths</a>
+on its left-hand side.
+The behaviour of the form <code>UPDATE &lt;table&gt; SET &lt;path&gt; = &lt;value&gt;</code>
+is identical to that of the <a href="path_navigation.html#path_set"><code>path_set</code></a>
+function.</p>
+<pre><code class="language-sql">UPDATE users SET $.addresses[0].city = 'Chicago' WHERE name = 'Steven';
+</code></pre>
 <h2 id="delete"><a class="header" href="#delete">DELETE</a></h2>
 <p>To delete an existing row, use the standard SQL <code>DELETE</code> command.</p>
 <pre><code class="language-SQL">DELETE FROM products WHERE price = 5.98;
