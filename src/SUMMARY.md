@@ -17,6 +17,7 @@
     - [Path Navigation](./sql/path_navigation.md)
     - [Schema](./sql/schema.md)
     - [Views](./sql/views.md)
+    - [Assertions](./sql/assertions.md)
 - [Reference](./reference/README.md)
     - [Installation](./reference/installation.md)
     - [HTTP API](./reference/http_api.md)

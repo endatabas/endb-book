@@ -28,3 +28,11 @@ SELECT * FROM information_schema.columns;
 ```sql
 SELECT * FROM information_schema.views;
 ```
+
+## Check Constraints
+
+Assertions, etc.
+
+```sql
+SELECT * FROM information_schema.check_constraints;
+```

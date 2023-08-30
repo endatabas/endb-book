@@ -19,15 +19,15 @@ have those values filled with `NULL`:
 SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
 ```
 
-When unnesting an object, keys and values will be made explicit within
-[row literals](data_types.html#row-literals).
+When unnesting an object, keys-value pairs will be returned
+as per [object\_entries](functions.md#object_entries).
 This behaviour is useful for manipulating collections:
 
 ```sql
 SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
--- [{'price': {'key': 'sale_price', 'value': 1.5}},
---  {'price': {'key': 'coupon_price', 'value': 1.4}},
---  {'price': {'key': 'original_price', 'value': 1.99}}]
+-- [{'price': ['sale_price', 1.5]},
+--  {'price': ['coupon_price', 1.4]},
+--  {'price': ['original_price', 1.99]}]
 ```
 
 To append an ordinal to each row in the results, use
@@ -47,6 +47,24 @@ An object's values can be selected using `OBJECT_VALUES`.
 
 ```sql
 SELECT OBJECT_VALUES({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
+```
+
+## OBJECT_ENTRIES
+
+Returns an array of key-value pairs representing the given object.
+
+```sql
+SELECT OBJECT_ENTRIES({a: 1, b: 2, c: 3});
+-- [['a': 1], ['b': 2], ['c': 3]]
+```
+
+## OBJECT\_FROM\_ENTRIES
+
+Constructs an object from an array of key-value pairs.
+
+```sql
+SELECT OBJECT_FROM_ENTRIES([['a', 1], ['b', 2], ['c', 3]]);
+-- {a: 1, b: 2, c: 3}
 ```
 
 ## PATCH
