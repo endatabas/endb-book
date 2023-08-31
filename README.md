@@ -27,6 +27,7 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
+Duration constructor
 UPDATE $.path supports UNSET/REMOVE
 Parameters, might be worth mentioning what they look like (unlike how to actually pass them in).
 Transactions/multiple-statements now support parameters (still returns a single, last result).
