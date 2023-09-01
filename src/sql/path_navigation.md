@@ -128,6 +128,7 @@ This finds and returns _all_ values:
 ```sql
 SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
+
 SELECT c..[*] FROM paths;
 -- [{'column1': [{'a': 1}, 2, 1]}]
 ```

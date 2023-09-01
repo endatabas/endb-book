@@ -250,6 +250,7 @@ lookup of all descendent children.</p>
 This finds and returns <em>all</em> values:</p>
 <pre><code class="language-sql">SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
+
 SELECT c..[*] FROM paths;
 -- [{'column1': [{'a': 1}, 2, 1]}]
 </code></pre>

@@ -30,13 +30,12 @@ JSON literal types are implicit so a `@value/@type` pair is not returned for a J
 | `ARRAY`     | `@json`            | `["Joe", "Dan", "Dwayne"]`           | Zero-based array            |
 | `OBJECT`    | `@json`            | `{n: 3, b: 2023-01-01}`              | Object, map, dict, document |
 
-## Limited and Unsupported Scalar Types
+## Unsupported Scalar Types
 
-| SQL         | JSON-LD                | Example Literal                      | Description                                                                |
-|-------------|------------------------|--------------------------------------|----------------------------------------------------------------------------|
-| `DECIMAL`   | `xsd:decimal`          | 9007199254740992.123M                | Arbitrary precision decimal. Limited support. Use 2 `BIGINT`s or `VARCHAR` |
-| `NUMERIC`   | `xsd:integer`          | -123456789012345678901234567890N     | Arbitrary precision integer. Unsupported. Use `VARCHAR`                    |
-| `URI`       | `xsd:anyURI`           | https://endb.io                      | Uniform Resource Identifier. Unsupported. Use `VARCHAR`                    |
-| `UUID`      | `@json` (`xsd:string`) | a81bc81b-dead-4e5d-abff-90865d1e13b1 | 128-bit Universally Unique Identifier. Unsupported. Use `VARCHAR`          |
+| SQL         | JSON-LD                | Description                                               |
+|-------------|------------------------|-----------------------------------------------------------|
+| `DECIMAL`   | `xsd:decimal`          | Arbitrary precision decimal. Use 2 `BIGINT`s or `VARCHAR` |
+| `URI`       | `xsd:anyURI`           | Unsupported. Use `VARCHAR`                                |
+| `UUID`      | `@json` (`xsd:string`) | Unsupported. Use `VARCHAR` or `BLOB`                      |
 
 If you strongly feel you need a native representation of one of these types, email us: [hello@endatabas.com](mailto:hello@endatabas.com)

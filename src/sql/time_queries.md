@@ -76,7 +76,9 @@ but is exclusive of both the start and end times.
 SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00:00:00;
 ```
 
-## CONTAINS
+## Period Predicates
+
+### CONTAINS
 
 Returns `TRUE` if the second period is contained within the first.
 
@@ -84,7 +86,7 @@ Returns `TRUE` if the second period is contained within the first.
 SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};
 ```
 
-## OVERLAPS
+### OVERLAPS
 
 Returns `TRUE` if any part of the first period is found within the second.
 
@@ -92,7 +94,7 @@ Returns `TRUE` if any part of the first period is found within the second.
 SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 2001-04-01};
 ```
 
-## PRECEDES
+### PRECEDES
 
 Returns `TRUE` if the first period ends before the second period begins.
 
@@ -100,7 +102,7 @@ Returns `TRUE` if the first period ends before the second period begins.
 SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 ```
 
-## SUCCEDES
+### SUCCEDES
 
 Returns `TRUE` if the first period begins after the second period ends.
 
@@ -108,7 +110,7 @@ Returns `TRUE` if the first period begins after the second period ends.
 SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 ```
 
-## IMMEDIATELY PRECEDES
+### IMMEDIATELY PRECEDES
 
 Returns `TRUE` if the first period ends exactly as the second period begins.
 
@@ -116,7 +118,7 @@ Returns `TRUE` if the first period ends exactly as the second period begins.
 SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 ```
 
-## IMMEDIATELY SUCCEDES
+### IMMEDIATELY SUCCEDES
 
 Returns `TRUE` if the first period begins exactly as the second period ends.
 

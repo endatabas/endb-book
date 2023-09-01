@@ -27,39 +27,38 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-Duration constructor
-UPDATE $.path supports UNSET/REMOVE
-Parameters, might be worth mentioning what they look like (unlike how to actually pass them in).
-Transactions/multiple-statements now support parameters (still returns a single, last result).
-Select by Name: columns are ordered in application/json.
-comparison, also <>, !=
-UNNEST under queries.
-HAVING together with GROUP BY.
-BIGINT is just an alias for INTEGER.
-REAL (DOUBLE, DECIMAL)
-BLOB (VARBINARY)
-Spread, show object spreads?
-IS/NOT can be used with any rhs expression, not just literal nulls, it simply treats null as equal.
-GLOB - should double asterisk do something special?
-EXISTS - could maybe mention that we don't support ANY/SOME style subqueries, but they can always be rewritten as a correlated EXISTS.
-NOT/IN - should we support arrays on the rhs, or mention that we don't - guess MATCH removes/overloads this need a bit?
-Single Row Comparison - a bit confusing if a row is an object or not, this is kind of just an object compare. Think { foo.* } is what we would call a row literal.
-CARDINALITY, not really a set thing, just an alias for LENGTH.
-MIN/MAX are 2 and more arity.
-Functions - more natural order/grouping of the page?
-Temporal - would make the FROM SYSTEM_TIME and period predicate clearer apart. 3-parts: current_date etc, FROM and period predicates.
-SUCCEEDS - spelling.
-Path functions - the syntax is really a superset (dollar, hash) of a subset (not recursive or wildcards). Might be worth highlighting that these are what UPDATE SET/REMOVE use.
-Path navigation - don't want to give the impression you have to use row literals.
-Check Constraints - just assertions, nothing else in our system.
-HTTP API - Parameters - worth mentioning and explaining the valid JSON-LD literals one can use somewhere. Parameters can also (in some formats) be SQL.
-Let's sanity check path-params with application/sql.
-Unsupported scalars, same comment as before, the examples numbers are Clojure-esque.
-Architecture page could need a refresher (SQLite focus etc).
+* ERASE: https://github.com/endatabas/endb/commit/792f2b4b17a87415e8eb665a4f4344c700a696f1
+    * btw, not erased yet
+* ops: env vars, cmd line params, logging, data_dir
+* SELECT t1.*, t1.system_time FROM t1 FOR SYSTEM_TIME ALL
+* try assertion on empty db - "you can refer to table that doesn't exist yet"
+* Duration constructor
+* UPDATE $.path supports UNSET/REMOVE
+* Transactions/multiple-statements now support parameters (still returns a single, last result).
+* revisit AS / Aliases
+* revisit SELECT / mime types
+* HAVING together with GROUP BY.
+* IS/NOT can be used with any rhs expression, not just literal nulls, it simply treats null as equal.
+* EXISTS - could maybe mention that we don't support ANY/SOME style subqueries, but they can always be rewritten as a correlated EXISTS.
+* NOT/IN - should we support arrays on the rhs, or mention that we don't - guess MATCH removes/overloads this
+* arrays - compares lexographically
+* objects - compares on entries as arrays (of pairs)
+* UTC - time-queries, data-types: mention we are only UTC
+* Temporal - would make the FROM SYSTEM_TIME and period predicate clearer apart. 3-parts: current_date etc, FROM and period predicates.
+    * nesting?
+    * revisit page
+* SUCCEEDS - spelling.
+* Path functions - the syntax is really a superset (dollar, hash) of a subset (not recursive or wildcards). Might be worth highlighting that these are what UPDATE SET/REMOVE use.
+* whitespace between examples in one box
+* HTTP API - Parameters - worth mentioning and explaining the valid JSON-LD literals one can use somewhere. Parameters can also (in some formats) be SQL.
+    * show JSON-LD map somewhere
+* retry: Let's sanity check path-params (url params) with application/sql.
+    * document functionality if it works
 
-In general it would be nice to avoid overflowing the examples so much?
-
-Overall - would be good to go over the error messages we generate ourselves for consistent language, uppercase keywords etc?
+* Architecture page could need a refresher (SQLite focus etc).
+* NorthWind equivalent?
+* Functions - more natural order/grouping of the page?
+* In general it would be nice to avoid overflowing the examples so much?
 
 * remove code example overflows
 * beef up tutorial

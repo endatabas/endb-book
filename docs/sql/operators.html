@@ -272,7 +272,7 @@ SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
 <p><code>GLOB</code> returns <code>TRUE</code> if a string matches the supplied UNIX glob.
 <code>GLOB</code> may be prefixed with <code>NOT</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name GLOB '*of*';
-SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
+SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/*/*.png';
 </code></pre>
 <p>NOTE: <code>GLOB</code> is case-sensitive.</p>
 <h2 id="match-containment"><a class="header" href="#match-containment">MATCH (Containment)</a></h2>
@@ -307,11 +307,6 @@ SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 <p>The standard SQL <code>NOT IN</code> clause can be used to test lists and subqueries for absence of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
-</code></pre>
-<h2 id="single-row-comparison"><a class="header" href="#single-row-comparison">Single-Row Comparison</a></h2>
-<p>It is possible to compare <a href="data_types.html#row-literals">row literals</a>
-against each other.</p>
-<pre><code class="language-sql">SELECT p.name, { p.name, p.price } &lt; { c.name, c.price } FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
 <p>The concatenation operator (<code>||</code>) concatenates two strings.

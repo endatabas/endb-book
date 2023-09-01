@@ -22,18 +22,13 @@ INSERT INTO users (name, title) VALUES ('River', "Prodigy");
 
 Boolean values can be `TRUE`, `FALSE`, or `NULL`.
 
-## INTEGER
+## INTEGER (BIGINT)
 
 64-bit integer capable of auto-promotion to 128-bit integer.
 
-## REAL
+## REAL (DOUBLE)
 
 A 64-bit IEEE 754 floating point number, or double.
-
-## BIGINT
-
-32-bit integers with a minimum value of -9223372036854775807
-and a maximum value of 9223372036854775807.
 
 ## TIMESTAMP
 
@@ -87,7 +82,7 @@ the classic SQL intervals DSL:
 * `INTERVAL '1-2' YEAR TO MONTH`
 * `INTERVAL '0 12:34:56.789' DAY TO SECOND`
 
-## BLOB
+## BLOB (VARBINARY)
 
 Binary Large Objects can be encoded as hexidecimal literals or cast from strings.
 
@@ -180,6 +175,9 @@ SELECT [1, 2, ..."foo", 5];
 If an array is spread into an object, its ordinals will be used as properties:
 
 ```sql
+SELECT { a: 1, ...{b: 2} };
+-- [{'column1': {'a': 1, 'b': 2}}]
+
 SELECT { a: 1, ...[2, 3] };
 -- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
 ```

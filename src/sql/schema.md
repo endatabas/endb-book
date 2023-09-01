@@ -31,7 +31,7 @@ SELECT * FROM information_schema.views;
 
 ## Check Constraints
 
-Assertions, etc.
+The `check_constraints` table in Endb is used to store [assertions](assertions.md).
 
 ```sql
 SELECT * FROM information_schema.check_constraints;

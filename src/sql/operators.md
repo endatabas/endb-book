@@ -151,7 +151,7 @@ SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
 
 ```sql
 SELECT * FROM products WHERE name GLOB '*of*';
-SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
+SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/*/*.png';
 ```
 
 NOTE: `GLOB` is case-sensitive.
@@ -208,15 +208,6 @@ The standard SQL `NOT IN` clause can be used to test lists and subqueries for ab
 ```sql
 SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
-```
-
-## Single-Row Comparison
-
-It is possible to compare [row literals](data_types.md#row-literals)
-against each other.
-
-```sql
-SELECT p.name, { p.name, p.price } < { c.name, c.price } FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
 ## Concatenation

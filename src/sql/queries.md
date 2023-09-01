@@ -26,7 +26,7 @@ You can select the widest set of columns for a specific table with `<table>.*`:
 SELECT p.* FROM products p JOIN coupons c ON p.price = c.price;
 ```
 
-## Select By Name
+## SELECT
 
 In programmatic environments, it is almost always preferable to query for specific columns by name:
 
@@ -35,33 +35,16 @@ SELECT product_no FROM products;
 ```
 
 Select a list of columns by delimiting them with commas.
-If your client accepts `text/csv` as a content type, columns will be returned in the order specified.
+If your client accepts `text/csv` or `application/json` as a content type,
+columns will be returned in the order specified.
 JSON keys are inherently unordered so the order of columns is ignored for accepted content types of
-`application/json`, `application/x-ndjson`, and `application/ld+json`.
+`application/x-ndjson`, and `application/ld+json` -- both of these content types return rows as maps.
 
 ```sql
 SELECT product_no, v, price, name FROM products;
 ```
 
-## WHERE (Filtering)
-
-Rather than returning the entire table, documents (rows) can be filtered with a `WHERE` clause.
-
-```sql
-SELECT * FROM products WHERE price > 4;
-```
-
-### Comparison
-
-The most common way of filtering columns is to compare them.
-Endb provides `=`, `>`, `<`, `>=`, `<=` operators.
-These work on all column types, though comparing two disparate types may produce unexpected results.
-
-```sql
-SELECT * FROM products WHERE product_no = 99;
-SELECT * FROM products WHERE price < 4;
-SELECT * FROM products WHERE name >= 'Cabin';
-```
+## FROM
 
 ### Aliases
 
@@ -81,6 +64,57 @@ on any fields (columns) which have equivalent values.
 ```sql
 INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
+```
+
+### UNNEST
+
+The `UNNEST` function can be thought of as the inverse of
+[`ARRAY_AGG`](functions.md#array_agg),
+although it offers more power than just unlinking elements.
+It takes an array or object and pulls its elements into separate rows.
+
+```sql
+SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
+```
+
+It is possible to unnest multiple arrays.
+If the arrays do not have the same number of elements, the shorter array(s) will
+have those values filled with `NULL`:
+
+```sql
+SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
+```
+
+When unnesting an object, keys-value pairs will be returned
+as per [object\_entries](functions.md#object_entries).
+This behaviour is useful for manipulating collections:
+
+```sql
+SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
+-- [{'price': ['sale_price', 1.5]},
+--  {'price': ['coupon_price', 1.4]},
+--  {'price': ['original_price', 1.99]}]
+```
+
+### WITH ORDINALITY
+
+`UNNEST` can be suffixed with `WITH ORDINALITY`
+to append an ordinal column to the results.
+
+```sql
+SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+```
+
+NOTE: Endb ordinals are zero-indexed.
+
+
+## WHERE (Filtering)
+
+Rather than returning the entire table, documents (rows) can be filtered with a `WHERE` clause.
+
+```sql
+SELECT * FROM products WHERE price > 4;
 ```
 
 ### AS: Alias Tables, Expressions, and Columns

@@ -441,28 +441,18 @@ Because Endb columns cannot have a strict order, <code>*</code> returns them in 
 <p>You can select the widest set of columns for a specific table with <code>&lt;table&gt;.*</code>:</p>
 <pre><code class="language-sql">SELECT p.* FROM products p JOIN coupons c ON p.price = c.price;
 </code></pre>
-<h2 id="select-by-name"><a class="header" href="#select-by-name">Select By Name</a></h2>
+<h2 id="select"><a class="header" href="#select">SELECT</a></h2>
 <p>In programmatic environments, it is almost always preferable to query for specific columns by name:</p>
 <pre><code class="language-sql">SELECT product_no FROM products;
 </code></pre>
 <p>Select a list of columns by delimiting them with commas.
-If your client accepts <code>text/csv</code> as a content type, columns will be returned in the order specified.
+If your client accepts <code>text/csv</code> or <code>application/json</code> as a content type,
+columns will be returned in the order specified.
 JSON keys are inherently unordered so the order of columns is ignored for accepted content types of
-<code>application/json</code>, <code>application/x-ndjson</code>, and <code>application/ld+json</code>.</p>
+<code>application/x-ndjson</code>, and <code>application/ld+json</code> -- both of these content types return rows as maps.</p>
 <pre><code class="language-sql">SELECT product_no, v, price, name FROM products;
 </code></pre>
-<h2 id="where-filtering"><a class="header" href="#where-filtering">WHERE (Filtering)</a></h2>
-<p>Rather than returning the entire table, documents (rows) can be filtered with a <code>WHERE</code> clause.</p>
-<pre><code class="language-sql">SELECT * FROM products WHERE price &gt; 4;
-</code></pre>
-<h3 id="comparison"><a class="header" href="#comparison">Comparison</a></h3>
-<p>The most common way of filtering columns is to compare them.
-Endb provides <code>=</code>, <code>&gt;</code>, <code>&lt;</code>, <code>&gt;=</code>, <code>&lt;=</code> operators.
-These work on all column types, though comparing two disparate types may produce unexpected results.</p>
-<pre><code class="language-sql">SELECT * FROM products WHERE product_no = 99;
-SELECT * FROM products WHERE price &lt; 4;
-SELECT * FROM products WHERE name &gt;= 'Cabin';
-</code></pre>
+<h2 id="from"><a class="header" href="#from">FROM</a></h2>
 <h3 id="aliases"><a class="header" href="#aliases">Aliases</a></h3>
 <p>For convenience, tables can be given aliases immediately following their name in the <code>FROM</code> clause.</p>
 <pre><code class="language-sql">SELECT p.name FROM products p;
@@ -473,6 +463,37 @@ SELECT * FROM products WHERE name &gt;= 'Cabin';
 on any fields (columns) which have equivalent values.</p>
 <pre><code class="language-sql">INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
+</code></pre>
+<h3 id="unnest"><a class="header" href="#unnest">UNNEST</a></h3>
+<p>The <code>UNNEST</code> function can be thought of as the inverse of
+<a href="sql/functions.html#array_agg"><code>ARRAY_AGG</code></a>,
+although it offers more power than just unlinking elements.
+It takes an array or object and pulls its elements into separate rows.</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
+</code></pre>
+<p>It is possible to unnest multiple arrays.
+If the arrays do not have the same number of elements, the shorter array(s) will
+have those values filled with <code>NULL</code>:</p>
+<pre><code class="language-sql">SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
+</code></pre>
+<p>When unnesting an object, keys-value pairs will be returned
+as per <a href="sql/functions.html#object_entries">object_entries</a>.
+This behaviour is useful for manipulating collections:</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
+-- [{'price': ['sale_price', 1.5]},
+--  {'price': ['coupon_price', 1.4]},
+--  {'price': ['original_price', 1.99]}]
+</code></pre>
+<h3 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h3>
+<p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
+to append an ordinal column to the results.</p>
+<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+</code></pre>
+<p>NOTE: Endb ordinals are zero-indexed.</p>
+<h2 id="where-filtering"><a class="header" href="#where-filtering">WHERE (Filtering)</a></h2>
+<p>Rather than returning the entire table, documents (rows) can be filtered with a <code>WHERE</code> clause.</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE price &gt; 4;
 </code></pre>
 <h3 id="as-alias-tables-expressions-and-columns"><a class="header" href="#as-alias-tables-expressions-and-columns">AS: Alias Tables, Expressions, and Columns</a></h3>
 <p>The <code>AS</code> operator can optionally be used to provide an alias for a table.</p>
@@ -636,13 +657,10 @@ for a document which does not contain them</li>
 </code></pre>
 <h2 id="boolean"><a class="header" href="#boolean">BOOLEAN</a></h2>
 <p>Boolean values can be <code>TRUE</code>, <code>FALSE</code>, or <code>NULL</code>.</p>
-<h2 id="integer"><a class="header" href="#integer">INTEGER</a></h2>
+<h2 id="integer-bigint"><a class="header" href="#integer-bigint">INTEGER (BIGINT)</a></h2>
 <p>64-bit integer capable of auto-promotion to 128-bit integer.</p>
-<h2 id="real"><a class="header" href="#real">REAL</a></h2>
+<h2 id="real-double"><a class="header" href="#real-double">REAL (DOUBLE)</a></h2>
 <p>A 64-bit IEEE 754 floating point number, or double.</p>
-<h2 id="bigint"><a class="header" href="#bigint">BIGINT</a></h2>
-<p>32-bit integers with a minimum value of -9223372036854775807
-and a maximum value of 9223372036854775807.</p>
 <h2 id="timestamp"><a class="header" href="#timestamp">TIMESTAMP</a></h2>
 <p>Timestamps can be represented as either SQL timestamps, according to the SQL Specification,
 or ISO timestamps.
@@ -688,7 +706,7 @@ the classic SQL intervals DSL:</p>
 <li><code>INTERVAL '1-2' YEAR TO MONTH</code></li>
 <li><code>INTERVAL '0 12:34:56.789' DAY TO SECOND</code></li>
 </ul>
-<h2 id="blob"><a class="header" href="#blob">BLOB</a></h2>
+<h2 id="blob-varbinary"><a class="header" href="#blob-varbinary">BLOB (VARBINARY)</a></h2>
 <p>Binary Large Objects can be encoded as hexidecimal literals or cast from strings.</p>
 <ul>
 <li><code>x'DEADBEEF'</code></li>
@@ -761,7 +779,10 @@ SELECT [1, 2, ...&quot;foo&quot;, 5];
 -- [{'column1': [1, 2, 'f', 'o', 'o', 5]}]
 </code></pre>
 <p>If an array is spread into an object, its ordinals will be used as properties:</p>
-<pre><code class="language-sql">SELECT { a: 1, ...[2, 3] };
+<pre><code class="language-sql">SELECT { a: 1, ...{b: 2} };
+-- [{'column1': {'a': 1, 'b': 2}}]
+
+SELECT { a: 1, ...[2, 3] };
 -- [{'column1': {'0': 2, '1': 3, 'a': 1}}]
 </code></pre>
 <h3 id="computed-fields"><a class="header" href="#computed-fields">Computed Fields</a></h3>
@@ -780,7 +801,7 @@ SELECT { foo: 2, ['foo' || 2]: 5 };
 -- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
-<h2 id="comparison-1"><a class="header" href="#comparison-1">Comparison</a></h2>
+<h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
 <p>Two values can be compared using standard SQL comparison operators:</p>
 <ul>
 <li><code>=</code>, <code>==</code> (equals)</li>
@@ -885,7 +906,7 @@ SELECT * FROM products WHERE name NOT REGEXP '.*[fst]+.*';
 <p><code>GLOB</code> returns <code>TRUE</code> if a string matches the supplied UNIX glob.
 <code>GLOB</code> may be prefixed with <code>NOT</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE name GLOB '*of*';
-SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/**/*.png';
+SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/*/*.png';
 </code></pre>
 <p>NOTE: <code>GLOB</code> is case-sensitive.</p>
 <h2 id="match-containment"><a class="header" href="#match-containment">MATCH (Containment)</a></h2>
@@ -921,11 +942,6 @@ SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 <pre><code class="language-sql">SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
-<h2 id="single-row-comparison"><a class="header" href="#single-row-comparison">Single-Row Comparison</a></h2>
-<p>It is possible to compare <a href="sql/data_types.html#row-literals">row literals</a>
-against each other.</p>
-<pre><code class="language-sql">SELECT p.name, { p.name, p.price } &lt; { c.name, c.price } FROM products p JOIN coupons c ON p.name = c.name;
-</code></pre>
 <h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
 <p>The concatenation operator (<code>||</code>) concatenates two strings.
 Multiple operators can be chained together.</p>
@@ -934,33 +950,6 @@ SELECT &quot;Hello&quot; || &quot;World&quot; || &quot;And&quot; || &quot;Friend
 </code></pre>
 <p>The Concatenation Operator is equivalent to the <a href="sql/functions.html#concat"><code>CONCAT</code> function</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
-<h2 id="unnest"><a class="header" href="#unnest">UNNEST</a></h2>
-<p>The <code>UNNEST</code> function can be thought of as the inverse of
-<a href="sql/functions.html#array_agg"><code>ARRAY_AGG</code></a>,
-although it offers more power than just unlinking elements.
-It takes an array or object and pulls its elements into separate rows.</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
-</code></pre>
-<p>It is possible to unnest multiple arrays.
-If the arrays do not have the same number of elements, the shorter array(s) will
-have those values filled with <code>NULL</code>:</p>
-<pre><code class="language-sql">SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
-</code></pre>
-<p>When unnesting an object, keys-value pairs will be returned
-as per <a href="sql/functions.html#object_entries">object_entries</a>.
-This behaviour is useful for manipulating collections:</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
--- [{'price': ['sale_price', 1.5]},
---  {'price': ['coupon_price', 1.4]},
---  {'price': ['original_price', 1.99]}]
-</code></pre>
-<h3 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h3>
-<p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
-to append an ordinal column to the results.</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
--- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
-</code></pre>
-<p>NOTE: Endb ordinals are zero-indexed.</p>
 <h2 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h2>
 <p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
 <pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
@@ -996,10 +985,6 @@ If the second document specifies any fields with values of <code>NULL</code>, th
 The following example returns <code>'zig'</code>:</p>
 <pre><code class="language-sql">SELECT COALESCE(NULL, NULL, 'zig', 'zag');
 </code></pre>
-<h2 id="cardinality"><a class="header" href="#cardinality">CARDINALITY</a></h2>
-<p>The <code>CARDINALITY</code> function returns the number of the elements in a given set.</p>
-<pre><code class="language-sql">SELECT CARDINALITY([3,3,4,5,6]) AS element_count;
-</code></pre>
 <h2 id="character_length"><a class="header" href="#character_length">CHARACTER_LENGTH</a></h2>
 <p>The <code>CHARACTER_LENGTH</code> function returns the number of unicode characters in a string.</p>
 <pre><code class="language-sql">SELECT CHARACTER_LENGTH('josé');
@@ -1021,6 +1006,7 @@ When supplied with a string, it is a synonym for <code>CHARACTER_LENGTH</code>.<
 SELECT LENGTH({name: 'Peas', price: 8.99, product_no: 77});
 SELECT LENGTH('josé');
 </code></pre>
+<p>NOTE: <code>CARDINALITY</code> is an synonym for <code>LENGTH</code>.</p>
 <h2 id="trim-ltrim-rtrim"><a class="header" href="#trim-ltrim-rtrim">TRIM, LTRIM, RTRIM</a></h2>
 <p>The <code>TRIM</code>, <code>LTRIM</code>, and <code>RTRIM</code> functions trim surrounding whitespace,
 whitespace to the left, and whitespace to the right of a string, respectively.</p>
@@ -1255,27 +1241,28 @@ Inspect System Time with the form <code>FOR SYSTEM_TIME BETWEEN x AND y</code>.<
 but is exclusive of both the start and end times.</p>
 <pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00:00:00;
 </code></pre>
-<h2 id="contains"><a class="header" href="#contains">CONTAINS</a></h2>
+<h2 id="period-predicates"><a class="header" href="#period-predicates">Period Predicates</a></h2>
+<h3 id="contains"><a class="header" href="#contains">CONTAINS</a></h3>
 <p>Returns <code>TRUE</code> if the second period is contained within the first.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};
 </code></pre>
-<h2 id="overlaps"><a class="header" href="#overlaps">OVERLAPS</a></h2>
+<h3 id="overlaps"><a class="header" href="#overlaps">OVERLAPS</a></h3>
 <p>Returns <code>TRUE</code> if any part of the first period is found within the second.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-03-01} OVERLAPS {start: 2001-02-01, end: 2001-04-01};
 </code></pre>
-<h2 id="precedes"><a class="header" href="#precedes">PRECEDES</a></h2>
+<h3 id="precedes"><a class="header" href="#precedes">PRECEDES</a></h3>
 <p>Returns <code>TRUE</code> if the first period ends before the second period begins.</p>
 <pre><code class="language-sql">SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
-<h2 id="succedes"><a class="header" href="#succedes">SUCCEDES</a></h2>
+<h3 id="succedes"><a class="header" href="#succedes">SUCCEDES</a></h3>
 <p>Returns <code>TRUE</code> if the first period begins after the second period ends.</p>
 <pre><code class="language-sql">SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
-<h2 id="immediately-precedes"><a class="header" href="#immediately-precedes">IMMEDIATELY PRECEDES</a></h2>
+<h3 id="immediately-precedes"><a class="header" href="#immediately-precedes">IMMEDIATELY PRECEDES</a></h3>
 <p>Returns <code>TRUE</code> if the first period ends exactly as the second period begins.</p>
 <pre><code class="language-sql">SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
-<h2 id="immediately-succedes"><a class="header" href="#immediately-succedes">IMMEDIATELY SUCCEDES</a></h2>
+<h3 id="immediately-succedes"><a class="header" href="#immediately-succedes">IMMEDIATELY SUCCEDES</a></h3>
 <p>Returns <code>TRUE</code> if the first period begins exactly as the second period ends.</p>
 <pre><code class="language-sql">SELECT 2001-05-01 IMMEDIATELY SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
 </code></pre>
@@ -1363,6 +1350,7 @@ lookup of all descendent children.</p>
 This finds and returns <em>all</em> values:</p>
 <pre><code class="language-sql">SELECT { paths.* }..[*] FROM paths;
 -- [{'column1': [2, {'a': 3}, [{'a': 1}, 2], 3, {'a': 1}, 2, 1]}]
+
 SELECT c..[*] FROM paths;
 -- [{'column1': [{'a': 1}, 2, 1]}]
 </code></pre>
@@ -1431,7 +1419,7 @@ lower-case names and must be queried as such.</p>
 <pre><code class="language-sql">SELECT * FROM information_schema.views;
 </code></pre>
 <h2 id="check-constraints"><a class="header" href="#check-constraints">Check Constraints</a></h2>
-<p>Assertions, etc.</p>
+<p>The <code>check_constraints</code> table in Endb is used to store <a href="sql/assertions.html">assertions</a>.</p>
 <pre><code class="language-sql">SELECT * FROM information_schema.check_constraints;
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="views-1"><a class="header" href="#views-1">Views</a></h1>
@@ -1654,12 +1642,11 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 <tr><td><code>OBJECT</code></td><td><code>@json</code></td><td><code>{n: 3, b: 2023-01-01}</code></td><td>Object, map, dict, document</td></tr>
 </tbody></table>
 </div>
-<h2 id="limited-and-unsupported-scalar-types"><a class="header" href="#limited-and-unsupported-scalar-types">Limited and Unsupported Scalar Types</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Example Literal</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>DECIMAL</code></td><td><code>xsd:decimal</code></td><td>9007199254740992.123M</td><td>Arbitrary precision decimal. Limited support. Use 2 <code>BIGINT</code>s or <code>VARCHAR</code></td></tr>
-<tr><td><code>NUMERIC</code></td><td><code>xsd:integer</code></td><td>-123456789012345678901234567890N</td><td>Arbitrary precision integer. Unsupported. Use <code>VARCHAR</code></td></tr>
-<tr><td><code>URI</code></td><td><code>xsd:anyURI</code></td><td>https://endb.io</td><td>Uniform Resource Identifier. Unsupported. Use <code>VARCHAR</code></td></tr>
-<tr><td><code>UUID</code></td><td><code>@json</code> (<code>xsd:string</code>)</td><td>a81bc81b-dead-4e5d-abff-90865d1e13b1</td><td>128-bit Universally Unique Identifier. Unsupported. Use <code>VARCHAR</code></td></tr>
+<h2 id="unsupported-scalar-types"><a class="header" href="#unsupported-scalar-types">Unsupported Scalar Types</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>SQL</th><th>JSON-LD</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>DECIMAL</code></td><td><code>xsd:decimal</code></td><td>Arbitrary precision decimal. Use 2 <code>BIGINT</code>s or <code>VARCHAR</code></td></tr>
+<tr><td><code>URI</code></td><td><code>xsd:anyURI</code></td><td>Unsupported. Use <code>VARCHAR</code></td></tr>
+<tr><td><code>UUID</code></td><td><code>@json</code> (<code>xsd:string</code>)</td><td>Unsupported. Use <code>VARCHAR</code> or <code>BLOB</code></td></tr>
 </tbody></table>
 </div>
 <p>If you strongly feel you need a native representation of one of these types, email us: <a href="mailto:hello@endatabas.com">hello@endatabas.com</a></p>
