@@ -1,5 +1,9 @@
 # SQL Data Types
 
+## Note on timezones
+
+Endb date/time data types currently only support times encoded as UTC.
+
 ## NULL
 
 Null serves a variety of purposes in Endb.
@@ -114,6 +118,8 @@ SELECT [1, 2, ...[3, 4], 5];
 -- [{'column1': [1, 2, 3, 4, 5]}]
 ```
 
+Array equality is tested [lexicographically](https://en.wikipedia.org/wiki/Lexicographic_order).
+
 ## OBJECT
 
 Objects (which can also be thought of as documents, or rows)
@@ -145,6 +151,8 @@ SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
 SELECT {product: {p.*}, discounted: c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
 -- [{'column1': {'discounted': 2.99, 'product': {'name': 'Salt', 'price': 5.99}}}]
 ```
+
+Object equality is tested by comparing each key-value pair as an array.
 
 ## Dynamic Literals
 

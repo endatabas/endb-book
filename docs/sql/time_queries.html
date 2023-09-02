@@ -184,15 +184,20 @@ in case they are helpful to you:</p>
 follow the SQL:2011 standard's &quot;closed-open period model&quot;.
 This means that a period represents all times starting from (and including)
 the start time up to (but excluding) the end time.</p>
-<h2 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h2>
+<h2 id="note-on-timezones"><a class="header" href="#note-on-timezones">Note on timezones</a></h2>
+<p>Endb currently only supports times encoded as UTC.</p>
+<h2 id="now"><a class="header" href="#now">Now</a></h2>
+<p>Endb provides access to the current value of the clock &quot;now&quot;
+in multiple date/time configurations.</p>
+<h3 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h3>
 <p><code>CURRENT_TIMESTAMP</code> gets the current date and time in UTC.</p>
 <pre><code class="language-sql">SELECT CURRENT_TIMESTAMP;
 </code></pre>
-<h2 id="current_time"><a class="header" href="#current_time">CURRENT_TIME</a></h2>
+<h3 id="current_time"><a class="header" href="#current_time">CURRENT_TIME</a></h3>
 <p><code>CURRENT_TIME</code> gets the current time in UTC.</p>
 <pre><code class="language-sql">SELECT CURRENT_TIME;
 </code></pre>
-<h2 id="current_date"><a class="header" href="#current_date">CURRENT_DATE</a></h2>
+<h3 id="current_date"><a class="header" href="#current_date">CURRENT_DATE</a></h3>
 <p><code>CURRENT_DATE</code> gets the current date in UTC.
 Note that this may be different from your <em>local</em> date,
 depending on the time of day when your query is run.</p>

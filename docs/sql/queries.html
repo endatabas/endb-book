@@ -287,6 +287,14 @@ such as <code>SUM</code>.</p>
 <pre><code class="language-sql">SELECT name, price FROM products GROUP BY name, price;
 SELECT name, sum(price) FROM products GROUP BY name;
 </code></pre>
+<h2 id="having"><a class="header" href="#having">HAVING</a></h2>
+<p><code>HAVING</code> adds a search condition to an aggregate query.</p>
+<pre><code class="language-sql">SELECT name, sum(price) FROM products GROUP BY name HAVING LENGTH(name) &gt; 4;
+</code></pre>
+<p>It is most often used with <code>GROUP BY</code> (seen above), but it is also legal
+with other aggregates:</p>
+<pre><code class="language-sql">SELECT SUM(products.price) FROM products HAVING SUM(products.price) = 13;
+</code></pre>
 <h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;

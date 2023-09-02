@@ -27,16 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* HAVING together with GROUP BY.
-* IS/NOT can be used with any rhs expression, not just literal nulls, it simply treats null as equal.
-* EXISTS - could maybe mention that we don't support ANY/SOME style subqueries, but they can always be rewritten as a correlated EXISTS.
-* NOT/IN - should we support arrays on the rhs, or mention that we don't - guess MATCH removes/overloads this
-* arrays - compares lexographically
-* objects - compares on entries as arrays (of pairs)
-* UTC - time-queries, data-types: mention we are only UTC
-* Temporal - would make the FROM SYSTEM_TIME and period predicate clearer apart. 3-parts: current_date etc, FROM and period predicates.
-    * nesting?
-    * revisit page
 * SUCCEEDS - spelling.
 * Path functions - the syntax is really a superset (dollar, hash) of a subset (not recursive or wildcards). Might be worth highlighting that these are what UPDATE SET/REMOVE use.
 * whitespace between examples in one box

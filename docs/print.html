@@ -566,6 +566,14 @@ such as <code>SUM</code>.</p>
 <pre><code class="language-sql">SELECT name, price FROM products GROUP BY name, price;
 SELECT name, sum(price) FROM products GROUP BY name;
 </code></pre>
+<h2 id="having"><a class="header" href="#having">HAVING</a></h2>
+<p><code>HAVING</code> adds a search condition to an aggregate query.</p>
+<pre><code class="language-sql">SELECT name, sum(price) FROM products GROUP BY name HAVING LENGTH(name) &gt; 4;
+</code></pre>
+<p>It is most often used with <code>GROUP BY</code> (seen above), but it is also legal
+with other aggregates:</p>
+<pre><code class="language-sql">SELECT SUM(products.price) FROM products HAVING SUM(products.price) = 13;
+</code></pre>
 <h2 id="limit"><a class="header" href="#limit">LIMIT</a></h2>
 <p><code>LIMIT</code> specifies the maximum number of rows to be returned by the query.</p>
 <pre><code class="language-sql">SELECT * FROM products LIMIT 2;
@@ -663,6 +671,8 @@ However, Endb recursive queries are also capable of solving Sudoku puzzles and c
 (Credit goes to SQLite's delightful
 <a href="https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples">Outlandish Recursive Query Examples</a>.)</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sql-data-types"><a class="header" href="#sql-data-types">SQL Data Types</a></h1>
+<h2 id="note-on-timezones"><a class="header" href="#note-on-timezones">Note on timezones</a></h2>
+<p>Endb date/time data types currently only support times encoded as UTC.</p>
 <h2 id="null"><a class="header" href="#null">NULL</a></h2>
 <p>Null serves a variety of purposes in Endb.</p>
 <ul>
@@ -754,6 +764,7 @@ to that in the SQL Specification or a constructor function.</p>
 <pre><code class="language-sql">SELECT [1, 2, ...[3, 4], 5];
 -- [{'column1': [1, 2, 3, 4, 5]}]
 </code></pre>
+<p>Array equality is tested <a href="https://en.wikipedia.org/wiki/Lexicographic_order">lexicographically</a>.</p>
 <h2 id="object"><a class="header" href="#object">OBJECT</a></h2>
 <p>Objects (which can also be thought of as documents, or rows)
 can be created with object literals enclosed in curly braces,
@@ -782,6 +793,7 @@ SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
 SELECT {product: {p.*}, discounted: c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
 -- [{'column1': {'discounted': 2.99, 'product': {'name': 'Salt', 'price': 5.99}}}]
 </code></pre>
+<p>Object equality is tested by comparing each key-value pair as an array.</p>
 <h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
 <h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
@@ -853,10 +865,18 @@ SELECT * FROM products WHERE price NOT BETWEEN 2.00 AND 4.00;
 <p>NOTE: <code>BETWEEN</code> can also be used with <a href="sql/time_queries.html#between">System Time</a>.</p>
 <h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
 <p><code>WHERE</code> clauses can be modified and combined with standard SQL boolean operators:</p>
-<p><code>IS</code> and <code>IS NOT</code> are used to test for <code>NULL</code>,
-which is the third boolean value, representing &quot;unknown&quot;:</p>
+<p><code>IS</code> and <code>IS NOT</code> behave like <a href="sql/operators.html#comparison"><code>=</code> (<code>==</code>) and <code>&lt;&gt;</code> (<code>!=</code>)</a>, respectively.
+They are usually used to augment equality checks to test for <code>NULL</code>,
+which is the third boolean value, representing &quot;unknown&quot;.</p>
+<ul>
+<li>When both sides of <code>IS</code> evaluate to <code>NULL</code> it returns <code>TRUE</code>.</li>
+<li>When only one side of <code>IS NOT</code> evaluates to <code>NULL</code> it returns <code>TRUE</code>,</li>
+<li>When only one side of <code>IS</code> evaluates to <code>NUll</code> it returns <code>FALSE</code>.</li>
+<li>When both sides of <code>IS NOT</code> evaluates to <code>NULL</code> it returns <code>FALSE</code>.</li>
+</ul>
 <pre><code class="language-sql">SELECT * FROM products WHERE product_no IS NULL;
 SELECT * FROM products WHERE product_no IS NOT NULL;
+SELECT * FROM products WHERE product_no IS 379;
 </code></pre>
 <p><code>NOT</code> can be prefixed to any clause to negate it:</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT (name = 'Coffee');
@@ -959,16 +979,20 @@ It is provided as a convenience for users accustomed to the equivalent
 <p><code>EXISTS</code> returns <code>TRUE</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
 </code></pre>
+<p>NOTE: <code>ANY</code> and <code>SOME</code> are not supported by Endb, but they can both be created as
+correlated <code>EXISTS</code> queries instead.</p>
 <h2 id="in"><a class="header" href="#in">IN</a></h2>
 <p>The standard SQL <code>IN</code> clause can be used to test lists and subqueries for containment of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price IN (5.00, 5.99);
 SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 </code></pre>
+<p>NOTE: Use <a href="sql/operators.html#match"><code>MATCH</code></a> to test for containment of a value in an array.</p>
 <h2 id="not-in"><a class="header" href="#not-in">NOT IN</a></h2>
 <p>The standard SQL <code>NOT IN</code> clause can be used to test lists and subqueries for absence of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
+<p>NOTE: Use <a href="sql/operators.html#match"><code>MATCH</code></a> to test for absence of a value in an array.</p>
 <h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
 <p>The concatenation operator (<code>||</code>) concatenates two strings.
 Multiple operators can be chained together.</p>
@@ -1236,15 +1260,20 @@ in case they are helpful to you:</p>
 follow the SQL:2011 standard's &quot;closed-open period model&quot;.
 This means that a period represents all times starting from (and including)
 the start time up to (but excluding) the end time.</p>
-<h2 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h2>
+<h2 id="note-on-timezones-1"><a class="header" href="#note-on-timezones-1">Note on timezones</a></h2>
+<p>Endb currently only supports times encoded as UTC.</p>
+<h2 id="now"><a class="header" href="#now">Now</a></h2>
+<p>Endb provides access to the current value of the clock &quot;now&quot;
+in multiple date/time configurations.</p>
+<h3 id="current_timestamp"><a class="header" href="#current_timestamp">CURRENT_TIMESTAMP</a></h3>
 <p><code>CURRENT_TIMESTAMP</code> gets the current date and time in UTC.</p>
 <pre><code class="language-sql">SELECT CURRENT_TIMESTAMP;
 </code></pre>
-<h2 id="current_time"><a class="header" href="#current_time">CURRENT_TIME</a></h2>
+<h3 id="current_time"><a class="header" href="#current_time">CURRENT_TIME</a></h3>
 <p><code>CURRENT_TIME</code> gets the current time in UTC.</p>
 <pre><code class="language-sql">SELECT CURRENT_TIME;
 </code></pre>
-<h2 id="current_date"><a class="header" href="#current_date">CURRENT_DATE</a></h2>
+<h3 id="current_date"><a class="header" href="#current_date">CURRENT_DATE</a></h3>
 <p><code>CURRENT_DATE</code> gets the current date in UTC.
 Note that this may be different from your <em>local</em> date,
 depending on the time of day when your query is run.</p>

@@ -201,6 +201,21 @@ SELECT name, price FROM products GROUP BY name, price;
 SELECT name, sum(price) FROM products GROUP BY name;
 ```
 
+## HAVING
+
+`HAVING` adds a search condition to an aggregate query.
+
+```sql
+SELECT name, sum(price) FROM products GROUP BY name HAVING LENGTH(name) > 4;
+```
+
+It is most often used with `GROUP BY` (seen above), but it is also legal
+with other aggregates:
+
+```sql
+SELECT SUM(products.price) FROM products HAVING SUM(products.price) = 13;
+```
+
 ## LIMIT
 
 `LIMIT` specifies the maximum number of rows to be returned by the query.

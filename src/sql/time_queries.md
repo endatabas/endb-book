@@ -20,7 +20,16 @@ follow the SQL:2011 standard's "closed-open period model".
 This means that a period represents all times starting from (and including)
 the start time up to (but excluding) the end time.
 
-## CURRENT_TIMESTAMP
+## Note on timezones
+
+Endb currently only supports times encoded as UTC.
+
+## Now
+
+Endb provides access to the current value of the clock "now"
+in multiple date/time configurations.
+
+### CURRENT_TIMESTAMP
 
 `CURRENT_TIMESTAMP` gets the current date and time in UTC.
 
@@ -28,7 +37,7 @@ the start time up to (but excluding) the end time.
 SELECT CURRENT_TIMESTAMP;
 ```
 
-## CURRENT_TIME
+### CURRENT_TIME
 
 `CURRENT_TIME` gets the current time in UTC.
 
@@ -36,7 +45,7 @@ SELECT CURRENT_TIMESTAMP;
 SELECT CURRENT_TIME;
 ```
 
-## CURRENT_DATE
+### CURRENT_DATE
 
 `CURRENT_DATE` gets the current date in UTC.
 Note that this may be different from your _local_ date,

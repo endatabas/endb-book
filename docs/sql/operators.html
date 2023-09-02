@@ -192,10 +192,18 @@ SELECT * FROM products WHERE price NOT BETWEEN 2.00 AND 4.00;
 <p>NOTE: <code>BETWEEN</code> can also be used with <a href="time_queries.html#between">System Time</a>.</p>
 <h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
 <p><code>WHERE</code> clauses can be modified and combined with standard SQL boolean operators:</p>
-<p><code>IS</code> and <code>IS NOT</code> are used to test for <code>NULL</code>,
-which is the third boolean value, representing &quot;unknown&quot;:</p>
+<p><code>IS</code> and <code>IS NOT</code> behave like <a href="operators.html#comparison"><code>=</code> (<code>==</code>) and <code>&lt;&gt;</code> (<code>!=</code>)</a>, respectively.
+They are usually used to augment equality checks to test for <code>NULL</code>,
+which is the third boolean value, representing &quot;unknown&quot;.</p>
+<ul>
+<li>When both sides of <code>IS</code> evaluate to <code>NULL</code> it returns <code>TRUE</code>.</li>
+<li>When only one side of <code>IS NOT</code> evaluates to <code>NULL</code> it returns <code>TRUE</code>,</li>
+<li>When only one side of <code>IS</code> evaluates to <code>NUll</code> it returns <code>FALSE</code>.</li>
+<li>When both sides of <code>IS NOT</code> evaluates to <code>NULL</code> it returns <code>FALSE</code>.</li>
+</ul>
 <pre><code class="language-sql">SELECT * FROM products WHERE product_no IS NULL;
 SELECT * FROM products WHERE product_no IS NOT NULL;
+SELECT * FROM products WHERE product_no IS 379;
 </code></pre>
 <p><code>NOT</code> can be prefixed to any clause to negate it:</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT (name = 'Coffee');
@@ -298,16 +306,20 @@ It is provided as a convenience for users accustomed to the equivalent
 <p><code>EXISTS</code> returns <code>TRUE</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
 </code></pre>
+<p>NOTE: <code>ANY</code> and <code>SOME</code> are not supported by Endb, but they can both be created as
+correlated <code>EXISTS</code> queries instead.</p>
 <h2 id="in"><a class="header" href="#in">IN</a></h2>
 <p>The standard SQL <code>IN</code> clause can be used to test lists and subqueries for containment of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price IN (5.00, 5.99);
 SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 </code></pre>
+<p>NOTE: Use <a href="operators.html#match"><code>MATCH</code></a> to test for containment of a value in an array.</p>
 <h2 id="not-in"><a class="header" href="#not-in">NOT IN</a></h2>
 <p>The standard SQL <code>NOT IN</code> clause can be used to test lists and subqueries for absence of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
+<p>NOTE: Use <a href="operators.html#match"><code>MATCH</code></a> to test for absence of a value in an array.</p>
 <h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
 <p>The concatenation operator (<code>||</code>) concatenates two strings.
 Multiple operators can be chained together.</p>

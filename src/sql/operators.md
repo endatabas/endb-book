@@ -35,12 +35,19 @@ NOTE: `BETWEEN` can also be used with [System Time](time_queries.md#between).
 
 `WHERE` clauses can be modified and combined with standard SQL boolean operators:
 
-`IS` and `IS NOT` are used to test for `NULL`,
-which is the third boolean value, representing "unknown":
+`IS` and `IS NOT` behave like [`=` (`==`) and `<>` (`!=`)](operators.md#comparison), respectively.
+They are usually used to augment equality checks to test for `NULL`,
+which is the third boolean value, representing "unknown".
+
+* When both sides of `IS` evaluate to `NULL` it returns `TRUE`.
+* When only one side of `IS NOT` evaluates to `NULL` it returns `TRUE`,
+* When only one side of `IS` evaluates to `NUll` it returns `FALSE`.
+* When both sides of `IS NOT` evaluates to `NULL` it returns `FALSE`.
 
 ```sql
 SELECT * FROM products WHERE product_no IS NULL;
 SELECT * FROM products WHERE product_no IS NOT NULL;
+SELECT * FROM products WHERE product_no IS 379;
 ```
 
 `NOT` can be prefixed to any clause to negate it:
@@ -192,6 +199,9 @@ It is provided as a convenience for users accustomed to the equivalent
 SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
 ```
 
+NOTE: `ANY` and `SOME` are not supported by Endb, but they can both be created as
+correlated `EXISTS` queries instead.
+
 ## IN
 
 The standard SQL `IN` clause can be used to test lists and subqueries for containment of a value.
@@ -201,6 +211,8 @@ SELECT * FROM products WHERE price IN (5.00, 5.99);
 SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 ```
 
+NOTE: Use [`MATCH`](operators.md#match) to test for containment of a value in an array.
+
 ## NOT IN
 
 The standard SQL `NOT IN` clause can be used to test lists and subqueries for absence of a value.
@@ -209,6 +221,8 @@ The standard SQL `NOT IN` clause can be used to test lists and subqueries for ab
 SELECT * FROM products WHERE price NOT IN (5.00, 5.99);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 ```
+
+NOTE: Use [`MATCH`](operators.md#match) to test for absence of a value in an array.
 
 ## Concatenation
 
