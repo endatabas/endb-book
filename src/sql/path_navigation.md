@@ -137,8 +137,17 @@ SELECT c..[*] FROM paths;
 
 Path editing is accomplished with an extended path syntax, where each
 path begins with `$`.
+
 Endb's path editing functions are heavily inspired by
 [SQLite's JSON Functions](https://www.sqlite.org/json1.html).
+
+Path editing functions add functionality (`$`, `#`) to a subset
+Endb's normal path navigation syntax:
+path editing functions do not support recursion or wildcards.
+
+Path editing functions are available to
+[`UPDATE ... SET`](data_manipulation.md#update-set-path) and
+[`UPDATE ... UNSET/REMOVE`](data_manipulation.md#update-unset-path).
 
 ### `path_set`
 

@@ -256,9 +256,15 @@ SELECT c..[*] FROM paths;
 </code></pre>
 <h2 id="path-functions"><a class="header" href="#path-functions">Path Functions</a></h2>
 <p>Path editing is accomplished with an extended path syntax, where each
-path begins with <code>$</code>.
-Endb's path editing functions are heavily inspired by
+path begins with <code>$</code>.</p>
+<p>Endb's path editing functions are heavily inspired by
 <a href="https://www.sqlite.org/json1.html">SQLite's JSON Functions</a>.</p>
+<p>Path editing functions add functionality (<code>$</code>, <code>#</code>) to a subset
+Endb's normal path navigation syntax:
+path editing functions do not support recursion or wildcards.</p>
+<p>Path editing functions are available to
+<a href="data_manipulation.html#update-set-path"><code>UPDATE ... SET</code></a> and
+<a href="data_manipulation.html#update-unset-path"><code>UPDATE ... UNSET/REMOVE</code></a>.</p>
 <h3 id="path_set"><a class="header" href="#path_set"><code>path_set</code></a></h3>
 <p>Takes an object, a path, and a new value.
 The new value will overwrite existing fields or add a new field if it

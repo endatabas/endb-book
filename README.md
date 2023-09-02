@@ -27,9 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* SUCCEEDS - spelling.
-* Path functions - the syntax is really a superset (dollar, hash) of a subset (not recursive or wildcards). Might be worth highlighting that these are what UPDATE SET/REMOVE use.
-* whitespace between examples in one box
 * HTTP API - Parameters - worth mentioning and explaining the valid JSON-LD literals one can use somewhere. Parameters can also (in some formats) be SQL.
     * show JSON-LD map somewhere
 * retry: Let's sanity check path-params (url params) with application/sql.
@@ -39,6 +36,7 @@ The HTML print feature works reasonably well.
 
 * UPDATE UNSET/REMOVE
 * Transactions/multiple-statements now support parameters (still returns a single, last result).
+* whitespace between examples in one box
 * ops: env vars, cmd line params, logging, data_dir
 * Architecture page could need a refresher (SQLite focus etc).
 * NorthWind equivalent?
