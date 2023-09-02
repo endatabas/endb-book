@@ -15,7 +15,7 @@ in case they are helpful to you:
 ## Note on SQL:2011 closed-open period model
 
 All Endb temporal predicates (`CONTAINS`, `OVERLAPS`, `PRECEDES`,
-`SUCCEDES`, `IMMEDIATELY PRECEDES`, and `IMMEDIATELY SUCCEDES`)
+`SUCCEEDS`, `IMMEDIATELY PRECEDES`, and `IMMEDIATELY SUCCEEDS`)
 follow the SQL:2011 standard's "closed-open period model".
 This means that a period represents all times starting from (and including)
 the start time up to (but excluding) the end time.
@@ -131,12 +131,12 @@ Returns `TRUE` if the first period ends before the second period begins.
 SELECT 2001-03-01 PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 ```
 
-### SUCCEDES
+### SUCCEEDS
 
 Returns `TRUE` if the first period begins after the second period ends.
 
 ```sql
-SELECT 2001-06-01 SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
+SELECT 2001-06-01 SUCCEEDS [2001-04-01T00:00:00Z, 2001-05-01];
 ```
 
 ### IMMEDIATELY PRECEDES
@@ -147,10 +147,10 @@ Returns `TRUE` if the first period ends exactly as the second period begins.
 SELECT 2001-04-01 IMMEDIATELY PRECEDES [2001-04-01T00:00:00Z, 2001-05-01];
 ```
 
-### IMMEDIATELY SUCCEDES
+### IMMEDIATELY SUCCEEDS
 
 Returns `TRUE` if the first period begins exactly as the second period ends.
 
 ```sql
-SELECT 2001-05-01 IMMEDIATELY SUCCEDES [2001-04-01T00:00:00Z, 2001-05-01];
+SELECT 2001-05-01 IMMEDIATELY SUCCEEDS [2001-04-01T00:00:00Z, 2001-05-01];
 ```
