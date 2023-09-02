@@ -232,7 +232,8 @@ been elided from further examples.</p>
 the Endb client.
 The default <code>Accept</code> header content type is <code>application/json</code>.</p>
 <h3 id="textcsv"><a class="header" href="#textcsv">text/csv</a></h3>
-<p><code>text/csv</code> returns comma-separated rows:</p>
+<p><code>text/csv</code> returns comma-separated rows.
+Column order from the <code>SELECT</code> clause is maintained.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,'csv')) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: text/csv&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
@@ -242,14 +243,16 @@ The default <code>Accept</code> header content type is <code>application/json</c
 </code></pre>
 <h3 id="applicationjson-1"><a class="header" href="#applicationjson-1">application/json</a></h3>
 <p><code>application/json</code> returns rows as an array of JSON tuples.
-Columns maintain a consistent order across tuples.</p>
+Column order from the <code>SELECT</code> clause is maintained.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
 <pre><code>[[2,&quot;2023-07-22&quot;],[1,&quot;hello&quot;]]
 </code></pre>
 <h3 id="applicationx-ndjson"><a class="header" href="#applicationx-ndjson">application/x-ndjson</a></h3>
-<p><code>application/x-ndjson</code> returns newline-delimited JSON documents:</p>
+<p><code>application/x-ndjson</code> returns newline-delimited JSON documents.
+Column order from the <code>SELECT</code> clause is <em>not</em> maintained.
+JSON documents cannot guarantee column order.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/x-ndjson&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
@@ -257,7 +260,9 @@ Columns maintain a consistent order across tuples.</p>
 {&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}
 </code></pre>
 <h3 id="applicationldjson-1"><a class="header" href="#applicationldjson-1">application/ld+json</a></h3>
-<p><code>application/ld+json</code> returns documents of strongly-typed (&quot;Linking Data&quot;) JSON records:</p>
+<p><code>application/ld+json</code> returns documents of strongly-typed (&quot;Linking Data&quot;) JSON records.
+Column order from the <code>SELECT</code> clause is <em>not</em> maintained.
+JSON documents cannot guarantee column order.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/ld+json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>

@@ -103,7 +103,8 @@ The default `Accept` header content type is `application/json`.
 
 ### text/csv
 
-`text/csv` returns comma-separated rows:
+`text/csv` returns comma-separated rows.
+Column order from the `SELECT` clause is maintained.
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,'csv')) t1" -H "Content-Type: application/sql" -H "Accept: text/csv" -X POST http://localhost:3803/sql
@@ -120,7 +121,7 @@ returns:
 ### application/json
 
 `application/json` returns rows as an array of JSON tuples.
-Columns maintain a consistent order across tuples.
+Column order from the `SELECT` clause is maintained.
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/json" -X POST http://localhost:3803/sql
@@ -135,7 +136,9 @@ returns:
 
 ### application/x-ndjson
 
-`application/x-ndjson` returns newline-delimited JSON documents:
+`application/x-ndjson` returns newline-delimited JSON documents.
+Column order from the `SELECT` clause is _not_ maintained.
+JSON documents cannot guarantee column order.
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/x-ndjson" -X POST http://localhost:3803/sql
@@ -150,7 +153,9 @@ returns:
 
 ### application/ld+json
 
-`application/ld+json` returns documents of strongly-typed ("Linking Data") JSON records:
+`application/ld+json` returns documents of strongly-typed ("Linking Data") JSON records.
+Column order from the `SELECT` clause is _not_ maintained.
+JSON documents cannot guarantee column order.
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/ld+json" -X POST http://localhost:3803/sql

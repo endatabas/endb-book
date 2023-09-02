@@ -27,9 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* Transactions/multiple-statements now support parameters (still returns a single, last result).
-* revisit AS / Aliases
-* revisit SELECT / mime types
 * HAVING together with GROUP BY.
 * IS/NOT can be used with any rhs expression, not just literal nulls, it simply treats null as equal.
 * EXISTS - could maybe mention that we don't support ANY/SOME style subqueries, but they can always be rewritten as a correlated EXISTS.
@@ -48,6 +45,10 @@ The HTML print feature works reasonably well.
 * retry: Let's sanity check path-params (url params) with application/sql.
     * document functionality if it works
 
+## TODO: Feedback Required / Later
+
+* UPDATE UNSET/REMOVE
+* Transactions/multiple-statements now support parameters (still returns a single, last result).
 * ops: env vars, cmd line params, logging, data_dir
 * Architecture page could need a refresher (SQLite focus etc).
 * NorthWind equivalent?

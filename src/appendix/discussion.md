@@ -2,7 +2,15 @@
 
 ## Bugs?
 
+This document/object does exist with a corresponding field, so it
+seems like I should be able to unset it (I think?)
+
 ```
+-> select * from users;
+[{'addresses': [{'city': 'Chicago'}],
+  'email': 'steven@endb.io',
+  'name': 'Steven'}]
+
 -> UPDATE users UNSET $.addresses[0].city WHERE name = 'Steven';
 500 Internal Server Error
 A StructArray must contain at least one field
@@ -10,6 +18,19 @@ A StructArray must contain at least one field
 -> UPDATE users UNSET $.addresses[0] WHERE name = 'Steven';
 500 Internal Server Error
 Unhandled memory fault at #x5.
+```
+
+I might be trying these multiple statement params wrong, but this feels
+like maybe an HTTP thing that the tests didn't catch?
+
+```
+$ curl -F q="INSERT INTO sauces {name: ?, color: ?}; INSERT INTO sauces {name: ?, color: ?};" -F p='["Mustard", "Yellow", "Ketchup", "Red"]' -X POST http://localhost:3803/sql
+Warning: skip unknown form field: INSERT INTO sauces {name: ?, color: ?}
+Required parameters: (1 0) does not match given: (0 1 2 3)
+
+$ curl -F q="INSERT INTO sauces {name: ?, color: ?}; SELECT {name: ?, color: ?};" -F p='["Mustard", "Yellow", "Ketchup", "Red"]' -X POST http://localhost:3803/sql
+Warning: skip unknown form field: SELECT {name: ?, color: ?}
+Required parameters: (1 0) does not match given: (0 1 2 3)
 ```
 
 ## Documentation

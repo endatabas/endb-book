@@ -31,22 +31,23 @@ SELECT p.* FROM products p JOIN coupons c ON p.price = c.price;
 In programmatic environments, it is almost always preferable to query for specific columns by name:
 
 ```sql
-SELECT product_no FROM products;
+SELECT product_no, price FROM products;
 ```
 
 Select a list of columns by delimiting them with commas.
-If your client accepts `text/csv` or `application/json` as a content type,
-columns will be returned in the order specified.
-JSON keys are inherently unordered so the order of columns is ignored for accepted content types of
-`application/x-ndjson`, and `application/ld+json` -- both of these content types return rows as maps.
 
 ```sql
 SELECT product_no, v, price, name FROM products;
 ```
 
+NOTE: Whether or not your Endb client respects column ordering is dependent
+on the content type it uses in Accept Headers.
+It is worth reading over the [Accept Header](../reference/http_api.md#accept-header)
+documentation, in this regard.
+
 ## FROM
 
-### Aliases
+### Alias Tables
 
 For convenience, tables can be given aliases immediately following their name in the `FROM` clause.
 
@@ -54,7 +55,39 @@ For convenience, tables can be given aliases immediately following their name in
 SELECT p.name FROM products p;
 ```
 
-This is most useful when joining tables, as seen below.
+The `AS` operator can also (optionally) be used to provide an alias for a table.
+
+```sql
+SELECT p.name FROM products AS p;
+```
+
+More usefully, it can give a temporary table name to an expression.
+The temporary table name can either have anonymous columns or named columns.
+(The [`VALUES` keyword](queries.md#values-lists) is explained in the following
+_VALUES Lists_ section.)
+
+```sql
+SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
+SELECT p.price FROM (VALUES ('Paprika', 4.77)) AS p(name, price);
+```
+
+### Alias Columns
+
+The `AS` keyword is also used to alias columns.
+This is useful when column names conflict in a join.
+(Joins are explained below.)
+If the same column is specified more than once, the last reference to that column name
+is the one which will be returned:
+
+```sql
+SELECT c.price, p.price FROM products p JOIN coupons c ON p.name = c.name;
+```
+
+If both columns are required, `AS` can be used to rename one or both of the columns:
+
+```sql
+SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
+```
 
 ### JOIN
 
@@ -115,39 +148,6 @@ Rather than returning the entire table, documents (rows) can be filtered with a 
 
 ```sql
 SELECT * FROM products WHERE price > 4;
-```
-
-### AS: Alias Tables, Expressions, and Columns
-
-The `AS` operator can optionally be used to provide an alias for a table.
-
-```sql
-SELECT p.name FROM products AS p;
-```
-
-More usefully, it can give a temporary table name to an expression.
-The temporary table name can either have anonymous columns or named columns.
-(The [`VALUES` keyword](queries.md#values-lists) is explained in the following
-_VALUES Lists_ section.)
-
-```sql
-SELECT p.column1 FROM (VALUES ('Paprika', 4.77)) AS p;
-SELECT p.price FROM (VALUES ('Paprika', 4.77)) AS p(name, price);
-```
-
-The `AS` keyword is also used to alias columns.
-This is useful when column names conflict in a join.
-If the same column is specified more than once, the last reference to that column name
-is the one which will be returned:
-
-```sql
-SELECT c.price, p.price FROM products p JOIN coupons c ON p.name = c.name;
-```
-
-If both columns are required, `AS` can be used to rename one or both of the columns:
-
-```sql
-SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
 ### Advanced Filtering
