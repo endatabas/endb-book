@@ -27,8 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* ERASE: https://github.com/endatabas/endb/commit/792f2b4b17a87415e8eb665a4f4344c700a696f1
-    * btw, not erased yet
 * ops: env vars, cmd line params, logging, data_dir
 * SELECT t1.*, t1.system_time FROM t1 FOR SYSTEM_TIME ALL
 * try assertion on empty db - "you can refer to table that doesn't exist yet"

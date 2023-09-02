@@ -11,15 +11,10 @@ with fast queries made possible by [adaptive indexing](#adaptive-indexing).
 
 The only time data in Endatabas is _truly_ deleted is with the `ERASE` statement.
 This is used for user safety and compliance with laws like GDPR.
-Immutable records make `endb` fast.
-Erasure is a complication, which makes `ERASE` architecturally challenging.
-
-NOTE: Erasure is not yet implemented.
 
 ## Dynamic SQL
 
 Both the heart and "UI" of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).
-You can think of it as a JSON-native database with strongly-typed values (not just strings).
 
 Endb SQL bases its core on the SQL dialect and function/operator surface area found in SQLite.
 It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.

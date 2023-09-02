@@ -174,13 +174,9 @@ You can think of <code>endb</code> as one giant log of transactions
 with fast queries made possible by <a href="#adaptive-indexing">adaptive indexing</a>.</p>
 <h2 id="erasure"><a class="header" href="#erasure">Erasure</a></h2>
 <p>The only time data in Endatabas is <em>truly</em> deleted is with the <code>ERASE</code> statement.
-This is used for user safety and compliance with laws like GDPR.
-Immutable records make <code>endb</code> fast.
-Erasure is a complication, which makes <code>ERASE</code> architecturally challenging.</p>
-<p>NOTE: Erasure is not yet implemented.</p>
+This is used for user safety and compliance with laws like GDPR.</p>
 <h2 id="dynamic-sql"><a class="header" href="#dynamic-sql">Dynamic SQL</a></h2>
-<p>Both the heart and &quot;UI&quot; of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).
-You can think of it as a JSON-native database with strongly-typed values (not just strings).</p>
+<p>Both the heart and &quot;UI&quot; of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).</p>
 <p>Endb SQL bases its core on the SQL dialect and function/operator surface area found in SQLite.
 It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
 Read more in our <a href="https://www.endatabas.com/bibliography.html">bibliography</a>.</p>

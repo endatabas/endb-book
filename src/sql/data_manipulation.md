@@ -109,6 +109,12 @@ You may delete all rows from a table by eliding the `WHERE` clause:
 DELETE FROM products;
 ```
 
+Note: In Endb, `DELETE` does not remove any data.
+It is always possible to view data prior to the `DELETE` with
+[time queries](time_queries.md).
+If you need to remove data for compliance (with laws such as GDPR or PIPEDA),
+use [`ERASE`](data_manipulation.md#erase).
+
 ## ON CONFLICT (Upsert)
 
 Endb provides flexible upserts with the common `ON CONFLICT` clause.
@@ -139,6 +145,19 @@ Similarly, the existing table is still available in the `DO` clause to provide f
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 3.00, v: 5};
 INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFLICT (product_no, name) DO UPDATE SET price = excluded.price, v = excluded.v WHERE products.v < 6;
 ```
+
+## ERASE
+
+`ERASE` completely removes documents (rows) from visibility to any queries.
+Once a document has been erased, it is no longer possible to query for it at all.
+
+```sql
+ERASE FROM products WHERE name = 'Salt';
+```
+
+NOTE: `ERASE` currently does not remove data from disk.
+This feature will be added when Endb handles compaction, as per our
+[roadmap](../appendix/roadmap.md).
 
 ## Parameters
 
