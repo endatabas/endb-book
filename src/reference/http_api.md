@@ -68,10 +68,15 @@ curl -d '{"q": "INSERT INTO events {start: :start};", "p": {"start": {"@type": "
 
 ### `application/sql`:
 
-The `application/sql` content type does not permit parameters.
-
 ```sh
 curl -d 'SELECT 1' -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
+```
+
+Submit parameters to `application/sql` by providing form data or query parameters.
+Form data and query parameters can be combined, though it is not necessarily recommended.
+
+```sql
+curl -F q="INSERT INTO sauces {name: ?, color: ?};" -X POST http://localhost:3803/sql?p=%5B%22ketchup%22%2C%22purple%22%5D
 ```
 
 ### `multipart/form-data`
@@ -171,9 +176,16 @@ See [JSON-LD](https://json-ld.org/).
 
 ## Parameters
 
-SQL parameters are available to `application/json`, `application/ld+json`,
-`multipart/form-data`, and `application/x-www-form-urlencoded` content types.
-The `application/sql` content type does not support parameters.
+SQL parameters are available to:
+
+* `application/json` and `application/ld+json` as part of the `POST` body
+* `multipart/form-data` as form data
+* `application/x-www-form-urlencoded` as URL query parameters
+* `application/sql` as form data and/or URL query parameters
+
+Parameters can be JSON literals, JSON-LD scalars, or SQL literals.
+A JSON-LD scalar always has the form: `{"@type": "xsd:TYPE", "@value": "DATA"}`.
+JSON-LD types are listed under the [Data Types](data_types.md) table.
 
 ### Named Parameters
 

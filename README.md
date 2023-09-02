@@ -27,11 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* HTTP API - Parameters - worth mentioning and explaining the valid JSON-LD literals one can use somewhere. Parameters can also (in some formats) be SQL.
-    * show JSON-LD map somewhere
-* retry: Let's sanity check path-params (url params) with application/sql.
-    * document functionality if it works
-
 ## TODO: Feedback Required / Later
 
 * UPDATE UNSET/REMOVE

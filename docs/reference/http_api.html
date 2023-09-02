@@ -211,8 +211,11 @@ See <a href="https://json-ld.org/">JSON-LD</a>.</p>
 <pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO events {start: :start};&quot;, &quot;p&quot;: {&quot;start&quot;: {&quot;@type&quot;: &quot;xsd:dateTime&quot;, &quot;@value&quot;: &quot;2011-04-09T20:00:00Z&quot;}}}' -H &quot;Content-Type: application/ld+json&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <h3 id="applicationsql"><a class="header" href="#applicationsql"><code>application/sql</code>:</a></h3>
-<p>The <code>application/sql</code> content type does not permit parameters.</p>
 <pre><code class="language-sh">curl -d 'SELECT 1' -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<p>Submit parameters to <code>application/sql</code> by providing form data or query parameters.
+Form data and query parameters can be combined, though it is not necessarily recommended.</p>
+<pre><code class="language-sql">curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -X POST http://localhost:3803/sql?p=%5B%22ketchup%22%2C%22purple%22%5D
 </code></pre>
 <h3 id="multipartform-data"><a class="header" href="#multipartform-data"><code>multipart/form-data</code></a></h3>
 <pre><code class="language-sh">curl -F q=&quot;SELECT * from products;&quot; -H &quot;Content-Type: multipart/form-data&quot; -X POST http://localhost:3803/sql
@@ -270,9 +273,16 @@ JSON documents cannot guarantee column order.</p>
 </code></pre>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
-<p>SQL parameters are available to <code>application/json</code>, <code>application/ld+json</code>,
-<code>multipart/form-data</code>, and <code>application/x-www-form-urlencoded</code> content types.
-The <code>application/sql</code> content type does not support parameters.</p>
+<p>SQL parameters are available to:</p>
+<ul>
+<li><code>application/json</code> and <code>application/ld+json</code> as part of the <code>POST</code> body</li>
+<li><code>multipart/form-data</code> as form data</li>
+<li><code>application/x-www-form-urlencoded</code> as URL query parameters</li>
+<li><code>application/sql</code> as form data and/or URL query parameters</li>
+</ul>
+<p>Parameters can be JSON literals, JSON-LD scalars, or SQL literals.
+A JSON-LD scalar always has the form: <code>{&quot;@type&quot;: &quot;xsd:TYPE&quot;, &quot;@value&quot;: &quot;DATA&quot;}</code>.
+JSON-LD types are listed under the <a href="data_types.html">Data Types</a> table.</p>
 <h3 id="named-parameters"><a class="header" href="#named-parameters">Named Parameters</a></h3>
 <p>Named parameters substitute parameter placeholders with the form <code>:param</code>
 by the parameter key with the corresponding name.
