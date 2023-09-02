@@ -95,6 +95,18 @@ function.
 UPDATE users SET $.addresses[0].city = 'Chicago' WHERE name = 'Steven';
 ```
 
+## UPDATE UNSET $path
+
+The `UNSET` (synonym: `REMOVE`) operator permits
+[paths](path_navigation.md#path-functions) on its left-hand side.
+The behaviour of the form `UPDATE <table> UNSET <path> = <value>`
+is identical to that of the [`path_remove`](path_navigation.md#path_remove)
+function.
+
+```sql
+UPDATE users UNSET $.addresses[0].city WHERE name = 'Steven';
+```
+
 ## DELETE
 
 To delete an existing row, use the standard SQL `DELETE` command.

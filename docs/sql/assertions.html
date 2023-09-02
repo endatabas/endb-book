@@ -169,7 +169,9 @@
                         <h1 id="assertions"><a class="header" href="#assertions">Assertions</a></h1>
 <h2 id="create-assertion"><a class="header" href="#create-assertion">CREATE ASSERTION</a></h2>
 <p>Creates a checked, deferred assertion which executes on commit
-for inserts and updates.</p>
+for inserts and updates.
+Although <code>CREATE ASSERTION</code> (normally) needs to refer to the table
+it is asserting on, that table need not exist for the assertion to be created.</p>
 <pre><code class="language-sql">CREATE ASSERTION string_email CHECK (NOT EXISTS (SELECT * FROM users WHERE TYPEOF(email) != 'text'));
 INSERT INTO users {name: 'Steven', email: 123};
 </code></pre>

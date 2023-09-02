@@ -70,11 +70,17 @@ An interval (or _duration_) is created whenever two times are subtracted.
 SELECT 2001-01-02 - 2001-01-01;
 ```
 
-Intervals literals can be constructed with
+Interval literals can be constructed with
 [ISO 8601 syntax](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals):
 
 * `PT12H30M5S`
 * `P1Y2M10DT2H30M`
+
+This is equivalent to the same ISO 8601 syntax
+provided as a string to the `DURATION` constructor:
+
+* `DURATION('PT12H30M5S')`
+* `DURATION('P1Y2M10DT2H30M')`
 
 Interval literals can also be constructed with
 the classic SQL intervals DSL:

@@ -219,11 +219,17 @@ The following are legal time literals:</p>
 <p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
 <pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;
 </code></pre>
-<p>Intervals literals can be constructed with
+<p>Interval literals can be constructed with
 <a href="https://en.wikipedia.org/wiki/ISO_8601#Time_intervals">ISO 8601 syntax</a>:</p>
 <ul>
 <li><code>PT12H30M5S</code></li>
 <li><code>P1Y2M10DT2H30M</code></li>
+</ul>
+<p>This is equivalent to the same ISO 8601 syntax
+provided as a string to the <code>DURATION</code> constructor:</p>
+<ul>
+<li><code>DURATION('PT12H30M5S')</code></li>
+<li><code>DURATION('P1Y2M10DT2H30M')</code></li>
 </ul>
 <p>Interval literals can also be constructed with
 the classic SQL intervals DSL:</p>

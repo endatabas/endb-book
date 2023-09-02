@@ -221,6 +221,14 @@ is identical to that of the <a href="path_navigation.html#path_set"><code>path_s
 function.</p>
 <pre><code class="language-sql">UPDATE users SET $.addresses[0].city = 'Chicago' WHERE name = 'Steven';
 </code></pre>
+<h2 id="update-unset-path"><a class="header" href="#update-unset-path">UPDATE UNSET $path</a></h2>
+<p>The <code>UNSET</code> (synonym: <code>REMOVE</code>) operator permits
+<a href="path_navigation.html#path-functions">paths</a> on its left-hand side.
+The behaviour of the form <code>UPDATE &lt;table&gt; UNSET &lt;path&gt; = &lt;value&gt;</code>
+is identical to that of the <a href="path_navigation.html#path_remove"><code>path_remove</code></a>
+function.</p>
+<pre><code class="language-sql">UPDATE users UNSET $.addresses[0].city WHERE name = 'Steven';
+</code></pre>
 <h2 id="delete"><a class="header" href="#delete">DELETE</a></h2>
 <p>To delete an existing row, use the standard SQL <code>DELETE</code> command.</p>
 <pre><code class="language-SQL">DELETE FROM products WHERE price = 5.98;

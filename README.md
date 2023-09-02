@@ -27,9 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* try assertion on empty db - "you can refer to table that doesn't exist yet"
-* Duration constructor
-* UPDATE $.path supports UNSET/REMOVE
 * Transactions/multiple-statements now support parameters (still returns a single, last result).
 * revisit AS / Aliases
 * revisit SELECT / mime types
