@@ -198,25 +198,38 @@ Note that this may be different from your <em>local</em> date,
 depending on the time of day when your query is run.</p>
 <pre><code class="language-sql">SELECT CURRENT_DATE;
 </code></pre>
-<h2 id="as-of-time-travel"><a class="header" href="#as-of-time-travel">AS OF (Time Travel)</a></h2>
+<h2 id="system-time"><a class="header" href="#system-time">System Time</a></h2>
+<p>All states an Endb database has ever seen are recorded, immutably.
+Accessing these prior states is accomplished by querying System Time.
+System Time is encoded in a special column, which is normally invisible to most queries,
+named <code>SYSTEM_TIME</code>.</p>
+<h3 id="as-of-time-travel"><a class="header" href="#as-of-time-travel">AS OF (Time Travel)</a></h3>
 <p>Endb permits time-traveling queries with the SQL:2011-compatible
 <code>AS OF</code> operator.
 The query will treat the <code>DATE</code> or <code>TIMESTAMP</code> supplied after <code>AS OF</code>
 as if it were that time <em>now</em>.</p>
 <pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME AS OF 2023-08-25T00:00:00;
 </code></pre>
-<h2 id="between"><a class="header" href="#between">BETWEEN</a></h2>
+<h3 id="all-time-omniscience"><a class="header" href="#all-time-omniscience">ALL (Time Omniscience)</a></h3>
+<p>Endb permits time-omniscient queries with the SQL:2011-compatible
+<code>ALL</code> operator.
+All states, across the entire history of the relevant tables, are
+visible to a query suffixed with <code>FOR SYSTEM_TIME ALL</code>:</p>
+<pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME ALL;
+</code></pre>
+<h3 id="between"><a class="header" href="#between">BETWEEN</a></h3>
 <p>The syntax for time-aware <code>BETWEEN</code> is the same as the
 <a href="operators.html#between">normal <code>BETWEEN</code> operator</a>.
 Inspect System Time with the form <code>FOR SYSTEM_TIME BETWEEN x AND y</code>.</p>
 <pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
 </code></pre>
-<h2 id="from--to"><a class="header" href="#from--to">FROM ... TO</a></h2>
+<h3 id="from--to"><a class="header" href="#from--to">FROM ... TO</a></h3>
 <p>Selects rows which fall between the two times, similar to <code>BETWEEN</code>,
 but is exclusive of both the start and end times.</p>
 <pre><code class="language-sql">SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00:00:00;
 </code></pre>
 <h2 id="period-predicates"><a class="header" href="#period-predicates">Period Predicates</a></h2>
+<p>The standard SQL:2011 period predicates are available.</p>
 <h3 id="contains"><a class="header" href="#contains">CONTAINS</a></h3>
 <p>Returns <code>TRUE</code> if the second period is contained within the first.</p>
 <pre><code class="language-sql">SELECT {start: 2001-01-01, end: 2001-04-01} CONTAINS {start: 2001-02-01, end: 2001-04-01};

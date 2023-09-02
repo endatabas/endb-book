@@ -46,7 +46,14 @@ depending on the time of day when your query is run.
 SELECT CURRENT_DATE;
 ```
 
-## AS OF (Time Travel)
+## System Time
+
+All states an Endb database has ever seen are recorded, immutably.
+Accessing these prior states is accomplished by querying System Time.
+System Time is encoded in a special column, which is normally invisible to most queries,
+named `SYSTEM_TIME`.
+
+### AS OF (Time Travel)
 
 Endb permits time-traveling queries with the SQL:2011-compatible
 `AS OF` operator.
@@ -57,7 +64,18 @@ as if it were that time _now_.
 SELECT * FROM products FOR SYSTEM_TIME AS OF 2023-08-25T00:00:00;
 ```
 
-## BETWEEN
+### ALL (Time Omniscience)
+
+Endb permits time-omniscient queries with the SQL:2011-compatible
+`ALL` operator.
+All states, across the entire history of the relevant tables, are
+visible to a query suffixed with `FOR SYSTEM_TIME ALL`:
+
+```sql
+SELECT * FROM products FOR SYSTEM_TIME ALL;
+```
+
+### BETWEEN
 
 The syntax for time-aware `BETWEEN` is the same as the
 [normal `BETWEEN` operator](operators.md#between).
@@ -67,7 +85,7 @@ Inspect System Time with the form `FOR SYSTEM_TIME BETWEEN x AND y`.
 SELECT * FROM products FOR SYSTEM_TIME BETWEEN 2023-08-24T00:00:00 AND 2023-08-25T00:00:00;
 ```
 
-## FROM ... TO
+### FROM ... TO
 
 Selects rows which fall between the two times, similar to `BETWEEN`,
 but is exclusive of both the start and end times.
@@ -77,6 +95,8 @@ SELECT * FROM products FOR SYSTEM_TIME FROM 2023-08-24T00:00:00 TO 2023-08-30T00
 ```
 
 ## Period Predicates
+
+The standard SQL:2011 period predicates are available.
 
 ### CONTAINS
 

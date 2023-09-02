@@ -27,8 +27,6 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
-* ops: env vars, cmd line params, logging, data_dir
-* SELECT t1.*, t1.system_time FROM t1 FOR SYSTEM_TIME ALL
 * try assertion on empty db - "you can refer to table that doesn't exist yet"
 * Duration constructor
 * UPDATE $.path supports UNSET/REMOVE
@@ -53,6 +51,7 @@ The HTML print feature works reasonably well.
 * retry: Let's sanity check path-params (url params) with application/sql.
     * document functionality if it works
 
+* ops: env vars, cmd line params, logging, data_dir
 * Architecture page could need a refresher (SQLite focus etc).
 * NorthWind equivalent?
 * Functions - more natural order/grouping of the page?
