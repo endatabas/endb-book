@@ -224,13 +224,20 @@ SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 
 NOTE: Use [`MATCH`](operators.md#match) to test for absence of a value in an array.
 
-## Concatenation
+## `||` (Concatenation)
 
-The concatenation operator (`||`) concatenates two strings.
+The `||` operator concatenates two strings or arrays supplied as arguments.
+When concatenating to an array element: other elements, arrays, and blobs are accepted as the second argument.
+When concatenating to an array: arrays, blobs, and array elements are accepted as the second argument.
+Elements other than strings are cast to strings when concatenated with each other.
 Multiple operators can be chained together.
 
 ```sql
-SELECT 'Hello' || 'World';
+SELECT "Hello" || "World";
+SELECT [1, 2, 3] || [4, 5, 6];
+SELECT 1 || 2;
+SELECT "Hello" || ["World"];
+SELECT ["Hello"] || "World";
 SELECT "Hello" || "World" || "And" || "Friends";
 ```
 

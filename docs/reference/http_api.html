@@ -306,6 +306,14 @@ The list of parameters supplied in bulk must be nested in an array.</p>
 <pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: [{&quot;name&quot;: &quot;Soda&quot;}, {&quot;name&quot;: &quot;Tonic&quot;}], &quot;m&quot;: true}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
 curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>
+<h3 id="bulk-statements"><a class="header" href="#bulk-statements">Bulk Statements</a></h3>
+<p>It is possible to pass multiple SQL statements to Endb by delimiting
+them with semicolons.
+Parameters will be passed to all statements in order.</p>
+<pre><code class="language-sh">curl --form-string q=&quot;INSERT INTO sauces {name: ?, color: ?}; SELECT {namo: ?, colour: ?};&quot; -F p='[&quot;Mustard&quot;, &quot;Yellow&quot;, &quot;Ketchup&quot;, &quot;Red&quot;]' -X POST http://localhost:3803/sql
+</code></pre>
+<p>NOTE: <code>--form-string</code> is required instead of <code>--form</code> to send semicolon-delimited
+statements with <code>curl</code>.</p>
 
                     </main>
 

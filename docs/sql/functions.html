@@ -268,14 +268,9 @@ of the parameter given.</p>
 character codes.</p>
 <pre><code class="language-sql">SELECT CHAR(65, 66, 67);
 </code></pre>
-<h2 id=""><a class="header" href="#"><code>||</code></a></h2>
-<p>The <code>||</code> function concatenates two strings or arrays supplied as arguments.
-When concatenating to a string, the second argument will be cast to string.
-When concatenating to an array, blobs and elements are accepted as the second argument.</p>
-<pre><code class="language-sql">SELECT &quot;Hello&quot; || &quot;World&quot;;
-SELECT [1, 2, 3] || [4, 5, 6];
-</code></pre>
-<p>NOTE: <code>CONCAT</code> is equivalent to the <a href="operators.html#concatenation">Concatenation Operator (||)</a>.</p>
+<h2 id="concat"><a class="header" href="#concat"><code>CONCAT</code></a></h2>
+<p><code>CONCAT</code> is equivalent to the <a href="operators.html#concatenation">Concatenation Operator (||)</a>
+except that <code>CONCAT</code> is limited to 2-arity applications and <code>||</code> can be chained.</p>
 <h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
 <p>The <code>HEX</code> function takes a BLOB (or coerces its argument into a UTF-8 string,
 which in turn is interpreted as a BLOB)

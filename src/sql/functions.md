@@ -167,18 +167,10 @@ character codes.
 SELECT CHAR(65, 66, 67);
 ```
 
-## `||`
+## `CONCAT`
 
-The `||` function concatenates two strings or arrays supplied as arguments.
-When concatenating to a string, the second argument will be cast to string.
-When concatenating to an array, blobs and elements are accepted as the second argument.
-
-```sql
-SELECT "Hello" || "World";
-SELECT [1, 2, 3] || [4, 5, 6];
-```
-
-NOTE: `CONCAT` is equivalent to the [Concatenation Operator (||)](operators.md#concatenation).
+`CONCAT` is equivalent to the [Concatenation Operator (||)](operators.md#concatenation)
+except that `CONCAT` is limited to 2-arity applications and `||` can be chained.
 
 ## HEX, UNHEX
 

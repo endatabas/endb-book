@@ -320,10 +320,17 @@ SELECT * FROM products WHERE price IN (SELECT price FROM coupons);
 SELECT * FROM products WHERE price NOT IN (SELECT price FROM coupons);
 </code></pre>
 <p>NOTE: Use <a href="operators.html#match"><code>MATCH</code></a> to test for absence of a value in an array.</p>
-<h2 id="concatenation"><a class="header" href="#concatenation">Concatenation</a></h2>
-<p>The concatenation operator (<code>||</code>) concatenates two strings.
+<h2 id="-concatenation"><a class="header" href="#-concatenation"><code>||</code> (Concatenation)</a></h2>
+<p>The <code>||</code> operator concatenates two strings or arrays supplied as arguments.
+When concatenating to an array element: other elements, arrays, and blobs are accepted as the second argument.
+When concatenating to an array: arrays, blobs, and array elements are accepted as the second argument.
+Elements other than strings are cast to strings when concatenated with each other.
 Multiple operators can be chained together.</p>
-<pre><code class="language-sql">SELECT 'Hello' || 'World';
+<pre><code class="language-sql">SELECT &quot;Hello&quot; || &quot;World&quot;;
+SELECT [1, 2, 3] || [4, 5, 6];
+SELECT 1 || 2;
+SELECT &quot;Hello&quot; || [&quot;World&quot;];
+SELECT [&quot;Hello&quot;] || &quot;World&quot;;
 SELECT &quot;Hello&quot; || &quot;World&quot; || &quot;And&quot; || &quot;Friends&quot;;
 </code></pre>
 <p>The Concatenation Operator is equivalent to the <a href="functions.html#concat"><code>CONCAT</code> function</a>.</p>
