@@ -29,14 +29,13 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
-* UPDATE UNSET/REMOVE
-* Transactions/multiple-statements now support parameters (still returns a single, last result).
 * whitespace between examples in one box
+* Functions - more natural order/grouping of the page?
 * ops: env vars, cmd line params, logging, data_dir
+
 * Architecture page could need a refresher (SQLite focus etc).
 * NorthWind equivalent?
-* Functions - more natural order/grouping of the page?
-* In general it would be nice to avoid overflowing the examples so much?
 
+* In general it would be nice to avoid overflowing the examples so much?
 * remove code example overflows
 * beef up tutorial

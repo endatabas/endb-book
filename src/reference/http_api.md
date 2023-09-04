@@ -228,6 +228,11 @@ It is possible to pass multiple SQL statements to Endb by delimiting
 them with semicolons.
 Parameters will be passed to all statements in order.
 
+Only the result of the last statement is returned to the client.
+In the following example, the `INSERT` will be successful but will not
+return a result.
+The `SELECT` will return to the client.
+
 ```sh
 curl --form-string q="INSERT INTO sauces {name: ?, color: ?}; SELECT {namo: ?, colour: ?};" -F p='["Mustard", "Yellow", "Ketchup", "Red"]' -X POST http://localhost:3803/sql
 ```
