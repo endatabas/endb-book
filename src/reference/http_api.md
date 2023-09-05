@@ -11,7 +11,7 @@ curl -d "SELECT * FROM users" -H "Content-Type: application/sql" -X POST http://
 ```
 
 You can send SQL to `endb` with standard HTTP Query Parameters, Verbs,
-Content Types, and Accept Headers.
+Content Types, Accept Headers, and HTTP Basic Authentication.
 Each one is outlined below.
 
 ## HTTP Query Parameters
@@ -174,6 +174,33 @@ returns:
 
 See [JSON-LD](https://json-ld.org/).
 
+## HTTP Basic Authentication
+
+Endb supports HTTP Basic Authentication as defined by
+[RFC 7235](https://datatracker.ietf.org/doc/html/rfc7235).
+Pass `--username` and `--password` arguments to the `endb` binary to force
+basic authentication for HTTP connections.
+
+```sh
+./target/endb --username zig --password zag
+```
+
+Then, from any HTTP client, provide the username and password combination to
+execute queries.
+
+```sh
+curl --user zig:zag -d "SELECT 'Hello World';" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
+```
+
+If the client passes an incorrect username or password, it will receive a
+`401 Authorization Required` HTTP status code as a result, but no body.
+Be aware of this to ensure client code is written to detect 401 status codes.
+
+```sh
+$ curl -i --user zig:wrong -d "SELECT 'Hello World';" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
+HTTP/1.1 401 Authorization Required
+```
+
 ## Parameters
 
 SQL parameters are available to:
@@ -222,7 +249,7 @@ curl -d '{"q": "INSERT INTO products {name: :name};", "p": [{"name": "Soda"}, {"
 curl -F q="INSERT INTO sauces {name: ?, color: ?};" -F p='[["Mustard", "Yellow"], ["Ketchup", "Red"]]' -F m=true -X POST http://localhost:3803/sql
 ```
 
-### Bulk Statements
+## Bulk Statements
 
 It is possible to pass multiple SQL statements to Endb by delimiting
 them with semicolons.
