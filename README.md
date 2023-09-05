@@ -29,7 +29,6 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
-* ops/http: example `--user` flag to curl for basic auth
 * beef up tutorial
 
 * NorthWind equivalent?

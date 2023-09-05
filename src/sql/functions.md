@@ -313,6 +313,19 @@ Accepts a `DATE`, `TIMESTAMP`, or `STRING`.
 SELECT JULIANDAY(1970-01-01);
 ```
 
+### EXTRACT
+
+The `EXTRACT` pseudo-function provides a way to access one named, numerical portion of a
+date or timestamp.
+`EXTRACT` is a "pseudo-function" because internally it uses custom syntax of the form
+`<named-portion> FROM <date>`.
+
+```sql
+SELECT EXTRACT(YEAR FROM CURRENT_TIMESTAMP);
+SELECT EXTRACT(MONTH FROM CURRENT_TIMESTAMP);
+SELECT EXTRACT(DAY FROM CURRENT_DATE);
+```
+
 
 ## Aggregate Functions
 
