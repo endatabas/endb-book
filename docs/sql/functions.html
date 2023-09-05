@@ -375,13 +375,18 @@ Accepts a <code>DATE</code>, <code>TIMESTAMP</code>, or <code>STRING</code>.</p>
 </code></pre>
 <h3 id="extract"><a class="header" href="#extract">EXTRACT</a></h3>
 <p>The <code>EXTRACT</code> pseudo-function provides a way to access one named, numerical portion of a
-date or timestamp.
-<code>EXTRACT</code> is a &quot;pseudo-function&quot; because internally it uses custom syntax of the form
-<code>&lt;named-portion&gt; FROM &lt;date&gt;</code>.</p>
-<pre><code class="language-sql">SELECT EXTRACT(YEAR FROM CURRENT_TIMESTAMP);
-SELECT EXTRACT(MONTH FROM CURRENT_TIMESTAMP);
-SELECT EXTRACT(DAY FROM CURRENT_DATE);
+date, time, or timestamp.
+Portions of dates can only be extracted from dates or timestamps.
+Portions of times can only be extracted from timestamps or times.</p>
+<pre><code class="language-sql">SELECT EXTRACT(YEAR FROM CURRENT_DATE);
+SELECT EXTRACT(MONTH FROM CURRENT_DATE);
+SELECT EXTRACT(DAY FROM CURRENT_TIMESTAMP);
+SELECT EXTRACT(HOUR FROM CURRENT_TIMESTAMP);
+SELECT EXTRACT(MINUTE FROM CURRENT_TIME);
+SELECT EXTRACT(SECOND FROM CURRENT_TIME);
 </code></pre>
+<p>NOTE: <code>EXTRACT</code> is a &quot;pseudo-function&quot; because internally it uses custom syntax of the form
+<code>&lt;named-portion&gt; FROM &lt;date&gt;</code>.</p>
 <h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
 <h3 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h3>
 <p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,
