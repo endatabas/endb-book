@@ -29,12 +29,8 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
-* Functions - more natural order/grouping of the page?
-* ops: env vars, cmd line params, logging, data_dir
-
-* Architecture page could need a refresher (SQLite focus etc).
-* NorthWind equivalent?
-
-* In general it would be nice to avoid overflowing the examples so much?
-* remove code example overflows
+* ops/http: example `--user` flag to curl for basic auth
 * beef up tutorial
+
+* NorthWind equivalent?
+* remove code example overflows

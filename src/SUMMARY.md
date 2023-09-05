@@ -20,6 +20,7 @@
     - [Assertions](./sql/assertions.md)
 - [Reference](./reference/README.md)
     - [Installation](./reference/installation.md)
+    - [Operation](./reference/operation.md)
     - [HTTP API](./reference/http_api.md)
     - [Data Types](./reference/data_types.md)
 - [Appendix](./appendix/README.md)

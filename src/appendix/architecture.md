@@ -16,7 +16,7 @@ This is used for user safety and compliance with laws like GDPR.
 
 Both the heart and "UI" of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).
 
-Endb SQL bases its core on the SQL dialect and function/operator surface area found in SQLite.
+Endb SQL bases its core SQL dialect on SQLite.
 It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
 Read more in our [bibliography](https://www.endatabas.com/bibliography.html).
 
