@@ -67,6 +67,7 @@ The `CHARACTER_LENGTH` function returns the number of unicode characters in a st
 ```sql
 SELECT CHARACTER_LENGTH('josé');
 -- 4
+
 SELECT CHARACTER_LENGTH('❤️🥫');
 -- 3
 ```
@@ -78,6 +79,7 @@ The `OCTET_LENGTH` function returns the length of a string, in bytes (octets).
 ```sql
 SELECT OCTET_LENGTH('josé');
 -- 5
+
 SELECT OCTET_LENGTH('❤️🥫');
 -- 10
 ```
@@ -103,8 +105,10 @@ whitespace to the left, and whitespace to the right of a string, respectively.
 ```sql
 SELECT TRIM('  hello  ');
 -- 'hello'
+
 SELECT LTRIM('  hello  ');
 -- 'hello  '
+
 SELECT RTRIM('  hello  ');
 -- '  hello'
 ```
@@ -116,6 +120,7 @@ The `LOWER` and `UPPER` functions downcase and upcase a string, respectively.
 ```sql
 SELECT LOWER('Relatable Algebra');
 -- 'relatable algebra'
+
 SELECT UPPER('Shouting Calculus');
 -- 'SHOUTING CALCULUS'
 ```
@@ -188,10 +193,13 @@ in the second parameter, `UNHEX` returns `NULL`.
 ```sql
 SELECT HEX(15);
 -- '3135'
+
 SELECT UNHEX('3135');
 -- b'15'
+
 SELECT UNHEX('3135ZZ', 'Z');
 -- b'15'
+
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 ```

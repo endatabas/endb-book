@@ -29,7 +29,6 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
-* whitespace between examples in one box
 * Functions - more natural order/grouping of the page?
 * ops: env vars, cmd line params, logging, data_dir
 

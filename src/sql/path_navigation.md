@@ -65,6 +65,7 @@ recursively walking the document to match the name given.
 ```sql
 SELECT { paths.* }..a FROM paths;
 -- [{'a': [2, 3, 1]}]
+
 SELECT b..a FROM paths;
 -- [{'a': [3]}]
 ```
@@ -77,6 +78,7 @@ of a single descendent child.
 ```sql
 SELECT { paths.* }['b']['a'] FROM paths;
 -- [{'a': 3}]
+
 SELECT b['a'] FROM paths;
 -- [{'a': 3}]
 ```
@@ -99,8 +101,10 @@ lookups of a single descendent child.
 ```sql
 SELECT { paths.* }['b'][0] FROM paths;
 -- [{'column1': {'a': 3}}]
+
 SELECT { paths.* }['c'][1] FROM paths;
 -- [{'column1': 2}]
+
 SELECT c[1] FROM paths;
 -- [{'column1': 2}]
 ```
@@ -168,6 +172,7 @@ The new value is ignored if the path does not match an existing field.
 ```sql
 SELECT path_replace({a: 2, c: 4}, $.a, 99);
 -- {'a': 99, 'c': 4}
+
 SELECT path_replace({a: 2, c: 4}, $.e, 99);
 -- {'a': 2, 'c': 4}
 ```
@@ -191,6 +196,7 @@ If a path is not found, nothing is removed for that argument.
 ```sql
 SELECT path_remove([0,1,2,3,4], $[#-1], $[0]);
 -- [1, 2, 3]
+
 SELECT path_remove({x: 25, y: 42}, $.y);
 -- {'x': 25}
 ```
@@ -205,6 +211,7 @@ If multiple paths are provided, an array is returned.
 ```sql
 SELECT path_extract({a: 2, c: [4, 5, {f: 7}]}, $.c[2].f);
 -- 7
+
 SELECT path_extract({a: 2, c: [4, 5], f: 7}, $.x, $.a);
 -- [NULL, 2]
 ```

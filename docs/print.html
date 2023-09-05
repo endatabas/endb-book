@@ -1048,6 +1048,7 @@ The following example returns <code>'zig'</code>:</p>
 <p>The <code>CHARACTER_LENGTH</code> function returns the number of unicode characters in a string.</p>
 <pre><code class="language-sql">SELECT CHARACTER_LENGTH('josé');
 -- 4
+
 SELECT CHARACTER_LENGTH('❤️🥫');
 -- 3
 </code></pre>
@@ -1055,6 +1056,7 @@ SELECT CHARACTER_LENGTH('❤️🥫');
 <p>The <code>OCTET_LENGTH</code> function returns the length of a string, in bytes (octets).</p>
 <pre><code class="language-sql">SELECT OCTET_LENGTH('josé');
 -- 5
+
 SELECT OCTET_LENGTH('❤️🥫');
 -- 10
 </code></pre>
@@ -1071,8 +1073,10 @@ SELECT LENGTH('josé');
 whitespace to the left, and whitespace to the right of a string, respectively.</p>
 <pre><code class="language-sql">SELECT TRIM('  hello  ');
 -- 'hello'
+
 SELECT LTRIM('  hello  ');
 -- 'hello  '
+
 SELECT RTRIM('  hello  ');
 -- '  hello'
 </code></pre>
@@ -1080,6 +1084,7 @@ SELECT RTRIM('  hello  ');
 <p>The <code>LOWER</code> and <code>UPPER</code> functions downcase and upcase a string, respectively.</p>
 <pre><code class="language-sql">SELECT LOWER('Relatable Algebra');
 -- 'relatable algebra'
+
 SELECT UPPER('Shouting Calculus');
 -- 'SHOUTING CALCULUS'
 </code></pre>
@@ -1125,10 +1130,13 @@ If non-hexadecimal characters are found in the first parameter but not ignored
 in the second parameter, <code>UNHEX</code> returns <code>NULL</code>.</p>
 <pre><code class="language-sql">SELECT HEX(15);
 -- '3135'
+
 SELECT UNHEX('3135');
 -- b'15'
+
 SELECT UNHEX('3135ZZ', 'Z');
 -- b'15'
+
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 </code></pre>
@@ -1390,6 +1398,7 @@ The format of a row literal is <code>{ &lt;table&gt;.* }</code>:</p>
 recursively walking the document to match the name given.</p>
 <pre><code class="language-sql">SELECT { paths.* }..a FROM paths;
 -- [{'a': [2, 3, 1]}]
+
 SELECT b..a FROM paths;
 -- [{'a': [3]}]
 </code></pre>
@@ -1398,6 +1407,7 @@ SELECT b..a FROM paths;
 of a single descendent child.</p>
 <pre><code class="language-sql">SELECT { paths.* }['b']['a'] FROM paths;
 -- [{'a': 3}]
+
 SELECT b['a'] FROM paths;
 -- [{'a': 3}]
 </code></pre>
@@ -1413,8 +1423,10 @@ SELECT b..['a'] FROM paths;
 lookups of a single descendent child.</p>
 <pre><code class="language-sql">SELECT { paths.* }['b'][0] FROM paths;
 -- [{'column1': {'a': 3}}]
+
 SELECT { paths.* }['c'][1] FROM paths;
 -- [{'column1': 2}]
+
 SELECT c[1] FROM paths;
 -- [{'column1': 2}]
 </code></pre>
@@ -1459,6 +1471,7 @@ doesn't already exist.</p>
 The new value is ignored if the path does not match an existing field.</p>
 <pre><code class="language-sql">SELECT path_replace({a: 2, c: 4}, $.a, 99);
 -- {'a': 99, 'c': 4}
+
 SELECT path_replace({a: 2, c: 4}, $.e, 99);
 -- {'a': 2, 'c': 4}
 </code></pre>
@@ -1474,6 +1487,7 @@ If a path is not found, nothing is removed for that argument.
 <code>#</code> represents the last element in a collection.</p>
 <pre><code class="language-sql">SELECT path_remove([0,1,2,3,4], $[#-1], $[0]);
 -- [1, 2, 3]
+
 SELECT path_remove({x: 25, y: 42}, $.y);
 -- {'x': 25}
 </code></pre>
@@ -1484,6 +1498,7 @@ If only a single path is provided, a scalar is returned.
 If multiple paths are provided, an array is returned.</p>
 <pre><code class="language-sql">SELECT path_extract({a: 2, c: [4, 5, {f: 7}]}, $.c[2].f);
 -- 7
+
 SELECT path_extract({a: 2, c: [4, 5], f: 7}, $.x, $.a);
 -- [NULL, 2]
 </code></pre>

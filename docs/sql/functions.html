@@ -206,6 +206,7 @@ The following example returns <code>'zig'</code>:</p>
 <p>The <code>CHARACTER_LENGTH</code> function returns the number of unicode characters in a string.</p>
 <pre><code class="language-sql">SELECT CHARACTER_LENGTH('josé');
 -- 4
+
 SELECT CHARACTER_LENGTH('❤️🥫');
 -- 3
 </code></pre>
@@ -213,6 +214,7 @@ SELECT CHARACTER_LENGTH('❤️🥫');
 <p>The <code>OCTET_LENGTH</code> function returns the length of a string, in bytes (octets).</p>
 <pre><code class="language-sql">SELECT OCTET_LENGTH('josé');
 -- 5
+
 SELECT OCTET_LENGTH('❤️🥫');
 -- 10
 </code></pre>
@@ -229,8 +231,10 @@ SELECT LENGTH('josé');
 whitespace to the left, and whitespace to the right of a string, respectively.</p>
 <pre><code class="language-sql">SELECT TRIM('  hello  ');
 -- 'hello'
+
 SELECT LTRIM('  hello  ');
 -- 'hello  '
+
 SELECT RTRIM('  hello  ');
 -- '  hello'
 </code></pre>
@@ -238,6 +242,7 @@ SELECT RTRIM('  hello  ');
 <p>The <code>LOWER</code> and <code>UPPER</code> functions downcase and upcase a string, respectively.</p>
 <pre><code class="language-sql">SELECT LOWER('Relatable Algebra');
 -- 'relatable algebra'
+
 SELECT UPPER('Shouting Calculus');
 -- 'SHOUTING CALCULUS'
 </code></pre>
@@ -283,10 +288,13 @@ If non-hexadecimal characters are found in the first parameter but not ignored
 in the second parameter, <code>UNHEX</code> returns <code>NULL</code>.</p>
 <pre><code class="language-sql">SELECT HEX(15);
 -- '3135'
+
 SELECT UNHEX('3135');
 -- b'15'
+
 SELECT UNHEX('3135ZZ', 'Z');
 -- b'15'
+
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 </code></pre>
