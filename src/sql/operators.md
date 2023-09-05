@@ -115,6 +115,8 @@ SELECT ~1;
 
 ## LIKE
 
+`LIKE` is the operator equivalent of the [`LIKE` function](functions.md#like).
+
 `LIKE` returns `TRUE` if a string matches the supplied _LIKE_ pattern, as defined below:
 
 A pattern can be a string literal.

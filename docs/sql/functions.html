@@ -403,6 +403,16 @@ can override the delimiter.</p>
 <pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
 SELECT GROUP_CONCAT(name, ':') FROM products;
 </code></pre>
+<h3 id="like"><a class="header" href="#like">LIKE</a></h3>
+<p>The <code>LIKE</code> function serves the same purpose as the
+<a href="operators.html#like"><code>LIKE</code> operator</a>.
+However, the argument order is (effectively) reversed for the <code>LIKE</code> function,
+to match the signature used in SQLite.
+For the function version, the pattern is the first argument.
+Optionally, an alternative escape character can be provided as a third argument.</p>
+<pre><code class="language-sql">SELECT * FROM users WHERE LIKE('Stev%', name);
+SELECT * FROM users WHERE LIKE('EdgarX%', name, 'X');
+</code></pre>
 
                     </main>
 

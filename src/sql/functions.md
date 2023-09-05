@@ -364,3 +364,17 @@ can override the delimiter.
 SELECT GROUP_CONCAT(name) FROM products;
 SELECT GROUP_CONCAT(name, ':') FROM products;
 ```
+
+### LIKE
+
+The `LIKE` function serves the same purpose as the
+[`LIKE` operator](operators.md#like).
+However, the argument order is (effectively) reversed for the `LIKE` function,
+to match the signature used in SQLite.
+For the function version, the pattern is the first argument.
+Optionally, an alternative escape character can be provided as a third argument.
+
+```sql
+SELECT * FROM users WHERE LIKE('Stev%', name);
+SELECT * FROM users WHERE LIKE('EdgarX%', name, 'X');
+```

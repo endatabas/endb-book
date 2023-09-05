@@ -197,8 +197,9 @@ podman run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 <li><a href="https://github.com/endatabas/endb/#building">https://github.com/endatabas/endb/#building</a></li>
 <li><code>./target/endb</code></li>
 </ul>
-<p>NOTE: If you move the <code>endb</code> binary, be sure to copy libendb.so (Linux)
-or libendb.dylib (MacOS) to the same directory.</p>
+<p>NOTE: If you move the <code>endb</code> binary, be sure to copy <code>libendb.so</code> (Linux)
+or <code>libendb.dylib</code> (MacOS) into the same directory.
+This is because <code>endb</code> requires <code>libendb</code> to run.</p>
 
                     </main>
 

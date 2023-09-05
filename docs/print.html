@@ -926,6 +926,7 @@ SELECT 1 | 2;
 SELECT ~1;
 </code></pre>
 <h2 id="like"><a class="header" href="#like">LIKE</a></h2>
+<p><code>LIKE</code> is the operator equivalent of the <a href="sql/functions.html#like"><code>LIKE</code> function</a>.</p>
 <p><code>LIKE</code> returns <code>TRUE</code> if a string matches the supplied <em>LIKE</em> pattern, as defined below:</p>
 <p>A pattern can be a string literal.
 It can also contain underscores (<code>_</code>) and/or percentage symbols (<code>%</code>).
@@ -1243,6 +1244,16 @@ It defaults to a comma-delimited list, but the second (optional) parameter
 can override the delimiter.</p>
 <pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
 SELECT GROUP_CONCAT(name, ':') FROM products;
+</code></pre>
+<h3 id="like-1"><a class="header" href="#like-1">LIKE</a></h3>
+<p>The <code>LIKE</code> function serves the same purpose as the
+<a href="sql/operators.html#like"><code>LIKE</code> operator</a>.
+However, the argument order is (effectively) reversed for the <code>LIKE</code> function,
+to match the signature used in SQLite.
+For the function version, the pattern is the first argument.
+Optionally, an alternative escape character can be provided as a third argument.</p>
+<pre><code class="language-sql">SELECT * FROM users WHERE LIKE('Stev%', name);
+SELECT * FROM users WHERE LIKE('EdgarX%', name, 'X');
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
 <p>To make best use of Time Queries, it is a good idea to review the
@@ -1568,8 +1579,9 @@ podman run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 <li><a href="https://github.com/endatabas/endb/#building">https://github.com/endatabas/endb/#building</a></li>
 <li><code>./target/endb</code></li>
 </ul>
-<p>NOTE: If you move the <code>endb</code> binary, be sure to copy libendb.so (Linux)
-or libendb.dylib (MacOS) to the same directory.</p>
+<p>NOTE: If you move the <code>endb</code> binary, be sure to copy <code>libendb.so</code> (Linux)
+or <code>libendb.dylib</code> (MacOS) into the same directory.
+This is because <code>endb</code> requires <code>libendb</code> to run.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="http-api"><a class="header" href="#http-api">HTTP API</a></h1>
 <p>At this experimental stage, only raw HTTP drivers are available.
 Any HTTP client may be used but in the examples below, we'll use <code>curl</code>.</p>
@@ -1714,6 +1726,10 @@ curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Must
 <p>It is possible to pass multiple SQL statements to Endb by delimiting
 them with semicolons.
 Parameters will be passed to all statements in order.</p>
+<p>Only the result of the last statement is returned to the client.
+In the following example, the <code>INSERT</code> will be successful but will not
+return a result.
+The <code>SELECT</code> will return to the client.</p>
 <pre><code class="language-sh">curl --form-string q=&quot;INSERT INTO sauces {name: ?, color: ?}; SELECT {namo: ?, colour: ?};&quot; -F p='[&quot;Mustard&quot;, &quot;Yellow&quot;, &quot;Ketchup&quot;, &quot;Red&quot;]' -X POST http://localhost:3803/sql
 </code></pre>
 <p>NOTE: <code>--form-string</code> is required instead of <code>--form</code> to send semicolon-delimited
