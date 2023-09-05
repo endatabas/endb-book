@@ -167,42 +167,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
-<h2 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h2>
-<p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
-<pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
-</code></pre>
-<h2 id="object_values"><a class="header" href="#object_values">OBJECT_VALUES</a></h2>
-<p>An object's values can be selected using <code>OBJECT_VALUES</code>.</p>
-<pre><code class="language-sql">SELECT OBJECT_VALUES({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
-</code></pre>
-<h2 id="object_entries"><a class="header" href="#object_entries">OBJECT_ENTRIES</a></h2>
-<p>Returns an array of key-value pairs representing the given object.</p>
-<pre><code class="language-sql">SELECT OBJECT_ENTRIES({a: 1, b: 2, c: 3});
--- [['a': 1], ['b': 2], ['c': 3]]
-</code></pre>
-<h2 id="object_from_entries"><a class="header" href="#object_from_entries">OBJECT_FROM_ENTRIES</a></h2>
-<p>Constructs an object from an array of key-value pairs.</p>
-<pre><code class="language-sql">SELECT OBJECT_FROM_ENTRIES([['a', 1], ['b', 2], ['c', 3]]);
--- {a: 1, b: 2, c: 3}
-</code></pre>
-<h2 id="patch"><a class="header" href="#patch">PATCH</a></h2>
-<p>The <code>PATCH</code> function takes two documents.
-The document returned is the first document &quot;patched&quot; with any fields found in the second document.
-If the second document does not specify a field, that field is left untouched.
-If the second document specifies any fields with values of <code>NULL</code>, those fields are removed.</p>
-<pre><code class="language-sql">SELECT PATCH(
-  {name: 'Salt', nutrition: {sodium: 100, ingredients: 'Kosher Salt'}},
-  {name: 'Sea Salt', nutrition: {ingredients: NULL}}
-);
-</code></pre>
-<p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
-<a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
-<h2 id="coalesce"><a class="header" href="#coalesce">COALESCE</a></h2>
-<p>The <code>COALESCE</code> function returns its first non-null argument.
-The following example returns <code>'zig'</code>:</p>
-<pre><code class="language-sql">SELECT COALESCE(NULL, NULL, 'zig', 'zag');
-</code></pre>
-<h2 id="character_length"><a class="header" href="#character_length">CHARACTER_LENGTH</a></h2>
+<h2 id="string-functions"><a class="header" href="#string-functions">String Functions</a></h2>
+<h3 id="character_length"><a class="header" href="#character_length">CHARACTER_LENGTH</a></h3>
 <p>The <code>CHARACTER_LENGTH</code> function returns the number of unicode characters in a string.</p>
 <pre><code class="language-sql">SELECT CHARACTER_LENGTH('josé');
 -- 4
@@ -210,7 +176,7 @@ The following example returns <code>'zig'</code>:</p>
 SELECT CHARACTER_LENGTH('❤️🥫');
 -- 3
 </code></pre>
-<h2 id="octet_length"><a class="header" href="#octet_length">OCTET_LENGTH</a></h2>
+<h3 id="octet_length"><a class="header" href="#octet_length">OCTET_LENGTH</a></h3>
 <p>The <code>OCTET_LENGTH</code> function returns the length of a string, in bytes (octets).</p>
 <pre><code class="language-sql">SELECT OCTET_LENGTH('josé');
 -- 5
@@ -218,15 +184,7 @@ SELECT CHARACTER_LENGTH('❤️🥫');
 SELECT OCTET_LENGTH('❤️🥫');
 -- 10
 </code></pre>
-<h2 id="length"><a class="header" href="#length">LENGTH</a></h2>
-<p>The <code>LENGTH</code> function counts the number of entries in a collection.
-When supplied with a string, it is a synonym for <code>CHARACTER_LENGTH</code>.</p>
-<pre><code class="language-sql">SELECT LENGTH([3, 2]);
-SELECT LENGTH({name: 'Peas', price: 8.99, product_no: 77});
-SELECT LENGTH('josé');
-</code></pre>
-<p>NOTE: <code>CARDINALITY</code> is an synonym for <code>LENGTH</code>.</p>
-<h2 id="trim-ltrim-rtrim"><a class="header" href="#trim-ltrim-rtrim">TRIM, LTRIM, RTRIM</a></h2>
+<h3 id="trim-ltrim-rtrim"><a class="header" href="#trim-ltrim-rtrim">TRIM, LTRIM, RTRIM</a></h3>
 <p>The <code>TRIM</code>, <code>LTRIM</code>, and <code>RTRIM</code> functions trim surrounding whitespace,
 whitespace to the left, and whitespace to the right of a string, respectively.</p>
 <pre><code class="language-sql">SELECT TRIM('  hello  ');
@@ -238,7 +196,7 @@ SELECT LTRIM('  hello  ');
 SELECT RTRIM('  hello  ');
 -- '  hello'
 </code></pre>
-<h2 id="lower-upper"><a class="header" href="#lower-upper">LOWER, UPPER</a></h2>
+<h3 id="lower-upper"><a class="header" href="#lower-upper">LOWER, UPPER</a></h3>
 <p>The <code>LOWER</code> and <code>UPPER</code> functions downcase and upcase a string, respectively.</p>
 <pre><code class="language-sql">SELECT LOWER('Relatable Algebra');
 -- 'relatable algebra'
@@ -246,74 +204,102 @@ SELECT RTRIM('  hello  ');
 SELECT UPPER('Shouting Calculus');
 -- 'SHOUTING CALCULUS'
 </code></pre>
-<h2 id="replace"><a class="header" href="#replace">REPLACE</a></h2>
+<h3 id="replace"><a class="header" href="#replace">REPLACE</a></h3>
 <p>The <code>REPLACE</code> function returns the string in the first parameter,
 with the second parameter (if found) replaced by the third.</p>
 <pre><code class="language-sql">SELECT REPLACE('Relatable Algebra', 'Rela', 'Infla');
 </code></pre>
-<h2 id="instr"><a class="header" href="#instr">INSTR</a></h2>
+<h3 id="instr"><a class="header" href="#instr">INSTR</a></h3>
 <p>The <code>INSTR</code> function returns the first character of a substring match on the second parameter,
 if found, and <code>0</code> if it is not found.</p>
 <pre><code class="language-sql">SELECT INSTR('Coffee', 'ee');
 </code></pre>
-<h2 id="substring"><a class="header" href="#substring">SUBSTRING</a></h2>
+<h3 id="substring"><a class="header" href="#substring">SUBSTRING</a></h3>
 <p>The <code>SUBSTRING</code> function returns the substring starting from the index provided as the second parameter.
 If the (optional) third parameter is provided, the substring will be of that length (or less, if the end of the source string is reached).
 <code>SUBSTR</code> is a synonym for <code>SUBSTRING</code>.</p>
 <pre><code class="language-sql">SELECT SUBSTRING('Hello Edgar', 4);
 SELECT SUBSTR('Hello Edgar', 4, 2);
 </code></pre>
-<h2 id="unicode"><a class="header" href="#unicode">UNICODE</a></h2>
+<h3 id="unicode"><a class="header" href="#unicode">UNICODE</a></h3>
 <p>The <code>UNICODE</code> function returns an integer unicode value for the first character
 of the parameter given.</p>
 <pre><code class="language-sql">SELECT UNICODE('Adam');
 </code></pre>
-<h2 id="char"><a class="header" href="#char">CHAR</a></h2>
+<h3 id="char"><a class="header" href="#char">CHAR</a></h3>
 <p>The <code>CHAR</code> function returns a string corresponding to the supplied integer
 character codes.</p>
 <pre><code class="language-sql">SELECT CHAR(65, 66, 67);
 </code></pre>
-<h2 id="concat"><a class="header" href="#concat"><code>CONCAT</code></a></h2>
+<h3 id="concat"><a class="header" href="#concat">CONCAT</a></h3>
 <p><code>CONCAT</code> is equivalent to the <a href="operators.html#concatenation">Concatenation Operator (||)</a>
 except that <code>CONCAT</code> is limited to 2-arity applications and <code>||</code> can be chained.</p>
-<h2 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h2>
-<p>The <code>HEX</code> function takes a BLOB (or coerces its argument into a UTF-8 string,
-which in turn is interpreted as a BLOB)
-and turns the BLOB into an upper-case hexadecimal string.</p>
-<p>The <code>UNHEX</code> function takes a hexadecimal string and turns it into a BLOB.
-The hexadecimal string provided must contain <em>character pairs</em>.
-<code>UNHEX</code> takes an optional second parameter: a string containing non-hexadecimal
-characters to be ignored in the first parameter.
-If non-hexadecimal characters are found in the first parameter but not ignored
-in the second parameter, <code>UNHEX</code> returns <code>NULL</code>.</p>
-<pre><code class="language-sql">SELECT HEX(15);
--- '3135'
-
-SELECT UNHEX('3135');
--- b'15'
-
-SELECT UNHEX('3135ZZ', 'Z');
--- b'15'
-
-SELECT UNHEX('3135ZZ', 'M');
--- NULL
+<h3 id="like"><a class="header" href="#like">LIKE</a></h3>
+<p>The <code>LIKE</code> function serves the same purpose as the
+<a href="operators.html#like"><code>LIKE</code> operator</a>.
+However, the argument order is (effectively) reversed for the <code>LIKE</code> function,
+to match the signature used in SQLite.
+For the function version, the pattern is the first argument.
+Optionally, an alternative escape character can be provided as a third argument.</p>
+<pre><code class="language-sql">SELECT * FROM users WHERE LIKE('Stev%', name);
+SELECT * FROM users WHERE LIKE('EdgarX%', name, 'X');
 </code></pre>
-<h2 id="random"><a class="header" href="#random">RANDOM</a></h2>
+<h2 id="collection-functions"><a class="header" href="#collection-functions">Collection Functions</a></h2>
+<h3 id="length"><a class="header" href="#length">LENGTH</a></h3>
+<p>The <code>LENGTH</code> function counts the number of entries in a collection.
+When supplied with a string, it is a synonym for <code>CHARACTER_LENGTH</code>.</p>
+<pre><code class="language-sql">SELECT LENGTH([3, 2]);
+SELECT LENGTH({name: 'Peas', price: 8.99, product_no: 77});
+SELECT LENGTH('josé');
+</code></pre>
+<p>NOTE: <code>CARDINALITY</code> is an synonym for <code>LENGTH</code>.</p>
+<h3 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h3>
+<p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
+<pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
+</code></pre>
+<h3 id="object_values"><a class="header" href="#object_values">OBJECT_VALUES</a></h3>
+<p>An object's values can be selected using <code>OBJECT_VALUES</code>.</p>
+<pre><code class="language-sql">SELECT OBJECT_VALUES({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
+</code></pre>
+<h3 id="object_entries"><a class="header" href="#object_entries">OBJECT_ENTRIES</a></h3>
+<p>Returns an array of key-value pairs representing the given object.</p>
+<pre><code class="language-sql">SELECT OBJECT_ENTRIES({a: 1, b: 2, c: 3});
+-- [['a': 1], ['b': 2], ['c': 3]]
+</code></pre>
+<h3 id="object_from_entries"><a class="header" href="#object_from_entries">OBJECT_FROM_ENTRIES</a></h3>
+<p>Constructs an object from an array of key-value pairs.</p>
+<pre><code class="language-sql">SELECT OBJECT_FROM_ENTRIES([['a', 1], ['b', 2], ['c', 3]]);
+-- {a: 1, b: 2, c: 3}
+</code></pre>
+<h3 id="patch"><a class="header" href="#patch">PATCH</a></h3>
+<p>The <code>PATCH</code> function takes two documents.
+The document returned is the first document &quot;patched&quot; with any fields found in the second document.
+If the second document does not specify a field, that field is left untouched.
+If the second document specifies any fields with values of <code>NULL</code>, those fields are removed.</p>
+<pre><code class="language-sql">SELECT PATCH(
+  {name: 'Salt', nutrition: {sodium: 100, ingredients: 'Kosher Salt'}},
+  {name: 'Sea Salt', nutrition: {ingredients: NULL}}
+);
+</code></pre>
+<p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
+<a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
+<h3 id="coalesce"><a class="header" href="#coalesce">COALESCE</a></h3>
+<p>The <code>COALESCE</code> function returns its first non-null argument.
+The following example returns <code>'zig'</code>:</p>
+<pre><code class="language-sql">SELECT COALESCE(NULL, NULL, 'zig', 'zag');
+</code></pre>
+<h2 id="numeric-functions"><a class="header" href="#numeric-functions">Numeric Functions</a></h2>
+<h3 id="random"><a class="header" href="#random">RANDOM</a></h3>
 <p>The <code>RANDOM</code> function returns a random integer.</p>
 <pre><code class="language-sql">SELECT RANDOM();
 </code></pre>
-<h2 id="randomblob-zeroblob"><a class="header" href="#randomblob-zeroblob">RANDOMBLOB, ZEROBLOB</a></h2>
+<h3 id="randomblob-zeroblob"><a class="header" href="#randomblob-zeroblob">RANDOMBLOB, ZEROBLOB</a></h3>
 <p>The <code>RANDOMBLOB</code> function returns a random binary large object of the size given, in bytes.
 The <code>ZEROBLOB</code> function returns a zeroed-out binary large object of the size given, in bytes.</p>
 <pre><code class="language-sql">SELECT RANDOMBLOB(32);
 SELECT ZEROBLOB(32);
 </code></pre>
-<h2 id="iif"><a class="header" href="#iif">IIF</a></h2>
-<p>The <code>IIF</code> function is a conditional shorthand.
-It returns the second parameter if the condition is true and the third parameter if the condition is false.</p>
-<pre><code class="language-sql">SELECT IIF(price &gt; 5.99, 'Expensive!', 'Cheap') FROM products;
-</code></pre>
-<h2 id="math"><a class="header" href="#math">Math</a></h2>
+<h3 id="math"><a class="header" href="#math">Math</a></h3>
 <p>Endb provides standard SQL math functions based on SQLite's collection of math functions:</p>
 <ul>
 <li>ROUND</li>
@@ -347,38 +333,45 @@ It returns the second parameter if the condition is true and the third parameter
 <p>NOTE: Endb follows the choice of most SQL databases and aliases <code>LOG</code> to <code>LOG10</code>
 rather than <code>LN</code> (natural log), as specified by the SQL standard.</p>
 <p>NOTE: Mathematical operators are documented under <a href="operators.html#math">Operators</a>.</p>
-<h2 id="cast"><a class="header" href="#cast">CAST</a></h2>
-<p>The <code>CAST</code> function forces a value into a particular data type.
-Note that not all types are cast-compatible with each other.</p>
-<pre><code class="language-sql">SELECT CAST(price AS INTEGER) FROM products;
+<h3 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h3>
+<p>The <code>HEX</code> function takes a BLOB (or coerces its argument into a UTF-8 string,
+which in turn is interpreted as a BLOB)
+and turns the BLOB into an upper-case hexadecimal string.</p>
+<p>The <code>UNHEX</code> function takes a hexadecimal string and turns it into a BLOB.
+The hexadecimal string provided must contain <em>character pairs</em>.
+<code>UNHEX</code> takes an optional second parameter: a string containing non-hexadecimal
+characters to be ignored in the first parameter.
+If non-hexadecimal characters are found in the first parameter but not ignored
+in the second parameter, <code>UNHEX</code> returns <code>NULL</code>.</p>
+<pre><code class="language-sql">SELECT HEX(15);
+-- '3135'
+
+SELECT UNHEX('3135');
+-- b'15'
+
+SELECT UNHEX('3135ZZ', 'Z');
+-- b'15'
+
+SELECT UNHEX('3135ZZ', 'M');
+-- NULL
 </code></pre>
-<h2 id="nullif"><a class="header" href="#nullif">NULLIF</a></h2>
-<p>The <code>NULLIF</code> function returns <code>TRUE</code> if the two supplied expressions are equal.</p>
-<pre><code class="language-sql">SELECT NULLIF(1, 1);
-SELECT NULLIF(1, 'zig');
-</code></pre>
-<h2 id="strftime"><a class="header" href="#strftime">STRFTIME</a></h2>
+<h2 id="datetime-functions"><a class="header" href="#datetime-functions">Date/Time Functions</a></h2>
+<h3 id="strftime"><a class="header" href="#strftime">STRFTIME</a></h3>
 <p>The <code>STRFTIME</code> function formats a date or time value as a string.</p>
 <pre><code class="language-sql">SELECT strftime('%Y/%m/%d', date('2001-01-01'));
 SELECT strftime('%Y %m %d at %H %M %S', datetime('2001-01-01 03:04:05'));
 </code></pre>
-<h2 id="unixepoch"><a class="header" href="#unixepoch">UNIXEPOCH</a></h2>
+<h3 id="unixepoch"><a class="header" href="#unixepoch">UNIXEPOCH</a></h3>
 <p>The <code>UNIXEPOCH</code> function returns the number of seconds since the UNIX epoch.
 Accepts a <code>DATE</code>, <code>TIMESTAMP</code>, or <code>STRING</code>.</p>
 <pre><code class="language-sql">SELECT UNIXEPOCH('2023-01-01');
 SELECT UNIXEPOCH(1970-01-01T00:00:00Z);
 </code></pre>
-<h2 id="julianday"><a class="header" href="#julianday">JULIANDAY</a></h2>
+<h3 id="julianday"><a class="header" href="#julianday">JULIANDAY</a></h3>
 <p>The <code>JULIANDAY</code> function returns the Julian Day, which is the number of days since
 noon in UTC on November 24, 4714 B.C.
 Accepts a <code>DATE</code>, <code>TIMESTAMP</code>, or <code>STRING</code>.</p>
 <pre><code class="language-sql">SELECT JULIANDAY(1970-01-01);
-</code></pre>
-<h2 id="typeof"><a class="header" href="#typeof">TYPEOF</a></h2>
-<p>The <code>TYPEOF</code> function returns the type of the provided value.</p>
-<pre><code class="language-sql">SELECT TYPEOF('hi2u');
-SELECT TYPEOF(1.12345678901234);
-SELECT TYPEOF(2018-01-01T00:00:00);
 </code></pre>
 <h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
 <h3 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h3>
@@ -411,15 +404,28 @@ can override the delimiter.</p>
 <pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
 SELECT GROUP_CONCAT(name, ':') FROM products;
 </code></pre>
-<h3 id="like"><a class="header" href="#like">LIKE</a></h3>
-<p>The <code>LIKE</code> function serves the same purpose as the
-<a href="operators.html#like"><code>LIKE</code> operator</a>.
-However, the argument order is (effectively) reversed for the <code>LIKE</code> function,
-to match the signature used in SQLite.
-For the function version, the pattern is the first argument.
-Optionally, an alternative escape character can be provided as a third argument.</p>
-<pre><code class="language-sql">SELECT * FROM users WHERE LIKE('Stev%', name);
-SELECT * FROM users WHERE LIKE('EdgarX%', name, 'X');
+<h2 id="data-type-functions"><a class="header" href="#data-type-functions">Data Type Functions</a></h2>
+<h3 id="cast"><a class="header" href="#cast">CAST</a></h3>
+<p>The <code>CAST</code> function forces a value into a particular data type.
+Note that not all types are cast-compatible with each other.</p>
+<pre><code class="language-sql">SELECT CAST(price AS INTEGER) FROM products;
+</code></pre>
+<h3 id="typeof"><a class="header" href="#typeof">TYPEOF</a></h3>
+<p>The <code>TYPEOF</code> function returns the type of the provided value.</p>
+<pre><code class="language-sql">SELECT TYPEOF('hi2u');
+SELECT TYPEOF(1.12345678901234);
+SELECT TYPEOF(2018-01-01T00:00:00);
+</code></pre>
+<h2 id="conditional-functions"><a class="header" href="#conditional-functions">Conditional Functions</a></h2>
+<h3 id="iif"><a class="header" href="#iif">IIF</a></h3>
+<p>The <code>IIF</code> function is a conditional shorthand.
+It returns the second parameter if the condition is true and the third parameter if the condition is false.</p>
+<pre><code class="language-sql">SELECT IIF(price &gt; 5.99, 'Expensive!', 'Cheap') FROM products;
+</code></pre>
+<h3 id="nullif"><a class="header" href="#nullif">NULLIF</a></h3>
+<p>The <code>NULLIF</code> function returns <code>TRUE</code> if the two supplied expressions are equal.</p>
+<pre><code class="language-sql">SELECT NULLIF(1, 1);
+SELECT NULLIF(1, 'zig');
 </code></pre>
 
                     </main>
