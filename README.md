@@ -29,6 +29,7 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
+* docker/podman --pull=always
 * sub-TOC align with SUMMARY
 * blob + hex/unhex => blob section
 * coalesce => conditionals
