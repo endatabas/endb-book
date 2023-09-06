@@ -29,6 +29,10 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
+* sub-TOC align with SUMMARY
+* blob + hex/unhex => blob section
+* coalesce => conditionals
+
 * beef up tutorial
 
 * NorthWind equivalent?
