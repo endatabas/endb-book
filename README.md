@@ -29,7 +29,8 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
-* docker/podman --pull=always
+* warning: alpha storage may not be binary-compatible
+* docker/podman --pull=always (sanity-check docker build)
 * sub-TOC align with SUMMARY
 * blob + hex/unhex => blob section
 * coalesce => conditionals
