@@ -187,15 +187,6 @@ SELECT PATCH(
 The `PATCH` function has an equivalent operator for data manipulation:
 [`UPDATE PATCH`](data_manipulation.html#update-patch)
 
-### COALESCE
-
-The `COALESCE` function returns its first non-null argument.
-The following example returns `'zig'`:
-
-```sql
-SELECT COALESCE(NULL, NULL, 'zig', 'zag');
-```
-
 
 ## Numeric Functions
 
@@ -205,16 +196,6 @@ The `RANDOM` function returns a random integer.
 
 ```sql
 SELECT RANDOM();
-```
-
-### RANDOMBLOB, ZEROBLOB
-
-The `RANDOMBLOB` function returns a random binary large object of the size given, in bytes.
-The `ZEROBLOB` function returns a zeroed-out binary large object of the size given, in bytes.
-
-```sql
-SELECT RANDOMBLOB(32);
-SELECT ZEROBLOB(32);
 ```
 
 ### Math
@@ -253,33 +234,6 @@ NOTE: Endb follows the choice of most SQL databases and aliases `LOG` to `LOG10`
 rather than `LN` (natural log), as specified by the SQL standard.
 
 NOTE: Mathematical operators are documented under [Operators](operators.md#math).
-
-### HEX, UNHEX
-
-The `HEX` function takes a BLOB (or coerces its argument into a UTF-8 string,
-which in turn is interpreted as a BLOB)
-and turns the BLOB into an upper-case hexadecimal string.
-
-The `UNHEX` function takes a hexadecimal string and turns it into a BLOB.
-The hexadecimal string provided must contain _character pairs_.
-`UNHEX` takes an optional second parameter: a string containing non-hexadecimal
-characters to be ignored in the first parameter.
-If non-hexadecimal characters are found in the first parameter but not ignored
-in the second parameter, `UNHEX` returns `NULL`.
-
-```sql
-SELECT HEX(15);
--- '3135'
-
-SELECT UNHEX('3135');
--- b'15'
-
-SELECT UNHEX('3135ZZ', 'Z');
--- b'15'
-
-SELECT UNHEX('3135ZZ', 'M');
--- NULL
-```
 
 
 ## Date/Time Functions
@@ -421,4 +375,53 @@ The `NULLIF` function returns `TRUE` if the two supplied expressions are equal.
 ```sql
 SELECT NULLIF(1, 1);
 SELECT NULLIF(1, 'zig');
+```
+
+### COALESCE
+
+The `COALESCE` function returns its first non-null argument.
+The following example returns `'zig'`:
+
+```sql
+SELECT COALESCE(NULL, NULL, 'zig', 'zag');
+```
+
+
+## BLOB Functions
+
+### RANDOMBLOB, ZEROBLOB
+
+The `RANDOMBLOB` function returns a random binary large object of the size given, in bytes.
+The `ZEROBLOB` function returns a zeroed-out binary large object of the size given, in bytes.
+
+```sql
+SELECT RANDOMBLOB(32);
+SELECT ZEROBLOB(32);
+```
+
+### HEX, UNHEX
+
+The `HEX` function takes a BLOB (or coerces its argument into a UTF-8 string,
+which in turn is interpreted as a BLOB)
+and turns the BLOB into an upper-case hexadecimal string.
+
+The `UNHEX` function takes a hexadecimal string and turns it into a BLOB.
+The hexadecimal string provided must contain _character pairs_.
+`UNHEX` takes an optional second parameter: a string containing non-hexadecimal
+characters to be ignored in the first parameter.
+If non-hexadecimal characters are found in the first parameter but not ignored
+in the second parameter, `UNHEX` returns `NULL`.
+
+```sql
+SELECT HEX(15);
+-- '3135'
+
+SELECT UNHEX('3135');
+-- b'15'
+
+SELECT UNHEX('3135ZZ', 'Z');
+-- b'15'
+
+SELECT UNHEX('3135ZZ', 'M');
+-- NULL
 ```

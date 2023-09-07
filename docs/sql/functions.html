@@ -283,21 +283,10 @@ If the second document specifies any fields with values of <code>NULL</code>, th
 </code></pre>
 <p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
 <a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
-<h3 id="coalesce"><a class="header" href="#coalesce">COALESCE</a></h3>
-<p>The <code>COALESCE</code> function returns its first non-null argument.
-The following example returns <code>'zig'</code>:</p>
-<pre><code class="language-sql">SELECT COALESCE(NULL, NULL, 'zig', 'zag');
-</code></pre>
 <h2 id="numeric-functions"><a class="header" href="#numeric-functions">Numeric Functions</a></h2>
 <h3 id="random"><a class="header" href="#random">RANDOM</a></h3>
 <p>The <code>RANDOM</code> function returns a random integer.</p>
 <pre><code class="language-sql">SELECT RANDOM();
-</code></pre>
-<h3 id="randomblob-zeroblob"><a class="header" href="#randomblob-zeroblob">RANDOMBLOB, ZEROBLOB</a></h3>
-<p>The <code>RANDOMBLOB</code> function returns a random binary large object of the size given, in bytes.
-The <code>ZEROBLOB</code> function returns a zeroed-out binary large object of the size given, in bytes.</p>
-<pre><code class="language-sql">SELECT RANDOMBLOB(32);
-SELECT ZEROBLOB(32);
 </code></pre>
 <h3 id="math"><a class="header" href="#math">Math</a></h3>
 <p>Endb provides standard SQL math functions based on SQLite's collection of math functions:</p>
@@ -333,28 +322,6 @@ SELECT ZEROBLOB(32);
 <p>NOTE: Endb follows the choice of most SQL databases and aliases <code>LOG</code> to <code>LOG10</code>
 rather than <code>LN</code> (natural log), as specified by the SQL standard.</p>
 <p>NOTE: Mathematical operators are documented under <a href="operators.html#math">Operators</a>.</p>
-<h3 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h3>
-<p>The <code>HEX</code> function takes a BLOB (or coerces its argument into a UTF-8 string,
-which in turn is interpreted as a BLOB)
-and turns the BLOB into an upper-case hexadecimal string.</p>
-<p>The <code>UNHEX</code> function takes a hexadecimal string and turns it into a BLOB.
-The hexadecimal string provided must contain <em>character pairs</em>.
-<code>UNHEX</code> takes an optional second parameter: a string containing non-hexadecimal
-characters to be ignored in the first parameter.
-If non-hexadecimal characters are found in the first parameter but not ignored
-in the second parameter, <code>UNHEX</code> returns <code>NULL</code>.</p>
-<pre><code class="language-sql">SELECT HEX(15);
--- '3135'
-
-SELECT UNHEX('3135');
--- b'15'
-
-SELECT UNHEX('3135ZZ', 'Z');
--- b'15'
-
-SELECT UNHEX('3135ZZ', 'M');
--- NULL
-</code></pre>
 <h2 id="datetime-functions"><a class="header" href="#datetime-functions">Date/Time Functions</a></h2>
 <h3 id="strftime"><a class="header" href="#strftime">STRFTIME</a></h3>
 <p>The <code>STRFTIME</code> function formats a date or time value as a string.</p>
@@ -440,6 +407,40 @@ It returns the second parameter if the condition is true and the third parameter
 <p>The <code>NULLIF</code> function returns <code>TRUE</code> if the two supplied expressions are equal.</p>
 <pre><code class="language-sql">SELECT NULLIF(1, 1);
 SELECT NULLIF(1, 'zig');
+</code></pre>
+<h3 id="coalesce"><a class="header" href="#coalesce">COALESCE</a></h3>
+<p>The <code>COALESCE</code> function returns its first non-null argument.
+The following example returns <code>'zig'</code>:</p>
+<pre><code class="language-sql">SELECT COALESCE(NULL, NULL, 'zig', 'zag');
+</code></pre>
+<h2 id="blob-functions"><a class="header" href="#blob-functions">BLOB Functions</a></h2>
+<h3 id="randomblob-zeroblob"><a class="header" href="#randomblob-zeroblob">RANDOMBLOB, ZEROBLOB</a></h3>
+<p>The <code>RANDOMBLOB</code> function returns a random binary large object of the size given, in bytes.
+The <code>ZEROBLOB</code> function returns a zeroed-out binary large object of the size given, in bytes.</p>
+<pre><code class="language-sql">SELECT RANDOMBLOB(32);
+SELECT ZEROBLOB(32);
+</code></pre>
+<h3 id="hex-unhex"><a class="header" href="#hex-unhex">HEX, UNHEX</a></h3>
+<p>The <code>HEX</code> function takes a BLOB (or coerces its argument into a UTF-8 string,
+which in turn is interpreted as a BLOB)
+and turns the BLOB into an upper-case hexadecimal string.</p>
+<p>The <code>UNHEX</code> function takes a hexadecimal string and turns it into a BLOB.
+The hexadecimal string provided must contain <em>character pairs</em>.
+<code>UNHEX</code> takes an optional second parameter: a string containing non-hexadecimal
+characters to be ignored in the first parameter.
+If non-hexadecimal characters are found in the first parameter but not ignored
+in the second parameter, <code>UNHEX</code> returns <code>NULL</code>.</p>
+<pre><code class="language-sql">SELECT HEX(15);
+-- '3135'
+
+SELECT UNHEX('3135');
+-- b'15'
+
+SELECT UNHEX('3135ZZ', 'Z');
+-- b'15'
+
+SELECT UNHEX('3135ZZ', 'M');
+-- NULL
 </code></pre>
 
                     </main>

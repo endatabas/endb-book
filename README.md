@@ -27,14 +27,10 @@ The HTML print feature works reasonably well.
 
 ## TODO
 
+* beef up tutorial
+* remove code example overflows
+
 ## TODO: Feedback Required / Later
 
-* sub-TOC align with SUMMARY
-* blob + hex/unhex => blob section
-* coalesce => conditionals
-
-* beef up tutorial
-
 * NorthWind equivalent?
-* remove code example overflows
 * docker/podman --pull=always (doesn't work in podman 3.4.4, which is in the 22.04 repo)
