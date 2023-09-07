@@ -29,8 +29,6 @@ The HTML print feature works reasonably well.
 
 ## TODO: Feedback Required / Later
 
-* warning: alpha storage may not be binary-compatible
-* docker/podman --pull=always (sanity-check docker build)
 * sub-TOC align with SUMMARY
 * blob + hex/unhex => blob section
 * coalesce => conditionals
@@ -39,3 +37,4 @@ The HTML print feature works reasonably well.
 
 * NorthWind equivalent?
 * remove code example overflows
+* docker/podman --pull=always (doesn't work in podman 3.4.4, which is in the 22.04 repo)

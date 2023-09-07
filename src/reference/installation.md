@@ -7,6 +7,8 @@ We recommend building the local Docker image if you want a recent version.
 You only need one of the following options.
 If you followed the Quickstart, you already have the Docker Hub version installed.
 
+{{#include ../alpha-warning.md}}
+
 ## Installing from Docker Hub
 
 If you run Docker, you can use the default command below.
