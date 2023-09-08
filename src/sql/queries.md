@@ -45,6 +45,13 @@ on the content type it uses in Accept Headers.
 It is worth reading over the [Accept Header](../reference/http_api.md#accept-header)
 documentation, in this regard.
 
+Limit query results to distinct rows or expand to all rows with `DISTINCT` and `ALL`.
+
+```sql
+SELECT DISTINCT name FROM products;
+SELECT ALL product_no FROM products p JOIN sales s ON p.name = s.name;
+```
+
 ## FROM
 
 ### Alias Tables
@@ -98,6 +105,8 @@ on any fields (columns) which have equivalent values.
 INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 ```
+
+`LEFT JOIN`, `LEFT OUTER JOIN`, `INNER JOIN`, and `CROSS JOIN` are all supported.
 
 ### UNNEST
 

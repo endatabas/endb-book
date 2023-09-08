@@ -194,6 +194,10 @@ Because Endb columns cannot have a strict order, <code>*</code> returns them in 
 on the content type it uses in Accept Headers.
 It is worth reading over the <a href="../reference/http_api.html#accept-header">Accept Header</a>
 documentation, in this regard.</p>
+<p>Limit query results to distinct rows or expand to all rows with <code>DISTINCT</code> and <code>ALL</code>.</p>
+<pre><code class="language-sql">SELECT DISTINCT name FROM products;
+SELECT ALL product_no FROM products p JOIN sales s ON p.name = s.name;
+</code></pre>
 <h2 id="from"><a class="header" href="#from">FROM</a></h2>
 <h3 id="alias-tables"><a class="header" href="#alias-tables">Alias Tables</a></h3>
 <p>For convenience, tables can be given aliases immediately following their name in the <code>FROM</code> clause.</p>
@@ -226,6 +230,7 @@ on any fields (columns) which have equivalent values.</p>
 <pre><code class="language-sql">INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
+<p><code>LEFT JOIN</code>, <code>LEFT OUTER JOIN</code>, <code>INNER JOIN</code>, and <code>CROSS JOIN</code> are all supported.</p>
 <h3 id="unnest"><a class="header" href="#unnest">UNNEST</a></h3>
 <p>The <code>UNNEST</code> function can be thought of as the inverse of
 <a href="functions.html#array_agg"><code>ARRAY_AGG</code></a>,

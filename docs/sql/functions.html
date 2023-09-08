@@ -385,6 +385,10 @@ can override the delimiter.</p>
 <pre><code class="language-sql">SELECT GROUP_CONCAT(name) FROM products;
 SELECT GROUP_CONCAT(name, ':') FROM products;
 </code></pre>
+<h3 id="filter"><a class="header" href="#filter">FILTER</a></h3>
+<p>All aggregate functions can have a filter applied before aggregation.</p>
+<pre><code class="language-sql">SELECT SUM(price) FILTER(WHERE price &gt; 20) FROM products;
+</code></pre>
 <h2 id="data-type-functions"><a class="header" href="#data-type-functions">Data Type Functions</a></h2>
 <h3 id="cast"><a class="header" href="#cast">CAST</a></h3>
 <p>The <code>CAST</code> function forces a value into a particular data type.

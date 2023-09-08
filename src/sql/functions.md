@@ -334,6 +334,14 @@ SELECT GROUP_CONCAT(name) FROM products;
 SELECT GROUP_CONCAT(name, ':') FROM products;
 ```
 
+### FILTER
+
+All aggregate functions can have a filter applied before aggregation.
+
+```sql
+SELECT SUM(price) FILTER(WHERE price > 20) FROM products;
+```
+
 
 ## Data Type Functions
 
