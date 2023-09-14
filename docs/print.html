@@ -1886,11 +1886,15 @@ This is used for user safety and compliance with laws like GDPR.</p>
 semi-structured rows (documents).
 Here is an example to illustrate what that means:</p>
 <pre><code class="language-sql">INSERT INTO stores {brand: &quot;Alonzo's Analog Synthesizers&quot;,
-                    addresses: [{city: &quot;New Jersey&quot;, country: &quot;United States&quot;, opened: 1929-09-01},
-                                {city: &quot;Gottingen&quot;,  country: &quot;Germany&quot;,       opened: 1928-09-01}]};
+                    addresses: [{city: &quot;New Jersey&quot;,
+                                 country: &quot;United States&quot;,
+                                 opened: 1929-09-01},
+                                {city: &quot;Göttingen&quot;,
+                                 country: &quot;Germany&quot;,
+                                 opened: 1928-09-01}]};
 
--- recursive query of nested document:
-SELECT addresses..country FROM stores;
+-- recursive query of ISO dates from the nested document:
+SELECT addresses..opened FROM stores;
 </code></pre>
 <p>Endb SQL bases its core SQL dialect on SQLite.
 It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.

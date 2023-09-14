@@ -20,11 +20,15 @@ Here is an example to illustrate what that means:
 
 ```sql
 INSERT INTO stores {brand: "Alonzo's Analog Synthesizers",
-                    addresses: [{city: "New Jersey", country: "United States", opened: 1929-09-01},
-                                {city: "Gottingen",  country: "Germany",       opened: 1928-09-01}]};
+                    addresses: [{city: "New Jersey",
+                                 country: "United States",
+                                 opened: 1929-09-01},
+                                {city: "Göttingen",
+                                 country: "Germany",
+                                 opened: 1928-09-01}]};
 
--- recursive query of nested document:
-SELECT addresses..country FROM stores;
+-- recursive query of ISO dates from the nested document:
+SELECT addresses..opened FROM stores;
 ```
 
 Endb SQL bases its core SQL dialect on SQLite.
