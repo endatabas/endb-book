@@ -176,22 +176,38 @@ with fast queries made possible by <a href="#adaptive-indexing">adaptive indexin
 <p>The only time data in Endatabas is <em>truly</em> deleted is with the <code>ERASE</code> statement.
 This is used for user safety and compliance with laws like GDPR.</p>
 <h2 id="dynamic-sql"><a class="header" href="#dynamic-sql">Dynamic SQL</a></h2>
-<p>Both the heart and &quot;UI&quot; of Endatabas is a dynamic SQL engine which natively understands semi-structured rows (documents).</p>
+<p>Both the heart and &quot;UI&quot; of Endatabas is a dynamic SQL engine which natively understands strongly-typed,
+semi-structured rows (documents).
+Here is an example to illustrate what that means:</p>
+<pre><code class="language-sql">INSERT INTO stores {brand: &quot;Alonzo's Analog Synthesizers&quot;,
+                    addresses: [{city: &quot;New Jersey&quot;, country: &quot;United States&quot;, opened: 1929-09-01},
+                                {city: &quot;Gottingen&quot;,  country: &quot;Germany&quot;,       opened: 1928-09-01}]};
+
+-- recursive query of nested document:
+SELECT addresses..country FROM stores;
+</code></pre>
 <p>Endb SQL bases its core SQL dialect on SQLite.
 It also draws inspiration from SQL:99, SQL:2011, SQL:2016, and SQL:2023.
 Read more in our <a href="https://www.endatabas.com/bibliography.html">bibliography</a>.</p>
+<h2 id="columnar-hybrid-transactional-analytic-processing-htap"><a class="header" href="#columnar-hybrid-transactional-analytic-processing-htap">Columnar: Hybrid Transactional Analytic Processing (HTAP)</a></h2>
+<p>Endatabas stores and processes data as columns.
+Endb SQL allows users to retrieve data as documents.
+The ultimate goal is for Endatabas to serve many (hybrid) purposes: day-to-day transactions and analytical jobs.</p>
+<h1 id="future"><a class="header" href="#future">Future</a></h1>
+<p>More detailed information about the future of Endb can be found in <a href="roadmap.html">the roadmap</a>.</p>
+<h2 id="columnar-olap-result-sets"><a class="header" href="#columnar-olap-result-sets">Columnar (OLAP) result sets</a></h2>
+<p>Endb does not yet support columnar data returned directly to the user.</p>
 <h2 id="cloud-separation-of-storage-from-compute"><a class="header" href="#cloud-separation-of-storage-from-compute">Cloud: Separation of Storage from Compute</a></h2>
 <p>If you're not sure what this is, think Amazon Aurora, Google AlloyDB, and Neon.
 Compute nodes are the classic database (Postgres, MongoDB, etc.) — in an immutable world, these are just caches.
 Storage is elastic object or blob storage (S3, Azure Blobs, etc.).</p>
 <p>Endatabas is built to live in the clouds, alongside infinite disk.</p>
-<h2 id="columnar-hybrid-transactional-analytic-processing-htap"><a class="header" href="#columnar-hybrid-transactional-analytic-processing-htap">Columnar: Hybrid Transactional Analytic Processing (HTAP)</a></h2>
-<p>Endatabas stores and processes data as columns.
-Endb SQL allows users to retrieve columns or documents.
-The ultimate goal is for Endatabas to serve many (hybrid) purposes: day-to-day transactions and analytical jobs.</p>
+<p>Although the groundwork for separating storage from compute exists in Endb today,
+elastic storage backends are not yet implemented.</p>
 <h2 id="adaptive-indexing"><a class="header" href="#adaptive-indexing">Adaptive Indexing</a></h2>
 <p>For more information on light and adaptive indexing, you can watch Håkan's talk from 2022:
 <a href="https://www.youtube.com/watch?v=Px-7TlceM5A">&quot;Light and Adaptive Indexing for Immutable Databases&quot;</a></p>
+<p>Endb does not yet support adaptive indexing.</p>
 
                     </main>
 
