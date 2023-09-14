@@ -34,6 +34,7 @@ Read more in our [bibliography](https://www.endatabas.com/bibliography.html).
 ## Columnar: Hybrid Transactional Analytic Processing (HTAP)
 
 Endatabas stores and processes data as columns.
+Endb's columnar storage is built on [Apache Arrow](https://arrow.apache.org/docs/format/Columnar.html).
 Endb SQL allows users to retrieve data as documents.
 The ultimate goal is for Endatabas to serve many (hybrid) purposes: day-to-day transactions and analytical jobs.
 
