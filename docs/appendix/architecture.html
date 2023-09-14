@@ -198,6 +198,11 @@ Read more in our <a href="https://www.endatabas.com/bibliography.html">bibliogra
 Endb's columnar storage is built on <a href="https://arrow.apache.org/docs/format/Columnar.html">Apache Arrow</a>.
 Endb SQL allows users to retrieve data as documents.
 The ultimate goal is for Endatabas to serve many (hybrid) purposes: day-to-day transactions and analytical jobs.</p>
+<h2 id="query-execution"><a class="header" href="#query-execution">Query Execution</a></h2>
+<p>Queries are <a href="https://github.com/endatabas/endb/blob/main/src/sql/compiler.lisp">compiled to Common Lisp</a>
+and use hash joins.
+Join ordering is done heuristically, by base table size.
+Correlated queries are memoized by building indexes in-memory during query execution.</p>
 <h1 id="future"><a class="header" href="#future">Future</a></h1>
 <p>More detailed information about the future of Endb can be found in <a href="roadmap.html">the roadmap</a>.</p>
 <h2 id="columnar-olap-result-sets"><a class="header" href="#columnar-olap-result-sets">Columnar (OLAP) result sets</a></h2>
