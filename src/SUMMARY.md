@@ -24,5 +24,6 @@
     - [HTTP API](./reference/http_api.md)
     - [Data Types](./reference/data_types.md)
 - [Appendix](./appendix/README.md)
+    - [Why?](./appendix/why.md)
     - [Architecture](./appendix/architecture.md)
     - [Roadmap](./appendix/roadmap.md)
