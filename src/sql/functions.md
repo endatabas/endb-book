@@ -395,7 +395,44 @@ SELECT COALESCE(NULL, NULL, 'zig', 'zag');
 ```
 
 
-## BLOB Functions
+## Encoding Functions
+
+### BASE64
+
+The `BASE64` function takes a hexadecimal-encoded BLOB and returns a base64-encoded string, or vice-versa.
+`BASE64` roundtrips its own data.
+There is therefore no `BLOBFROMBASE64` function.
+
+```sql
+SELECT BASE64(x'010203');
+SELECT BASE64('AQID');
+```
+
+### UUID
+
+The `UUID` function returns a universally-unique identifier, as a string.
+The `UUID_BLOB` function takes a string UUID and returns a BLOB.
+The `UUID_STR` function takes a BLOB UUID and returns a string.
+When given a parameter of their return type, `UUID_BLOB` and `UUID_STR` will format the UUID provided.
+
+```sql
+SELECT UUID();
+SELECT UUID_BLOB('d2ce21c9-d268-409a-b1e0-49e1200bfa47');
+SELECT UUID_STR(x'd2ce21c9d268409ab1e049e1200bfa47');
+
+-- formatting:
+SELECT UUID_BLOB(x'd2ce21c9d268409ab1e049e1200bfa47');
+SELECT UUID_STR('d2ce21c9d268409ab1e049e1200bfa47');
+```
+
+### SHA1
+
+The `SHA1` function takes either a hexadecimal-encoded BLOB, a string, or a number.
+It returns the SHA-1 encoding of that value.
+
+```sql
+SELECT SHA1('2');
+```
 
 ### RANDOMBLOB, ZEROBLOB
 
