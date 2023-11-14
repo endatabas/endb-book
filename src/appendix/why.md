@@ -57,17 +57,35 @@ to [C++ in the 1990s](https://en.wikipedia.org/wiki/Object_database#Timeline)
 to [Java](https://prevayler.org/)
 and [graphs](https://en.wikipedia.org/wiki/Neo4j) in the 2000s
 to [JSON in the 2010s](https://en.wikipedia.org/wiki/MongoDB).
-Despite all this, the most successful semi-structured document store, as of 2023, is a JSON column in a Postgres database.
+Despite all this, the most successful semi-structured document store, as of 2023, is a Postgres database with JSON columns.
 Database users desire flexible storage and querying -- but yesterday's weather says they desire SQL more.
+
+SQL has four identities, four histories.
+There is an SQL of academia, born of
+[Codd's relational algebra (1970)](https://www.endatabas.com/references.html#10.1145/362384.362685) and
+[Chamberlin/Boyce SEQUEL (1974)](https://www.endatabas.com/references.html#10.1145/800296.811515),
+grown over decades with research like Snodgrass/Jensen's TSQL2, which had a heavy influence on SQL:2011.
+Then there is the SQL of industry, the many-tentacled leviathan of IBM, Oracle, and Microsoft:
+the SQL sold to businesses and governments, ceaselessly bifurcated into new dialects with each version and implementation.
+Between these two rests the SQL of the ISO specification --
+unified across 11 published standards, from SQL-86 to SQL:2023, spanning thousands of pages, adhered to by no single database.
+Last, there is colloquial SQL, the language one refers to by the question, "do you know SQL?"
+These four threads are intertwined across four decades, making it very difficult to clearly define what is meant by "SQL", even in very narrow contexts.
+Colloquial SQL is perhaps of greatest interest to us.
+This is the ubiquitous query language a new database must implement to succeed.
 
 Khoshafian and Copeland introduced the [Decomposition Storage Model (DSM)](https://www.endatabas.com/bibliography.html#10.1145/318898.318923)
 in 1985.
-The four decades that followed saw any number of approaches to analytical processing in database.
+The four decades that followed saw any number of approaches to data analytics.
 Most of the time, however, these tended to demand labour-intensive data logistics:
 data was piped, streamed, dumped, and copied into denormalized cubes and time-series databases.
 As humanity grew out of the batch processing of the 1980s into the always-online society of the 2020s, analytics data became another form of operational data and parts of this pipeline were looped back to users and customers.
-Recently, Hybrid Transactional/Analytical Processing (HTAP) promises a simpler, natural successor to OLTP and OLAP systems.
-For many businesses, the transactional/analytical divide is as arbitrary as deleting data because hard disks were expensive in 1986.
+Hybrid Transactional/Analytical Processing (HTAP) promises a simpler, natural successor to OLTP and OLAP systems.
+For many businesses, the transactional/analytical divide is as arbitrary as deleting data in 2026 because hard disks were expensive in 1986.
+
+* [ ] SQLite
+* [ ] Arrow = "not a free-for-all"
+* [ ] pragmatism / elitism
 
 ## Timing
 
