@@ -123,7 +123,7 @@ One can fantasize about designing a query language from scratch but not only is 
 
 Just as PL/SQL and T-SQL differ, so will Endb SQL from other dialects.
 However, colloquial SQL is comparable to colloquial Hindi — at higher levels, it bifurcates into Urdu and Sanskrit but speakers of both lineages understand one another.
-[Endb SQL will be familiar](/tutorial/sql_basics.md) to users of other SQL dialects.
+[Endb SQL will be familiar](../tutorial/sql_basics.md) to users of other SQL dialects.
 
 With its long, rich history SQL not only has the necessary theoretical underpinnings but the battle scars of technology that lasts.
 It sits alongside TCP/IP, zip files, LISP, C, and the QWERTY keyboard layout.
