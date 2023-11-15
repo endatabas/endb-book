@@ -1,6 +1,6 @@
 # Why?
 
-Why did we build Endatabas at all?
+Why did we build Endatabas (aka Endb) at all?
 Isn't one of the many ([many](https://www.dbdb.io)) existing databases good enough?
 
 ## What is Endatabas, anyway?
@@ -90,9 +90,44 @@ For many businesses, the transactional/analytical divide is as arbitrary as dest
 Humanity will arbitrarily destroy data in 2026 because hard disks were expensive in 1986.
 We will wastefully query data with multiple systems in 2026 because CPUs were slow in 1986.
 
-* [ ] SQLite
-* [ ] Arrow = "not a free-for-all"
-* [ ] pragmatism / elitism
+## Why SQL?
+
+When you approach Endb from a distance, you won't see the pillars at first.
+You'll see the structure they support.
+This structure also binds the pillars together.
+The query language of a database is its glue.
+It is the user interface.
+It defines the user experience.
+It is at once a programming language, a dialogue, an envelope, a protocol.
+But a query engine is not divorced from its query language, and so the language choice also informs system design and behaviour.
+
+There are mundane reasons for choosing SQL.
+If asked "do you know SQL?" there's a high probability the answer is "yes."
+SQL is the language of data science and third-party tools.
+If any sufficiently successful database has to provide SQL access anyway, one may as well start there.
+
+But this is not why we chose SQL.
+We believe SQL can be beautiful.
+
+As mentioned in [_History_](#history), we are primarily concerned with colloquial SQL.
+The other threads of SQL are relevant but Endb will never implement the entire SQL specification.
+Instead, the Endb SQL dialect unifies the pillars under one strongly-dynamically-typed umbrella, a variation of the SQLite dialect.
+SQLite's applications are quite different from those of Endatabas, so Endb SQL is not weakly-typed and Endb types are not a free-for-all.
+Instead, Endb internally adopts types from [Apache Arrow](https://arrow.apache.org/), which it uses as a storage medium.
+
+When considering alternatives, there is no contender.
+Cypher, Datalog, MongoDB query documents, and other schemaless query languages work well for one database implementation but lack both mindshare and standards.
+PartiQL, SQL++, and other NewSQL languages that depart from SQL suffer precisely because they are _almost_ SQL;
+each feels a bit like [Adriano Celentano singing in synthetic American English](https://www.youtube.com/watch?v=-VsmF9m_Nt8).
+One can fantasize about designing a query language from scratch but not only is this a lifelong endeavour, it's very easy to get wrong.
+
+Just as PL/SQL and T-SQL differ, so will Endb SQL from other dialects.
+However, colloquial SQL is comparable to colloquial Hindi — at higher levels, it bifurcates into Urdu and Sanskrit but speakers of both lineages understand one another.
+[Endb SQL will be familiar](/tutorial/sql_basics.md) to users of other SQL dialects.
+
+With its long, rich history SQL not only has the necessary theoretical underpinnings but the battle scars of technology that lasts.
+It sits alongside TCP/IP, zip files, LISP, C, and the QWERTY keyboard layout.
+It will probably see its centenary.
 
 ## Timing
 
