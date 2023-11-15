@@ -22,9 +22,9 @@ The pillars are as follows:
 * Documents (requires: schemaless tables, "schema-per-row", arbitrary joins)
 * Analytics (requires: columnar storage and access)
 
-At the top of this 5D tripod is SQL, the lingua franca of database queries.
-A window of time has recently opened when all of this is finally possible.
-But first we can go back in history to see how we got here.
+At the top of this five-dimensional structure is SQL, the lingua franca of database queries.
+A window of time has recently opened when all of this is finally possible, together.
+But first let's go back a few decades to see how we got here.
 
 ## History
 
@@ -39,16 +39,20 @@ The real question is: "why bother destroying data?"
 Copeland's answers, "The deletion concept was invented to reuse expensive computer storage."
 The software industry has grown so accustomed to the arbitrary deletion historical data that we now take destroying data for granted.
 
-Mass storage is not free yet -- but it is cheap.
+Mass storage is not free yet — but it is cheap.
 Copeland himself addresses "a more realistic argument: if the cost of mass storage were low enough, then deletion would become undesirable."
 Any system that exploits the separation of storage and compute can enjoy these low costs.
 
+An immutable dataset and a timeline of changing states are two sides of the same coin.
+Previous states carry the innate property of time (whether defined by familiar wall clocks or versions or logical clocks).
 Jensen and Snodgrass have thoroughly researched time-related database queries.
 Much of their work was published [in the 1990s](https://www.endatabas.com/bibliography.html#10.1109/69.755613)
 and early 2000s.
 Storing time, querying across time, time as a value ... these challenging subjects eventually grew to form
 [SQL:2011](https://www.endatabas.com/bibliography.html#ISO/IEC-19075-2:2021).
-Most SQL databases have struggled to implement SQL:2011 because incorporating _time_ as a core concept in databases which support destructive updates and deletes amplifies existing complexity.
+Most SQL databases have struggled to implement SQL:2011.
+Incorporating _time_ as a core concept in mutable databases (those which support destructive updates and deletes) amplifies existing complexity.
+Time should simplify the database, not complicate it.
 
 Document databases have a more convoluted story.
 Attempts at "schemaless", semi-structured, document, and object databases stretch from
@@ -58,36 +62,41 @@ to [Java](https://prevayler.org/)
 and [graphs](https://en.wikipedia.org/wiki/Neo4j) in the 2000s
 to [JSON in the 2010s](https://en.wikipedia.org/wiki/MongoDB).
 Despite all this, the most successful semi-structured document store, as of 2023, is a Postgres database with JSON columns.
-Database users desire flexible storage and querying -- but yesterday's weather says they desire SQL more.
+Database users desire flexible storage and querying — but yesterday's weather says they desire SQL more.
 
 SQL has four identities, four histories.
 There is an SQL of academia, born of
 [Codd's relational algebra (1970)](https://www.endatabas.com/references.html#10.1145/362384.362685) and
 [Chamberlin/Boyce SEQUEL (1974)](https://www.endatabas.com/references.html#10.1145/800296.811515),
-grown over decades with research like Snodgrass/Jensen's TSQL2, which had a heavy influence on SQL:2011.
+grown over decades with research like Snodgrass/Jensen's TSQL2.
 Then there is the SQL of industry, the many-tentacled leviathan of IBM, Oracle, and Microsoft:
 the SQL sold to businesses and governments, ceaselessly bifurcated into new dialects with each version and implementation.
-Between these two rests the SQL of the ISO specification --
+Between these two rests the SQL of the ISO specification —
 unified across 11 published standards, from SQL-86 to SQL:2023, spanning thousands of pages, adhered to by no single database.
 Last, there is colloquial SQL, the language one refers to by the question, "do you know SQL?"
 These four threads are intertwined across four decades, making it very difficult to clearly define what is meant by "SQL", even in very narrow contexts.
 Colloquial SQL is perhaps of greatest interest to us.
-This is the ubiquitous query language a new database must implement to succeed.
+This is the ubiquitous query language any new database must implement to succeed.
 
 Khoshafian and Copeland introduced the [Decomposition Storage Model (DSM)](https://www.endatabas.com/bibliography.html#10.1145/318898.318923)
 in 1985.
 The four decades that followed saw any number of approaches to data analytics.
-Most of the time, however, these tended to demand labour-intensive data logistics:
+Most of the time, however, these demanded expensive data acrobatics:
 data was piped, streamed, dumped, and copied into denormalized cubes and time-series databases.
 As humanity grew out of the batch processing of the 1980s into the always-online society of the 2020s, analytics data became another form of operational data and parts of this pipeline were looped back to users and customers.
 Hybrid Transactional/Analytical Processing (HTAP) promises a simpler, natural successor to OLTP and OLAP systems.
-For many businesses, the transactional/analytical divide is as arbitrary as deleting data in 2026 because hard disks were expensive in 1986.
+For many businesses, the transactional/analytical divide is as arbitrary as destroying data with every state change.
+
+Humanity will arbitrarily destroy data in 2026 because hard disks were expensive in 1986.
+We will wastefully query data with multiple systems in 2026 because CPUs were slow in 1986.
 
 * [ ] SQLite
 * [ ] Arrow = "not a free-for-all"
 * [ ] pragmatism / elitism
 
 ## Timing
+
+* [ ] incumbents
 
 outside => in:
 
@@ -122,7 +131,7 @@ outside => in:
 * we always want to remember everything... except when we don't
 * the current technology industry creates serious problems for privacy
 * `DELETE`, when overloaded for saving disk space AND the explicit
-  removal of data, becomes opaque -- removing data should keep tombstones
+  removal of data, becomes opaque — removing data should keep tombstones
   so it's at least known that some data was removed
 
 ### Separation of Storage and Compute
