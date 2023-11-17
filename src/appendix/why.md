@@ -151,6 +151,13 @@ Industries which take their data very seriously (banking, healthcare) already st
 They just do it in a mutable database.
 Append-only tables are not new, but they're an order of magnitude easier to work with if the database is append-only from the ground up.
 
+These same industries will resist the destruction of data unless absolutely necessary, but they will bend to necessity.
+[Erasure](../sql/data_manipulation.html#erase) is concomitant with immutability — we cannot have one without the other.
+The existing designs of databases create serious problems for privacy.
+`DELETE`, when overloaded to mean both "save disk space" and "explicitly remove this data", becomes opaque.
+It does not leave any queryable record of the deletion.
+Removing data should keep tombstones so it's at least known that some data was removed.
+
 ## Why a timeline?
 
 Keeping your data's entire history is the write-side of the equation.
