@@ -2057,12 +2057,12 @@ This complexity is compounded by the fact that static schemas have less and less
 Endb introduces <a href="https://docs.endatabas.com/sql/time_queries.html">SQL:2011 time-travel and period predicates</a>.
 The difficulty, mentioned earlier, that other databases encounter when introducing SQL:2011 is twofold: dealing with &quot;time&quot; in a world where history can be violently rewritten and managing an unbending schema across time.</p>
 <p>Nested data is equally unnatural in incumbent databases.
-SQL:99, SQL:2016, SQL:2023 all offer some way of shoehorning nested data into flat tables.<sup class="footnote-reference"><a href="#xquery">2</a></sup>
-PartiQL, SQL++ (Couchbase), and MongoDB do not speak SQL.
+SQL:99, SQL:2016, SQL:2023 all offer some way of shoehorning nested data into flat tables.
+DynamoDB, Couchbase, and MongoDB are the most common document databases but they don't speak SQL.<sup class="footnote-reference"><a href="#xquery">2</a></sup>
 Not only will no one ever decompose relational data into 6NF, it is unlikely we'll ever see a return to the classic BCNF of business entity-relationship diagrams.
 Nested data is here to stay.
 Foreign, embedded JSON (or XML) is little more than a band-aid.
-Nested data should be native.</p>
+Nested data should be native to SQL queries.</p>
 <p>Second, the joys.
 Schema-per-row can be incredibly liberating.
 Not only does this feel more natural, it embraces the messy truth of the real world.
@@ -2079,7 +2079,7 @@ it is capable of exploring nested data and easily constructing arbitrary joins u
 There will always be analytical jobs which require data to be transformed.
 But many businesses already allow data scientists, analysts, and even CEOs read-only access to an OLTP replica.</p>
 <p><a href="https://www.scattered-thoughts.net/writing/a-shallow-survey-of-olap-and-htap-query-engines/">HTAP is right on the horizon</a>.
-Endb hopes to participate in that evolution by providing all business data, accessible to easy-to-produce, cheap, ephemeral read replicas.</p>
+Endb hopes to participate in that evolution by making all business data accessible to easy-to-produce, cheap, ephemeral read replicas.</p>
 <h2 id="why-commercial-open-source"><a class="header" href="#why-commercial-open-source">Why Commercial Open Source?</a></h2>
 <p>We cannot reconcile building and selling a product we would never buy ourselves.</p>
 <h2 id="why-now"><a class="header" href="#why-now">Why Now?</a></h2>
@@ -2100,8 +2100,10 @@ Endatabas cannot be built in a Postgres-compatible fashion.
 Technically, it would be prohibitively expensive to build Endatabas from existing components.
 It's time for something new.</p>
 <div class="footnote-definition" id="mimer"><sup class="footnote-definition-label">1</sup>
-<p>The complete SQL specification is very difficult to implement in full, though <a href="https://developer.mimer.com/features/sql-standard/">Mimer likely comes closest to this goal</a>.
-<sup class="footnote-reference"><a href="#xquery">2</a></sup>: There is XQuery, of course. But most businesses today do not build their nested data storage on XQuery.</p>
+<p>The complete SQL specification is very difficult to implement in full, though <a href="https://developer.mimer.com/features/sql-standard/">Mimer likely comes closest to this goal</a>.</p>
+</div>
+<div class="footnote-definition" id="xquery"><sup class="footnote-definition-label">2</sup>
+<p>There is XQuery, of course. But most businesses today do not build their nested data storage on XQuery.</p>
 </div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
 <h2 id="immutable-1"><a class="header" href="#immutable-1">Immutable</a></h2>

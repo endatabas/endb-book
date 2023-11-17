@@ -207,12 +207,12 @@ Endb introduces [SQL:2011 time-travel and period predicates](https://docs.endata
 The difficulty, mentioned earlier, that other databases encounter when introducing SQL:2011 is twofold: dealing with "time" in a world where history can be violently rewritten and managing an unbending schema across time.
 
 Nested data is equally unnatural in incumbent databases.
-SQL:99, SQL:2016, SQL:2023 all offer some way of shoehorning nested data into flat tables.[^xquery]
-PartiQL, SQL++ (Couchbase), and MongoDB do not speak SQL.
+SQL:99, SQL:2016, SQL:2023 all offer some way of shoehorning nested data into flat tables.
+DynamoDB, Couchbase, and MongoDB are the most common document databases but they don't speak SQL.[^xquery]
 Not only will no one ever decompose relational data into 6NF, it is unlikely we'll ever see a return to the classic BCNF of business entity-relationship diagrams.
 Nested data is here to stay.
 Foreign, embedded JSON (or XML) is little more than a band-aid.
-Nested data should be native.
+Nested data should be native to SQL queries.
 
 Second, the joys.
 Schema-per-row can be incredibly liberating.
@@ -234,7 +234,7 @@ There will always be analytical jobs which require data to be transformed.
 But many businesses already allow data scientists, analysts, and even CEOs read-only access to an OLTP replica.
 
 [HTAP is right on the horizon](https://www.scattered-thoughts.net/writing/a-shallow-survey-of-olap-and-htap-query-engines/).
-Endb hopes to participate in that evolution by providing all business data, accessible to easy-to-produce, cheap, ephemeral read replicas.
+Endb hopes to participate in that evolution by making all business data accessible to easy-to-produce, cheap, ephemeral read replicas.
 
 ## Why Commercial Open Source?
 
@@ -261,4 +261,5 @@ Technically, it would be prohibitively expensive to build Endatabas from existin
 It's time for something new.
 
 [^mimer]: The complete SQL specification is very difficult to implement in full, though [Mimer likely comes closest to this goal](https://developer.mimer.com/features/sql-standard/).
+
 [^xquery]: There is XQuery, of course. But most businesses today do not build their nested data storage on XQuery.
