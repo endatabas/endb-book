@@ -6,7 +6,7 @@ Isn't one of the many ([many](https://www.dbdb.io)) existing databases good enou
 Many incumbent databases serve their use cases and markets well.
 But the demands placed on databases are growing rapidly.
 These demands pull in multiple directions, all at once, and existing technology cannot support them without introducing enormous complexity.
-Dramatic change is required.
+Metamorphosis is required.
 
 Endb takes good ideas and makes them easier to access, while reducing operational headache.
 It does not try to be flashy or unnecessarily revolutionary.
@@ -34,7 +34,7 @@ The pillars are as follows:
 * Analytics (requires: columnar storage and access)
 
 At the top of this five-dimensional structure is SQL, the lingua franca of database queries.
-A window of time has recently opened when all of this is finally possible, together.
+We believe it is the right time to integrate these ideas.
 But first let's go back a few decades to see how we got here.
 
 ## History
@@ -84,7 +84,7 @@ grown over decades with research like Snodgrass/Jensen's TSQL2.
 Then there is the SQL of industry, the many-tentacled leviathan of IBM, Oracle, and Microsoft:
 the SQL sold to businesses and governments, ceaselessly bifurcated into new dialects with each version and implementation.
 Between these two rests the SQL of the ISO specification —
-unified across 11 published standards, from SQL-86 to SQL:2023, spanning thousands of pages, adhered to by no single database.
+unified across 11 published standards, from SQL-86 to SQL:2023, spanning thousands of pages, adhered to by no single database.[^mimer]
 Last, there is colloquial SQL, the language one refers to by the question, "do you know SQL?"
 These four threads are intertwined across four decades, making it very difficult to clearly define what is meant by "SQL", even in very narrow contexts.
 Colloquial SQL is of greatest interest to us.
@@ -129,16 +129,16 @@ Instead, Endb internally adopts types from [Apache Arrow](https://arrow.apache.o
 
 When considering alternatives, there are no contenders.
 Cypher, Datalog, MongoDB query documents, and other schemaless query languages work well for one database implementation but lack both mindshare and standards.
-PartiQL, SQL++, and other NewSQL languages that depart from SQL suffer precisely because they are _almost_ SQL;
-each feels a bit like [Adriano Celentano singing in synthetic American English](https://www.youtube.com/watch?v=-VsmF9m_Nt8).
-One can fantasize about designing a query language from scratch but not only is this a lifelong endeavour, it's very easy to get wrong.
+PartiQL, SQL++, and other NewSQL languages that depart from SQL suffer precisely because they are _almost_ SQL.
+One can fantasize about designing a query language from scratch but — not only is this a lifelong endeavour — it's very easy to get wrong and takes decades to build mindshare.
+SQL has been through this decades-long gauntlet.
 
 Just as PL/SQL and T-SQL differ, so will Endb SQL from other dialects.
 However, colloquial SQL is comparable to colloquial Hindi — at higher levels, it bifurcates into Urdu and Sanskrit but speakers of both lineages understand one another.
 [Endb SQL will be familiar](../tutorial/sql_basics.md) to users of other SQL dialects.
 
 With its long, rich history SQL not only has the necessary theoretical underpinnings but the battle scars of technology that lasts.
-It sits alongside TCP/IP, zip files, LISP, C, and the QWERTY keyboard layout.
+It sits alongside POSIX, TCP/IP, LISP, C, and the QWERTY keyboard layout.
 It will see its centenary.
 
 ## Why Full History?
@@ -150,7 +150,7 @@ Few modern systems permit the total destruction of data for this obvious reason.
 Some choose to create audit tables: `users_audits`, `sales_audits`, and so on.
 Some choose to log anything and everything.
 "It's on disk somewhere."
-If a company is particularly broken, it will extract metrics from logs to create invoices and reports.
+It's not uncommon for companies to extract metrics from logs to create invoices and reports, turning a log file into a bespoke immutable database.
 
 Industries which take their data very seriously (banking, healthcare) already store immutable records.
 They just do so in a mutable database.
@@ -182,15 +182,11 @@ SELECT * FROM products FOR SYSTEM_TIME AS OF 2020-08-25T00:00:00;
 
 ## Why Separation of Storage and Compute?
 
-// TODO: , AlloyDB, or Neon ... probably don't bother mentioning?
-
 Separating storage from compute is an implementation detail.
 AWS customers don't choose Amazon Aurora because they're craving this separation.
 Decoupling storage from compute makes scale (both up and down) trivial.
 It also introduces the possibility of
 ["reducing network traffic, ... fast crash recovery, failovers to replicas without loss of data, and fault-tolerant, self-healing storage."](https://assets.amazon.science/dc/2b/4ef2b89649f9a393d37d3e042f4e/amazon-aurora-design-considerations-for-high-throughput-cloud-native-relational-databases.pdf)
-
-For every Postgres operator who's ever fought with `repmgr`, we want Endatabas to be seamless by comparison.
 
 This decoupling is concomitant with [Light and Adaptive Indexing](https://www.youtube.com/watch?v=Px-7TlceM5A).
 It is undesirable to manually construct expensive indexes for unknown future schemas over (effectively) infinite data.
@@ -211,7 +207,8 @@ Endb introduces [SQL:2011 time-travel and period predicates](https://docs.endata
 The difficulty, mentioned earlier, that other databases encounter when introducing SQL:2011 is twofold: dealing with "time" in a world where history can be violently rewritten and managing an unbending schema across time.
 
 Nested data is equally unnatural in incumbent databases.
-SQL:99, SQL:2016, SQL:2023, PartiQL, and SQL++ (Couchbase) all offer some way of shoehorning nested data into flat tables.
+SQL:99, SQL:2016, SQL:2023 all offer some way of shoehorning nested data into flat tables.[^xquery]
+PartiQL, SQL++ (Couchbase), and MongoDB do not speak SQL.
 Not only will no one ever decompose relational data into 6NF, it is unlikely we'll ever see a return to the classic BCNF of business entity-relationship diagrams.
 Nested data is here to stay.
 Foreign, embedded JSON (or XML) is little more than a band-aid.
@@ -234,17 +231,14 @@ it is capable of exploring nested data and easily constructing arbitrary joins u
 
 It is often the job of analytics databases to record and query all the data of a business, denormalized for speed.
 There will always be analytical jobs which require data to be transformed.
-But for decades, many businesses allow data scientists, analysts, and even CEOs read-only access to an OLTP replica.
+But many businesses already allow data scientists, analysts, and even CEOs read-only access to an OLTP replica.
 
-[HTAP may be right on the horizon](https://www.scattered-thoughts.net/writing/a-shallow-survey-of-olap-and-htap-query-engines/),
-but ad-hoc analytical queries are run on a copy of most production databases today anyway.
-Endb already has all the business data, which can be read from easy-to-produce, cheap, ephemeral read replicas.
+[HTAP is right on the horizon](https://www.scattered-thoughts.net/writing/a-shallow-survey-of-olap-and-htap-query-engines/).
+Endb hopes to participate in that evolution by providing all business data, accessible to easy-to-produce, cheap, ephemeral read replicas.
 
 ## Why Commercial Open Source?
 
-At this stage in humanity's development, it's hard to imagine many new projects or business units actively choosing closed-source or proprietary infrastructure.
-If a business is already locked into a Microsoft or Amazon toolchain, it may have no choice.
-But we believe people will not buy new proprietary data products, since we certainly wouldn't.
+We cannot reconcile building and selling a product we would never buy ourselves.
 
 ## Why Now?
 
@@ -256,12 +250,15 @@ Immutable data and functional programming reached the mainstream in the 2010s.
 Datomic (arguably the first immutable OLTP database) was release in 2012.
 Amazon Aurora was released in 2015 and Google's AlloyDB in 2022.
 Apache Arrow saw its first release in 2016.
-Many financial firms began building their own temporal databases around 2020.
+Over the past decade, many financial firms built their own in-house temporal databases.
 SQL:2011, SQL:2016, and SQL:2023 were ratified in their respective eponymous years.
 HTAP hasn't quite happened yet.
 AI-driven indexes haven't quite happened yet.
 
 The moment for something like Endatabas is now... but it is a very long moment.
 Endatabas cannot be built in a Postgres-compatible fashion.
-It cannot be constructed from components of SQLite (we tried).
+Technically, it would be prohibitively expensive to build Endatabas from existing components.
 It's time for something new.
+
+[^mimer]: The complete SQL specification is very difficult to implement in full, though [Mimer likely comes closest to this goal](https://developer.mimer.com/features/sql-standard/).
+[^xquery]: There is XQuery, of course. But most businesses today do not build their nested data storage on XQuery.

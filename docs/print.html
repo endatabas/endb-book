@@ -1885,6 +1885,7 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 <p>If you strongly feel you need a native representation of one of these types, email us: <a href="mailto:hello@endatabas.com">hello@endatabas.com</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="appendix"><a class="header" href="#appendix">Appendix</a></h1>
 <ul>
+<li><a href="appendix/why.html">Why?</a></li>
 <li><a href="appendix/architecture.html">Architecture</a></li>
 <li><a href="appendix/roadmap.html">Roadmap</a></li>
 </ul>
@@ -1894,7 +1895,7 @@ Isn't one of the many (<a href="https://www.dbdb.io">many</a>) existing database
 <p>Many incumbent databases serve their use cases and markets well.
 But the demands placed on databases are growing rapidly.
 These demands pull in multiple directions, all at once, and existing technology cannot support them without introducing enormous complexity.
-Dramatic change is required.</p>
+Metamorphosis is required.</p>
 <p>Endb takes good ideas and makes them easier to access, while reducing operational headache.
 It does not try to be flashy or unnecessarily revolutionary.
 Instead, it tries to be simple and familiar on the surface while providing a lot of new power under the covers.</p>
@@ -1917,7 +1918,7 @@ The pillars are as follows:</p>
 <li>Analytics (requires: columnar storage and access)</li>
 </ul>
 <p>At the top of this five-dimensional structure is SQL, the lingua franca of database queries.
-A window of time has recently opened when all of this is finally possible, together.
+We believe it is the right time to integrate these ideas.
 But first let's go back a few decades to see how we got here.</p>
 <h2 id="history"><a class="header" href="#history">History</a></h2>
 <p>None of the ideas in Endatabas are new.</p>
@@ -1960,7 +1961,7 @@ grown over decades with research like Snodgrass/Jensen's TSQL2.
 Then there is the SQL of industry, the many-tentacled leviathan of IBM, Oracle, and Microsoft:
 the SQL sold to businesses and governments, ceaselessly bifurcated into new dialects with each version and implementation.
 Between these two rests the SQL of the ISO specification —
-unified across 11 published standards, from SQL-86 to SQL:2023, spanning thousands of pages, adhered to by no single database.
+unified across 11 published standards, from SQL-86 to SQL:2023, spanning thousands of pages, adhered to by no single database.<sup class="footnote-reference"><a href="#mimer">1</a></sup>
 Last, there is colloquial SQL, the language one refers to by the question, &quot;do you know SQL?&quot;
 These four threads are intertwined across four decades, making it very difficult to clearly define what is meant by &quot;SQL&quot;, even in very narrow contexts.
 Colloquial SQL is of greatest interest to us.
@@ -1997,14 +1998,14 @@ SQLite's applications are quite different from those of Endatabas, so Endb SQL i
 Instead, Endb internally adopts types from <a href="https://arrow.apache.org/">Apache Arrow</a>, which it uses as a storage medium.</p>
 <p>When considering alternatives, there are no contenders.
 Cypher, Datalog, MongoDB query documents, and other schemaless query languages work well for one database implementation but lack both mindshare and standards.
-PartiQL, SQL++, and other NewSQL languages that depart from SQL suffer precisely because they are <em>almost</em> SQL;
-each feels a bit like <a href="https://www.youtube.com/watch?v=-VsmF9m_Nt8">Adriano Celentano singing in synthetic American English</a>.
-One can fantasize about designing a query language from scratch but not only is this a lifelong endeavour, it's very easy to get wrong.</p>
+PartiQL, SQL++, and other NewSQL languages that depart from SQL suffer precisely because they are <em>almost</em> SQL.
+One can fantasize about designing a query language from scratch but — not only is this a lifelong endeavour — it's very easy to get wrong and takes decades to build mindshare.
+SQL has been through this decades-long gauntlet.</p>
 <p>Just as PL/SQL and T-SQL differ, so will Endb SQL from other dialects.
 However, colloquial SQL is comparable to colloquial Hindi — at higher levels, it bifurcates into Urdu and Sanskrit but speakers of both lineages understand one another.
 <a href="appendix/../tutorial/sql_basics.html">Endb SQL will be familiar</a> to users of other SQL dialects.</p>
 <p>With its long, rich history SQL not only has the necessary theoretical underpinnings but the battle scars of technology that lasts.
-It sits alongside TCP/IP, zip files, LISP, C, and the QWERTY keyboard layout.
+It sits alongside POSIX, TCP/IP, LISP, C, and the QWERTY keyboard layout.
 It will see its centenary.</p>
 <h2 id="why-full-history"><a class="header" href="#why-full-history">Why Full History?</a></h2>
 <p>Even if we ignore Copeland's dream of mass storage from 1980, it is easy to see why destroying data is harmful.
@@ -2013,7 +2014,7 @@ To destroy data is to destroy facts — to lie about the truth of what happened.
 Some choose to create audit tables: <code>users_audits</code>, <code>sales_audits</code>, and so on.
 Some choose to log anything and everything.
 &quot;It's on disk somewhere.&quot;
-If a company is particularly broken, it will extract metrics from logs to create invoices and reports.</p>
+It's not uncommon for companies to extract metrics from logs to create invoices and reports, turning a log file into a bespoke immutable database.</p>
 <p>Industries which take their data very seriously (banking, healthcare) already store immutable records.
 They just do so in a mutable database.
 Append-only tables are not new, but they're an order of magnitude easier to work with — for both users and operators — if the database is append-only from the ground up.</p>
@@ -2036,13 +2037,11 @@ SELECT * FROM products;
 SELECT * FROM products FOR SYSTEM_TIME AS OF 2020-08-25T00:00:00;
 </code></pre>
 <h2 id="why-separation-of-storage-and-compute"><a class="header" href="#why-separation-of-storage-and-compute">Why Separation of Storage and Compute?</a></h2>
-<p>// TODO: , AlloyDB, or Neon ... probably don't bother mentioning?</p>
 <p>Separating storage from compute is an implementation detail.
 AWS customers don't choose Amazon Aurora because they're craving this separation.
 Decoupling storage from compute makes scale (both up and down) trivial.
 It also introduces the possibility of
 <a href="https://assets.amazon.science/dc/2b/4ef2b89649f9a393d37d3e042f4e/amazon-aurora-design-considerations-for-high-throughput-cloud-native-relational-databases.pdf">&quot;reducing network traffic, ... fast crash recovery, failovers to replicas without loss of data, and fault-tolerant, self-healing storage.&quot;</a></p>
-<p>For every Postgres operator who's ever fought with <code>repmgr</code>, we want Endatabas to be seamless by comparison.</p>
 <p>This decoupling is concomitant with <a href="https://www.youtube.com/watch?v=Px-7TlceM5A">Light and Adaptive Indexing</a>.
 It is undesirable to manually construct expensive indexes for unknown future schemas over (effectively) infinite data.
 Instead, we should let machine learning handle this job.</p>
@@ -2058,7 +2057,8 @@ This complexity is compounded by the fact that static schemas have less and less
 Endb introduces <a href="https://docs.endatabas.com/sql/time_queries.html">SQL:2011 time-travel and period predicates</a>.
 The difficulty, mentioned earlier, that other databases encounter when introducing SQL:2011 is twofold: dealing with &quot;time&quot; in a world where history can be violently rewritten and managing an unbending schema across time.</p>
 <p>Nested data is equally unnatural in incumbent databases.
-SQL:99, SQL:2016, SQL:2023, PartiQL, and SQL++ (Couchbase) all offer some way of shoehorning nested data into flat tables.
+SQL:99, SQL:2016, SQL:2023 all offer some way of shoehorning nested data into flat tables.<sup class="footnote-reference"><a href="#xquery">2</a></sup>
+PartiQL, SQL++ (Couchbase), and MongoDB do not speak SQL.
 Not only will no one ever decompose relational data into 6NF, it is unlikely we'll ever see a return to the classic BCNF of business entity-relationship diagrams.
 Nested data is here to stay.
 Foreign, embedded JSON (or XML) is little more than a band-aid.
@@ -2077,14 +2077,11 @@ it is capable of exploring nested data and easily constructing arbitrary joins u
 <h2 id="why-one-database"><a class="header" href="#why-one-database">Why &quot;One Database&quot;?</a></h2>
 <p>It is often the job of analytics databases to record and query all the data of a business, denormalized for speed.
 There will always be analytical jobs which require data to be transformed.
-But for decades, many businesses allow data scientists, analysts, and even CEOs read-only access to an OLTP replica.</p>
-<p><a href="https://www.scattered-thoughts.net/writing/a-shallow-survey-of-olap-and-htap-query-engines/">HTAP may be right on the horizon</a>,
-but ad-hoc analytical queries are run on a copy of most production databases today anyway.
-Endb already has all the business data, which can be read from easy-to-produce, cheap, ephemeral read replicas.</p>
+But many businesses already allow data scientists, analysts, and even CEOs read-only access to an OLTP replica.</p>
+<p><a href="https://www.scattered-thoughts.net/writing/a-shallow-survey-of-olap-and-htap-query-engines/">HTAP is right on the horizon</a>.
+Endb hopes to participate in that evolution by providing all business data, accessible to easy-to-produce, cheap, ephemeral read replicas.</p>
 <h2 id="why-commercial-open-source"><a class="header" href="#why-commercial-open-source">Why Commercial Open Source?</a></h2>
-<p>At this stage in humanity's development, it's hard to imagine many new projects or business units actively choosing closed-source or proprietary infrastructure.
-If a business is already locked into a Microsoft or Amazon toolchain, it may have no choice.
-But we believe people will not buy new proprietary data products, since we certainly wouldn't.</p>
+<p>We cannot reconcile building and selling a product we would never buy ourselves.</p>
 <h2 id="why-now"><a class="header" href="#why-now">Why Now?</a></h2>
 <p>All of the pillars outlined above have their own strike-when-the-iron-is-hot moment.
 The SQLite we know today began to materialize in 2001.
@@ -2094,14 +2091,18 @@ Immutable data and functional programming reached the mainstream in the 2010s.
 Datomic (arguably the first immutable OLTP database) was release in 2012.
 Amazon Aurora was released in 2015 and Google's AlloyDB in 2022.
 Apache Arrow saw its first release in 2016.
-Many financial firms began building their own temporal databases around 2020.
+Over the past decade, many financial firms built their own in-house temporal databases.
 SQL:2011, SQL:2016, and SQL:2023 were ratified in their respective eponymous years.
 HTAP hasn't quite happened yet.
 AI-driven indexes haven't quite happened yet.</p>
 <p>The moment for something like Endatabas is now... but it is a very long moment.
 Endatabas cannot be built in a Postgres-compatible fashion.
-It cannot be constructed from components of SQLite (we tried).
+Technically, it would be prohibitively expensive to build Endatabas from existing components.
 It's time for something new.</p>
+<div class="footnote-definition" id="mimer"><sup class="footnote-definition-label">1</sup>
+<p>The complete SQL specification is very difficult to implement in full, though <a href="https://developer.mimer.com/features/sql-standard/">Mimer likely comes closest to this goal</a>.
+<sup class="footnote-reference"><a href="#xquery">2</a></sup>: There is XQuery, of course. But most businesses today do not build their nested data storage on XQuery.</p>
+</div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="architecture"><a class="header" href="#architecture">Architecture</a></h1>
 <h2 id="immutable-1"><a class="header" href="#immutable-1">Immutable</a></h2>
 <p>All records in Endatabas are immutable.
