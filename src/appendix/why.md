@@ -3,6 +3,13 @@
 Why did we build Endatabas (aka Endb) at all?
 Isn't one of the many ([many](https://www.dbdb.io)) existing databases good enough?
 
+Many incumbent databases serve their use cases and markets well.
+But the demands placed on databases are growing rapidly.
+These demands pull in multiple directions, all at once, and existing technology cannot support them without introducing enormous complexity.
+Dramatic change is required.
+
+Endb takes good ideas and makes them easier to access, while reducing operational headache.
+
 ## What is Endatabas, anyway?
 
 The tagline "SQL Document Database With Full History" says a lot, but it doesn't say everything.
@@ -128,6 +135,75 @@ However, colloquial SQL is comparable to colloquial Hindi — at higher levels, 
 With its long, rich history SQL not only has the necessary theoretical underpinnings but the battle scars of technology that lasts.
 It sits alongside TCP/IP, zip files, LISP, C, and the QWERTY keyboard layout.
 It will probably see its centenary.
+
+## Why Full History?
+
+Even if we ignore Copeland's dream of mass storage from 1980, it is easy to see why destroying data is harmful.
+To destroy data is to lie about the truth of what happened.
+
+Few modern systems permit the total destruction of data for these obvious reasons.
+Some choose to create audit tables: `users_audits`, `sales_audits`, and so on.
+Some choose to log anything and everything.
+"It's on disk somewhere."
+If a company is particularly broken, it will extract metrics from logs to create invoices and reports.
+
+Industries which take their data very seriously (banking, healthcare) already store immutable records.
+They just do it in a mutable database.
+Append-only tables are not new, but they're an order of magnitude easier to work with if the database is append-only from the ground up.
+
+## Why a timeline?
+
+Keeping your data's entire history is the write-side of the equation.
+If you didn't care about getting this data back, you could just dump it into an unintelligible pile.
+But you not only want your data back, you want to query it in the easiest way possible.
+
+One very sensible way to see and query immutable data is along a timeline.
+Endb makes no assumptions about your desire to participate in this timeline.
+By default, everything is visible _as-of-now_ but querying the past is effortless.
+
+## Why Separation of Storage and Compute?
+
+Separating storage from compute is an implementation detail.
+AWS customers do not choose Amazon Aurora
+because they're craving this separation.
+Decoupling storage from compute makes scale (both up and down) trivial.
+It also introduces the possibility of
+["reducing network traffic, ... fast crash recovery, failovers to replicas without loss of data, and fault-tolerant, self-healing storage"](https://assets.amazon.science/dc/2b/4ef2b89649f9a393d37d3e042f4e/amazon-aurora-design-considerations-for-high-throughput-cloud-native-relational-databases.pdf)
+
+For every Postgres operator who's ever fought with `repmgr`, we want Endatabas to be seamless by comparison.
+
+## Why documents?
+
+It can be argued that "why documents?" is really multiple questions:
+why schemaless?
+why nested data?
+why dynamic SQL?
+
+First, the challenges.
+It is extremely difficult to force global schema onto every row in a table in an immutable world.
+Even if there were a simple mechanism in SQL to alter table schema only for certain durations (there isn't), the database user would still be burdened with querying based on a particular schema at a particular time in the history of the table.
+This complexity is compounded by the fact that static schemas have less and less meaning in a temporal world.
+Endb introduces [SQL:2011 time-travel and period predicates](https://docs.endatabas.com/sql/time_queries.html).
+The difficulty, mentioned earlier, that other databases encounter when introducing SQL:2011 is twofold: dealing with "time" in a world where history can be violently rewritten and managing an unbending schema across time.
+
+Nested data is equally unnatural in incumbent databases.
+SQL:99, SQL:2016, SQL:2023, PartiQL, and SQL++ (Couchbase) all offer some way of shoehorning nested data into flat tables.
+Not only will no one will ever decompose relational data into 6NF, it is unlikely we'll ever see a return to the classic BCNF of business entity-relationship diagrams.
+Nested data is here to stay.
+JSON and XML are band-aids for most databases — but they are foreign.
+
+Second, the joys.
+Schema-per-row can be incredibly liberating.
+Not only does this feel more natural, it embraces the messy nature of the real world.
+Schema-on-write can be added later, when the business is ready to lock down on what it knows about a domain.
+But many use cases _demand_ flexible schemas.
+What if this week's project requires downloading huge amounts of semi-structured JSON pricing data from the APIs of competing online stores to compare them?
+Endb can handle this case out of the box.
+Most databases would require a great deal of manipulation first.
+
+Dynamic SQL is required to support schemaless, nested data.
+
+—
 
 ## Timing
 
