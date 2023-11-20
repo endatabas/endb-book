@@ -127,10 +127,10 @@ Instead, the Endb SQL dialect unifies the pillars under one strongly-dynamically
 SQLite's applications are quite different from those of Endatabas, so Endb SQL is not weakly-typed and Endb types are not a free-for-all.
 Instead, Endb internally adopts types from [Apache Arrow](https://arrow.apache.org/), which it uses as a storage medium.
 
-When considering alternatives, there are no contenders.
+When considering alternatives, there are no direct contenders.
 Cypher, Datalog, MongoDB query documents, and other schemaless query languages work well for one database implementation but lack both mindshare and standards.
 PartiQL, SQL++, and other NewSQL languages that depart from SQL suffer precisely because they are _almost_ SQL.
-One can fantasize about designing a query language from scratch but — not only is this a lifelong endeavour — it's very easy to get wrong and takes decades to build mindshare.
+One can fantasize about designing a query language from scratch but it's very easy to get wrong and takes decades to build mindshare.
 SQL has been through this decades-long gauntlet.
 
 Just as PL/SQL and T-SQL differ, so will Endb SQL from other dialects.
