@@ -11,6 +11,9 @@ You will want to familiarize yourself with Endb's
 [nested data types](data_types.md) (arrays and objects)
 before learning about path navigation.
 
+In the examples below, path examples are shown in the `SELECT` clause,
+but they are also valid in the `WHERE` clause.
+
 ## Nested Objects
 
 If you are familiar with arrays and objects, try adding
