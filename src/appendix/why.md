@@ -1,4 +1,4 @@
-# Why?
+# Why Endatabas?
 
 (Read more in [_What is Endatabas?_](what.md))
 
