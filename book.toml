@@ -11,6 +11,8 @@ build-dir = "output"
 
 [output.html]
 cname = "docs.endatabas.com"
+git-repository-url = "https://github.com/endatabas/endb-book"
+edit-url-template = "https://github.com/endatabas/endb-book/edit/main/{path}"
 
 [output.html.print]
 enable = true
