@@ -1906,38 +1906,41 @@ JSON literal types are implicit so a <code>@value/@type</code> pair is not retur
 SQL document database with full history.</p>
 <p>On the inside, this means all records in Endatabas are immutable.
 An <code>ERASE</code> statement is provided for compliance with laws and policies like GDPR.
-Time-travel is possible, but Endb queries default to &quot;as-of-now&quot;.
-(AKA <em>The thing you want 97% of the time.</em>)
-Rows in Endb are &quot;schema-last&quot; documents and joins can be arbitrary, but queries are written in SQL.
+Time-travel is possible, but queries default to &quot;as-of-now&quot;.
+(Which is the thing you want 97% of the time.)
+Rows are &quot;schema-last&quot; documents and joins can be arbitrary, but queries are written in SQL.
 Endb stores data in Apache Arrow: scalars are strongly typed, the on-disk format is columnar, and the execution engine understands rows and columns.
 Endb separates storage from compute to provide unlimited disk space.</p>
-<p>The dream of Endatabas is twofold:
+<p>In Swedish, <em>Endatabas</em> means both &quot;a database&quot; and &quot;<em>one</em> database&quot;.
+This One Database Dream is twofold:
 Endb hopes to provide
 <a href="https://en.wikipedia.org/wiki/Hybrid_transactional/analytical_processing">HTAP</a>,
 so a secondary analytics database is not required for most users.
 Endb plans to use AI
 (<a href="https://www.endatabas.com/bibliography.html#YouTube-Raberg-Px-7TlceM5A">adaptive indexing</a>)
 to provide fast OLTP and OLAP queries on cheap, elastic infrastructure.</p>
-<h2 id="why-endatabas"><a class="header" href="#why-endatabas">Why Endatabas?</a></h2>
-<p>After years of market research, the demand of database users is clear:
-<em>&quot;Stop making us babysit the database.&quot;</em>
-After years of Computer Science research, it's also clear a sea change in database tech is due...
-right about now.
-(Give or take a decade. Our timing may be off.)</p>
-<p>&quot;Babysitting the database&quot; can mean many things but they're all expensive and complex.
+<h2 id="who-wants-one-database"><a class="header" href="#who-wants-one-database">Who wants One Database?</a></h2>
+<p>After years of market research, the complaint of database users is universal:
+<em>&quot;I want to stop babysitting the database.&quot;</em>
+This can mean many things but they're all expensive and complex.</p>
+<p>The database equivalent of
+<a href="https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule"><em>Greenspun's 10th Rule</em></a>
+might be &quot;any sufficiently complicated backend system contains an ad-hoc,
+informally-specified, bug-ridden, slow implementation of half a database.&quot;
+This was true for much of the work we did in the 2010s and 2020s.
+&quot;Babysitting&quot; is sometimes the energy wasted by repeatedly building and maintaining
+ad-hoc databases for ourselves instead of building tools for customers.</p>
+<p>Buying data products also requires babysitting.
 DBAs babysit Oracle indexes.
 Developers babysit Postgres query optimizations.
 Data engineers babysit ETL pipelines.
 Analysts baybsit Redshift history.
-SREs babysit Aurora costs.
-Endb can't solve all these problems, but it attempts to be a jack-of-all-trades database that solves as many as it can.</p>
-<p>The database equivalent of
-<a href="https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule"><em>Greenspun's 10th Rule</em></a>
-might be &quot;any sufficiently complicated distributed system contains an ad-hoc,
-informally-specified, bug-ridden, slow implementation of half a database.&quot;
-We felt this was true for much of the work we did in the 2000s and 2010s.
-&quot;Babysitting&quot;, therefore, could be extended to the energy wasted maintaining infrastructure for ourselves (over and over again) instead of building
-<a href="https://philip.greenspun.com/bboard/q-and-a-fetch-msg?msg_id=000tgU">applications for users</a>.</p>
+SREs babysit Aurora costs.</p>
+<p>Endb can't solve all these problems, but it attempts to be a jack-of-all-trades database that solves as many as it can — for as many people as it can.</p>
+<h2 id="when-is-one-database-possible"><a class="header" href="#when-is-one-database-possible">When is One Database possible?</a></h2>
+<p>After years of Computer Science research, it's also clear a sea change in database tech is due...
+right about now.
+(Give or take ten years. Our timing may be off.)</p>
 <p>Hellerstein and Stonebraker's <a href="https://www.semanticscholar.org/paper/What-Goes-Around-Comes-Around-By-Michael-Hellerstein/2c701eae4bdc89f18eab1277b9c9a909841b2663"><em>What Goes Around Comes Around</em></a>
 remains true, decade after decade, since it was published in 2004.
 As always, the relational data model is still king and SQL is still the lingua franca of databases.
@@ -1950,10 +1953,10 @@ Perhaps event streams, relations, documents, graphs, temporal data, ETL and CDC 
 <p>Let's see.
 We're not sure if we can make this work.
 But it's exciting to try.</p>
-<p>Clean. Simple. Less.</p>
 <p>—</p>
+<p>One Database: Clean. Simple. Less.</p>
 <p>(Read more in <a href="appendix/why.html"><em>Why Endatabas?</em></a>)</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="why-endatabas-1"><a class="header" href="#why-endatabas-1">Why Endatabas?</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="why-endatabas"><a class="header" href="#why-endatabas">Why Endatabas?</a></h1>
 <p>(Read more in <a href="appendix/what.html"><em>What is Endatabas?</em></a>)</p>
 <p>Why did we build Endatabas (aka Endb) at all?
 Isn't one of the many (<a href="https://www.dbdb.io">many</a>) existing databases good enough?</p>
