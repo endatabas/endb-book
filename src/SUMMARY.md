@@ -28,3 +28,4 @@
     - [Why?](./appendix/why.md)
     - [Architecture](./appendix/architecture.md)
     - [Roadmap](./appendix/roadmap.md)
+    - [License](./appendix/license.md)
