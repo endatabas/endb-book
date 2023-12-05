@@ -35,6 +35,14 @@ Analysts baybsit Redshift history.
 SREs babysit Aurora costs.
 Endb can't solve all these problems, but it attempts to be a jack-of-all-trades database that solves as many as it can.
 
+The database equivalent of
+[_Greenspun's 10th Rule_](https://en.wikipedia.org/wiki/Greenspun%27s_tenth_rule)
+might be "any sufficiently complicated distributed system contains an ad-hoc,
+informally-specified, bug-ridden, slow implementation of half a database."
+We felt this was true for much of the work we did in the 2000s and 2010s.
+"Babysitting", therefore, could be extended to the energy wasted maintaining infrastructure for ourselves (over and over again) instead of building
+[applications for users](https://philip.greenspun.com/bboard/q-and-a-fetch-msg?msg_id=000tgU).
+
 Hellerstein and Stonebraker's [_What Goes Around Comes Around_](https://www.semanticscholar.org/paper/What-Goes-Around-Comes-Around-By-Michael-Hellerstein/2c701eae4bdc89f18eab1277b9c9a909841b2663)
 remains true, decade after decade, since it was published in 2004.
 As always, the relational data model is still king and SQL is still the lingua franca of databases.
@@ -52,6 +60,6 @@ But it's exciting to try.
 
 Clean. Simple. Less.
 
-Read more in [_Why Endatabas?_](why.md)
-
 —
+
+(Read more in [_Why Endatabas?_](why.md))
