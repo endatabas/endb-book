@@ -1,6 +1,4 @@
-# Why Endatabas? (An Executive Summary)
-
-## What is Endatabas?
+# What is Endatabas?
 
 From the outside, Endatabas (or _Endb_) is an open source
 SQL document database with full history.
@@ -19,7 +17,7 @@ Endb hopes to provide
 so a secondary analytics database is not required for most users.
 Endb plans to use AI
 ([adaptive indexing](https://www.endatabas.com/bibliography.html#YouTube-Raberg-Px-7TlceM5A))
-to provide fast queries on cheap, elastic infrastructure.
+to provide fast OLTP and OLAP queries on cheap, elastic infrastructure.
 
 ## Why Endatabas?
 
@@ -52,6 +50,8 @@ Let's see.
 We're not sure if we can make this work.
 But it's exciting to try.
 
-Clean. Simple. Less. A template for relational databases in 2060.
+Clean. Simple. Less.
+
+Read more in [_Why Endatabas?_](why.md)
 
 —

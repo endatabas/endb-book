@@ -24,7 +24,7 @@
     - [HTTP API](./reference/http_api.md)
     - [Data Types](./reference/data_types.md)
 - [Appendix](./appendix/README.md)
+    - [What?](./appendix/what.md)
     - [Why?](./appendix/why.md)
-    - [Why Endatabas? (An Executive Summary)](./appendix/why_endatabas_an_executive_summary.md)
     - [Architecture](./appendix/architecture.md)
     - [Roadmap](./appendix/roadmap.md)
