@@ -1,5 +1,8 @@
 # Why?
 
+(If this document feels too long to you, we have an
+[Executive Summary](why_endatabas_an_executive_summary.md).)
+
 Why did we build Endatabas (aka Endb) at all?
 Isn't one of the many ([many](https://www.dbdb.io)) existing databases good enough?
 
