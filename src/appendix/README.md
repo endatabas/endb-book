@@ -4,3 +4,4 @@
 - [Why?](why.md)
 - [Architecture](architecture.md)
 - [Roadmap](roadmap.md)
+- [License](license.md)
