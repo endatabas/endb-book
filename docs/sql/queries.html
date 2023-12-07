@@ -296,11 +296,11 @@ Each column returned must either be a column specified in the <code>GROUP BY</co
 clause or a column created with an <a href="functions.html#aggregate-functions">aggregate function</a>,
 such as <code>SUM</code>.</p>
 <pre><code class="language-sql">SELECT name, price FROM products GROUP BY name, price;
-SELECT name, sum(price) FROM products GROUP BY name;
+SELECT name, SUM(price) FROM products GROUP BY name;
 </code></pre>
 <h2 id="having"><a class="header" href="#having">HAVING</a></h2>
 <p><code>HAVING</code> adds a search condition to an aggregate query.</p>
-<pre><code class="language-sql">SELECT name, sum(price) FROM products GROUP BY name HAVING LENGTH(name) &gt; 4;
+<pre><code class="language-sql">SELECT name, SUM(price) FROM products GROUP BY name HAVING LENGTH(name) &gt; 4;
 </code></pre>
 <p>It is most often used with <code>GROUP BY</code> (seen above), but it is also legal
 with other aggregates:</p>

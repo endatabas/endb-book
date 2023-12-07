@@ -369,6 +369,26 @@ SELECT MAX(price) FROM products;
 </code></pre>
 <p>NOTE: <code>MIN</code> and <code>MAX</code> also have non-aggregate equivalents, which are 2-arity.
 When used that way, they each return the minimum or maximum value of the two values provided.</p>
+<h3 id="sum"><a class="header" href="#sum">SUM</a></h3>
+<p>The <code>SUM</code> function returns the sum of all non-null values under the column given as a parameter.</p>
+<pre><code class="language-sql">SELECT SUM(price) FROM products;
+</code></pre>
+<p>If all values for the given column are <code>NULL</code>, <code>SUM</code> returns <code>NULL</code>.</p>
+<h3 id="total"><a class="header" href="#total">TOTAL</a></h3>
+<p>The <code>TOTAL</code> function is equivalent to <code>SUM</code> except that it returns <code>0.0</code> in the case where
+all input values are <code>NULL</code>.</p>
+<h3 id="avg"><a class="header" href="#avg">AVG</a></h3>
+<p>The <code>AVG</code> function takes a numerical-type-agnostic average of all values under the
+column given as a parameter.</p>
+<pre><code class="language-sql">SELECT AVG(price) FROM products;
+</code></pre>
+<h3 id="count"><a class="header" href="#count">COUNT</a></h3>
+<p>The <code>COUNT</code> function returns the count of <em>non-null</em>, <em>non-empty</em> values for the specified column.</p>
+<pre><code>SELECT COUNT(price) FROM sales;
+</code></pre>
+<p>NOTE: Because null/empty values are ignored, the behaviour of <code>COUNT</code> will differ from other
+SQL dialects. Whether or not <code>COUNT(price)</code> and <code>COUNT(1)</code> are equivalent is dependent on
+whether the <code>price</code> attribute exists with a non-null value on each document.</p>
 <h3 id="array_agg"><a class="header" href="#array_agg">ARRAY_AGG</a></h3>
 <p>The <code>ARRAY_AGG</code> function concatenates the results of an expression into an array.
 The parameter may be <a href="queries.html#order-by-sorting-results">ordered</a>

@@ -301,6 +301,42 @@ SELECT MAX(price) FROM products;
 NOTE: `MIN` and `MAX` also have non-aggregate equivalents, which are 2-arity.
 When used that way, they each return the minimum or maximum value of the two values provided.
 
+### SUM
+
+The `SUM` function returns the sum of all non-null values under the column given as a parameter.
+
+```sql
+SELECT SUM(price) FROM products;
+```
+
+If all values for the given column are `NULL`, `SUM` returns `NULL`.
+
+### TOTAL
+
+The `TOTAL` function is equivalent to `SUM` except that it returns `0.0` in the case where
+all input values are `NULL`.
+
+### AVG
+
+The `AVG` function takes a numerical-type-agnostic average of all values under the
+column given as a parameter.
+
+```sql
+SELECT AVG(price) FROM products;
+```
+
+### COUNT
+
+The `COUNT` function returns the count of _non-null_, _non-empty_ values for the specified column.
+
+```
+SELECT COUNT(price) FROM sales;
+```
+
+NOTE: Because null/empty values are ignored, the behaviour of `COUNT` will differ from other
+SQL dialects. Whether or not `COUNT(price)` and `COUNT(1)` are equivalent is dependent on
+whether the `price` attribute exists with a non-null value on each document.
+
 ### ARRAY_AGG
 
 The `ARRAY_AGG` function concatenates the results of an expression into an array.

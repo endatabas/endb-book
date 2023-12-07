@@ -207,7 +207,7 @@ such as `SUM`.
 
 ```sql
 SELECT name, price FROM products GROUP BY name, price;
-SELECT name, sum(price) FROM products GROUP BY name;
+SELECT name, SUM(price) FROM products GROUP BY name;
 ```
 
 ## HAVING
@@ -215,7 +215,7 @@ SELECT name, sum(price) FROM products GROUP BY name;
 `HAVING` adds a search condition to an aggregate query.
 
 ```sql
-SELECT name, sum(price) FROM products GROUP BY name HAVING LENGTH(name) > 4;
+SELECT name, SUM(price) FROM products GROUP BY name HAVING LENGTH(name) > 4;
 ```
 
 It is most often used with `GROUP BY` (seen above), but it is also legal
