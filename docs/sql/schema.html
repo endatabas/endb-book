@@ -183,17 +183,45 @@ at a high level and is used for schemaless queries, such as <code>SELECT *</code
 <p>Note that all information schema tables are hard-coded to
 lower-case names and must be queried as such.</p>
 <h2 id="tables"><a class="header" href="#tables">Tables</a></h2>
-<pre><code class="language-sql">SELECT * FROM information_schema.tables;
+<pre><code>-&gt; SELECT * FROM information_schema.tables;
+[{'table_catalog': None,
+  'table_name': 'stores',
+  'table_schema': 'main',
+  'table_type': 'BASE TABLE'},
+ {...
+  'table_name': 'products',
+  ... },
+ {...
+  'table_name': 'sales',
+  ... }]
 </code></pre>
 <h2 id="columns"><a class="header" href="#columns">Columns</a></h2>
-<pre><code class="language-sql">SELECT * FROM information_schema.columns;
+<pre><code>-&gt; SELECT * FROM information_schema.columns;
+[{'column_name': 'addresses',
+  'ordinal_position': 0,
+  'table_catalog': None,
+  'table_name': 'stores',
+  'table_schema': 'main'},
+ {'column_name': 'brand',
+  ... },
+ {'column_name': 'price',
+  ... },
+ ... ]
 </code></pre>
 <h2 id="views"><a class="header" href="#views">Views</a></h2>
-<pre><code class="language-sql">SELECT * FROM information_schema.views;
+<pre><code>-&gt; SELECT * FROM information_schema.views;
+[{'table_catalog': None,
+  'table_name': 'sold_products',
+  'table_schema': 'main',
+  'view_definition': 'SELECT * FROM products p JOIN sales s ON p.id = s.p_id'}]
 </code></pre>
 <h2 id="check-constraints"><a class="header" href="#check-constraints">Check Constraints</a></h2>
 <p>The <code>check_constraints</code> table in Endb is used to store <a href="assertions.html">assertions</a>.</p>
-<pre><code class="language-sql">SELECT * FROM information_schema.check_constraints;
+<pre><code>-&gt; SELECT * FROM information_schema.check_constraints;
+[{'check_clause': &quot;(NOT EXISTS (SELECT * FROM users WHERE TYPEOF(email) != 'text'))&quot;,
+  'constraint_catalog': None,
+  'constraint_name': 'string_email',
+  'constraint_schema': 'main'}]
 </code></pre>
 
                     </main>

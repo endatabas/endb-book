@@ -13,26 +13,54 @@ lower-case names and must be queried as such.
 
 ## Tables
 
-```sql
-SELECT * FROM information_schema.tables;
+```
+-> SELECT * FROM information_schema.tables;
+[{'table_catalog': None,
+  'table_name': 'stores',
+  'table_schema': 'main',
+  'table_type': 'BASE TABLE'},
+ {...
+  'table_name': 'products',
+  ... },
+ {...
+  'table_name': 'sales',
+  ... }]
 ```
 
 ## Columns
 
-```sql
-SELECT * FROM information_schema.columns;
+```
+-> SELECT * FROM information_schema.columns;
+[{'column_name': 'addresses',
+  'ordinal_position': 0,
+  'table_catalog': None,
+  'table_name': 'stores',
+  'table_schema': 'main'},
+ {'column_name': 'brand',
+  ... },
+ {'column_name': 'price',
+  ... },
+ ... ]
 ```
 
 ## Views
 
-```sql
-SELECT * FROM information_schema.views;
+```
+-> SELECT * FROM information_schema.views;
+[{'table_catalog': None,
+  'table_name': 'sold_products',
+  'table_schema': 'main',
+  'view_definition': 'SELECT * FROM products p JOIN sales s ON p.id = s.p_id'}]
 ```
 
 ## Check Constraints
 
 The `check_constraints` table in Endb is used to store [assertions](assertions.md).
 
-```sql
-SELECT * FROM information_schema.check_constraints;
+```
+-> SELECT * FROM information_schema.check_constraints;
+[{'check_clause': "(NOT EXISTS (SELECT * FROM users WHERE TYPEOF(email) != 'text'))",
+  'constraint_catalog': None,
+  'constraint_name': 'string_email',
+  'constraint_schema': 'main'}]
 ```
