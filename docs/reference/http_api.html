@@ -278,6 +278,11 @@ JSON documents cannot guarantee column order.</p>
 <pre><code class="language-json">{&quot;@context&quot;:{&quot;xsd&quot;:&quot;http://www.w3.org/2001/XMLSchema#&quot;,&quot;@vocab&quot;:&quot;http://endb.io/&quot;},&quot;@graph&quot;:[{&quot;column1&quot;:2,&quot;column2&quot;:{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}},{&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}]}
 </code></pre>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
+<h3 id="applicationvndapachearrowfile"><a class="header" href="#applicationvndapachearrowfile">application/vnd.apache.arrow.file</a></h3>
+<p><code>application/vnd.apache.arrow.file</code> returns columnar data as an Apache Arrow file.</p>
+<pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.file&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<p>The above command returns a file containing a single <code>RecordBatch</code> in an Apache Arrow file in IPC format.</p>
 <h2 id="http-basic-authentication"><a class="header" href="#http-basic-authentication">HTTP Basic Authentication</a></h2>
 <p>Endb supports HTTP Basic Authentication as defined by
 <a href="https://datatracker.ietf.org/doc/html/rfc7235">RFC 7235</a>.

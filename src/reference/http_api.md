@@ -174,6 +174,18 @@ returns:
 
 See [JSON-LD](https://json-ld.org/).
 
+### application/vnd.apache.arrow.file
+
+`application/vnd.apache.arrow.file` returns columnar data as an Apache Arrow file.
+
+
+```sh
+curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.file" -X POST http://localhost:3803/sql
+```
+
+The above command returns a file containing a single `RecordBatch` in an Apache Arrow file in IPC format.
+
+
 ## HTTP Basic Authentication
 
 Endb supports HTTP Basic Authentication as defined by
