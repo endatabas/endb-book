@@ -1851,9 +1851,12 @@ JSON documents cannot guarantee column order.</p>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
 <h3 id="applicationvndapachearrowfile"><a class="header" href="#applicationvndapachearrowfile">application/vnd.apache.arrow.file</a></h3>
 <p><code>application/vnd.apache.arrow.file</code> returns columnar data as an Apache Arrow file.</p>
-<pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.file&quot; -X POST http://localhost:3803/sql
+<pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.file&quot; -X POST http://localhost:3803/sql --output hello.arrow
 </code></pre>
-<p>The above command returns a file containing a single <code>RecordBatch</code> in an Apache Arrow file in IPC format.</p>
+<p>The above command returns a file containing a single <code>RecordBatch</code> in an Apache Arrow file in IPC format.
+You can examine the file with functions like
+<a href="https://arrow.apache.org/docs/python/ipc.html#writing-and-reading-random-access-files"><code>pyarrow.ipc.open_file</code></a>,
+as seen in <a href="https://gist.github.com/deobald/a65ca0f57d66041bf66d41d0509a981f">this gist</a>.</p>
 <h2 id="http-basic-authentication"><a class="header" href="#http-basic-authentication">HTTP Basic Authentication</a></h2>
 <p>Endb supports HTTP Basic Authentication as defined by
 <a href="https://datatracker.ietf.org/doc/html/rfc7235">RFC 7235</a>.

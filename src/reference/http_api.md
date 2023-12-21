@@ -180,11 +180,13 @@ See [JSON-LD](https://json-ld.org/).
 
 
 ```sh
-curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.file" -X POST http://localhost:3803/sql
+curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.file" -X POST http://localhost:3803/sql --output hello.arrow
 ```
 
 The above command returns a file containing a single `RecordBatch` in an Apache Arrow file in IPC format.
-
+You can examine the file with functions like
+[`pyarrow.ipc.open_file`](https://arrow.apache.org/docs/python/ipc.html#writing-and-reading-random-access-files),
+as seen in [this gist](https://gist.github.com/deobald/a65ca0f57d66041bf66d41d0509a981f).
 
 ## HTTP Basic Authentication
 
