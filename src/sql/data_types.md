@@ -1,9 +1,5 @@
 # SQL Data Types
 
-## Note on timezones
-
-Endb date/time data types currently only support times encoded as UTC.
-
 ## NULL
 
 Null serves a variety of purposes in Endb.
@@ -217,4 +213,32 @@ Column names can be referred to in place of key-value pairs in
 ```sql
 SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
 -- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
+```
+
+## Note on timezones
+
+Endb date/time data types currently only support times encoded as UTC.
+
+## Note on type widening
+
+Operations performed on scalars will attempt to widen those scalars for the purpose of the operation, if reasonable.
+
+```sql
+-> select 2.0 = 2;
+[{'column1': True}]
+```
+
+This widening includes joins on scalars, but not collections (`ARRAY` or `OBJECT`):
+
+```sql
+-> INSERT INTO zig {at: 2023-12-21, val: 2}
+[{'result': 1}]
+-> INSERT INTO zag {at: 2023-12-21T00:00:00, val: 2.0}
+[{'result': 1}]
+-> SELECT * FROM zig i JOIN zag a ON i.at = a.at;
+[{'at': datetime.datetime(2023, 12, 21, 0, 0, tzinfo=datetime.timezone.utc),
+  'val': 2.0}]
+-> SELECT * FROM zig i JOIN zag a ON i.val = a.val;
+[{'at': datetime.datetime(2023, 12, 21, 0, 0, tzinfo=datetime.timezone.utc),
+  'val': 2.0}]
 ```

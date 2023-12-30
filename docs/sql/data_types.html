@@ -173,8 +173,6 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="sql-data-types"><a class="header" href="#sql-data-types">SQL Data Types</a></h1>
-<h2 id="note-on-timezones"><a class="header" href="#note-on-timezones">Note on timezones</a></h2>
-<p>Endb date/time data types currently only support times encoded as UTC.</p>
 <h2 id="null"><a class="header" href="#null">NULL</a></h2>
 <p>Null serves a variety of purposes in Endb.</p>
 <ul>
@@ -340,6 +338,25 @@ SELECT { foo: 2, ['foo' || 2]: 5 };
 <a href="data_types.html#object">object literals</a>.</p>
 <pre><code class="language-sql">SELECT {p.name, c.discounted} FROM products p JOIN coupons c ON p.name = c.name;
 -- [{'column1': {'discounted': 2.99, 'name': 'Salt'}}]
+</code></pre>
+<h2 id="note-on-timezones"><a class="header" href="#note-on-timezones">Note on timezones</a></h2>
+<p>Endb date/time data types currently only support times encoded as UTC.</p>
+<h2 id="note-on-type-widening"><a class="header" href="#note-on-type-widening">Note on type widening</a></h2>
+<p>Operations performed on scalars will attempt to widen those scalars for the purpose of the operation, if reasonable.</p>
+<pre><code class="language-sql">-&gt; select 2.0 = 2;
+[{'column1': True}]
+</code></pre>
+<p>This widening includes joins on scalars, but not collections (<code>ARRAY</code> or <code>OBJECT</code>):</p>
+<pre><code class="language-sql">-&gt; INSERT INTO zig {at: 2023-12-21, val: 2}
+[{'result': 1}]
+-&gt; INSERT INTO zag {at: 2023-12-21T00:00:00, val: 2.0}
+[{'result': 1}]
+-&gt; SELECT * FROM zig i JOIN zag a ON i.at = a.at;
+[{'at': datetime.datetime(2023, 12, 21, 0, 0, tzinfo=datetime.timezone.utc),
+  'val': 2.0}]
+-&gt; SELECT * FROM zig i JOIN zag a ON i.val = a.val;
+[{'at': datetime.datetime(2023, 12, 21, 0, 0, tzinfo=datetime.timezone.utc),
+  'val': 2.0}]
 </code></pre>
 
                     </main>
