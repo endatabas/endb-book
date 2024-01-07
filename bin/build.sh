@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-# defaults to ../docs/ (GitHub pages) based on book.toml
+# defaults to ../output/ based on book.toml
 mdbook build
 
 (
+    # copy into ../docs for Netlify / GitHub Pages
     mkdir -p $(dirname "$0")/../docs/
     cd $(dirname "$0")/../docs/
-    # echo 'docs.endatabas.com' > CNAME
     cp -R ../output/html/. ./
+
+    # inject plausible.io
+    # TODO: see https://rust-lang.github.io/mdBook/format/configuration/renderers.html#custom-backend-commands
+    # TODO: copy `_redirects` into /docs
 )
