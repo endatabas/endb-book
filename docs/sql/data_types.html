@@ -297,7 +297,8 @@ SELECT {product: {p.*}, discounted: c.discounted} FROM products p JOIN coupons c
 <h2 id="dynamic-literals"><a class="header" href="#dynamic-literals">Dynamic Literals</a></h2>
 <h3 id="row-literals"><a class="header" href="#row-literals">Row Literals</a></h3>
 <p>It is possible return an entire document (row) as a single literal value.
-The syntax is akin to Postgres <a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.
+The syntax is akin to Postgres
+<a href="https://www.postgresql.org/docs/current/rowtypes.html"><code>ROW</code> literals</a>.
 Unlike <code>table.*</code>, which pads non-existent columns with <code>NULL</code>,
 a row literal returns exactly the schema specified for each individual row.</p>
 <ul>
@@ -305,6 +306,17 @@ a row literal returns exactly the schema specified for each individual row.</p>
 </ul>
 <p>Example usage:</p>
 <pre><code class="language-sql">SELECT { products.* } FROM products;
+</code></pre>
+<p>As a shorthand, a table's name may be used in the <code>SELECT</code> clause to return
+entire rows as documents:</p>
+<pre><code class="language-sql">-&gt; SELECT users FROM users;
+-- [{'users': {'email': 'patrick@oracle.com', 'name': 'Patrick'}},
+--  {'users': {'email': 'preethi@shopify.ca', 'name': 'Preethi'}}]
+</code></pre>
+<p>NOTE: When a table contains a column of the same name, the column takes precedence
+and a single column is returned, as usual:</p>
+<pre><code class="language-sql">-&gt; SELECT status FROM status;
+-- [{'status': 'error'}, {'status': 'ok'}]
 </code></pre>
 <h3 id="spread"><a class="header" href="#spread">Spread</a></h3>
 <p>The Spread Operator (<code>...</code>, sometimes known as &quot;splat&quot;)

@@ -155,7 +155,8 @@ Object equality is tested by comparing each key-value pair as an array.
 ### Row Literals
 
 It is possible return an entire document (row) as a single literal value.
-The syntax is akin to Postgres [`ROW` literals](https://www.postgresql.org/docs/current/rowtypes.html).
+The syntax is akin to Postgres
+[`ROW` literals](https://www.postgresql.org/docs/current/rowtypes.html).
 Unlike `table.*`, which pads non-existent columns with `NULL`,
 a row literal returns exactly the schema specified for each individual row.
 
@@ -165,6 +166,23 @@ Example usage:
 
 ```sql
 SELECT { products.* } FROM products;
+```
+
+As a shorthand, a table's name may be used in the `SELECT` clause to return
+entire rows as documents:
+
+```sql
+-> SELECT users FROM users;
+-- [{'users': {'email': 'patrick@oracle.com', 'name': 'Patrick'}},
+--  {'users': {'email': 'preethi@shopify.ca', 'name': 'Preethi'}}]
+```
+
+NOTE: When a table contains a column of the same name, the column takes precedence
+and a single column is returned, as usual:
+
+```sql
+-> SELECT status FROM status;
+-- [{'status': 'error'}, {'status': 'ok'}]
 ```
 
 ### Spread
