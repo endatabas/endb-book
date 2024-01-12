@@ -196,6 +196,10 @@ Because Endb columns cannot have a strict order, <code>*</code> returns them in 
 <p>Select a list of columns by delimiting them with commas.</p>
 <pre><code class="language-sql">SELECT product_no, v, price, name FROM products;
 </code></pre>
+<p>Select a column with spaces by delimiting it with backticks or square braces:</p>
+<pre><code class="language-sql">SELECT products['product no'] FROM products;
+SELECT `product no` FROM products;
+</code></pre>
 <p>NOTE: Whether or not your Endb client respects column ordering is dependent
 on the content type it uses in Accept Headers.
 It is worth reading over the <a href="../reference/http_api.html#accept-header">Accept Header</a>

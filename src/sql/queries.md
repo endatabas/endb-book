@@ -40,6 +40,13 @@ Select a list of columns by delimiting them with commas.
 SELECT product_no, v, price, name FROM products;
 ```
 
+Select a column with spaces by delimiting it with backticks or square braces:
+
+```sql
+SELECT products['product no'] FROM products;
+SELECT `product no` FROM products;
+```
+
 NOTE: Whether or not your Endb client respects column ordering is dependent
 on the content type it uses in Accept Headers.
 It is worth reading over the [Accept Header](../reference/http_api.md#accept-header)
