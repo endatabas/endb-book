@@ -254,7 +254,7 @@ curl -F q="INSERT INTO products {name: ?};" -F p='["Sriracha"]' -X POST http://l
 
 ### Bulk Parameters
 
-Bulk operations are possible by turning the `m` flag to `true`.
+Bulk operations are possible by setting the `m` flag to `true`.
 Bulk operations are available to both named and positional parameters.
 The list of parameters supplied in bulk must be nested in an array.
 
@@ -263,7 +263,24 @@ curl -d '{"q": "INSERT INTO products {name: :name};", "p": [{"name": "Soda"}, {"
 curl -F q="INSERT INTO sauces {name: ?, color: ?};" -F p='[["Mustard", "Yellow"], ["Ketchup", "Red"]]' -F m=true -X POST http://localhost:3803/sql
 ```
 
-## Bulk Statements
+## Bulk Insert
+
+Bulk inserts are possible by combining the tools just mentioned under _Parameters_.
+
+For example, the [`OBJECTS`](../sql/queries.md#objects-lists) keyword can insert an
+array of object literals.
+Note that each object used as a positional parameter must be wrapped in a JSON array,
+since there may be more than one positional parameter supplied.
+Similarly, each named parameter must be wrapped in an object containing a key of the
+corresponding name.
+
+```sql
+curl -F m=true -F q="INSERT INTO products OBJECTS ?" -F p="[[{name: 'jam'}], [{name: 'butter'}]]" -X POST http://localhost:3803/sql
+curl -F m=true -F q="INSERT INTO products OBJECTS :product" -F p="[{product: {name: 'jelly'}}, {product: {name: 'ghee'}}]" -X POST http://localhost:3803/sql
+```
+
+
+## Multiple Statements
 
 It is possible to pass multiple SQL statements to Endb by delimiting
 them with semicolons.

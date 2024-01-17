@@ -1935,13 +1935,24 @@ curl -d '{&quot;q&quot;: &quot;INSERT INTO events {start: ?};&quot;, &quot;p&quo
 curl -F q=&quot;INSERT INTO products {name: ?};&quot; -F p='[&quot;Sriracha&quot;]' -X POST http://localhost:3803/sql
 </code></pre>
 <h3 id="bulk-parameters"><a class="header" href="#bulk-parameters">Bulk Parameters</a></h3>
-<p>Bulk operations are possible by turning the <code>m</code> flag to <code>true</code>.
+<p>Bulk operations are possible by setting the <code>m</code> flag to <code>true</code>.
 Bulk operations are available to both named and positional parameters.
 The list of parameters supplied in bulk must be nested in an array.</p>
 <pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: [{&quot;name&quot;: &quot;Soda&quot;}, {&quot;name&quot;: &quot;Tonic&quot;}], &quot;m&quot;: true}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
 curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>
-<h2 id="bulk-statements"><a class="header" href="#bulk-statements">Bulk Statements</a></h2>
+<h2 id="bulk-insert"><a class="header" href="#bulk-insert">Bulk Insert</a></h2>
+<p>Bulk inserts are possible by combining the tools just mentioned under <em>Parameters</em>.</p>
+<p>For example, the <a href="reference/../sql/queries.html#objects-lists"><code>OBJECTS</code></a> keyword can insert an
+array of object literals.
+Note that each object used as a positional parameter must be wrapped in a JSON array,
+since there may be more than one positional parameter supplied.
+Similarly, each named parameter must be wrapped in an object containing a key of the
+corresponding name.</p>
+<pre><code class="language-sql">curl -F m=true -F q=&quot;INSERT INTO products OBJECTS ?&quot; -F p=&quot;[[{name: 'jam'}], [{name: 'butter'}]]&quot; -X POST http://localhost:3803/sql
+curl -F m=true -F q=&quot;INSERT INTO products OBJECTS :product&quot; -F p=&quot;[{product: {name: 'jelly'}}, {product: {name: 'ghee'}}]&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<h2 id="multiple-statements"><a class="header" href="#multiple-statements">Multiple Statements</a></h2>
 <p>It is possible to pass multiple SQL statements to Endb by delimiting
 them with semicolons.
 Parameters will be passed to all statements in order.</p>
