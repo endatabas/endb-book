@@ -265,7 +265,7 @@ curl -F q="INSERT INTO sauces {name: ?, color: ?};" -F p='[["Mustard", "Yellow"]
 
 ## Bulk Insert
 
-Bulk inserts are possible by combining the tools just mentioned under _Parameters_.
+Bulk inserts are possible by combining the tools mentioned under [_Parameters_](#parameters).
 
 For example, the [`OBJECTS`](../sql/queries.md#objects-lists) keyword can insert an
 array of object literals.

@@ -1942,7 +1942,7 @@ The list of parameters supplied in bulk must be nested in an array.</p>
 curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>
 <h2 id="bulk-insert"><a class="header" href="#bulk-insert">Bulk Insert</a></h2>
-<p>Bulk inserts are possible by combining the tools just mentioned under <em>Parameters</em>.</p>
+<p>Bulk inserts are possible by combining the tools mentioned under <a href="reference/http_api.html#parameters"><em>Parameters</em></a>.</p>
 <p>For example, the <a href="reference/../sql/queries.html#objects-lists"><code>OBJECTS</code></a> keyword can insert an
 array of object literals.
 Note that each object used as a positional parameter must be wrapped in a JSON array,
