@@ -178,7 +178,6 @@ See [JSON-LD](https://json-ld.org/).
 
 `application/vnd.apache.arrow.file` returns columnar data as an Apache Arrow file.
 
-
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.file" -X POST http://localhost:3803/sql --output hello.arrow
 ```
@@ -187,6 +186,20 @@ The above command returns a file containing a single `RecordBatch` in an Apache 
 You can examine the file with functions like
 [`pyarrow.ipc.open_file`](https://arrow.apache.org/docs/python/ipc.html#writing-and-reading-random-access-files),
 as seen in [this gist](https://gist.github.com/deobald/a65ca0f57d66041bf66d41d0509a981f).
+
+### application/vnd.apache.arrow.stream
+
+`application/vnd.apache.arrow.stream` returns columnar data as an Apache Arrow stream.
+
+```sh
+curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.stream" -X POST http://localhost:3803/sql --output streamed.arrow
+```
+
+The above command returns a file containing an Apache Arrow IPC stream.
+You can examine the file with functions like
+[`pyarrow.ipc.open_stream`](https://arrow.apache.org/docs/python/ipc.html#using-streams),
+as seen in [this gist](https://gist.github.com/deobald/1eeca3a08ca1490f49bb67a0fa31994b).
+
 
 ## HTTP Basic Authentication
 
