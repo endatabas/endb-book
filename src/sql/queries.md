@@ -382,3 +382,77 @@ However, Endb recursive queries are also capable of solving Sudoku puzzles and c
 [as seen in the test suite](https://github.com/endatabas/endb/blob/main/test/sql.lisp).
 (Credit goes to SQLite's delightful
 [Outlandish Recursive Query Examples](https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples).)
+
+## Repeatable Reads: SAVEPOINT, ROLLBACK, RELEASE
+
+Repeatable reads are achieved in Endb by creating _savepoints_, which queries can return to later.
+When returning to a savepoint in the future, queries will return results according to the state
+of the database when the savepoint was captured.
+
+By default, savepoints have a 60-second lifespan, after which they expire.
+Use of a savepoint during its lifespan will renew its lease, allowing it to be used for another
+60 seconds.
+Savepoints can be forcibly expired with `RELEASE`.
+Attempting to use a savepoint that has been expired or released will return
+`No active savepoint: <savepoint>`.
+
+### Minimal Example
+
+Other SQL dialects have more transaction-specific semantics for `SAVEPOINT`, `ROLLBACK`, and
+`RELEASE`.
+Because this difference in behaviour may be confusing to users familiar with other databases,
+we provide the example below.
+The result of the final query returns the first two dungeons, which were inserted prior to
+the savepoint, but not `"Tower of Hera"`.
+
+```sh
+INSERT INTO dungeons {name: 'Eastern Palace'};
+INSERT INTO dungeons {name: 'Desert Palace'};
+SAVEPOINT desert_palace;
+INSERT INTO dungeons {name: 'Tower of Hera'};
+ROLLBACK TO desert_palace; SELECT * FROM dungeons;
+```
+
+NOTE: The `ROLLBACK` and `SELECT` above must be executed together, in the same transaction.
+(Normally this will mean executing both statements in a single HTTP request.)
+
+### SAVEPOINT
+
+The `SAVEPOINT` operator captures a new savepoint at the time it executes.
+Savepoints can be named or anonymous.
+Anonymous savepoints are named with a UUID.
+The name of the savepoint is returned as an attribute named `result`.
+
+```sql
+SAVEPOINT desert_palace;
+-- [{'result': 'desert_palace'}]
+SAVEPOINT;
+-- [{'result': '0b12de43-1c92-4d92-ab7c-51c5a5129074'}]
+```
+
+### ROLLBACK
+
+Inside the scope of a transaction (normally a single HTTP request), `ROLLBACK` is used to
+return to a savepoint.
+`ROLLBACK TO <savepoint>` returns to a named savepoint (by name) or an anonymous savepoint
+(by string UUID).
+When used without a savepoint name, `ROLLBACK` returns to the last anonymous savepoint.
+Queries executed inside such a transaction return results according to the state of the
+database when the savepoint was created.
+The use of `ROLLBACK` renews the lease of the associated savepoint.
+
+```sql
+ROLLBACK TO desert_palace; SELECT * FROM dungeons;
+ROLLBACK TO 'eab07765-de6f-4f74-8052-838dd29ee8e7'; SELECT * FROM dungeons;
+ROLLBACK; SELECT * FROM dungeons;
+```
+
+### RELEASE
+
+The `RELEASE` keyword expires a savepoint so it can no longer be used.
+Anonymous savepoints can be released by string UUID.
+
+```sql
+RELEASE desert_palace;
+RELEASE 'f7c314dd-47b9-4c85-9502-b8e35c82b935';
+```

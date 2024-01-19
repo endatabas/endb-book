@@ -700,6 +700,60 @@ However, Endb recursive queries are also capable of solving Sudoku puzzles and c
 <a href="https://github.com/endatabas/endb/blob/main/test/sql.lisp">as seen in the test suite</a>.
 (Credit goes to SQLite's delightful
 <a href="https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples">Outlandish Recursive Query Examples</a>.)</p>
+<h2 id="repeatable-reads-savepoint-rollback-release"><a class="header" href="#repeatable-reads-savepoint-rollback-release">Repeatable Reads: SAVEPOINT, ROLLBACK, RELEASE</a></h2>
+<p>Repeatable reads are achieved in Endb by creating <em>savepoints</em>, which queries can return to later.
+When returning to a savepoint in the future, queries will return results according to the state
+of the database when the savepoint was captured.</p>
+<p>By default, savepoints have a 60-second lifespan, after which they expire.
+Use of a savepoint during its lifespan will renew its lease, allowing it to be used for another
+60 seconds.
+Savepoints can be forcibly expired with <code>RELEASE</code>.
+Attempting to use a savepoint that has been expired or released will return
+<code>No active savepoint: &lt;savepoint&gt;</code>.</p>
+<h3 id="minimal-example"><a class="header" href="#minimal-example">Minimal Example</a></h3>
+<p>Other SQL dialects have more transaction-specific semantics for <code>SAVEPOINT</code>, <code>ROLLBACK</code>, and
+<code>RELEASE</code>.
+Because this difference in behaviour may be confusing to users familiar with other databases,
+we provide the example below.
+The result of the final query returns the first two dungeons, which were inserted prior to
+the savepoint, but not <code>&quot;Tower of Hera&quot;</code>.</p>
+<pre><code class="language-sh">INSERT INTO dungeons {name: 'Eastern Palace'};
+INSERT INTO dungeons {name: 'Desert Palace'};
+SAVEPOINT desert_palace;
+INSERT INTO dungeons {name: 'Tower of Hera'};
+ROLLBACK TO desert_palace; SELECT * FROM dungeons;
+</code></pre>
+<p>NOTE: The <code>ROLLBACK</code> and <code>SELECT</code> above must be executed together, in the same transaction.
+(Normally this will mean executing both statements in a single HTTP request.)</p>
+<h3 id="savepoint"><a class="header" href="#savepoint">SAVEPOINT</a></h3>
+<p>The <code>SAVEPOINT</code> operator captures a new savepoint at the time it executes.
+Savepoints can be named or anonymous.
+Anonymous savepoints are named with a UUID.
+The name of the savepoint is returned as an attribute named <code>result</code>.</p>
+<pre><code class="language-sql">SAVEPOINT desert_palace;
+-- [{'result': 'desert_palace'}]
+SAVEPOINT;
+-- [{'result': '0b12de43-1c92-4d92-ab7c-51c5a5129074'}]
+</code></pre>
+<h3 id="rollback"><a class="header" href="#rollback">ROLLBACK</a></h3>
+<p>Inside the scope of a transaction (normally a single HTTP request), <code>ROLLBACK</code> is used to
+return to a savepoint.
+<code>ROLLBACK TO &lt;savepoint&gt;</code> returns to a named savepoint (by name) or an anonymous savepoint
+(by string UUID).
+When used without a savepoint name, <code>ROLLBACK</code> returns to the last anonymous savepoint.
+Queries executed inside such a transaction return results according to the state of the
+database when the savepoint was created.
+The use of <code>ROLLBACK</code> renews the lease of the associated savepoint.</p>
+<pre><code class="language-sql">ROLLBACK TO desert_palace; SELECT * FROM dungeons;
+ROLLBACK TO 'eab07765-de6f-4f74-8052-838dd29ee8e7'; SELECT * FROM dungeons;
+ROLLBACK; SELECT * FROM dungeons;
+</code></pre>
+<h3 id="release"><a class="header" href="#release">RELEASE</a></h3>
+<p>The <code>RELEASE</code> keyword expires a savepoint so it can no longer be used.
+Anonymous savepoints can be released by string UUID.</p>
+<pre><code class="language-sql">RELEASE desert_palace;
+RELEASE 'f7c314dd-47b9-4c85-9502-b8e35c82b935';
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sql-data-types"><a class="header" href="#sql-data-types">SQL Data Types</a></h1>
 <h2 id="null"><a class="header" href="#null">NULL</a></h2>
 <p>Null serves a variety of purposes in Endb.</p>
