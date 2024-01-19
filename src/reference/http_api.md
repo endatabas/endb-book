@@ -276,6 +276,30 @@ curl -d '{"q": "INSERT INTO products {name: :name};", "p": [{"name": "Soda"}, {"
 curl -F q="INSERT INTO sauces {name: ?, color: ?};" -F p='[["Mustard", "Yellow"], ["Ketchup", "Red"]]' -F m=true -X POST http://localhost:3803/sql
 ```
 
+### Apache Arrow File Parameters
+
+As it is possible to receive Apache Arrow data from an Endb query,
+it is possible to submit Apache Arrow as a statement parameter.
+The example below assumes the existence of a a table called `names`,
+which only contains one column (`name`).
+Apache Arrow Streams can also be used as parameters in the same way.
+
+```sh
+# create a sample Arrow file:
+curl -d "SELECT * FROM names;" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.file" -X POST http://localhost:3803/sql --output names.arrow
+# use the sample Arrow file:
+curl -F m=true -F q="INSERT INTO projects {name: :name};" -F "p=@names.arrow;type=application/vnd.apache.arrow.file" -X POST http://localhost:3803/sql
+```
+
+NOTE: This feature should be used with caution.
+Do not submit arbitrary Arrow files as parameters.
+If a malformed Arrow file is submitted, the error message returned
+(if any) is unlikely to provide guidance.
+Preferably, Arrow files should be created using Endb itself, as in
+the example above.
+Most users will prefer to use a human-readable file format instead,
+such as a JSON variant or static SQL statements.
+
 ## Bulk Insert
 
 Bulk inserts are possible by combining the tools mentioned under [_Parameters_](#parameters).

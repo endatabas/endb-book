@@ -2003,6 +2003,25 @@ The list of parameters supplied in bulk must be nested in an array.</p>
 <pre><code class="language-sh">curl -d '{&quot;q&quot;: &quot;INSERT INTO products {name: :name};&quot;, &quot;p&quot;: [{&quot;name&quot;: &quot;Soda&quot;}, {&quot;name&quot;: &quot;Tonic&quot;}], &quot;m&quot;: true}' -H &quot;Content-Type: application/json&quot; -X POST http://localhost:3803/sql
 curl -F q=&quot;INSERT INTO sauces {name: ?, color: ?};&quot; -F p='[[&quot;Mustard&quot;, &quot;Yellow&quot;], [&quot;Ketchup&quot;, &quot;Red&quot;]]' -F m=true -X POST http://localhost:3803/sql
 </code></pre>
+<h3 id="apache-arrow-file-parameters"><a class="header" href="#apache-arrow-file-parameters">Apache Arrow File Parameters</a></h3>
+<p>As it is possible to receive Apache Arrow data from an Endb query,
+it is possible to submit Apache Arrow as a statement parameter.
+The example below assumes the existence of a a table called <code>names</code>,
+which only contains one column (<code>name</code>).
+Apache Arrow Streams can also be used as parameters in the same way.</p>
+<pre><code class="language-sh"># create a sample Arrow file:
+curl -d &quot;SELECT * FROM names;&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.file&quot; -X POST http://localhost:3803/sql --output names.arrow
+# use the sample Arrow file:
+curl -F m=true -F q=&quot;INSERT INTO projects {name: :name};&quot; -F &quot;p=@names.arrow;type=application/vnd.apache.arrow.file&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<p>NOTE: This feature should be used with caution.
+Do not submit arbitrary Arrow files as parameters.
+If a malformed Arrow file is submitted, the error message returned
+(if any) is unlikely to provide guidance.
+Preferably, Arrow files should be created using Endb itself, as in
+the example above.
+Most users will prefer to use a human-readable file format instead,
+such as a JSON variant or static SQL statements.</p>
 <h2 id="bulk-insert"><a class="header" href="#bulk-insert">Bulk Insert</a></h2>
 <p>Bulk inserts are possible by combining the tools mentioned under <a href="reference/http_api.html#parameters"><em>Parameters</em></a>.</p>
 <p>For example, the <a href="reference/../sql/queries.html#objects-lists"><code>OBJECTS</code></a> keyword can insert an
