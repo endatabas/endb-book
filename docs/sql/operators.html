@@ -309,12 +309,25 @@ SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 <p>NOTE: The <code>@&gt;</code> operator is a synonym for <code>MATCH</code>.
 It is provided as a convenience for users accustomed to the equivalent
 <a href="https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT">JSON Containment Operator in Postgres</a>.</p>
+<h2 id="any-some"><a class="header" href="#any-some">ANY, SOME</a></h2>
+<p><code>SOME</code> is a synonym for <code>ANY</code>.
+<code>ANY</code> qualifies a subquery by comparing a single column or literal value with the result of that subquery.
+<code>ANY</code> is used in the form <code>&lt;expression&gt; &lt;operator&gt; ANY (&lt;subquery&gt;)</code>.
+It returns true if the subquery returns a one or more values for which the operator is true.
+The operator must return a boolean and the subquery must return a single column.</p>
+<pre><code class="language-sql">SELECT 1500 &lt; SOME (SELECT price FROM products);
+</code></pre>
+<h2 id="all"><a class="header" href="#all">ALL</a></h2>
+<p><code>ALL</code> qualifies a subquery by comparing a single column or literal value with the result of that subquery.
+<code>ALL</code> is used in the form <code>&lt;expression&gt; &lt;operator&gt; ALL (&lt;subquery&gt;)</code>.
+It returns true only if all values returned by the subquery are true for the operator provided.
+The operator must return a boolean and the subquery must return a single column.</p>
+<pre><code class="language-sql">SELECT &quot;ok&quot; = ALL (SELECT status_code FROM statuses);
+</code></pre>
 <h2 id="exists"><a class="header" href="#exists">EXISTS</a></h2>
 <p><code>EXISTS</code> returns <code>TRUE</code> if the subquery which follows it returns at least one row.</p>
 <pre><code class="language-sql">SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
 </code></pre>
-<p>NOTE: <code>ANY</code> and <code>SOME</code> are not supported by Endb, but they can both be created as
-correlated <code>EXISTS</code> queries instead.</p>
 <h2 id="in"><a class="header" href="#in">IN</a></h2>
 <p>The standard SQL <code>IN</code> clause can be used to test lists and subqueries for containment of a value.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price IN (5.00, 5.99);

@@ -193,6 +193,29 @@ NOTE: The `@>` operator is a synonym for `MATCH`.
 It is provided as a convenience for users accustomed to the equivalent
 [JSON Containment Operator in Postgres](https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT).
 
+## ANY, SOME
+
+`SOME` is a synonym for `ANY`.
+`ANY` qualifies a subquery by comparing a single column or literal value with the result of that subquery.
+`ANY` is used in the form `<expression> <operator> ANY (<subquery>)`.
+It returns true if the subquery returns a one or more values for which the operator is true.
+The operator must return a boolean and the subquery must return a single column.
+
+```sql
+SELECT 1500 < SOME (SELECT price FROM products);
+```
+
+## ALL
+
+`ALL` qualifies a subquery by comparing a single column or literal value with the result of that subquery.
+`ALL` is used in the form `<expression> <operator> ALL (<subquery>)`.
+It returns true only if all values returned by the subquery are true for the operator provided.
+The operator must return a boolean and the subquery must return a single column.
+
+```sql
+SELECT "ok" = ALL (SELECT status_code FROM statuses);
+```
+
 ## EXISTS
 
 `EXISTS` returns `TRUE` if the subquery which follows it returns at least one row.
@@ -200,9 +223,6 @@ It is provided as a convenience for users accustomed to the equivalent
 ```sql
 SELECT name FROM products WHERE EXISTS (SELECT 1 FROM coupons WHERE name = products.name);
 ```
-
-NOTE: `ANY` and `SOME` are not supported by Endb, but they can both be created as
-correlated `EXISTS` queries instead.
 
 ## IN
 
