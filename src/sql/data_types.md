@@ -10,12 +10,21 @@ Null serves a variety of purposes in Endb.
 * "Missing": Jagged rows will return `NULL` for columns projected
   for a document which does not contain them
 
-## TEXT (VARCHAR)
+## TEXT (CHAR, VARCHAR)
 
 Endb accepts unbounded, variable-length strings with either single or double quotes.
+`CHAR` and `VARCHAR` are synonyms for `TEXT`.
 
-```SQL
+```sql
 INSERT INTO users (name, title) VALUES ('River', "Prodigy");
+```
+
+When casting using the `CHAR` synonym, an optional integer argument indicates the
+desired length of the resulting string, padded with spaces:
+
+```sql
+SELECT CAST(123 AS CHAR(10));
+-- [{'column1': '123       '}]
 ```
 
 ## BOOLEAN

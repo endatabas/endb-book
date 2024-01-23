@@ -182,9 +182,15 @@ cannot determine if a statement is true or false</li>
 <li>&quot;Missing&quot;: Jagged rows will return <code>NULL</code> for columns projected
 for a document which does not contain them</li>
 </ul>
-<h2 id="text-varchar"><a class="header" href="#text-varchar">TEXT (VARCHAR)</a></h2>
-<p>Endb accepts unbounded, variable-length strings with either single or double quotes.</p>
-<pre><code class="language-SQL">INSERT INTO users (name, title) VALUES ('River', &quot;Prodigy&quot;);
+<h2 id="text-char-varchar"><a class="header" href="#text-char-varchar">TEXT (CHAR, VARCHAR)</a></h2>
+<p>Endb accepts unbounded, variable-length strings with either single or double quotes.
+<code>CHAR</code> and <code>VARCHAR</code> are synonyms for <code>TEXT</code>.</p>
+<pre><code class="language-sql">INSERT INTO users (name, title) VALUES ('River', &quot;Prodigy&quot;);
+</code></pre>
+<p>When casting using the <code>CHAR</code> synonym, an optional integer argument indicates the
+desired length of the resulting string, padded with spaces:</p>
+<pre><code class="language-sql">SELECT CAST(123 AS CHAR(10));
+-- [{'column1': '123       '}]
 </code></pre>
 <h2 id="boolean"><a class="header" href="#boolean">BOOLEAN</a></h2>
 <p>Boolean values can be <code>TRUE</code>, <code>FALSE</code>, or <code>NULL</code>.</p>
