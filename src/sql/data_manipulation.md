@@ -167,9 +167,9 @@ Once a document has been erased, it is no longer possible to query for it at all
 ERASE FROM products WHERE name = 'Salt';
 ```
 
-NOTE: `ERASE` currently does not remove data from disk.
-This feature will be added when Endb handles compaction, as per our
-[roadmap](../appendix/roadmap.md).
+
+
+
 
 ## Parameters
 

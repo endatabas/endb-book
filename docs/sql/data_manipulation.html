@@ -270,9 +270,6 @@ INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFL
 Once a document has been erased, it is no longer possible to query for it at all.</p>
 <pre><code class="language-sql">ERASE FROM products WHERE name = 'Salt';
 </code></pre>
-<p>NOTE: <code>ERASE</code> currently does not remove data from disk.
-This feature will be added when Endb handles compaction, as per our
-<a href="../appendix/roadmap.html">roadmap</a>.</p>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
 <p>Parameters to DML are documented under the <a href="../reference/http_api.html">HTTP API</a>.</p>
 <h2 id="transactions"><a class="header" href="#transactions">Transactions</a></h2>
