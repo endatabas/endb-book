@@ -167,9 +167,15 @@ Once a document has been erased, it is no longer possible to query for it at all
 ERASE FROM products WHERE name = 'Salt';
 ```
 
+## WITH (Common Table Expressions)
 
+The `WITH` keyword can create _Common Table Expressions_ (CTEs) for DML, just as it can
+[for queries](queries.md#with-common-table-expressions).
 
-
+```sql
+WITH top_margin_products AS (SELECT product_no, name FROM products WHERE (price - cost) > 5.00)
+INSERT INTO banner_products SELECT product_no, name FROM top_margin_products;
+```
 
 ## Parameters
 

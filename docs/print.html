@@ -457,6 +457,12 @@ INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFL
 Once a document has been erased, it is no longer possible to query for it at all.</p>
 <pre><code class="language-sql">ERASE FROM products WHERE name = 'Salt';
 </code></pre>
+<h2 id="with-common-table-expressions"><a class="header" href="#with-common-table-expressions">WITH (Common Table Expressions)</a></h2>
+<p>The <code>WITH</code> keyword can create <em>Common Table Expressions</em> (CTEs) for DML, just as it can
+<a href="sql/queries.html#with-common-table-expressions">for queries</a>.</p>
+<pre><code class="language-sql">WITH top_margin_products AS (SELECT product_no, name FROM products WHERE (price - cost) &gt; 5.00)
+INSERT INTO banner_products SELECT product_no, name FROM top_margin_products;
+</code></pre>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
 <p>Parameters to DML are documented under the <a href="sql/../reference/http_api.html">HTTP API</a>.</p>
 <h2 id="transactions"><a class="header" href="#transactions">Transactions</a></h2>
@@ -667,10 +673,10 @@ the table) will be returned.</p>
 400 Bad Request
 Number of UNION left columns: 3 does not match right columns: 2
 </code></pre>
-<h2 id="with-common-table-expressions"><a class="header" href="#with-common-table-expressions">WITH (Common Table Expressions)</a></h2>
+<h2 id="with-common-table-expressions-1"><a class="header" href="#with-common-table-expressions-1">WITH (Common Table Expressions)</a></h2>
 <p>The <code>WITH</code> keyword is used to create <em>Common Table Expressions</em>, or CTEs.
 CTEs act like temporary tables or views within the context of a query or
-<a href="sql/data_manipulation.html">DML statement</a>.
+<a href="sql/data_manipulation.html#with-common-table-expressions">DML statement</a>.
 CTEs are used in place of a sub-select to simplify the appearance of a query.
 <code>WITH</code> clauses take the form <code>WITH &lt;cte-name&gt; AS (&lt;cte-select&gt;)</code>.</p>
 <pre><code class="language-sql">WITH top_margin_products AS (SELECT product_no FROM products WHERE (price - cost) &gt; 5.00)

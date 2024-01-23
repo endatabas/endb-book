@@ -270,6 +270,12 @@ INSERT INTO products {product_no: 99, name: 'Cumin', price: 5.00, v: 6} ON CONFL
 Once a document has been erased, it is no longer possible to query for it at all.</p>
 <pre><code class="language-sql">ERASE FROM products WHERE name = 'Salt';
 </code></pre>
+<h2 id="with-common-table-expressions"><a class="header" href="#with-common-table-expressions">WITH (Common Table Expressions)</a></h2>
+<p>The <code>WITH</code> keyword can create <em>Common Table Expressions</em> (CTEs) for DML, just as it can
+<a href="queries.html#with-common-table-expressions">for queries</a>.</p>
+<pre><code class="language-sql">WITH top_margin_products AS (SELECT product_no, name FROM products WHERE (price - cost) &gt; 5.00)
+INSERT INTO banner_products SELECT product_no, name FROM top_margin_products;
+</code></pre>
 <h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
 <p>Parameters to DML are documented under the <a href="../reference/http_api.html">HTTP API</a>.</p>
 <h2 id="transactions"><a class="header" href="#transactions">Transactions</a></h2>

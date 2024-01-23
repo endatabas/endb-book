@@ -347,7 +347,7 @@ Number of UNION left columns: 3 does not match right columns: 2
 
 The `WITH` keyword is used to create _Common Table Expressions_, or CTEs.
 CTEs act like temporary tables or views within the context of a query or
-[DML statement](data_manipulation.md).
+[DML statement](data_manipulation.md#with-common-table-expressions).
 CTEs are used in place of a sub-select to simplify the appearance of a query.
 `WITH` clauses take the form `WITH <cte-name> AS (<cte-select>)`.
 
