@@ -213,6 +213,25 @@ The `RANDOM` function returns a random integer.
 SELECT RANDOM();
 ```
 
+### GENERATE_SERIES
+
+The `GENERATE_SERIES` function generates an array of numbers within a given interval.
+The first and second parameters are the start and end of the interval.
+The optional third parameter is a step value by which to increment each number.
+The result is returned as a single anonymous column (with the default name, `column1`)
+containing the array.
+
+```sql
+SELECT GENERATE_SERIES(0, 21);
+SELECT GENERATE_SERIES(0, 21, 3);
+```
+
+It is possible to use the result of `GENERATE_SERIES` in other SQL expressions, like `IN`:
+
+```sql
+SELECT * FROM products WHERE product_no IN (SELECT column1 FROM generate_series(1000, 20000) AS foo);
+```
+
 ### Math
 
 Endb provides standard SQL math functions based on SQLite's collection of math functions:

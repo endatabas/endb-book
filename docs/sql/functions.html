@@ -304,6 +304,18 @@ If the second document specifies any fields with values of <code>NULL</code>, th
 <p>The <code>RANDOM</code> function returns a random integer.</p>
 <pre><code class="language-sql">SELECT RANDOM();
 </code></pre>
+<h3 id="generate_series"><a class="header" href="#generate_series">GENERATE_SERIES</a></h3>
+<p>The <code>GENERATE_SERIES</code> function generates an array of numbers within a given interval.
+The first and second parameters are the start and end of the interval.
+The optional third parameter is a step value by which to increment each number.
+The result is returned as a single anonymous column (with the default name, <code>column1</code>)
+containing the array.</p>
+<pre><code class="language-sql">SELECT GENERATE_SERIES(0, 21);
+SELECT GENERATE_SERIES(0, 21, 3);
+</code></pre>
+<p>It is possible to use the result of <code>GENERATE_SERIES</code> in other SQL expressions, like <code>IN</code>:</p>
+<pre><code class="language-sql">SELECT * FROM products WHERE product_no IN (SELECT column1 FROM generate_series(1000, 20000) AS foo);
+</code></pre>
 <h3 id="math"><a class="header" href="#math">Math</a></h3>
 <p>Endb provides standard SQL math functions based on SQLite's collection of math functions:</p>
 <ul>
