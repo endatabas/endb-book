@@ -533,11 +533,26 @@ is the one which will be returned:</p>
 </code></pre>
 <h3 id="join"><a class="header" href="#join">JOIN</a></h3>
 <p>Because Endb is schemaless, documents (rows) can be joined
-on any fields (columns) which have equivalent values.</p>
+on any fields (columns) which have equivalent values.
+Joins are written in the form
+<code>&lt;table1&gt; JOIN &lt;table2&gt; ON &lt;table1&gt;.&lt;column1&gt; &lt;operator&gt; &lt;table2&gt;.&lt;column2&gt;</code>.
+Join operators are generally
+<a href="sql/operators.html#comparison">comparisons</a> or
+<a href="sql/operators.html#boolean-operators">booleans</a>.</p>
 <pre><code class="language-sql">INSERT INTO coupons {name: 'Salt', price: 3.0};
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <p><code>LEFT JOIN</code>, <code>LEFT OUTER JOIN</code>, <code>INNER JOIN</code>, and <code>CROSS JOIN</code> are all supported.</p>
+<p>NOTE: Endb does not restrict name clashes in unqualified column selection or <code>SELECT *</code>.
+If two tables share the same column name, the results from the column of the second table
+in the join will be visible in the returned result, but not the results of the first.</p>
+<h3 id="using"><a class="header" href="#using">USING</a></h3>
+<p>When the columns to join share the same name between two tables, <code>USING</code> is a shorthand
+that permits joining on the equality of those two columns.
+A <code>USING</code> query also supports unambiguous use of the unqualified column name in the <code>SELECT</code>
+clause.</p>
+<pre><code class="language-sql">SELECT project_name, users.name, projects.budget FROM users JOIN projects USING (project_name);
+</code></pre>
 <h2 id="where-filtering"><a class="header" href="#where-filtering">WHERE (Filtering)</a></h2>
 <p>Rather than returning the entire table, documents (rows) can be filtered with a <code>WHERE</code> clause.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price &gt; 4;

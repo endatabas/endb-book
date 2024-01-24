@@ -107,6 +107,11 @@ SELECT p.price AS regular_price, c.price FROM products p JOIN coupons c ON p.nam
 
 Because Endb is schemaless, documents (rows) can be joined
 on any fields (columns) which have equivalent values.
+Joins are written in the form
+`<table1> JOIN <table2> ON <table1>.<column1> <operator> <table2>.<column2>`.
+Join operators are generally
+[comparisons](operators.md#comparison) or
+[booleans](operators.md#boolean-operators).
 
 ```sql
 INSERT INTO coupons {name: 'Salt', price: 3.0};
@@ -114,6 +119,21 @@ SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 ```
 
 `LEFT JOIN`, `LEFT OUTER JOIN`, `INNER JOIN`, and `CROSS JOIN` are all supported.
+
+NOTE: Endb does not restrict name clashes in unqualified column selection or `SELECT *`.
+If two tables share the same column name, the results from the column of the second table
+in the join will be visible in the returned result, but not the results of the first.
+
+### USING
+
+When the columns to join share the same name between two tables, `USING` is a shorthand
+that permits joining on the equality of those two columns.
+A `USING` query also supports unambiguous use of the unqualified column name in the `SELECT`
+clause.
+
+```sql
+SELECT project_name, users.name, projects.budget FROM users JOIN projects USING (project_name);
+```
 
 ## WHERE (Filtering)
 
