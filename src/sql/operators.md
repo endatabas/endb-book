@@ -35,13 +35,12 @@ NOTE: `BETWEEN` can also be used with [System Time](time_queries.md#between).
 
 `WHERE` and `HAVING` clauses can be modified and combined with standard SQL boolean operators.
 
-### IS, IS NOT, IS \[NOT\] DISTINCT FROM
+### IS, IS NOT
 
 `IS` and `IS NOT` behave like [`=` (`==`) and `<>` (`!=`)](operators.md#comparison), respectively.
 They are usually used to augment equality checks to test for `NULL`,
 which is the third boolean value, representing "unknown".
-`IS DISTINCT FROM` is a synonym for `IS NOT`.
-`IS NOT DISTINCT FROM` is a synonym for `IS`.
+The literal `UNKNOWN` is permitted in `IS` / `IS NOT` expressions in place of `NULL`.
 
 * When both sides of `IS` evaluate to `NULL` it returns `TRUE`.
 * When only one side of `IS NOT` evaluates to `NULL` it returns `TRUE`,
@@ -50,10 +49,26 @@ which is the third boolean value, representing "unknown".
 
 ```sql
 SELECT * FROM products WHERE product_no IS NULL;
+SELECT * FROM products WHERE product_no IS UNKNOWN;
 SELECT * FROM products WHERE product_no IS NOT NULL;
 SELECT * FROM products WHERE product_no IS 386;
 SELECT * FROM products WHERE product_no IS NOT 444;
 ```
+
+NOTE: A `WHERE` clause of the form `<column> IS NULL` will _not_ return
+rows for which `<column>` does not exist, as positive equality is only
+tested against extant columns.
+For example, the query `SELECT * FROM products WHERE name IS NULL;` will
+not return rows for which the column `name` does not exist.
+However, `SELECT * FROM products WHERE name IS NOT NULL;` will not return
+either rows where the `name` column has a value of `NULL` or the `name`
+column is missing.
+Thus, `IS` and `IS NOT` are not symmetrical for jagged data.
+
+### IS \[NOT\] DISTINCT FROM
+
+`IS DISTINCT FROM` is a synonym for `IS NOT`.
+`IS NOT DISTINCT FROM` is a synonym for `IS`.
 
 NOTE: The `IS \[NOT\] DISTINCT FROM` form is provided for SQL specification
 compatibility and is not recommended, as it tends to be verbose and confusing.
