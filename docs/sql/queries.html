@@ -241,33 +241,6 @@ on any fields (columns) which have equivalent values.</p>
 SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 </code></pre>
 <p><code>LEFT JOIN</code>, <code>LEFT OUTER JOIN</code>, <code>INNER JOIN</code>, and <code>CROSS JOIN</code> are all supported.</p>
-<h3 id="unnest"><a class="header" href="#unnest">UNNEST</a></h3>
-<p>The <code>UNNEST</code> function can be thought of as the inverse of
-<a href="functions.html#array_agg"><code>ARRAY_AGG</code></a>,
-although it offers more power than just unlinking elements.
-It takes an array or object and pulls its elements into separate rows.</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
-</code></pre>
-<p>It is possible to unnest multiple arrays.
-If the arrays do not have the same number of elements, the shorter array(s) will
-have those values filled with <code>NULL</code>:</p>
-<pre><code class="language-sql">SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
-</code></pre>
-<p>When unnesting an object, keys-value pairs will be returned
-as per <a href="functions.html#object_entries">object_entries</a>.
-This behaviour is useful for manipulating collections:</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
--- [{'price': ['sale_price', 1.5]},
---  {'price': ['coupon_price', 1.4]},
---  {'price': ['original_price', 1.99]}]
-</code></pre>
-<h3 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h3>
-<p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
-to append an ordinal column to the results.</p>
-<pre><code class="language-sql">SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
--- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
-</code></pre>
-<p>NOTE: Endb ordinals are zero-indexed.</p>
 <h2 id="where-filtering"><a class="header" href="#where-filtering">WHERE (Filtering)</a></h2>
 <p>Rather than returning the entire table, documents (rows) can be filtered with a <code>WHERE</code> clause.</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE price &gt; 4;

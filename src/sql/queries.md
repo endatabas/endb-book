@@ -115,49 +115,6 @@ SELECT * FROM products p JOIN coupons c ON p.name = c.name;
 
 `LEFT JOIN`, `LEFT OUTER JOIN`, `INNER JOIN`, and `CROSS JOIN` are all supported.
 
-### UNNEST
-
-The `UNNEST` function can be thought of as the inverse of
-[`ARRAY_AGG`](functions.md#array_agg),
-although it offers more power than just unlinking elements.
-It takes an array or object and pulls its elements into separate rows.
-
-```sql
-SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
-```
-
-It is possible to unnest multiple arrays.
-If the arrays do not have the same number of elements, the shorter array(s) will
-have those values filled with `NULL`:
-
-```sql
-SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
-```
-
-When unnesting an object, keys-value pairs will be returned
-as per [object\_entries](functions.md#object_entries).
-This behaviour is useful for manipulating collections:
-
-```sql
-SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
--- [{'price': ['sale_price', 1.5]},
---  {'price': ['coupon_price', 1.4]},
---  {'price': ['original_price', 1.99]}]
-```
-
-### WITH ORDINALITY
-
-`UNNEST` can be suffixed with `WITH ORDINALITY`
-to append an ordinal column to the results.
-
-```sql
-SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
--- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
-```
-
-NOTE: Endb ordinals are zero-indexed.
-
-
 ## WHERE (Filtering)
 
 Rather than returning the entire table, documents (rows) can be filtered with a `WHERE` clause.
