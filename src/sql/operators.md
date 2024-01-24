@@ -33,11 +33,15 @@ NOTE: `BETWEEN` can also be used with [System Time](time_queries.md#between).
 
 ## Boolean Operators
 
-`WHERE` clauses can be modified and combined with standard SQL boolean operators:
+`WHERE` and `HAVING` clauses can be modified and combined with standard SQL boolean operators.
+
+### IS, IS NOT, IS \[NOT\] DISTINCT FROM
 
 `IS` and `IS NOT` behave like [`=` (`==`) and `<>` (`!=`)](operators.md#comparison), respectively.
 They are usually used to augment equality checks to test for `NULL`,
 which is the third boolean value, representing "unknown".
+`IS DISTINCT FROM` is a synonym for `IS NOT`.
+`IS NOT DISTINCT FROM` is a synonym for `IS`.
 
 * When both sides of `IS` evaluate to `NULL` it returns `TRUE`.
 * When only one side of `IS NOT` evaluates to `NULL` it returns `TRUE`,
@@ -47,8 +51,14 @@ which is the third boolean value, representing "unknown".
 ```sql
 SELECT * FROM products WHERE product_no IS NULL;
 SELECT * FROM products WHERE product_no IS NOT NULL;
-SELECT * FROM products WHERE product_no IS 379;
+SELECT * FROM products WHERE product_no IS 386;
+SELECT * FROM products WHERE product_no IS NOT 444;
 ```
+
+NOTE: The `IS \[NOT\] DISTINCT FROM` form is provided for SQL specification
+compatibility and is not recommended, as it tends to be verbose and confusing.
+
+### NOT, AND, OR
 
 `NOT` can be prefixed to any clause to negate it:
 

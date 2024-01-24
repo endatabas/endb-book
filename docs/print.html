@@ -987,10 +987,13 @@ SELECT * FROM products WHERE price NOT BETWEEN 2.00 AND 4.00;
 </code></pre>
 <p>NOTE: <code>BETWEEN</code> can also be used with <a href="sql/time_queries.html#between">System Time</a>.</p>
 <h2 id="boolean-operators"><a class="header" href="#boolean-operators">Boolean Operators</a></h2>
-<p><code>WHERE</code> clauses can be modified and combined with standard SQL boolean operators:</p>
+<p><code>WHERE</code> and <code>HAVING</code> clauses can be modified and combined with standard SQL boolean operators.</p>
+<h3 id="is-is-not-is-not-distinct-from"><a class="header" href="#is-is-not-is-not-distinct-from">IS, IS NOT, IS [NOT] DISTINCT FROM</a></h3>
 <p><code>IS</code> and <code>IS NOT</code> behave like <a href="sql/operators.html#comparison"><code>=</code> (<code>==</code>) and <code>&lt;&gt;</code> (<code>!=</code>)</a>, respectively.
 They are usually used to augment equality checks to test for <code>NULL</code>,
-which is the third boolean value, representing &quot;unknown&quot;.</p>
+which is the third boolean value, representing &quot;unknown&quot;.
+<code>IS DISTINCT FROM</code> is a synonym for <code>IS NOT</code>.
+<code>IS NOT DISTINCT FROM</code> is a synonym for <code>IS</code>.</p>
 <ul>
 <li>When both sides of <code>IS</code> evaluate to <code>NULL</code> it returns <code>TRUE</code>.</li>
 <li>When only one side of <code>IS NOT</code> evaluates to <code>NULL</code> it returns <code>TRUE</code>,</li>
@@ -999,8 +1002,12 @@ which is the third boolean value, representing &quot;unknown&quot;.</p>
 </ul>
 <pre><code class="language-sql">SELECT * FROM products WHERE product_no IS NULL;
 SELECT * FROM products WHERE product_no IS NOT NULL;
-SELECT * FROM products WHERE product_no IS 379;
+SELECT * FROM products WHERE product_no IS 386;
+SELECT * FROM products WHERE product_no IS NOT 444;
 </code></pre>
+<p>NOTE: The <code>IS \[NOT\] DISTINCT FROM</code> form is provided for SQL specification
+compatibility and is not recommended, as it tends to be verbose and confusing.</p>
+<h3 id="not-and-or"><a class="header" href="#not-and-or">NOT, AND, OR</a></h3>
 <p><code>NOT</code> can be prefixed to any clause to negate it:</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE NOT (name = 'Coffee');
 </code></pre>
