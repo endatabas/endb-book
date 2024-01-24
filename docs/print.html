@@ -1199,6 +1199,16 @@ If the (optional) third parameter is provided, the substring will be of that len
 <pre><code class="language-sql">SELECT SUBSTRING('Hello Edgar', 4);
 SELECT SUBSTR('Hello Edgar', 4, 2);
 </code></pre>
+<h3 id="position"><a class="header" href="#position">POSITION</a></h3>
+<p>The <code>POSITION</code> pseudo-function returns the first position of the first character of the first matched substring
+in another string.
+If the substring is not detected, <code>POSITION</code> returns <code>0</code>.</p>
+<pre><code class="language-sql">SELECT POSITION(&quot;h&quot; IN &quot;Hawaii&quot;);
+SELECT POSITION(&quot;i&quot; IN &quot;Hawaii&quot;);
+SELECT POSITION(&quot;Ha&quot; IN &quot;Hawaii&quot;);
+</code></pre>
+<p>NOTE: <code>POSITION</code> is a &quot;pseudo-function&quot; because internally it uses custom syntax of the form
+<code>&lt;substring&gt; IN &lt;string&gt;</code>.</p>
 <h3 id="unicode"><a class="header" href="#unicode">UNICODE</a></h3>
 <p>The <code>UNICODE</code> function returns an integer unicode value for the first character
 of the parameter given.</p>

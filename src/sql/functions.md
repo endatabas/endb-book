@@ -83,6 +83,21 @@ SELECT SUBSTRING('Hello Edgar', 4);
 SELECT SUBSTR('Hello Edgar', 4, 2);
 ```
 
+### POSITION
+
+The `POSITION` pseudo-function returns the first position of the first character of the first matched substring
+in another string.
+If the substring is not detected, `POSITION` returns `0`.
+
+```sql
+SELECT POSITION("h" IN "Hawaii");
+SELECT POSITION("i" IN "Hawaii");
+SELECT POSITION("Ha" IN "Hawaii");
+```
+
+NOTE: `POSITION` is a "pseudo-function" because internally it uses custom syntax of the form
+`<substring> IN <string>`.
+
 ### UNICODE
 
 The `UNICODE` function returns an integer unicode value for the first character
