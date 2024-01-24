@@ -384,6 +384,16 @@ However, Endb recursive queries are also capable of solving Sudoku puzzles and c
 (Credit goes to SQLite's delightful
 [Outlandish Recursive Query Examples](https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples).)
 
+## LATERAL
+
+Lateral queries permit access to named values from the `FROM` clause in the `SELECT` clause.
+The `LATERAL` keyword is optional in Endb as all queries are lateral queries by default.
+
+```sql
+SELECT halved FROM products, LATERAL (SELECT price / 2.0 AS halved) h;
+SELECT halved FROM products, (SELECT price / 2.0 AS halved) h;
+```
+
 ## Repeatable Reads: SAVEPOINT, ROLLBACK, RELEASE
 
 Repeatable reads are achieved in Endb by creating _savepoints_, which queries can return to later.

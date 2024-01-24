@@ -704,6 +704,12 @@ However, Endb recursive queries are also capable of solving Sudoku puzzles and c
 <a href="https://github.com/endatabas/endb/blob/main/test/sql.lisp">as seen in the test suite</a>.
 (Credit goes to SQLite's delightful
 <a href="https://www.sqlite.org/lang_with.html#outlandish_recursive_query_examples">Outlandish Recursive Query Examples</a>.)</p>
+<h2 id="lateral"><a class="header" href="#lateral">LATERAL</a></h2>
+<p>Lateral queries permit access to named values from the <code>FROM</code> clause in the <code>SELECT</code> clause.
+The <code>LATERAL</code> keyword is optional in Endb as all queries are lateral queries by default.</p>
+<pre><code class="language-sql">SELECT halved FROM products, LATERAL (SELECT price / 2.0 AS halved) h;
+SELECT halved FROM products, (SELECT price / 2.0 AS halved) h;
+</code></pre>
 <h2 id="repeatable-reads-savepoint-rollback-release"><a class="header" href="#repeatable-reads-savepoint-rollback-release">Repeatable Reads: SAVEPOINT, ROLLBACK, RELEASE</a></h2>
 <p>Repeatable reads are achieved in Endb by creating <em>savepoints</em>, which queries can return to later.
 When returning to a savepoint in the future, queries will return results according to the state
