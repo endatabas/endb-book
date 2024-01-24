@@ -189,6 +189,8 @@ SELECT * FROM avatars WHERE filename NOT GLOB '/opt/local/avatars/*/*.png';
 ```
 
 NOTE: `GLOB` is case-sensitive.
+It conforms to standard UNIX globs and thus does not support "globstar"
+(recursive directory) expansion like `**/*.png`.
 
 ## MATCH (Containment)
 
