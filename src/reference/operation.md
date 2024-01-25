@@ -10,10 +10,25 @@ $ endb --help
 Usage: endb [OPTIONS]
 
 Options:
-  -d, --data-directory <DATA_DIRECTORY>  [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
-  -p, --http-port <HTTP_PORT>            [env: ENDB_HTTP_PORT=] [default: 3803]
-      --username <USERNAME>              [env: ENDB_USERNAME=]
-      --password <PASSWORD>              [env: ENDB_PASSWORD=]
-  -h, --help                             Print help
-  -V, --version                          Print version
+  -d, --data-directory <DATA_DIRECTORY>
+          [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
+  -p, --port <PORT>
+          [env: ENDB_PORT=] [default: 3803]
+      --protocol <PROTOCOL>
+          [env: ENDB_PROTOCOL=] [default: http] [possible values: http, https]
+      --username <USERNAME>
+          [env: ENDB_USERNAME=]
+      --password <PASSWORD>
+          [env: ENDB_PASSWORD=]
+      --cert-file <CERT_FILE>
+          [env: ENDB_CERT_FILE=]
+      --key-file <KEY_FILE>
+          [env: ENDB_KEY_FILE=]
+  -h, --help
+          Print help
+  -V, --version
+          Print version
 ```
+
+The `--cert-file` and `--key-file` options are ignored when `--protocol` is set to `http`.
+When `--protocol` is set to `https`, they are both required.

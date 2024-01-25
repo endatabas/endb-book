@@ -180,13 +180,27 @@ for direct usage of the binary.</p>
 Usage: endb [OPTIONS]
 
 Options:
-  -d, --data-directory &lt;DATA_DIRECTORY&gt;  [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
-  -p, --http-port &lt;HTTP_PORT&gt;            [env: ENDB_HTTP_PORT=] [default: 3803]
-      --username &lt;USERNAME&gt;              [env: ENDB_USERNAME=]
-      --password &lt;PASSWORD&gt;              [env: ENDB_PASSWORD=]
-  -h, --help                             Print help
-  -V, --version                          Print version
+  -d, --data-directory &lt;DATA_DIRECTORY&gt;
+          [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
+  -p, --port &lt;PORT&gt;
+          [env: ENDB_PORT=] [default: 3803]
+      --protocol &lt;PROTOCOL&gt;
+          [env: ENDB_PROTOCOL=] [default: http] [possible values: http, https]
+      --username &lt;USERNAME&gt;
+          [env: ENDB_USERNAME=]
+      --password &lt;PASSWORD&gt;
+          [env: ENDB_PASSWORD=]
+      --cert-file &lt;CERT_FILE&gt;
+          [env: ENDB_CERT_FILE=]
+      --key-file &lt;KEY_FILE&gt;
+          [env: ENDB_KEY_FILE=]
+  -h, --help
+          Print help
+  -V, --version
+          Print version
 </code></pre>
+<p>The <code>--cert-file</code> and <code>--key-file</code> options are ignored when <code>--protocol</code> is set to <code>http</code>.
+When <code>--protocol</code> is set to <code>https</code>, they are both required.</p>
 
                     </main>
 

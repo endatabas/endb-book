@@ -1846,10 +1846,29 @@ Column names are listed in parentheses after the view name.</p>
 <h2 id="create-assertion"><a class="header" href="#create-assertion">CREATE ASSERTION</a></h2>
 <p>Creates a checked, deferred assertion which executes on commit
 for inserts and updates.
-Although <code>CREATE ASSERTION</code> (normally) needs to refer to the table
+Although <code>CREATE ASSERTION</code> (normally) refers to the table
 it is asserting on, that table need not exist for the assertion to be created.</p>
+<h3 id="type-constraint"><a class="header" href="#type-constraint">Type Constraint</a></h3>
 <pre><code class="language-sql">CREATE ASSERTION string_email CHECK (NOT EXISTS (SELECT * FROM users WHERE TYPEOF(email) != 'text'));
 INSERT INTO users {name: 'Steven', email: 123};
+</code></pre>
+<h3 id="unique-constraint"><a class="header" href="#unique-constraint">Unique Constraint</a></h3>
+<p>There are a number of possible ways to create the equivalent of a <code>UNIQUE</code> constraint,
+as found in schema-on-write databases.
+One sensible approach is given below.</p>
+<pre><code class="language-sql">CREATE ASSERTION unique_email CHECK (1 &gt;= (SELECT MAX(c.cnt) FROM (SELECT COUNT(*) AS cnt FROM users GROUP BY email) AS c));
+INSERT INTO users {name: 'Steven', 's@endatabas.com'};
+INSERT INTO users {name: 'Sarah', 's@endatabas.com'};
+</code></pre>
+<h3 id="not-null-constraint"><a class="header" href="#not-null-constraint">Not Null Constraint</a></h3>
+<p>There are multiple possible meanings to &quot;not null&quot; columns in Endb:
+Columns can be strictly checked for literal <code>NULL</code> in the value position.
+Rows can be forbidden from eliding a column (a missing value).
+Both literal <code>NULL</code> and elided columns can both be prevented.</p>
+<p>This example checks for literal <code>NULL</code> only:</p>
+<pre><code class="language-sql">CREATE ASSERTION notnull_email CHECK (NOT EXISTS (SELECT * FROM users WHERE email IS NULL));
+INSERT INTO users {name: 'Tian Tian', email: NULL}; -- check fails
+INSERT INTO users {name: 'Tian Tian'}; -- permitted
 </code></pre>
 <h2 id="drop-assertion"><a class="header" href="#drop-assertion">DROP ASSERTION</a></h2>
 <p>Removes an assertion from the database based on its name.</p>
@@ -1910,13 +1929,27 @@ for direct usage of the binary.</p>
 Usage: endb [OPTIONS]
 
 Options:
-  -d, --data-directory &lt;DATA_DIRECTORY&gt;  [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
-  -p, --http-port &lt;HTTP_PORT&gt;            [env: ENDB_HTTP_PORT=] [default: 3803]
-      --username &lt;USERNAME&gt;              [env: ENDB_USERNAME=]
-      --password &lt;PASSWORD&gt;              [env: ENDB_PASSWORD=]
-  -h, --help                             Print help
-  -V, --version                          Print version
+  -d, --data-directory &lt;DATA_DIRECTORY&gt;
+          [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
+  -p, --port &lt;PORT&gt;
+          [env: ENDB_PORT=] [default: 3803]
+      --protocol &lt;PROTOCOL&gt;
+          [env: ENDB_PROTOCOL=] [default: http] [possible values: http, https]
+      --username &lt;USERNAME&gt;
+          [env: ENDB_USERNAME=]
+      --password &lt;PASSWORD&gt;
+          [env: ENDB_PASSWORD=]
+      --cert-file &lt;CERT_FILE&gt;
+          [env: ENDB_CERT_FILE=]
+      --key-file &lt;KEY_FILE&gt;
+          [env: ENDB_KEY_FILE=]
+  -h, --help
+          Print help
+  -V, --version
+          Print version
 </code></pre>
+<p>The <code>--cert-file</code> and <code>--key-file</code> options are ignored when <code>--protocol</code> is set to <code>http</code>.
+When <code>--protocol</code> is set to <code>https</code>, they are both required.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="http-api"><a class="header" href="#http-api">HTTP API</a></h1>
 <p>At this experimental stage, only raw HTTP drivers are available.
 Any HTTP client may be used but in the examples below, we'll use <code>curl</code>.</p>
