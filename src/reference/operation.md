@@ -10,24 +10,20 @@ $ endb --help
 Usage: endb [OPTIONS]
 
 Options:
-  -d, --data-directory <DATA_DIRECTORY>
-          [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
-  -p, --port <PORT>
-          [env: ENDB_PORT=] [default: 3803]
-      --protocol <PROTOCOL>
-          [env: ENDB_PROTOCOL=] [default: http] [possible values: http, https]
-      --username <USERNAME>
-          [env: ENDB_USERNAME=]
-      --password <PASSWORD>
-          [env: ENDB_PASSWORD=]
-      --cert-file <CERT_FILE>
-          [env: ENDB_CERT_FILE=]
-      --key-file <KEY_FILE>
-          [env: ENDB_KEY_FILE=]
-  -h, --help
-          Print help
-  -V, --version
-          Print version
+  -d, --data-directory <DATA_DIRECTORY>  [env: ENDB_DATA_DIRECTORY=] [default: endb_data]
+  -h, --help                             Print help
+  -V, --version                          Print version
+
+Authentication:
+      --username <USERNAME>  [env: ENDB_USERNAME=]
+      --password <PASSWORD>  [env: ENDB_PASSWORD=]
+
+Network:
+  -p, --port <PORT>                  [env: ENDB_PORT=] [default: 3803]
+      --bind-address <BIND_ADDRESS>  [env: ENDB_BIND_ADDRESS=] [default: 0.0.0.0]
+      --protocol <PROTOCOL>          [env: ENDB_PROTOCOL=] [default: http] [possible values: http, https]
+      --cert-file <CERT_FILE>        [env: ENDB_CERT_FILE=]
+      --key-file <KEY_FILE>          [env: ENDB_KEY_FILE=]
 ```
 
 The `--cert-file` and `--key-file` options are ignored when `--protocol` is set to `http`.
