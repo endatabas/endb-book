@@ -1953,10 +1953,10 @@ When <code>--protocol</code> is set to <code>https</code>, they are both require
 Set flags by setting the environment variable to <code>0</code> or <code>1</code>
 (ex. <code>ENDB_LOG_ANSI=0</code>).</p>
 <h2 id="logging"><a class="header" href="#logging">Logging</a></h2>
-<p>By default, <code>endb</code> logs to STDOUT with a log level of <code>info</code>.</p>
+<p>By default, <code>endb</code> logs to STDOUT with a log level of <code>endb=INFO</code>.</p>
 <p>Adjust the log level with the <code>ENDB_LOG_LEVEL</code> environment variable.
-Valid log levels (in increasing level of verbosity and decreasing level of fatality)
-are: <code>fatal</code>, <code>error</code>, <code>warn</code>, <code>info</code>, <code>debug</code>, <code>trace</code>.</p>
+Endb uses <a href="https://docs.rs/env_logger/latest/env_logger/#enabling-logging">Rust Logging</a>
+and more details about log levels are available in that document.</p>
 <p>Other flags include:</p>
 <ul>
 <li><code>ENDB_LOG_ANSI</code> - turns ANSI terminal colour output on or off (on by default)</li>
@@ -1966,17 +1966,20 @@ are: <code>fatal</code>, <code>error</code>, <code>warn</code>, <code>info</code
 <pre><code class="language-sh">docker run --rm -e ENDB_LOG_LEVEL=debug -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THREAD_IDS=1 -p 3803:3803 -v demo_data:/app/endb_data docker.io/endatabas/endb:latest
 </code></pre>
 <h2 id="prometheus"><a class="header" href="#prometheus">Prometheus</a></h2>
-<p>A Prometheus endpoint at <code>/metrics</code> is provided via an OpenTelemetry Prometheus Exporter.
-This endpoint is enabled by default and OpenTelemetry does not need to be enabled
-to access it.
+<p>A Prometheus endpoint is available at <code>/metrics</code>.
+This endpoint is enabled by default.
 If you Endb instance is running locally, you can view metrics in a browser at
 http://localhost:3803/metrics</p>
 <p>The Prometheus exporter tracing level defaults to <code>debug</code>.
-Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.</p>
+Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.
+The default tracing level is <code>endb=DEBUG</code>.</p>
 <h2 id="opentelemetry"><a class="header" href="#opentelemetry">OpenTelemetry</a></h2>
-<p>To enable OpenTelemetry, set the <code>ENDB_TRACING_OTEL</code> flag.</p>
+<p>To enable OpenTelemetry, set the <code>ENDB_TRACING_OTEL</code> flag and
+<a href="https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/">configure an OpenTelemetry endpoint</a>.</p>
 <p>The OpenTelemetry tracing level defaults to <code>debug</code>.
-Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.</p>
+Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.
+The default tracing level is <code>endb=DEBUG</code>.</p>
+<p>At the moment, only gRPC metrics are exposed, not HTTP.</p>
 <h2 id="metrics"><a class="header" href="#metrics">Metrics</a></h2>
 <p>Endb exposes a number of metrics to the Prometheus endpoint and OpenTelemetry.
 These can be useful in debugging performance of applications which use Endb

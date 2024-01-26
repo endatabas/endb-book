@@ -6,11 +6,11 @@ Set flags by setting the environment variable to `0` or `1`
 
 ## Logging
 
-By default, `endb` logs to STDOUT with a log level of `info`.
+By default, `endb` logs to STDOUT with a log level of `endb=INFO`.
 
 Adjust the log level with the `ENDB_LOG_LEVEL` environment variable.
-Valid log levels (in increasing level of verbosity and decreasing level of fatality)
-are: `fatal`, `error`, `warn`, `info`, `debug`, `trace`.
+Endb uses [Rust Logging](https://docs.rs/env_logger/latest/env_logger/#enabling-logging)
+and more details about log levels are available in that document.
 
 Other flags include:
 
@@ -25,21 +25,25 @@ docker run --rm -e ENDB_LOG_LEVEL=debug -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THREAD_ID
 
 ## Prometheus
 
-A Prometheus endpoint at `/metrics` is provided via an OpenTelemetry Prometheus Exporter.
-This endpoint is enabled by default and OpenTelemetry does not need to be enabled
-to access it.
+A Prometheus endpoint is available at `/metrics`.
+This endpoint is enabled by default.
 If you Endb instance is running locally, you can view metrics in a browser at
 http://localhost:3803/metrics
 
 The Prometheus exporter tracing level defaults to `debug`.
 Set the tracing level with `ENDB_TRACING_LEVEL`.
+The default tracing level is `endb=DEBUG`.
 
 ## OpenTelemetry
 
-To enable OpenTelemetry, set the `ENDB_TRACING_OTEL` flag.
+To enable OpenTelemetry, set the `ENDB_TRACING_OTEL` flag and
+[configure an OpenTelemetry endpoint](https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/).
 
 The OpenTelemetry tracing level defaults to `debug`.
 Set the tracing level with `ENDB_TRACING_LEVEL`.
+The default tracing level is `endb=DEBUG`.
+
+At the moment, only gRPC metrics are exposed, not HTTP.
 
 ## Metrics
 
