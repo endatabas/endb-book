@@ -3,7 +3,8 @@
 The `endb` executable aims to provide self-explanatory help
 for direct usage of the binary.
 
-By default, `endb` logs to STDOUT.
+See [Monitoring](monitoring.md) for more information about logging,
+metrics, and tracing.
 
 ```
 $ endb --help

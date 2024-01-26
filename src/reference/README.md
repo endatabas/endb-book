@@ -5,5 +5,6 @@ It does not need to be read from beginning to end.
 
 - [Installation](installation.md)
 - [Operation](operation.md)
+- [Monitoring](monitoring.md)
 - [HTTP API](http_api.md)
 - [Data Types](data_types.md)
