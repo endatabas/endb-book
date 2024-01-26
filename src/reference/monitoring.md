@@ -49,7 +49,7 @@ Endb exposes a number of metrics to the Prometheus endpoint and OpenTelemetry.
 These can be useful in debugging performance of applications which use Endb
 as a database.
 
-### Performance (Histogram)
+### Histograms
 
 * `query_real_time_duration_seconds`
 * `query_gc_run_time_duration_seconds`
