@@ -1963,22 +1963,20 @@ and more details about log levels are available in that document.</p>
 <li><code>ENDB_LOG_THREAD_IDS</code> - set to enable or disable logging of thread ids (enabled by default)</li>
 </ul>
 <p>Example:</p>
-<pre><code class="language-sh">docker run --rm -e ENDB_LOG_LEVEL=debug -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THREAD_IDS=1 -p 3803:3803 -v demo_data:/app/endb_data docker.io/endatabas/endb:latest
+<pre><code class="language-sh">docker run --rm -e ENDB_LOG_LEVEL=endb=DEBUG -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THREAD_IDS=1 -p 3803:3803 -v demo_data:/app/endb_data docker.io/endatabas/endb:latest
 </code></pre>
 <h2 id="prometheus"><a class="header" href="#prometheus">Prometheus</a></h2>
 <p>A Prometheus endpoint is available at <code>/metrics</code>.
 This endpoint is enabled by default.
 If you Endb instance is running locally, you can view metrics in a browser at
 http://localhost:3803/metrics</p>
-<p>The Prometheus exporter tracing level defaults to <code>debug</code>.
-Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.
-The default tracing level is <code>endb=DEBUG</code>.</p>
+<p>The Prometheus tracing level defaults to <code>endb=DEBUG</code>.
+Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.</p>
 <h2 id="opentelemetry"><a class="header" href="#opentelemetry">OpenTelemetry</a></h2>
 <p>To enable OpenTelemetry, set the <code>ENDB_TRACING_OTEL</code> flag and
 <a href="https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/">configure an OpenTelemetry endpoint</a>.</p>
-<p>The OpenTelemetry tracing level defaults to <code>debug</code>.
-Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.
-The default tracing level is <code>endb=DEBUG</code>.</p>
+<p>The OpenTelemetry tracing level defaults to <code>endb=DEBUG</code>.
+Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.</p>
 <p>At the moment, only gRPC metrics are exposed, not HTTP.</p>
 <h2 id="metrics"><a class="header" href="#metrics">Metrics</a></h2>
 <p>Endb exposes a number of metrics to the Prometheus endpoint and OpenTelemetry.
@@ -2011,7 +2009,7 @@ as a database.</p>
 <li><code>wal_written_bytes_total</code></li>
 </ul>
 <h2 id="tracing"><a class="header" href="#tracing">Tracing</a></h2>
-<p>Endb exposes a variety of tracing spans to the Prometheus endpoint and OpenTelemetry.
+<p>Endb exposes a variety of tracing spans to OpenTelemetry.
 Tracing data is mostly useful if your Endb instance is not performing in the way you expect.</p>
 <ul>
 <li><code>buffer_pool_eviction</code></li>

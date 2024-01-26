@@ -20,7 +20,7 @@ Other flags include:
 Example:
 
 ```sh
-docker run --rm -e ENDB_LOG_LEVEL=debug -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THREAD_IDS=1 -p 3803:3803 -v demo_data:/app/endb_data docker.io/endatabas/endb:latest
+docker run --rm -e ENDB_LOG_LEVEL=endb=DEBUG -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THREAD_IDS=1 -p 3803:3803 -v demo_data:/app/endb_data docker.io/endatabas/endb:latest
 ```
 
 ## Prometheus
@@ -30,18 +30,16 @@ This endpoint is enabled by default.
 If you Endb instance is running locally, you can view metrics in a browser at
 http://localhost:3803/metrics
 
-The Prometheus exporter tracing level defaults to `debug`.
+The Prometheus tracing level defaults to `endb=DEBUG`.
 Set the tracing level with `ENDB_TRACING_LEVEL`.
-The default tracing level is `endb=DEBUG`.
 
 ## OpenTelemetry
 
 To enable OpenTelemetry, set the `ENDB_TRACING_OTEL` flag and
 [configure an OpenTelemetry endpoint](https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/).
 
-The OpenTelemetry tracing level defaults to `debug`.
+The OpenTelemetry tracing level defaults to `endb=DEBUG`.
 Set the tracing level with `ENDB_TRACING_LEVEL`.
-The default tracing level is `endb=DEBUG`.
 
 At the moment, only gRPC metrics are exposed, not HTTP.
 
@@ -79,7 +77,7 @@ as a database.
 
 ## Tracing
 
-Endb exposes a variety of tracing spans to the Prometheus endpoint and OpenTelemetry.
+Endb exposes a variety of tracing spans to OpenTelemetry.
 Tracing data is mostly useful if your Endb instance is not performing in the way you expect.
 
 * `buffer_pool_eviction`
