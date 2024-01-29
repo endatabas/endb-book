@@ -384,6 +384,8 @@ Savepoints can be forcibly expired with `RELEASE`.
 Attempting to use a savepoint that has been expired or released will return
 `No active savepoint: <savepoint>`.
 
+NOTE: Repeatable reads are only available to the [HTTP API](../reference/http_api.md).
+
 ### Minimal Example
 
 Other SQL dialects have more transaction-specific semantics for `SAVEPOINT`, `ROLLBACK`, and
@@ -401,7 +403,8 @@ INSERT INTO dungeons {name: 'Tower of Hera'};
 ROLLBACK TO desert_palace; SELECT * FROM dungeons;
 ```
 
-NOTE: The `ROLLBACK` and `SELECT` above must be executed together, in the same transaction.
+NOTE: The `ROLLBACK` and `SELECT` above must be executed together,
+in the same stateless "transaction".
 (Normally this will mean executing both statements in a single HTTP request.)
 
 ### SAVEPOINT
@@ -420,8 +423,8 @@ SAVEPOINT;
 
 ### ROLLBACK
 
-Inside the scope of a transaction (normally a single HTTP request), `ROLLBACK` is used to
-return to a savepoint.
+Inside the scope of a stateless "transaction" (normally a single HTTP request),
+`ROLLBACK` is used to return to a savepoint.
 `ROLLBACK TO <savepoint>` returns to a named savepoint (by name) or an anonymous savepoint
 (by string UUID).
 When used without a savepoint name, `ROLLBACK` returns to the last anonymous savepoint.
@@ -444,3 +447,55 @@ Anonymous savepoints can be released by string UUID.
 RELEASE desert_palace;
 RELEASE 'f7c314dd-47b9-4c85-9502-b8e35c82b935';
 ```
+
+## Transactions
+
+Standard SQL keywords are used to begin, commit, and rollback explicit transactions.
+
+NOTE: Explicit transactions are only available to the
+[WebSocket API](../reference/websocket_api.md).
+
+### Minimal Example
+
+This minimal example assumes a connection via the WebSocket API.
+
+```sh
+BEGIN;
+INSERT INTO dungeons {name: 'Dark Palace'};
+INSERT INTO dungeons {name: 'Swamp Palace'};
+INSERT INTO dungeons {name: 'Skull Woods'};
+ROLLBACK;
+SELECT * FROM dungeons;
+```
+
+### BEGIN \[TRANSACTION\]
+
+The `BEGIN` keyword starts a new transaction.
+
+```sql
+BEGIN TRANSACTION;
+```
+
+### COMMIT \[TRANSACTION\]
+
+The `COMMIT` keyword commits the open transaction to disk.
+`END` is a synonym for `COMMIT`.
+
+```sql
+COMMIT TRANSACTION;
+```
+
+### ROLLBACK \[TRANSACTION\]
+
+The `ROLLBACK` keyword throws away any uncommitted changes
+since the transaction began.
+
+```sql
+ROLLBACK TRANSACTION;
+```
+
+NOTE: The `ROLLBACK` keyword should not be confused with the
+[`ROLLBACK` keyword for savepoints](queries.md#rollback).
+Both can be called without mentioning a savepoint or transaction,
+but their behaviour differs based on whether the client is in
+an explicit transaction or not.

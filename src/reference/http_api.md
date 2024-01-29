@@ -1,7 +1,10 @@
 # HTTP API
 
-At this experimental stage, only raw HTTP drivers are available.
-Any HTTP client may be used but in the examples below, we'll use `curl`.
+If a [client](https://github.com/endatabas/endb/tree/main/examples) is
+not available for your programming language yet, your app can interact
+directly with the Endb HTTP API.
+Any HTTP client may be used but in the examples below, we'll use `curl`
+to demonstrate the API without writing any code.
 
 You can send SQL statements to `endb` over HTTP:
 
@@ -20,7 +23,7 @@ The query parameters Endb's HTTP endpoint accepts are:
 
 * `q` - (q)uery: a SQL query, optionally parameterized
 * `p` - (p)arameters: named or positional [parameters](http_api.md#parameters)
-* `m` - (m)ultiple statements: [bulk parameters](http_api.md#bulk-parameters), used for bulk insert/update
+* `m` - (m)any parameter lists: [bulk parameters](http_api.md#bulk-parameters), used for bulk insert/update
 
 ## HTTP Verbs
 
@@ -260,7 +263,7 @@ by the parameter values, in the order they appear.
 Positional parameters are respresented as a JSON array.
 
 ```sh
-curl -d '{"q": "SELECT * from products WHERE name = ? AND price > ?;", "p": ["Salt", 3.99]}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
+curl -d '{"q": "SELECT * FROM products WHERE name = ? AND price > ?;", "p": ["Salt", 3.99]}' -H "Content-Type: application/json" -X POST http://localhost:3803/sql
 curl -d '{"q": "INSERT INTO events {start: ?};", "p": [{"@type": "xsd:dateTime", "@value": "2011-04-09T20:00:00Z"}]}' -H "Content-Type: application/ld+json" -X POST http://localhost:3803/sql
 curl -F q="INSERT INTO products {name: ?};" -F p='["Sriracha"]' -X POST http://localhost:3803/sql
 ```

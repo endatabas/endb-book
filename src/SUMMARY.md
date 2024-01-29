@@ -23,6 +23,7 @@
     - [Operation](./reference/operation.md)
     - [Monitoring](./reference/monitoring.md)
     - [HTTP API](./reference/http_api.md)
+    - [WebSocket API](./reference/websocket_api.md)
     - [Data Types](./reference/data_types.md)
 - [Appendix](./appendix/README.md)
     - [What?](./appendix/what.md)
