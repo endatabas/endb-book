@@ -3,7 +3,7 @@
 If a [client](https://github.com/endatabas/endb/tree/main/examples) is
 not available for your programming language yet, your app can interact
 directly with the Endb HTTP API.
-Any HTTP client may be used but in the examples below, we'll use `curl`
+Any HTTP client may be used but in the examples below we'll use `curl`
 to demonstrate the API without writing any code.
 
 You can send SQL statements to `endb` over HTTP:

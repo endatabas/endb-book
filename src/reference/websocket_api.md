@@ -3,21 +3,27 @@
 If a [client](https://github.com/endatabas/endb/tree/main/examples) is
 not available for your programming language yet, your app can interact
 directly with the Endb WebSocket API.
-Any WebSocket client can be used but in the examples below, we'll use
+Any WebSocket client can be used but in the examples below we'll use
 [`websocat`](https://github.com/vi/websocat#installation) to demonstrate
 the API without writing any code.
+Connect to Endb with:
+
+```sh
+websocat ws://localhost:3803/sql
+```
 
 You can send SQL statements to `endb` over
 [WebSockets](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
-with [JSON-RPC 2.0](https://www.jsonrpc.org/specification):
+with [JSON-RPC 2.0](https://www.jsonrpc.org/specification).
 
-```sh
-$ websocat ws://localhost:3803/sql
+```json
 {"jsonrpc": "2.0", "id": 1, "method": "sql", "params": {"q": "INSERT INTO users (name) VALUES (?);", "p": [["Tsehay"], ["Iniku"]], "m": true}}
 {"jsonrpc": "2.0", "id": 2, "method": "sql", "params": {"q": "SELECT * FROM users;", "p": [], "m": false}}
 ```
 
-NOTE: Further examples will assume JSON-RPC strings are sent in an existing
+NOTE: To send the method calls above, paste them into a `websocat`
+session one-at-a-time and press `<enter>`.
+Further examples will assume JSON-RPC strings are sent in an existing
 `websocat` session.
 
 ## JSON-RPC Request Object

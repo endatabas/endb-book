@@ -176,7 +176,7 @@
 <p>If a <a href="https://github.com/endatabas/endb/tree/main/examples">client</a> is
 not available for your programming language yet, your app can interact
 directly with the Endb HTTP API.
-Any HTTP client may be used but in the examples below, we'll use <code>curl</code>
+Any HTTP client may be used but in the examples below we'll use <code>curl</code>
 to demonstrate the API without writing any code.</p>
 <p>You can send SQL statements to <code>endb</code> over HTTP:</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql

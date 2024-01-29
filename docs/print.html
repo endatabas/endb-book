@@ -2071,7 +2071,7 @@ Tracing data is mostly useful if your Endb instance is not performing in the way
 <p>If a <a href="https://github.com/endatabas/endb/tree/main/examples">client</a> is
 not available for your programming language yet, your app can interact
 directly with the Endb HTTP API.
-Any HTTP client may be used but in the examples below, we'll use <code>curl</code>
+Any HTTP client may be used but in the examples below we'll use <code>curl</code>
 to demonstrate the API without writing any code.</p>
 <p>You can send SQL statements to <code>endb</code> over HTTP:</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
@@ -2289,17 +2289,21 @@ statements with <code>curl</code>.</p>
 <p>If a <a href="https://github.com/endatabas/endb/tree/main/examples">client</a> is
 not available for your programming language yet, your app can interact
 directly with the Endb WebSocket API.
-Any WebSocket client can be used but in the examples below, we'll use
+Any WebSocket client can be used but in the examples below we'll use
 <a href="https://github.com/vi/websocat#installation"><code>websocat</code></a> to demonstrate
-the API without writing any code.</p>
+the API without writing any code.
+Connect to Endb with:</p>
+<pre><code class="language-sh">websocat ws://localhost:3803/sql
+</code></pre>
 <p>You can send SQL statements to <code>endb</code> over
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API">WebSockets</a>
-with <a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0</a>:</p>
-<pre><code class="language-sh">$ websocat ws://localhost:3803/sql
-{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: 1, &quot;method&quot;: &quot;sql&quot;, &quot;params&quot;: {&quot;q&quot;: &quot;INSERT INTO users (name) VALUES (?);&quot;, &quot;p&quot;: [[&quot;Tsehay&quot;], [&quot;Iniku&quot;]], &quot;m&quot;: true}}
+with <a href="https://www.jsonrpc.org/specification">JSON-RPC 2.0</a>.</p>
+<pre><code class="language-json">{&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: 1, &quot;method&quot;: &quot;sql&quot;, &quot;params&quot;: {&quot;q&quot;: &quot;INSERT INTO users (name) VALUES (?);&quot;, &quot;p&quot;: [[&quot;Tsehay&quot;], [&quot;Iniku&quot;]], &quot;m&quot;: true}}
 {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: 2, &quot;method&quot;: &quot;sql&quot;, &quot;params&quot;: {&quot;q&quot;: &quot;SELECT * FROM users;&quot;, &quot;p&quot;: [], &quot;m&quot;: false}}
 </code></pre>
-<p>NOTE: Further examples will assume JSON-RPC strings are sent in an existing
+<p>NOTE: To send the method calls above, paste them into a <code>websocat</code>
+session one-at-a-time and press <code>&lt;enter&gt;</code>.
+Further examples will assume JSON-RPC strings are sent in an existing
 <code>websocat</code> session.</p>
 <h2 id="json-rpc-request-object"><a class="header" href="#json-rpc-request-object">JSON-RPC Request Object</a></h2>
 <p>Following the JSON-RPC 2.0 spec, a SQL statement or query
