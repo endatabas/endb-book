@@ -1,15 +1,20 @@
 # Installation
 
-At this stage, Endatabas is highly experimental.
-We do not push images to Docker Hub often.
-We recommend building the local Docker image if you want a recent version.
+At this stage, Endatabas is experimental.
+If you would like to follow development closely, we recommend installing
+nightly Docker builds or building from source.
 
-You only need one of the following options.
+You only need one of the following installation options.
 If you followed the Quickstart, you already have the Docker Hub version installed.
 
 {{#include ../alpha-warning.md}}
 
 ## Installing from Docker Hub
+
+There are two major release channels available:
+stable and nightly.
+To run the nightly builds, replace `endatabas/endb` with `endatabas/endb:nightly`
+in the commands below.
 
 If you run Docker, you can use the default command below.
 `--rm` cleans up (optional), `-p` exposes the default `endb` port,

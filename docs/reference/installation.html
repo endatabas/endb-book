@@ -173,16 +173,20 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
-<p>At this stage, Endatabas is highly experimental.
-We do not push images to Docker Hub often.
-We recommend building the local Docker image if you want a recent version.</p>
-<p>You only need one of the following options.
+<p>At this stage, Endatabas is experimental.
+If you would like to follow development closely, we recommend installing
+nightly Docker builds or building from source.</p>
+<p>You only need one of the following installation options.
 If you followed the Quickstart, you already have the Docker Hub version installed.</p>
 <h2 id="warning-early-alpha"><a class="header" href="#warning-early-alpha">Warning: Early Alpha</a></h2>
 <p>Endb is still in early alpha.</p>
 <p>While in alpha, new versions are not guaranteed to have binary-compatible storage with previous versions.
 We encourage you to experiment with Endb but please do not use it in production until a General Availability release.</p>
 <h2 id="installing-from-docker-hub"><a class="header" href="#installing-from-docker-hub">Installing from Docker Hub</a></h2>
+<p>There are two major release channels available:
+stable and nightly.
+To run the nightly builds, replace <code>endatabas/endb</code> with <code>endatabas/endb:nightly</code>
+in the commands below.</p>
 <p>If you run Docker, you can use the default command below.
 <code>--rm</code> cleans up (optional), <code>-p</code> exposes the default <code>endb</code> port,
 and <code>-v</code> mounts a local volume so your data persists even if you shut down the Docker image.</p>
