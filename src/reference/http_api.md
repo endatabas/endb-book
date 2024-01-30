@@ -177,6 +177,27 @@ returns:
 
 See [JSON-LD](https://json-ld.org/).
 
+### multipart/mixed
+
+`multipart/mixed` returns documents as a valid `multipart/mixed` response,
+albeit all as LD-JSON.
+This Accept Header exists for compatibility with browsers.
+
+```sh
+curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: multipart/mixed" -X POST http://localhost:3803/sql
+```
+
+returns:
+
+```
+--369d7885-c6e9-4b01-93c9-9449a5fcd637
+Content-Type: application/ld+json
+
+{"@context":{"xsd":"http://www.w3.org/2001/XMLSchema#","@vocab":"http://endb.io/"},"@graph":[{"column1":2,"column2":{"@value":"2023-07-22","@type":"xsd:date"}},{"column1":1,"column2":"hello"}]}
+
+--369d7885-c6e9-4b01-93c9-9449a5fcd637--
+```
+
 ### application/vnd.apache.arrow.file
 
 `application/vnd.apache.arrow.file` returns columnar data as an Apache Arrow file.

@@ -2237,6 +2237,20 @@ JSON documents cannot guarantee column order.</p>
 <pre><code class="language-json">{&quot;@context&quot;:{&quot;xsd&quot;:&quot;http://www.w3.org/2001/XMLSchema#&quot;,&quot;@vocab&quot;:&quot;http://endb.io/&quot;},&quot;@graph&quot;:[{&quot;column1&quot;:2,&quot;column2&quot;:{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}},{&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}]}
 </code></pre>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
+<h3 id="multipartmixed"><a class="header" href="#multipartmixed">multipart/mixed</a></h3>
+<p><code>multipart/mixed</code> returns documents as a valid <code>multipart/mixed</code> response,
+albeit all as LD-JSON.
+This Accept Header exists for compatibility with browsers.</p>
+<pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: multipart/mixed&quot; -X POST http://localhost:3803/sql
+</code></pre>
+<p>returns:</p>
+<pre><code>--369d7885-c6e9-4b01-93c9-9449a5fcd637
+Content-Type: application/ld+json
+
+{&quot;@context&quot;:{&quot;xsd&quot;:&quot;http://www.w3.org/2001/XMLSchema#&quot;,&quot;@vocab&quot;:&quot;http://endb.io/&quot;},&quot;@graph&quot;:[{&quot;column1&quot;:2,&quot;column2&quot;:{&quot;@value&quot;:&quot;2023-07-22&quot;,&quot;@type&quot;:&quot;xsd:date&quot;}},{&quot;column1&quot;:1,&quot;column2&quot;:&quot;hello&quot;}]}
+
+--369d7885-c6e9-4b01-93c9-9449a5fcd637--
+</code></pre>
 <h3 id="applicationvndapachearrowfile"><a class="header" href="#applicationvndapachearrowfile">application/vnd.apache.arrow.file</a></h3>
 <p><code>application/vnd.apache.arrow.file</code> returns columnar data as an Apache Arrow file.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.file&quot; -X POST http://localhost:3803/sql --output hello.arrow
@@ -2247,7 +2261,7 @@ You can examine the file with functions like
 as seen in <a href="https://gist.github.com/deobald/a65ca0f57d66041bf66d41d0509a981f">this gist</a>.</p>
 <h3 id="applicationvndapachearrowstream"><a class="header" href="#applicationvndapachearrowstream">application/vnd.apache.arrow.stream</a></h3>
 <p><code>application/vnd.apache.arrow.stream</code> returns columnar data as an Apache Arrow stream.</p>
-<pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.stream&quot; -X POST http://localhost:3803/sql --output streamed.arrow
+<pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: application/vnd.apache.arrow.stream&quot; -X POST http://localhost:3803/sql --output streamed.arrows
 </code></pre>
 <p>The above command returns a file containing an Apache Arrow IPC stream.
 You can examine the file with functions like
