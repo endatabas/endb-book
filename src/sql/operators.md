@@ -219,6 +219,9 @@ SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 NOTE: The `@>` operator is a synonym for `MATCH`.
 It is provided as a convenience for users accustomed to the equivalent
 [JSON Containment Operator in Postgres](https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT).
+It also has a symmetric operator, `<@`, which returns `TRUE` if the value on the right
+contains the value on the left, at the top level.
+No symmetric keyword exists for `MATCH`.
 
 ## ANY, SOME
 

@@ -329,7 +329,10 @@ SELECT {a: [1, 2, {c: 3, x: 4}], c: 'b'} MATCH {a: [{x: 4}, 3]};
 </code></pre>
 <p>NOTE: The <code>@&gt;</code> operator is a synonym for <code>MATCH</code>.
 It is provided as a convenience for users accustomed to the equivalent
-<a href="https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT">JSON Containment Operator in Postgres</a>.</p>
+<a href="https://www.postgresql.org/docs/current/datatype-json.html#JSON-CONTAINMENT">JSON Containment Operator in Postgres</a>.
+It also has a symmetric operator, <code>&lt;@</code>, which returns <code>TRUE</code> if the value on the right
+contains the value on the left, at the top level.
+No symmetric keyword exists for <code>MATCH</code>.</p>
 <h2 id="any-some"><a class="header" href="#any-some">ANY, SOME</a></h2>
 <p><code>SOME</code> is a synonym for <code>ANY</code>.
 <code>ANY</code> qualifies a subquery by comparing a single column or literal value with the result of that subquery.
