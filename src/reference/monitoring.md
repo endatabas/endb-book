@@ -1,5 +1,9 @@
 # Monitoring
 
+Endb exposes plaintext logs, Prometheus metrics,
+and optional OpenTelemetry tracing.
+Any one, or a combination, of these can be used to monitor an Endb instance.
+
 Some monitoring options are offered as flags.
 Set flags by setting the environment variable to `0` or `1`
 (ex. `ENDB_LOG_ANSI=0`).
@@ -27,7 +31,7 @@ docker run --rm -e ENDB_LOG_LEVEL=endb=DEBUG -e ENDB_LOG_ANSI=0 -e ENDB_LOG_THRE
 
 A Prometheus endpoint is available at `/metrics`.
 This endpoint is enabled by default.
-If you Endb instance is running locally, you can view metrics in a browser at
+If your Endb instance is running locally, you can view metrics in a browser at
 http://localhost:3803/metrics
 
 The Prometheus tracing level defaults to `endb=DEBUG`.
@@ -46,8 +50,7 @@ At the moment, only gRPC metrics are exposed, not HTTP.
 ## Metrics
 
 Endb exposes a number of metrics to the Prometheus endpoint and OpenTelemetry.
-These can be useful in debugging performance of applications which use Endb
-as a database.
+These can be useful in debugging performance of applications connected to Endb.
 
 ### Histograms
 
