@@ -195,7 +195,7 @@ as seen in [this gist](https://gist.github.com/deobald/a65ca0f57d66041bf66d41d05
 `application/vnd.apache.arrow.stream` returns columnar data as an Apache Arrow stream.
 
 ```sh
-curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.stream" -X POST http://localhost:3803/sql --output streamed.arrow
+curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: application/vnd.apache.arrow.stream" -X POST http://localhost:3803/sql --output streamed.arrows
 ```
 
 The above command returns a file containing an Apache Arrow IPC stream.
