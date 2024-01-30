@@ -39,8 +39,11 @@ Set the tracing level with `ENDB_TRACING_LEVEL`.
 
 ## OpenTelemetry
 
-To enable OpenTelemetry, set the `ENDB_TRACING_OTEL` flag and
-[configure an OpenTelemetry endpoint](https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/).
+To enable OpenTelemetry, set `ENDB_TRACING_OTEL=1` and
+`OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317/`
+[Configuration options for the OTLP exporter](https://opentelemetry.io/docs/specs/otel/protocol/exporter/) and
+[additional OTLP environment variables](https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/)
+may also prove useful for configuration.
 
 The OpenTelemetry tracing level defaults to `endb=DEBUG`.
 Set the tracing level with `ENDB_TRACING_LEVEL`.
@@ -57,6 +60,7 @@ These can be useful in debugging performance of applications connected to Endb.
 * `query_real_time_duration_seconds`
 * `query_gc_run_time_duration_seconds`
 * `query_consed_bytes`
+* `http_request_duration_seconds`
 
 ### Counters
 
@@ -77,6 +81,7 @@ These can be useful in debugging performance of applications connected to Endb.
 * `transactions_retried_total`
 * `wal_read_bytes_total`
 * `wal_written_bytes_total`
+* `http_requests_total`
 
 ## Tracing
 
@@ -102,3 +107,8 @@ Tracing data is mostly useful if your Endb instance is not performing in the way
 * `wal_append_entry`
 * `wal_read_next_entry`
 * `wal_fsync`
+
+* `monotonic_counter.websocket_messages_total`
+* `counter.websocket_connections_active`
+* `counter.build_info`, `version`
+* `histogram.websocket_message_duration_seconds`

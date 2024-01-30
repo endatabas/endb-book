@@ -200,8 +200,11 @@ http://localhost:3803/metrics</p>
 <p>The Prometheus tracing level defaults to <code>endb=DEBUG</code>.
 Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.</p>
 <h2 id="opentelemetry"><a class="header" href="#opentelemetry">OpenTelemetry</a></h2>
-<p>To enable OpenTelemetry, set the <code>ENDB_TRACING_OTEL</code> flag and
-<a href="https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/">configure an OpenTelemetry endpoint</a>.</p>
+<p>To enable OpenTelemetry, set <code>ENDB_TRACING_OTEL=1</code> and
+<code>OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4317/</code>
+<a href="https://opentelemetry.io/docs/specs/otel/protocol/exporter/">Configuration options for the OTLP exporter</a> and
+<a href="https://opentelemetry.io/docs/concepts/sdk-configuration/otlp-exporter-configuration/">additional OTLP environment variables</a>
+may also prove useful for configuration.</p>
 <p>The OpenTelemetry tracing level defaults to <code>endb=DEBUG</code>.
 Set the tracing level with <code>ENDB_TRACING_LEVEL</code>.</p>
 <p>At the moment, only gRPC metrics are exposed, not HTTP.</p>
@@ -213,6 +216,7 @@ These can be useful in debugging performance of applications connected to Endb.<
 <li><code>query_real_time_duration_seconds</code></li>
 <li><code>query_gc_run_time_duration_seconds</code></li>
 <li><code>query_consed_bytes</code></li>
+<li><code>http_request_duration_seconds</code></li>
 </ul>
 <h3 id="counters"><a class="header" href="#counters">Counters</a></h3>
 <ul>
@@ -233,30 +237,81 @@ These can be useful in debugging performance of applications connected to Endb.<
 <li><code>transactions_retried_total</code></li>
 <li><code>wal_read_bytes_total</code></li>
 <li><code>wal_written_bytes_total</code></li>
+<li><code>http_requests_total</code></li>
 </ul>
 <h2 id="tracing"><a class="header" href="#tracing">Tracing</a></h2>
 <p>Endb exposes a variety of tracing spans to OpenTelemetry.
 Tracing data is mostly useful if your Endb instance is not performing in the way you expect.</p>
 <ul>
-<li><code>buffer_pool_eviction</code></li>
-<li><code>commit</code></li>
-<li><code>compaction</code></li>
-<li><code>constraints</code></li>
-<li><code>gc</code></li>
-<li><code>index</code></li>
-<li><code>log_replay</code></li>
-<li><code>log_rotation</code></li>
-<li><code>object_store_delete</code></li>
-<li><code>object_store_get</code></li>
-<li><code>object_store_list</code></li>
-<li><code>object_store_put</code></li>
-<li><code>query</code></li>
-<li><code>shutdown</code></li>
-<li><code>snapshot</code></li>
-<li><code>startup</code></li>
-<li><code>wal_append_entry</code></li>
-<li><code>wal_read_next_entry</code></li>
-<li><code>wal_fsync</code></li>
+<li>
+<p><code>buffer_pool_eviction</code></p>
+</li>
+<li>
+<p><code>commit</code></p>
+</li>
+<li>
+<p><code>compaction</code></p>
+</li>
+<li>
+<p><code>constraints</code></p>
+</li>
+<li>
+<p><code>gc</code></p>
+</li>
+<li>
+<p><code>index</code></p>
+</li>
+<li>
+<p><code>log_replay</code></p>
+</li>
+<li>
+<p><code>log_rotation</code></p>
+</li>
+<li>
+<p><code>object_store_delete</code></p>
+</li>
+<li>
+<p><code>object_store_get</code></p>
+</li>
+<li>
+<p><code>object_store_list</code></p>
+</li>
+<li>
+<p><code>object_store_put</code></p>
+</li>
+<li>
+<p><code>query</code></p>
+</li>
+<li>
+<p><code>shutdown</code></p>
+</li>
+<li>
+<p><code>snapshot</code></p>
+</li>
+<li>
+<p><code>startup</code></p>
+</li>
+<li>
+<p><code>wal_append_entry</code></p>
+</li>
+<li>
+<p><code>wal_read_next_entry</code></p>
+</li>
+<li>
+<p><code>wal_fsync</code></p>
+</li>
+<li>
+<p><code>monotonic_counter.websocket_messages_total</code></p>
+</li>
+<li>
+<p><code>counter.websocket_connections_active</code></p>
+</li>
+<li>
+<p><code>counter.build_info</code>, <code>version</code></p>
+</li>
+<li>
+<p><code>histogram.websocket_message_duration_seconds</code></p>
+</li>
 </ul>
 
                     </main>
