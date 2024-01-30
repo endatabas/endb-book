@@ -315,7 +315,9 @@ as seen in <a href="https://gist.github.com/deobald/1eeca3a08ca1490f49bb67a0fa31
 <p>Endb supports HTTP Basic Authentication as defined by
 <a href="https://datatracker.ietf.org/doc/html/rfc7235">RFC 7235</a>.
 Pass <code>--username</code> and <code>--password</code> arguments to the <code>endb</code> binary to force
-basic authentication for HTTP connections.</p>
+basic authentication for HTTP connections.
+(See <a href="operation.html">Operation</a> for more details, including environment variables
+which can be passed to Docker images.)</p>
 <pre><code class="language-sh">./target/endb --username zig --password zag
 </code></pre>
 <p>Then, from any HTTP client, provide the username and password combination to

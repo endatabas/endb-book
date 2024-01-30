@@ -2271,7 +2271,9 @@ as seen in <a href="https://gist.github.com/deobald/1eeca3a08ca1490f49bb67a0fa31
 <p>Endb supports HTTP Basic Authentication as defined by
 <a href="https://datatracker.ietf.org/doc/html/rfc7235">RFC 7235</a>.
 Pass <code>--username</code> and <code>--password</code> arguments to the <code>endb</code> binary to force
-basic authentication for HTTP connections.</p>
+basic authentication for HTTP connections.
+(See <a href="reference/operation.html">Operation</a> for more details, including environment variables
+which can be passed to Docker images.)</p>
 <pre><code class="language-sh">./target/endb --username zig --password zag
 </code></pre>
 <p>Then, from any HTTP client, provide the username and password combination to
@@ -2402,6 +2404,25 @@ to the Endb WebSocket API requires these components:</p>
 </ul>
 <pre><code class="language-json">{&quot;jsonrpc&quot;:&quot;2.0&quot;, &quot;id&quot;:111, &quot;result&quot;:{&quot;@context&quot;:{&quot;xsd&quot;:&quot;http://www.w3.org/2001/XMLSchema#&quot;,&quot;@vocab&quot;:&quot;http://endb.io/&quot;},&quot;@graph&quot;:[{&quot;name&quot;:&quot;Hing&quot;,&quot;price&quot;:2.99}]}}
 </code></pre>
+<h2 id="websocket-basic-authentication"><a class="header" href="#websocket-basic-authentication">WebSocket Basic Authentication</a></h2>
+<p>Endb supports HTTP Basic Authentication, as defined by
+<a href="https://datatracker.ietf.org/doc/html/rfc7235">RFC 7235</a>, on top of
+<a href="https://datatracker.ietf.org/doc/html/rfc6455.html">RFC 6455</a>.
+This is because the WebSocket Protocol RFC (6455) does not define
+authentication mechanisms itself.</p>
+<p>Pass <code>--username</code> and <code>--password</code> arguments to the <code>endb</code> binary to force
+basic authentication for HTTP connections.
+(See <a href="reference/operation.html">Operation</a> for more details, including environment variables
+which can be passed to Docker images.)</p>
+<pre><code class="language-sh">./target/endb --username zig --password zag
+</code></pre>
+<p>Then, use Basic Auth headers to connect to Endb:</p>
+<pre><code class="language-sh">websocat -H='Authorization: Basic' ws://zig:zag@localhost:3803/sql
+</code></pre>
+<p>Rather than <code>Authorization: Basic</code>, the <code>Sec-WebSocket-Protocol</code> header
+may be used.
+It is offered because web browsers do not support the Basic Auth
+header over WebSockets.</p>
 <h2 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h2>
 <p>SQL parameters to a WebSocket request are always <a href="https://json-ld.org/">JSON-LD</a>.
 A JSON-LD scalar always has the form: <code>{&quot;@type&quot;: &quot;xsd:TYPE&quot;, &quot;@value&quot;: &quot;DATA&quot;}</code>.

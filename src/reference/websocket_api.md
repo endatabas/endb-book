@@ -52,6 +52,35 @@ A response from the Endb WebSocket API will include these components:
 {"jsonrpc":"2.0", "id":111, "result":{"@context":{"xsd":"http://www.w3.org/2001/XMLSchema#","@vocab":"http://endb.io/"},"@graph":[{"name":"Hing","price":2.99}]}}
 ```
 
+
+## WebSocket Basic Authentication
+
+Endb supports HTTP Basic Authentication, as defined by
+[RFC 7235](https://datatracker.ietf.org/doc/html/rfc7235), on top of
+[RFC 6455](https://datatracker.ietf.org/doc/html/rfc6455.html).
+This is because the WebSocket Protocol RFC (6455) does not define
+authentication mechanisms itself.
+
+Pass `--username` and `--password` arguments to the `endb` binary to force
+basic authentication for HTTP connections.
+(See [Operation](operation.md) for more details, including environment variables
+which can be passed to Docker images.)
+
+```sh
+./target/endb --username zig --password zag
+```
+
+Then, use Basic Auth headers to connect to Endb:
+
+```sh
+websocat -H='Authorization: Basic' ws://zig:zag@localhost:3803/sql
+```
+
+Rather than `Authorization: Basic`, the `Sec-WebSocket-Protocol` header
+may be used.
+It is offered because web browsers do not support the Basic Auth
+header over WebSockets.
+
 ## Parameters
 
 SQL parameters to a WebSocket request are always [JSON-LD](https://json-ld.org/).
