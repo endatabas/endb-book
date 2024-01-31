@@ -59,7 +59,7 @@ an error instead, which includes:
 * `error` - a code and message, as returned by Endb
 
 ```json
-{"id":222,"error":{"code":-32603,"message":"Error: Unknown table: users\n   ╭─[<unknown>:1:15]\n   │\n 1 │ SELECT * FROM users;\n   │               ──┬──  \n   │                 ╰──── Unknown table\n───╯\n"},"jsonrpc":"2.0"}
+{"jsonrpc":"2.0", "id":222, "error":{"code":-32603,"message":"Error: Unknown table: users\n   ╭─[<unknown>:1:15]\n   │\n 1 │ SELECT * FROM users;\n   │               ──┬──  \n   │                 ╰──── Unknown table\n───╯\n"}}
 ```
 
 ## WebSocket Basic Authentication

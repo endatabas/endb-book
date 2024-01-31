@@ -2413,7 +2413,7 @@ an error instead, which includes:</p>
 <li><code>id</code> - the id of the request object, if one was provided (otherwise <code>null</code>)</li>
 <li><code>error</code> - a code and message, as returned by Endb</li>
 </ul>
-<pre><code class="language-json">{&quot;id&quot;:222,&quot;error&quot;:{&quot;code&quot;:-32603,&quot;message&quot;:&quot;Error: Unknown table: users\n   ╭─[&lt;unknown&gt;:1:15]\n   │\n 1 │ SELECT * FROM users;\n   │               ──┬──  \n   │                 ╰──── Unknown table\n───╯\n&quot;},&quot;jsonrpc&quot;:&quot;2.0&quot;}
+<pre><code class="language-json">{&quot;jsonrpc&quot;:&quot;2.0&quot;, &quot;id&quot;:222, &quot;error&quot;:{&quot;code&quot;:-32603,&quot;message&quot;:&quot;Error: Unknown table: users\n   ╭─[&lt;unknown&gt;:1:15]\n   │\n 1 │ SELECT * FROM users;\n   │               ──┬──  \n   │                 ╰──── Unknown table\n───╯\n&quot;}}
 </code></pre>
 <h2 id="websocket-basic-authentication"><a class="header" href="#websocket-basic-authentication">WebSocket Basic Authentication</a></h2>
 <p>Endb supports HTTP Basic Authentication, as defined by
