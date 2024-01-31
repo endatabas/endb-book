@@ -27,5 +27,8 @@ Network:
       --key-file <KEY_FILE>          [env: ENDB_KEY_FILE=]
 ```
 
+The `-d` option accepts a special value of `:memory:` to run an in-memory node,
+without persisting anything to disk.
+
 The `--cert-file` and `--key-file` options are ignored when `--protocol` is set to `http`.
 When `--protocol` is set to `https`, they are both required.

@@ -196,6 +196,8 @@ Network:
       --cert-file &lt;CERT_FILE&gt;        [env: ENDB_CERT_FILE=]
       --key-file &lt;KEY_FILE&gt;          [env: ENDB_KEY_FILE=]
 </code></pre>
+<p>The <code>-d</code> option accepts a special value of <code>:memory:</code> to run an in-memory node,
+without persisting anything to disk.</p>
 <p>The <code>--cert-file</code> and <code>--key-file</code> options are ignored when <code>--protocol</code> is set to <code>http</code>.
 When <code>--protocol</code> is set to <code>https</code>, they are both required.</p>
 
