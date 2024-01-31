@@ -52,6 +52,15 @@ A response from the Endb WebSocket API will include these components:
 {"jsonrpc":"2.0", "id":111, "result":{"@context":{"xsd":"http://www.w3.org/2001/XMLSchema#","@vocab":"http://endb.io/"},"@graph":[{"name":"Hing","price":2.99}]}}
 ```
 
+If your query is invalid or causes an internal error, you will receive
+an error instead, which includes:
+
+* `id` - the id of the request object, if one was provided (otherwise `null`)
+* `error` - a code and message, as returned by Endb
+
+```json
+{"id":222,"error":{"code":-32603,"message":"Error: Unknown table: users\n   ╭─[<unknown>:1:15]\n   │\n 1 │ SELECT * FROM users;\n   │               ──┬──  \n   │                 ╰──── Unknown table\n───╯\n"},"jsonrpc":"2.0"}
+```
 
 ## WebSocket Basic Authentication
 
