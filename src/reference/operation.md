@@ -32,3 +32,11 @@ without persisting anything to disk.
 
 The `--cert-file` and `--key-file` options are ignored when `--protocol` is set to `http`.
 When `--protocol` is set to `https`, they are both required.
+
+## Backup and Restore
+
+If you would like to back up your Endb data, you can use any commodity copy or sync tool
+(such as `rsync`) to maintain a copy of your `--data-directory` (`ENDB_DATA_DIRECTORY`).
+
+To restore that directory, stop Endb, replace or sync that directory where Endb is running,
+and restart Endb.
