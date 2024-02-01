@@ -40,3 +40,5 @@ If you would like to back up your Endb data, you can use any commodity copy or s
 
 To restore that directory, stop Endb, replace or sync that directory where Endb is running,
 and restart Endb.
+
+In the future, a backup option will be provided for an object store separated from compute.
