@@ -15,25 +15,23 @@ curl -d "SELECT * FROM users" -H "Content-Type: application/sql" -X POST http://
 
 Read more in the [full HTTP API docs](../reference/http_api.md).
 
-## Example Libraries
+## Client Libraries
 
-Ultimately, Endb will ship with permissively-licensed client libraries for all major languages.
-For now, we have provided some example code you can try:
+Endb ships with permissively-licensed client libraries:
 
-[https://github.com/endatabas/endb/tree/main/examples](https://github.com/endatabas/endb/tree/main/examples)
+[https://github.com/endatabas/endb/tree/main/clients](https://github.com/endatabas/endb/tree/main/clients)
 
-## Example Console
+## Console
 
-Endb does not yet provide an official SQL console.
-However, you can try Endb SQL (without writing any code) with the example terminal:
+Endb provides a small console for writing Endb SQL directly:
 
 ```sh
 git clone git@github.com:endatabas/endb.git
-cd endb/examples
+cd endb/clients
 ./endb_console.py
 ```
 
-This example console wraps the Python example library.
+This console wraps the Python library.
 Assuming you inserted a user with curl above, you can query that table directly:
 
 ```sh

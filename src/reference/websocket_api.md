@@ -1,6 +1,6 @@
 # WebSocket API
 
-If a [client](https://github.com/endatabas/endb/tree/main/examples) is
+If a [client](https://github.com/endatabas/endb/tree/main/clients) is
 not available for your programming language yet, your app can interact
 directly with the Endb WebSocket API.
 Any WebSocket client can be used but in the examples below we'll use
