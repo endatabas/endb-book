@@ -22,6 +22,7 @@
     - [Installation](./reference/installation.md)
     - [Operation](./reference/operation.md)
     - [Monitoring](./reference/monitoring.md)
+    - [Clients](./reference/clients.md)
     - [HTTP API](./reference/http_api.md)
     - [WebSocket API](./reference/websocket_api.md)
     - [Data Types](./reference/data_types.md)
