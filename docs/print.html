@@ -2082,22 +2082,82 @@ instance and call the <code>sql</code> method on it.</p>
 npm install ws
 </code></pre>
 <h3 id="usage-1"><a class="header" href="#usage-1">Usage</a></h3>
-<p><strong>Endb(url = 'http://localhost:3803/sql', {accept = 'application/ld+json', username, password})</strong></p>
-<p>Used to communicate with Endb over HTTP.
+<p><strong>Import</strong></p>
+<pre><code class="language-javascript">import { Endb, EndbWebSocket } from '@endatabas/endb';
+</code></pre>
+<p><strong>Endb</strong></p>
+<p>Use the <code>Endb</code> class to communicate with Endb over HTTP.
+It accepts an optional <code>url</code> parameter.
+Options can be supplied for <code>accept</code>, <code>username</code>, and <code>password</code>.
 Accept headers default to LD-JSON and can be set to any valid
-content type listed in the <a href="reference/http_api.html">HTTP API</a>.</p>
-<p><strong>EndbWebSocket(url = 'ws://localhost:3803/sql', {ws, username, password})</strong></p>
-<p>Used to communicate with Endb over WebSockets.
-<code>EndbWebSocket</code> only communicates in LD-JSON.</p>
-<p><strong>sql(query, ...params)</strong></p>
+content type listed in the <a href="reference/http_api.html#accept-headers">HTTP API</a>.</p>
+<pre><code class="language-javascript">var e = new Endb();
+var e = new Endb('http://localhost:3803/sql');
+var e = new Endb('http://localhost:3803/sql', {accept: 'application/csv'});
+var e = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
+</code></pre>
+<p><strong>EndbWebSocket</strong></p>
+<p>Use the <code>EndbWebSocket</code> class to communicate with Endb over WebSockets.
+It accepts an optional <code>url</code> parameter.
+Options can be supplied for <code>ws</code> (any implementation of the
+<a href="https://websockets.spec.whatwg.org/#the-websocket-interface">JavaScript WebSocket interface definition</a>),
+<code>username</code>, and <code>password</code>.
+In a web browser, <code>ws</code> will default to the web browser's WebSocket implementation.
+<code>EndbWebSocket</code> only communicates in LD-JSON, so the accept header cannot be set.</p>
+<pre><code class="language-javascript">// in web browser:
+var ews = new EndbWebSocket();
+var ews = new EndbWebSocket({username: 'zig', password: 'zag'});
+
+// in node.js:
+import WebSocket from 'ws';
+var ews = new EndbWebSocket({ws: WebSocket});
+var ews = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
+</code></pre>
+<p><strong>sql()</strong></p>
+<ul>
+<li>Method Signature: <code>sql(query, p, m, accept)</code>
+<ul>
+<li><code>p</code>: array of SQL parameters (default: <code>[]</code>)</li>
+<li><code>m</code>: many flag (default: <code>false</code>)</li>
+<li><code>accept</code>: accept header content type (default: <code>application/ld+json</code>)</li>
+</ul>
+</li>
+</ul>
 <p>The <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
-This asynchronous method returns an array of strongly-typed documents.</p>
-<p><strong>Examples</strong></p>
+This asynchronous method returns an array of strongly-typed documents.
+To ignore the <code>p</code> or <code>m</code> parameters and supply an accept header,
+supply the default values or <code>null</code>.</p>
+<pre><code class="language-javascript">e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
+e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
+e.sql(&quot;SELECT * FROM users;&quot;, [], false, 'text/csv');
+e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
+e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+</code></pre>
+<p>It is possible to use string templating to pass named SQL parameters.
+String templating does not accept any other parameters to the method:</p>
+<pre><code class="language-javascript">e.sql(`SELECT * FROM ${t}`, {t: 'users'});
+</code></pre>
+<p><strong>Data Types</strong></p>
+<p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
+<ul>
+<li><code>null</code> - <code>null</code></li>
+<li><code>xsd:date</code> - <code>Date</code></li>
+<li><code>xsd:dateTime</code> - <code>Date</code></li>
+<li><code>xsd:base64Binary</code> - <code>Uint8Array</code></li>
+<li><code>xsd:integer</code> - <code>BigInt</code></li>
+</ul>
+<p>For more information on Endb data types, see the <a href="reference/data_types.html">Data Types doc</a>.</p>
+<p><strong>Complete Examples</strong></p>
 <pre><code class="language-javascript">import { Endb } from '@endatabas/endb';
 
 var e = new Endb();
-await e.sql(&quot;insert into users {name: 'Thupil'};&quot;);
-var result = await e.sql(&quot;select * from users;&quot;);
+await e.sql(&quot;INSERT INTO users {name: 'Thupil'};&quot;);
+var result = await e.sql(&quot;SELECT * FROM users;&quot;);
+console.log(result);
+
+var e2 = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
+await e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+result = await e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
 console.log(result);
 </code></pre>
 <pre><code class="language-javascript">import WebSocket from 'ws';
@@ -2107,9 +2167,11 @@ var ews = new EndbWebSocket({ws: WebSocket});
 await ews.sql(&quot;insert into users {name: 'Lydia'};&quot;);
 var ws_result = await ews.sql(&quot;select * from users;&quot;);
 console.log(ws_result);
-</code></pre>
-<p>It is possible to use string templating to pass named parameters:</p>
-<pre><code class="language-javascript">ews.sql(`select * from ${t}`, {t: 'users'});
+
+var ews2 = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
+await ews2.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
+console.log(ws_result);
 </code></pre>
 <h2 id="python"><a class="header" href="#python">Python</a></h2>
 <p><a href="https://pypi.org/project/endb/">PyPI Package: <code>endb</code></a></p>

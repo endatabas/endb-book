@@ -28,30 +28,100 @@ npm install ws
 
 ### Usage
 
-**Endb(url = 'http://localhost:3803/sql', {accept = 'application/ld+json', username, password})**
+**Import**
 
-Used to communicate with Endb over HTTP.
+```javascript
+import { Endb, EndbWebSocket } from '@endatabas/endb';
+```
+
+**Endb**
+
+Use the `Endb` class to communicate with Endb over HTTP.
+It accepts an optional `url` parameter.
+Options can be supplied for `accept`, `username`, and `password`.
 Accept headers default to LD-JSON and can be set to any valid
-content type listed in the [HTTP API](http_api.md).
+content type listed in the [HTTP API](http_api.md#accept-headers).
 
-**EndbWebSocket(url = 'ws://localhost:3803/sql', {ws, username, password})**
+```javascript
+var e = new Endb();
+var e = new Endb('http://localhost:3803/sql');
+var e = new Endb('http://localhost:3803/sql', {accept: 'application/csv'});
+var e = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
+```
 
-Used to communicate with Endb over WebSockets.
-`EndbWebSocket` only communicates in LD-JSON.
+**EndbWebSocket**
 
-**sql(query, ...params)**
+Use the `EndbWebSocket` class to communicate with Endb over WebSockets.
+It accepts an optional `url` parameter.
+Options can be supplied for `ws` (any implementation of the
+[JavaScript WebSocket interface definition](https://websockets.spec.whatwg.org/#the-websocket-interface)),
+`username`, and `password`.
+In a web browser, `ws` will default to the web browser's WebSocket implementation.
+`EndbWebSocket` only communicates in LD-JSON, so the accept header cannot be set.
+
+```javascript
+// in web browser:
+var ews = new EndbWebSocket();
+var ews = new EndbWebSocket({username: 'zig', password: 'zag'});
+
+// in node.js:
+import WebSocket from 'ws';
+var ews = new EndbWebSocket({ws: WebSocket});
+var ews = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
+```
+
+**sql()**
+
+* Method Signature: `sql(query, p, m, accept)`
+    * `p`: array of SQL parameters (default: `[]`)
+    * `m`: many flag (default: `false`)
+    * `accept`: accept header content type (default: `application/ld+json`)
 
 The `sql` method is available to both `Endb` and `EndbWebSocket`.
 This asynchronous method returns an array of strongly-typed documents.
+To ignore the `p` or `m` parameters and supply an accept header,
+supply the default values or `null`.
 
-**Examples**
+```javascript
+e.sql("INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);", [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
+e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true);
+e.sql("SELECT * FROM users;", [], false, 'text/csv');
+e.sql("SELECT * FROM users;", null, null, 'application/json');
+e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+```
+
+It is possible to use string templating to pass named SQL parameters.
+String templating does not accept any other parameters to the method:
+
+```javascript
+e.sql(`SELECT * FROM ${t}`, {t: 'users'});
+```
+
+**Data Types**
+
+When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:
+
+* `null` - `null`
+* `xsd:date` - `Date`
+* `xsd:dateTime` - `Date`
+* `xsd:base64Binary` - `Uint8Array`
+* `xsd:integer` - `BigInt`
+
+For more information on Endb data types, see the [Data Types doc](data_types.md).
+
+**Complete Examples**
 
 ```javascript
 import { Endb } from '@endatabas/endb';
 
 var e = new Endb();
-await e.sql("insert into users {name: 'Thupil'};");
-var result = await e.sql("select * from users;");
+await e.sql("INSERT INTO users {name: 'Thupil'};");
+var result = await e.sql("SELECT * FROM users;");
+console.log(result);
+
+var e2 = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
+await e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+result = await e.sql("SELECT * FROM users;", null, null, 'application/json');
 console.log(result);
 ```
 
@@ -63,12 +133,11 @@ var ews = new EndbWebSocket({ws: WebSocket});
 await ews.sql("insert into users {name: 'Lydia'};");
 var ws_result = await ews.sql("select * from users;");
 console.log(ws_result);
-```
 
-It is possible to use string templating to pass named parameters:
-
-```javascript
-ews.sql(`select * from ${t}`, {t: 'users'});
+var ews2 = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
+await ews2.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+ws_result = await ews2.sql("SELECT * FROM users;", null, null, 'application/json');
+console.log(ws_result);
 ```
 
 ## Python
