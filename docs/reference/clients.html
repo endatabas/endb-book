@@ -231,8 +231,9 @@ var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username:
 </code></pre>
 <p><strong>sql()</strong></p>
 <ul>
-<li>Method Signature: <code>sql(query, p, m, accept)</code>
+<li>Method Signature: <code>sql(q, p, m, accept)</code>
 <ul>
+<li><code>q</code>: SQL query</li>
 <li><code>p</code>: array of SQL parameters (default: <code>[]</code>)</li>
 <li><code>m</code>: many flag (default: <code>false</code>)</li>
 <li><code>accept</code>: accept header content type (default: <code>application/ld+json</code>)</li>
