@@ -45,9 +45,15 @@ content type listed in the [HTTP API](http_api.md#accept-headers).
 ```javascript
 var e = new Endb();
 var e = new Endb('http://localhost:3803/sql');
-var e = new Endb('http://localhost:3803/sql', {accept: 'application/csv'});
+var e = new Endb('http://localhost:3803/sql', {accept: text/csv'});
 var e = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
 ```
+
+NOTE: Choosing accept headers other than LD-JSON will return
+JavaScript data structures symmetrical with those returned from
+the respective accept header provided to the HTTP API.
+`text/csv` returns comma-delimited strings, `application/json`
+returns tuples as arrays, and so on.
 
 **EndbWebSocket**
 
@@ -62,12 +68,12 @@ In a web browser, `ws` will default to the web browser's WebSocket implementatio
 ```javascript
 // in web browser:
 var ews = new EndbWebSocket();
-var ews = new EndbWebSocket({username: 'zig', password: 'zag'});
+var ews = new EndbWebSocket('ws://localhost:3803/sql', {username: 'zig', password: 'zag'});
 
 // in node.js:
 import WebSocket from 'ws';
 var ews = new EndbWebSocket({ws: WebSocket});
-var ews = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
+var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username: 'zig', password: 'zag'});
 ```
 
 **sql()**
@@ -147,36 +153,97 @@ console.log(ws_result);
 ### Install
 
 ```sh
+# http only:
 pip install endb
-pip install websockets
+
+# http and websockets:
+pip install endb[websockets]
 ```
 
 ### Usage
 
-**Endb(self, url='http://localhost:3803/sql', accept='application/ld+json', username=None, password=None)**
+**Import**
 
-Used to communicate with Endb over HTTP.
+```python
+from endb import (Endb, EndbWebSocket)
+```
+
+**Endb**
+
+Use `Endb` to communicate with Endb over HTTP.
+It accepts optional `url`, `accept`, `username`, and `password` parameters.
 Accept headers default to LD-JSON and can be set to any valid
-content type listed in the [HTTP API](http_api.md).
+content type listed in the [HTTP API](http_api.md#accept-headers).
 
-**EndbWebSocket(self, url='ws://localhost:3803/sql', username=None, password=None)**
+```javascript
+e = Endb()
+e = Endb('http://localhost:3803/sql')
+e = Endb('http://localhost:3803/sql', 'text/csv')
+e = Endb('http://localhost:3803/sql', 'application/json', 'zig', 'zag')
+```
 
-Used to communicate with Endb over WebSockets.
-`EndbWebSocket` only communicates in LD-JSON.
+NOTE: Choosing accept headers other than LD-JSON will return
+JavaScript data structures symmetrical with those returned from
+the respective accept header provided to the HTTP API.
+`text/csv` returns comma-delimited strings, `application/json`
+returns tuples as arrays, and so on.
 
-**sql(self, q, p=[], m=False, accept=None)**
+**EndbWebSocket**
+
+Use the `EndbWebSocket` class to communicate with Endb over WebSockets.
+It accepts optional `url`, `username`, and `password` parameters.
+
+```python
+ews = EndbWebSocket()
+ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
+```
+
+**sql()**
+
+* Method Signature: `sql(q, p, m, accept)`
+    * `q`: SQL query
+    * `p`: array of SQL parameters (default: `[]`)
+    * `m`: many flag (default: `false`)
+    * `accept`: accept header content type (defaults to class)
 
 The `sql` method is available to both `Endb` and `EndbWebSocket`.
 This method returns an array of strongly-typed documents.
-`sql`is synchronous for `Endb` and asynchronous for `EndbWebSocket`.
+It is sychronous for `Endb` and asynchronous for `EndbWebSocket`.
+To ignore the `p` or `m` parameters and supply an accept header,
+supply the default values or used named parameters.
 
-**Examples**
+```python
+from datetime import date, datetime, timezone
+e.sql("INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);", [datetime.now(timezone.utc), 'Aaron', 'aaron@canadahealth.ca'])
+e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], True)
+e.sql("SELECT * FROM users;", [], False, 'text/csv')
+e.sql("SELECT * FROM users;", accept = 'text/csv')
+e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], True, 'text/csv')
+```
+
+**Data Types**
+
+When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:
+
+* `null` - `None`
+* `xsd:date` - `datetime.date`
+* `xsd:time` - `datetime.time`
+* `xsd:dateTime` - `datetime.datetime`
+* `xsd:base64Binary` - `bytes` (from `base64`)
+* `xsd:integer` - `int`
+
+**Complete Examples**
 
 ```python
 from endb import Endb
+from datetime import date, datetime, timezone
 e = Endb()
 e.sql("INSERT INTO users {name: 'Yuvi'}")
 e.sql("SELECT * FROM users;")
+
+e2 = Endb('http://localhost:3803/sql', 'application/json', 'zig', 'zag')
+e2.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], True, 'text/csv')
+e2.sql("SELECT * FROM users;", [], False, 'application/json')
 ```
 
 When the `websockets` dependency is installed, it is possible to
@@ -186,6 +253,12 @@ directly if you start it with `python3 -m asyncio`:
 ```python
 from endb import EndbWebSocket
 ews = EndbWebSocket()
-result = await ews.sql("SELECT * FROM users;")
-print(result)
+await ews.sql("INSERT INTO users {name: 'Lydia'}")
+ws_result = await ews.sql("SELECT * FROM users;")
+print(ws_result)
+
+ews2 = EndbWebSocket(username = 'zig', password = 'zag')
+await ews2.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], True, 'text/csv')
+ws_result = await ews2.sql("SELECT * FROM users;", [], False, 'application/json')
+print(ws_result)
 ```
