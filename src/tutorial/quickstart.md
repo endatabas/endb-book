@@ -13,6 +13,16 @@ and build `endb`.
 
 ## Run your first query
 
+You can use the [Console](../reference/console.md):
+
+```sh
+$ pip install endb
+$ endb_console
+-> SELECT 'Hello World';
+```
+
+...or you can send queries to the API directly:
+
 ```sh
 curl -d "SELECT 'Hello World';" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 ```

@@ -120,3 +120,7 @@ Endb will always do its best to provide you with meaningful error messages that 
 ```sql
 SELECT * FROM im_not_here;
 ```
+
+## Learn More
+
+Much more detail on Endb SQL is provided in the [SQL Reference](../sql/).

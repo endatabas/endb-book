@@ -204,6 +204,12 @@ docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 <p>See <a href="tutorial/../reference/installation.html">Installation</a> for more ways to install
 and build <code>endb</code>.</p>
 <h2 id="run-your-first-query"><a class="header" href="#run-your-first-query">Run your first query</a></h2>
+<p>You can use the <a href="tutorial/../reference/console.html">Console</a>:</p>
+<pre><code class="language-sh">$ pip install endb
+$ endb_console
+-&gt; SELECT 'Hello World';
+</code></pre>
+<p>...or you can send queries to the API directly:</p>
 <pre><code class="language-sh">curl -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <h2 id="warning-early-alpha"><a class="header" href="#warning-early-alpha">Warning: Early Alpha</a></h2>
@@ -211,28 +217,37 @@ and build <code>endb</code>.</p>
 <p>While in alpha, new versions are not guaranteed to have binary-compatible storage with previous versions.
 We encourage you to experiment with Endb but please do not use it in production until a General Availability release.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="try-it"><a class="header" href="#try-it">Try It!</a></h1>
-<p>You can send SQL statements to <code>endb</code> over HTTP.
-Any HTTP client will do.</p>
+<p>You can send SQL statements to <code>endb</code> over HTTP or WebSockets.
+Any HTTP or WebSocket client will do, and Endb ships with a console
+and client libraries.</p>
 <h2 id="curl"><a class="header" href="#curl">curl</a></h2>
 <p>Our first couple examples will use <a href="https://everything.curl.dev/get">curl</a>,
-which you probably already have installed.</p>
+which you probably already have installed, to send queries directly to the API.</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
-<p>Read more in the <a href="tutorial/../reference/http_api.html">full HTTP API docs</a>.</p>
-<h2 id="client-libraries"><a class="header" href="#client-libraries">Client Libraries</a></h2>
-<p>Endb ships with permissively-licensed client libraries:</p>
-<p><a href="https://github.com/endatabas/endb/tree/main/clients">https://github.com/endatabas/endb/tree/main/clients</a></p>
+<p>You don't need to use the API diretly if there is a client library available for
+your language of choice, but it is helpful to know that the underlying API is
+human-readable and based on open standards.
+Read more in the <a href="tutorial/../reference/http_api.html">full HTTP API docs</a>.</p>
 <h2 id="console"><a class="header" href="#console">Console</a></h2>
 <p>Endb provides a small console for writing Endb SQL directly:</p>
-<pre><code class="language-sh">git clone git@github.com:endatabas/endb.git
-cd endb/clients
-./endb_console.py
+<pre><code class="language-sh">pip install endb_console
+endb_console # connects to localhost by default
 </code></pre>
-<p>This console wraps the Python library.
-Assuming you inserted a user with curl above, you can query that table directly:</p>
+<p>Assuming you inserted a user with curl above, you can query that table directly:</p>
 <pre><code class="language-sh">-&gt; SELECT * FROM users;
 </code></pre>
+<p>Read more in the <a href="tutorial/../reference/console.html">Console doc</a>.</p>
+<h2 id="client-libraries"><a class="header" href="#client-libraries">Client Libraries</a></h2>
+<p>Endb ships with permissively-licensed (MIT) client libraries:</p>
+<pre><code class="language-sh">pip install endb
+npm install @endatabas/endb
+</code></pre>
+<p>You can copy and modify their <a href="https://github.com/endatabas/endb/tree/main/clients">source code</a>
+for any purpose.
+Read more about how to use them in the <a href="tutorial/../reference/clients.html">client libraries docs</a>.</p>
+<h2 id="learning-endb-sql"><a class="header" href="#learning-endb-sql">Learning Endb SQL</a></h2>
 <p>You can use any of these tools (or any other HTTP client you prefer) for the rest of this tutorial.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="endb-sql-basics"><a class="header" href="#endb-sql-basics">Endb SQL Basics</a></h1>
 <p>If you know SQL, Endb SQL will feel instantly familiar.
@@ -315,6 +330,8 @@ You can use an <code>INSERT</code> statement to add a document directly to the d
 <p>Endb will always do its best to provide you with meaningful error messages that point you to a solution:</p>
 <pre><code class="language-sql">SELECT * FROM im_not_here;
 </code></pre>
+<h2 id="learn-more"><a class="header" href="#learn-more">Learn More</a></h2>
+<p>Much more detail on Endb SQL is provided in the <a href="tutorial/../sql/">SQL Reference</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sql-reference"><a class="header" href="#sql-reference">SQL Reference</a></h1>
 <p>The SQL Reference contains details and edge cases about Endb SQL.</p>
 <p>NOTE: The Endb SQL dialect is under active development.
@@ -2021,6 +2038,7 @@ options:
   -u USERNAME, --username USERNAME
   -p PASSWORD, --password PASSWORD
 </code></pre>
+<h2 id="prompt"><a class="header" href="#prompt">Prompt</a></h2>
 <p>When the Endb console starts, it will provide a multiline prompt (<code>-&gt;</code>)
 where you can enter SQL statements and queries.
 The prompt will extend onto new lines (<code>..</code>) until you enter a semicolon.</p>
@@ -2028,11 +2046,21 @@ The prompt will extend onto new lines (<code>..</code>) until you enter a semico
 .. {name: 'Conrad', email: 'c1o2n@shell.com'};
 -&gt; SELECT * FROM users;
 </code></pre>
-<p>The console has history which you can use the up and down arrows to navigate.</p>
+<p>The console has history which you can use the up and down arrows to navigate.
+History does not persist between console sessions.</p>
+<p>Learn more about Endb SQL in the
+<a href="reference/../sql/">SQL Reference</a>.</p>
+<p>To quit, type <code>CTRL+D</code>.</p>
+<h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
 <p>The console communicates with Endb over the <a href="reference/http_api.html">HTTP API</a>.
 Data is returned as LD-JSON documents and marshalled into strongly-typed Python
-objects.</p>
-<p>To quit, type <code>CTRL+D</code>.</p>
+objects. For example:</p>
+<pre><code class="language-python">[{'date': None, 'email': 'c1o2n@shell.com', 'name': 'Conrad'},
+ {'date': datetime.datetime(2024, 1, 29, 18, 18, 30, 129159, tzinfo=datetime.timezone.utc),
+  'email': 'kitty@tramline.in',
+  'name': 'Akshay'}]
+</code></pre>
+<p>The <a href="reference/data_types.html">Data Types</a> page talks about types in more detail.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="clients"><a class="header" href="#clients">Clients</a></h1>
 <p>Official native clients are listed on this page.</p>
 <ul>
@@ -2597,7 +2625,7 @@ further details on SQL syntax.</p>
 {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: 413, &quot;method&quot;: &quot;sql&quot;, &quot;params&quot;: {&quot;q&quot;: &quot;ROLLBACK;&quot;, &quot;p&quot;: [], &quot;m&quot;: false}}
 {&quot;jsonrpc&quot;: &quot;2.0&quot;, &quot;id&quot;: 414, &quot;method&quot;: &quot;sql&quot;, &quot;params&quot;: {&quot;q&quot;: &quot;SELECT * FROM delete_me;&quot;, &quot;p&quot;: [], &quot;m&quot;: false}}
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="data-types"><a class="header" href="#data-types">Data Types</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="data-types-1"><a class="header" href="#data-types-1">Data Types</a></h1>
 <h2 id="scalars"><a class="header" href="#scalars">Scalars</a></h2>
 <p>Endb supports the following native scalar types for now.</p>
 <p>JSON-LD values with a type of <code>@json</code> will be returned from Endb as JSON literals, verbatim.

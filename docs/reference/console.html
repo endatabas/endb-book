@@ -195,6 +195,7 @@ options:
   -u USERNAME, --username USERNAME
   -p PASSWORD, --password PASSWORD
 </code></pre>
+<h2 id="prompt"><a class="header" href="#prompt">Prompt</a></h2>
 <p>When the Endb console starts, it will provide a multiline prompt (<code>-&gt;</code>)
 where you can enter SQL statements and queries.
 The prompt will extend onto new lines (<code>..</code>) until you enter a semicolon.</p>
@@ -202,11 +203,21 @@ The prompt will extend onto new lines (<code>..</code>) until you enter a semico
 .. {name: 'Conrad', email: 'c1o2n@shell.com'};
 -&gt; SELECT * FROM users;
 </code></pre>
-<p>The console has history which you can use the up and down arrows to navigate.</p>
+<p>The console has history which you can use the up and down arrows to navigate.
+History does not persist between console sessions.</p>
+<p>Learn more about Endb SQL in the
+<a href="../sql/">SQL Reference</a>.</p>
+<p>To quit, type <code>CTRL+D</code>.</p>
+<h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
 <p>The console communicates with Endb over the <a href="http_api.html">HTTP API</a>.
 Data is returned as LD-JSON documents and marshalled into strongly-typed Python
-objects.</p>
-<p>To quit, type <code>CTRL+D</code>.</p>
+objects. For example:</p>
+<pre><code class="language-python">[{'date': None, 'email': 'c1o2n@shell.com', 'name': 'Conrad'},
+ {'date': datetime.datetime(2024, 1, 29, 18, 18, 30, 129159, tzinfo=datetime.timezone.utc),
+  'email': 'kitty@tramline.in',
+  'name': 'Akshay'}]
+</code></pre>
+<p>The <a href="data_types.html">Data Types</a> page talks about types in more detail.</p>
 
                     </main>
 

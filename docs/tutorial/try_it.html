@@ -173,28 +173,37 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="try-it"><a class="header" href="#try-it">Try It!</a></h1>
-<p>You can send SQL statements to <code>endb</code> over HTTP.
-Any HTTP client will do.</p>
+<p>You can send SQL statements to <code>endb</code> over HTTP or WebSockets.
+Any HTTP or WebSocket client will do, and Endb ships with a console
+and client libraries.</p>
 <h2 id="curl"><a class="header" href="#curl">curl</a></h2>
 <p>Our first couple examples will use <a href="https://everything.curl.dev/get">curl</a>,
-which you probably already have installed.</p>
+which you probably already have installed, to send queries directly to the API.</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
-<p>Read more in the <a href="../reference/http_api.html">full HTTP API docs</a>.</p>
-<h2 id="client-libraries"><a class="header" href="#client-libraries">Client Libraries</a></h2>
-<p>Endb ships with permissively-licensed client libraries:</p>
-<p><a href="https://github.com/endatabas/endb/tree/main/clients">https://github.com/endatabas/endb/tree/main/clients</a></p>
+<p>You don't need to use the API diretly if there is a client library available for
+your language of choice, but it is helpful to know that the underlying API is
+human-readable and based on open standards.
+Read more in the <a href="../reference/http_api.html">full HTTP API docs</a>.</p>
 <h2 id="console"><a class="header" href="#console">Console</a></h2>
 <p>Endb provides a small console for writing Endb SQL directly:</p>
-<pre><code class="language-sh">git clone git@github.com:endatabas/endb.git
-cd endb/clients
-./endb_console.py
+<pre><code class="language-sh">pip install endb_console
+endb_console # connects to localhost by default
 </code></pre>
-<p>This console wraps the Python library.
-Assuming you inserted a user with curl above, you can query that table directly:</p>
+<p>Assuming you inserted a user with curl above, you can query that table directly:</p>
 <pre><code class="language-sh">-&gt; SELECT * FROM users;
 </code></pre>
+<p>Read more in the <a href="../reference/console.html">Console doc</a>.</p>
+<h2 id="client-libraries"><a class="header" href="#client-libraries">Client Libraries</a></h2>
+<p>Endb ships with permissively-licensed (MIT) client libraries:</p>
+<pre><code class="language-sh">pip install endb
+npm install @endatabas/endb
+</code></pre>
+<p>You can copy and modify their <a href="https://github.com/endatabas/endb/tree/main/clients">source code</a>
+for any purpose.
+Read more about how to use them in the <a href="../reference/clients.html">client libraries docs</a>.</p>
+<h2 id="learning-endb-sql"><a class="header" href="#learning-endb-sql">Learning Endb SQL</a></h2>
 <p>You can use any of these tools (or any other HTTP client you prefer) for the rest of this tutorial.</p>
 
                     </main>

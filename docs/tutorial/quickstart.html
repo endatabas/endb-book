@@ -181,6 +181,12 @@ docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 <p>See <a href="../reference/installation.html">Installation</a> for more ways to install
 and build <code>endb</code>.</p>
 <h2 id="run-your-first-query"><a class="header" href="#run-your-first-query">Run your first query</a></h2>
+<p>You can use the <a href="../reference/console.html">Console</a>:</p>
+<pre><code class="language-sh">$ pip install endb
+$ endb_console
+-&gt; SELECT 'Hello World';
+</code></pre>
+<p>...or you can send queries to the API directly:</p>
 <pre><code class="language-sh">curl -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <h2 id="warning-early-alpha"><a class="header" href="#warning-early-alpha">Warning: Early Alpha</a></h2>
