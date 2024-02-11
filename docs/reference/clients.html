@@ -251,8 +251,10 @@ e.sql(&quot;SELECT * FROM users;&quot;, [], false, 'text/csv');
 e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
 e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
 </code></pre>
-<p>It is possible to use string templating to pass named SQL parameters.
-String templating does not accept any other parameters to the method:</p>
+<p>It is possible to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">Template Literals</a>
+(string templating) to pass named SQL parameters.
+The signature which accepts Template Literals does
+not accept any other parameters to the method:</p>
 <pre><code class="language-javascript">e.sql(`SELECT * FROM ${t};`, [{t: 'users'}]);
 </code></pre>
 <p><strong>Data Types</strong></p>

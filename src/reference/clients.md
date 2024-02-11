@@ -98,8 +98,10 @@ e.sql("SELECT * FROM users;", null, null, 'application/json');
 e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
 ```
 
-It is possible to use string templating to pass named SQL parameters.
-String templating does not accept any other parameters to the method:
+It is possible to use [Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+(string templating) to pass named SQL parameters.
+The signature which accepts Template Literals does
+not accept any other parameters to the method:
 
 ```javascript
 e.sql(`SELECT * FROM ${t};`, [{t: 'users'}]);
