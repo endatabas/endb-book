@@ -2144,7 +2144,8 @@ e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['
 (string templating) to pass named SQL parameters.
 The signature which accepts Template Literals does
 not accept any other parameters to the method:</p>
-<pre><code class="language-javascript">e.sql(`SELECT * FROM ${t};`, [{t: 'users'}]);
+<pre><code class="language-javascript">var n = 'Michael';
+e.sql`INSERT INTO USERS (name) VALUES (${n});`;
 </code></pre>
 <p><strong>Data Types</strong></p>
 <p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>

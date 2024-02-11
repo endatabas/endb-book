@@ -104,7 +104,8 @@ The signature which accepts Template Literals does
 not accept any other parameters to the method:
 
 ```javascript
-e.sql(`SELECT * FROM ${t};`, [{t: 'users'}]);
+var n = 'Michael';
+e.sql`INSERT INTO USERS (name) VALUES (${n});`;
 ```
 
 **Data Types**
