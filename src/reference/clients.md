@@ -90,6 +90,7 @@ To ignore the `p` or `m` parameters and supply an accept header,
 supply the default values or `null`.
 
 ```javascript
+e.sql("SELECT * FROM users;");
 e.sql("INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);", [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
 e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true);
 e.sql("SELECT * FROM users;", [], false, 'text/csv');
@@ -101,7 +102,7 @@ It is possible to use string templating to pass named SQL parameters.
 String templating does not accept any other parameters to the method:
 
 ```javascript
-e.sql(`SELECT * FROM ${t}`, {t: 'users'});
+e.sql(`SELECT * FROM ${t};`, [{t: 'users'}]);
 ```
 
 **Data Types**

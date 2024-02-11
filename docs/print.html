@@ -2133,7 +2133,8 @@ var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username:
 This asynchronous method returns an array of strongly-typed documents.
 To ignore the <code>p</code> or <code>m</code> parameters and supply an accept header,
 supply the default values or <code>null</code>.</p>
-<pre><code class="language-javascript">e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
+<pre><code class="language-javascript">e.sql(&quot;SELECT * FROM users;&quot;);
+e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
 e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
 e.sql(&quot;SELECT * FROM users;&quot;, [], false, 'text/csv');
 e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
@@ -2141,7 +2142,7 @@ e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['
 </code></pre>
 <p>It is possible to use string templating to pass named SQL parameters.
 String templating does not accept any other parameters to the method:</p>
-<pre><code class="language-javascript">e.sql(`SELECT * FROM ${t}`, {t: 'users'});
+<pre><code class="language-javascript">e.sql(`SELECT * FROM ${t};`, [{t: 'users'}]);
 </code></pre>
 <p><strong>Data Types</strong></p>
 <p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
