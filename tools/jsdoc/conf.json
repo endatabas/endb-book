@@ -1,0 +1,10 @@
+{
+    "source": {
+        "include": ["../../../endb/clients/javascript/endb.mjs"],
+        "includePattern": ".+\\.(js(doc|x)?|mjs)$"
+    },
+    "opts": {
+        "destination": "./output/"
+    },
+    "plugins": ["plugins/markdown"]
+}
