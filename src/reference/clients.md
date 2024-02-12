@@ -45,7 +45,7 @@ content type listed in the [HTTP API](http_api.md#accept-headers).
 ```javascript
 var e = new Endb();
 var e = new Endb('http://localhost:3803/sql');
-var e = new Endb('http://localhost:3803/sql', {accept: text/csv'});
+var e = new Endb('http://localhost:3803/sql', {accept: 'text/csv'});
 var e = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
 ```
 
@@ -108,7 +108,7 @@ var n = 'Michael';
 e.sql`INSERT INTO USERS (name) VALUES (${n});`;
 ```
 
-**Data Types**
+### Data Types
 
 When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:
 
@@ -120,7 +120,7 @@ When an LD-JSON (default) accept header is used, strongly typed data is returned
 
 For more information on Endb data types, see the [Data Types doc](data_types.md).
 
-**Complete Examples**
+### Complete Examples
 
 ```javascript
 import { Endb } from '@endatabas/endb';
@@ -150,6 +150,10 @@ await ews2.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['C
 ws_result = await ews2.sql("SELECT * FROM users;", null, null, 'application/json');
 console.log(ws_result);
 ```
+
+### API Reference
+
+{{#include jsdoc.md}}
 
 ## Python
 
@@ -226,7 +230,7 @@ e.sql("SELECT * FROM users;", accept = 'text/csv')
 e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], True, 'text/csv')
 ```
 
-**Data Types**
+### Data Types
 
 When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:
 
@@ -237,7 +241,7 @@ When an LD-JSON (default) accept header is used, strongly typed data is returned
 * `xsd:base64Binary` - `bytes` (from `base64`)
 * `xsd:integer` - `int`
 
-**Complete Examples**
+### Complete Examples
 
 ```python
 from endb import Endb
@@ -267,3 +271,7 @@ await ews2.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['C
 ws_result = await ews2.sql("SELECT * FROM users;", [], False, 'application/json')
 print(ws_result)
 ```
+
+### API Reference
+
+Pending.

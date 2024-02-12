@@ -9,13 +9,6 @@ cargo install mdbook
 cargo install mdbook-linkcheck
 ```
 
-## Setup - External Tools
-
-```sh
-npm install -g jsdoc
-npm install -g jsdoc-to-markdown
-```
-
 ## Limitations
 
 * There is no `mdbook-pdf` but the HTML print feature works reasonably well.
