@@ -319,26 +319,56 @@ console.log(ws_result);
 <p><a name="new_Endb_new"></a></p>
 <h5 id="new-endburl-opt"><a class="header" href="#new-endburl-opt"><code>new Endb([url], [opt])</code></a></h5>
 <p>Create an Endb object (Endatabas client for the HTTP API)</p>
-<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
-<tr><td>[url]</td><td><code>string</code></td><td><code>&quot;http://localhost:3803/sql&quot;</code></td><td>HTTP URL to the Endatabas /sql API</td></tr>
-<tr><td>[opt]</td><td><code>Object</code></td><td></td><td>HTTP options</td></tr>
-<tr><td>[opt.accept]</td><td><code>string</code></td><td><code>&quot;application/ld+json&quot;</code></td><td>Accept Header content type</td></tr>
-<tr><td>[opt.username]</td><td><code>string</code></td><td></td><td>username for HTTP Basic Auth</td></tr>
-<tr><td>[opt.password]</td><td><code>string</code></td><td></td><td>password for HTTP Basic Auth</td></tr>
-</tbody></table>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Default</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>[url]</td><td><code>string</code></td><td><code>&quot;http://localhost:3803/sql&quot;</code></td><td><p>HTTP URL to the Endatabas /sql API</p>
+</td>
+    </tr><tr>
+    <td>[opt]</td><td><code>Object</code></td><td></td><td><p>HTTP options</p>
+</td>
+    </tr><tr>
+    <td>[opt.accept]</td><td><code>string</code></td><td><code>&quot;application/ld+json&quot;</code></td><td><p>Accept Header content type</p>
+</td>
+    </tr><tr>
+    <td>[opt.username]</td><td><code>string</code></td><td></td><td><p>username for HTTP Basic Auth</p>
+</td>
+    </tr><tr>
+    <td>[opt.password]</td><td><code>string</code></td><td></td><td><p>password for HTTP Basic Auth</p>
+</td>
+    </tr>  </tbody>
+</table>
 <p><a name="Endb+sql"></a></p>
 <h5 id="endbsqlq-p-m-accept--promisearray"><a class="header" href="#endbsqlq-p-m-accept--promisearray"><code>endb.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h5>
 <p>Execute a SQL statement over HTTP</p>
 <p><strong>Kind</strong>: instance method of <a href="#Endb"><code>Endb</code></a><br />
 <strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
-<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Description</th></tr></thead><tbody>
-<tr><td>q</td><td><code>string</code></td><td>SQL query as string or Template Literal</td></tr>
-<tr><td>[p]</td><td><code>Array</code></td><td>Positional parameters, named parameters, or an array of either</td></tr>
-<tr><td>[m]</td><td><code>boolean</code></td><td>many parameters flag</td></tr>
-<tr><td>[accept]</td><td><code>string</code></td><td>Accept Header content type</td></tr>
-</tbody></table>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
+</td>
+    </tr><tr>
+    <td>[p]</td><td><code>Array</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+</td>
+    </tr><tr>
+    <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
+</td>
+    </tr><tr>
+    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
+</td>
+    </tr>  </tbody>
+</table>
 <p><strong>Example</strong></p>
 <pre><code class="language-js">// Simple query
 sql(&quot;SELECT * FROM users;&quot;);
@@ -370,26 +400,56 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 <p><a name="new_EndbWebSocket_new"></a></p>
 <h5 id="new-endbwebsocketurl-opt"><a class="header" href="#new-endbwebsocketurl-opt"><code>new EndbWebSocket([url], [opt])</code></a></h5>
 <p>Create an EndbWebSocket object (Endatabas client for the WebSocket API)</p>
-<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
-<tr><td>[url]</td><td><code>string</code></td><td><code>&quot;ws://localhost:3803/sql&quot;</code></td><td>WebSocket URL to the Endatabas /sql API</td></tr>
-<tr><td>[opt]</td><td><code>Object</code></td><td></td><td>WebSocket options</td></tr>
-<tr><td>[opt.ws]</td><td><code>string</code></td><td></td><td>WebSocket implementation</td></tr>
-<tr><td>[opt.username]</td><td><code>string</code></td><td></td><td>username for Basic Auth</td></tr>
-<tr><td>[opt.password]</td><td><code>string</code></td><td></td><td>password for Basic Auth</td></tr>
-</tbody></table>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Default</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>[url]</td><td><code>string</code></td><td><code>&quot;ws://localhost:3803/sql&quot;</code></td><td><p>WebSocket URL to the Endatabas /sql API</p>
+</td>
+    </tr><tr>
+    <td>[opt]</td><td><code>Object</code></td><td></td><td><p>WebSocket options</p>
+</td>
+    </tr><tr>
+    <td>[opt.ws]</td><td><code>string</code></td><td></td><td><p>WebSocket implementation</p>
+</td>
+    </tr><tr>
+    <td>[opt.username]</td><td><code>string</code></td><td></td><td><p>username for Basic Auth</p>
+</td>
+    </tr><tr>
+    <td>[opt.password]</td><td><code>string</code></td><td></td><td><p>password for Basic Auth</p>
+</td>
+    </tr>  </tbody>
+</table>
 <p><a name="EndbWebSocket+sql"></a></p>
 <h5 id="endbwebsocketsqlq-p-m-accept--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m-accept--promisearray"><code>endbWebSocket.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h5>
 <p>Execute a SQL statement over a WebSocket with LD-JSON</p>
 <p><strong>Kind</strong>: instance method of <a href="#EndbWebSocket"><code>EndbWebSocket</code></a><br />
 <strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
-<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Description</th></tr></thead><tbody>
-<tr><td>q</td><td><code>string</code></td><td>SQL query as string or Template Literal</td></tr>
-<tr><td>[p]</td><td><code>Array</code></td><td>Positional parameters, named parameters, or an array of either</td></tr>
-<tr><td>[m]</td><td><code>boolean</code></td><td>many parameters flag</td></tr>
-<tr><td>[accept]</td><td><code>string</code></td><td>Accept Header content type</td></tr>
-</tbody></table>
-</div>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
+</td>
+    </tr><tr>
+    <td>[p]</td><td><code>Array</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+</td>
+    </tr><tr>
+    <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
+</td>
+    </tr><tr>
+    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
+</td>
+    </tr>  </tbody>
+</table>
 <p><strong>Example</strong></p>
 <pre><code class="language-js">// Simple query
 sql(&quot;SELECT * FROM users;&quot;);
