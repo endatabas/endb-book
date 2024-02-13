@@ -469,11 +469,9 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 <h2 id="python"><a class="header" href="#python">Python</a></h2>
 <p><a href="https://pypi.org/project/endb/">PyPI Package: <code>endb</code></a></p>
 <h3 id="install-1"><a class="header" href="#install-1">Install</a></h3>
-<pre><code class="language-sh"># http only:
-pip install endb
-
-# http and websockets:
-pip install endb[websockets]
+<pre><code class="language-sh">pip install endb
+pip install websockets  # optional WebSocket support
+pip install pyarrow     # optional Apache Arrow support
 </code></pre>
 <h3 id="usage-1"><a class="header" href="#usage-1">Usage</a></h3>
 <p><strong>Import</strong></p>

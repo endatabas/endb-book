@@ -162,11 +162,9 @@ console.log(ws_result);
 ### Install
 
 ```sh
-# http only:
 pip install endb
-
-# http and websockets:
-pip install endb[websockets]
+pip install websockets  # optional WebSocket support
+pip install pyarrow     # optional Apache Arrow support
 ```
 
 ### Usage
