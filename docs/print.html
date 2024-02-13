@@ -2118,7 +2118,9 @@ npm install ws
 It accepts an optional <code>url</code> parameter.
 Options can be supplied for <code>accept</code>, <code>username</code>, and <code>password</code>.
 Accept headers default to LD-JSON and can be set to any valid
-content type listed in the <a href="reference/http_api.html#accept-headers">HTTP API</a>.</p>
+content type listed in the <a href="reference/http_api.html#accept-headers">HTTP API</a>.
+If you choose <code>application/vnd.apache.arrow.file</code> or <code>application/vnd.apache.arrow.stream</code>,
+the raw response body will be be returned from <code>sql()</code>.</p>
 <pre><code class="language-javascript">var e = new Endb();
 var e = new Endb('http://localhost:3803/sql');
 var e = new Endb('http://localhost:3803/sql', {accept: 'text/csv'});
@@ -2147,9 +2149,11 @@ var ews = new EndbWebSocket({ws: WebSocket});
 var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username: 'zig', password: 'zag'});
 </code></pre>
 <p><strong>sql()</strong></p>
-<p>The <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
-This asynchronous method returns an array of strongly-typed documents.
-To ignore the <code>p</code> or <code>m</code> parameters but still supply an accept header,
+<p>The asynchronous <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
+It accepts <code>q</code>, and optional <code>p</code>, <code>m</code>, and <code>accept</code> parameters
+and returns an array of strongly-typed documents.
+(See <a href="reference/clients.html#javascript-api-reference">JavaScript API Reference</a>.)</p>
+<p>To ignore the <code>p</code> or <code>m</code> parameters but still supply an accept header,
 supply the default values or <code>null</code>.</p>
 <pre><code class="language-javascript">e.sql(&quot;SELECT * FROM users;&quot;);
 e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
@@ -2390,17 +2394,19 @@ pip install pyarrow     # optional Apache Arrow support
 <p>Use <code>Endb</code> to communicate with Endb over HTTP.
 It accepts optional <code>url</code>, <code>accept</code>, <code>username</code>, and <code>password</code> parameters.
 Accept headers default to LD-JSON and can be set to any valid
-content type listed in the <a href="reference/http_api.html#accept-headers">HTTP API</a>.</p>
-<pre><code class="language-javascript">e = Endb()
+content type listed in the <a href="reference/http_api.html#accept-headers">HTTP API</a>.
+If you have <code>pyarrow</code> installed, you can also use <code>application/vnd.apache.arrow.file</code>
+and <code>application/vnd.apache.arrow.stream</code>.</p>
+<pre><code class="language-python">e = Endb()
 e = Endb('http://localhost:3803/sql')
 e = Endb('http://localhost:3803/sql', 'text/csv')
 e = Endb('http://localhost:3803/sql', 'application/json', 'zig', 'zag')
 </code></pre>
 <p>NOTE: Choosing accept headers other than LD-JSON will return
-JavaScript data structures symmetrical with those returned from
+Python data structures symmetrical with those returned from
 the respective accept header provided to the HTTP API.
 <code>text/csv</code> returns comma-delimited strings, <code>application/json</code>
-returns tuples as arrays, and so on.</p>
+returns tuples as lists, and so on.</p>
 <p><strong>EndbWebSocket</strong></p>
 <p>Use the <code>EndbWebSocket</code> class to communicate with Endb over WebSockets.
 It accepts optional <code>url</code>, <code>username</code>, and <code>password</code> parameters.</p>
@@ -2409,8 +2415,10 @@ ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
 </code></pre>
 <p><strong>sql()</strong></p>
 <p>The <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
-This method returns an array of strongly-typed documents.
-It is sychronous for <code>Endb</code> and asynchronous for <code>EndbWebSocket</code>.
+It accepts <code>q</code>, and optional <code>p</code>, <code>m</code>, and <code>accept</code> parameters
+and returns an list of strongly-typed documents.
+(See <a href="reference/clients.html#python-api-reference">Python API Reference</a>.)</p>
+<p>It is sychronous for <code>Endb</code> and asynchronous for <code>EndbWebSocket</code>.
 To ignore the <code>p</code> or <code>m</code> parameters but still supply an accept header,
 supply the default values or use a named (<code>accept</code>) parameter.</p>
 <pre><code class="language-python">from datetime import date, datetime, timezone

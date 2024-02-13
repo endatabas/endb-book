@@ -42,7 +42,7 @@ The SQL statement is sent to Endb.url over HTTP.
 
 * **Parameters:**
   * **q** (*str*) – SQL statement or query to execute
-  * **p** (*array_like* *,* *default=* *[* *]*) – Positional or named SQL parameters (or an array of either, if using many parameters)
+  * **p** (*array_like* *,* *default=* *\[* *\]*) – Positional or named SQL parameters (or an array of either, if using many parameters)
   * **m** (*bool* *,* *default=False*) – Many parameters flag
   * **accept** (*str* *,* *optional*) – Accept header content type (defaults to Endb.accept)
 * **Raises:**
@@ -88,7 +88,7 @@ The SQL statement is sent to Endb.url over WebSockets.
 
 * **Parameters:**
   * **q** (*str*) – SQL statement or query to execute
-  * **p** (*array_like* *,* *default=* *[* *]*) – Positional or named SQL parameters (or an array of either, if using many parameters)
+  * **p** (*array_like* *,* *default=* *\[* *\]*) – Positional or named SQL parameters (or an array of either, if using many parameters)
   * **m** (*bool* *,* *default=False*) – Many parameters flag
   * **accept** (*str* *,* *optional*) – Ignored. WebSocket communication is always in LD-JSON.
 * **Raises:**

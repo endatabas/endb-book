@@ -41,6 +41,8 @@ It accepts an optional `url` parameter.
 Options can be supplied for `accept`, `username`, and `password`.
 Accept headers default to LD-JSON and can be set to any valid
 content type listed in the [HTTP API](http_api.md#accept-headers).
+If you choose `application/vnd.apache.arrow.file` or `application/vnd.apache.arrow.stream`,
+the raw response body will be be returned from `sql()`.
 
 ```javascript
 var e = new Endb();
@@ -78,8 +80,11 @@ var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username:
 
 **sql()**
 
-The `sql` method is available to both `Endb` and `EndbWebSocket`.
-This asynchronous method returns an array of strongly-typed documents.
+The asynchronous `sql` method is available to both `Endb` and `EndbWebSocket`.
+It accepts `q`, and optional `p`, `m`, and `accept` parameters
+and returns an array of strongly-typed documents.
+(See [JavaScript API Reference](#javascript-api-reference).)
+
 To ignore the `p` or `m` parameters but still supply an accept header,
 supply the default values or `null`.
 
@@ -178,8 +183,10 @@ Use `Endb` to communicate with Endb over HTTP.
 It accepts optional `url`, `accept`, `username`, and `password` parameters.
 Accept headers default to LD-JSON and can be set to any valid
 content type listed in the [HTTP API](http_api.md#accept-headers).
+If you have `pyarrow` installed, you can also use `application/vnd.apache.arrow.file`
+and `application/vnd.apache.arrow.stream`.
 
-```javascript
+```python
 e = Endb()
 e = Endb('http://localhost:3803/sql')
 e = Endb('http://localhost:3803/sql', 'text/csv')
@@ -187,10 +194,10 @@ e = Endb('http://localhost:3803/sql', 'application/json', 'zig', 'zag')
 ```
 
 NOTE: Choosing accept headers other than LD-JSON will return
-JavaScript data structures symmetrical with those returned from
+Python data structures symmetrical with those returned from
 the respective accept header provided to the HTTP API.
 `text/csv` returns comma-delimited strings, `application/json`
-returns tuples as arrays, and so on.
+returns tuples as lists, and so on.
 
 **EndbWebSocket**
 
@@ -205,7 +212,10 @@ ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
 **sql()**
 
 The `sql` method is available to both `Endb` and `EndbWebSocket`.
-This method returns an array of strongly-typed documents.
+It accepts `q`, and optional `p`, `m`, and `accept` parameters
+and returns an list of strongly-typed documents.
+(See [Python API Reference](#python-api-reference).)
+
 It is sychronous for `Endb` and asynchronous for `EndbWebSocket`.
 To ignore the `p` or `m` parameters but still supply an accept header,
 supply the default values or use a named (`accept`) parameter.
