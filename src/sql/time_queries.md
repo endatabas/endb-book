@@ -60,7 +60,12 @@ SELECT CURRENT_DATE;
 All states an Endb database has ever seen are recorded, immutably.
 Accessing these prior states is accomplished by querying System Time.
 System Time is encoded in a special column, which is normally invisible to most queries,
-named `SYSTEM_TIME`.
+named `system_time` (lower case).
+Because `system_time` is invisible by default, it must be retrieved explicitly:
+
+```sql
+SELECTT *, system_time FROM products;
+```
 
 ### AS OF (Time Travel)
 
