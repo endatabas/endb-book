@@ -204,7 +204,7 @@ Accept headers default to LD-JSON and can be set to any valid
 content type listed in the <a href="http_api.html#accept-headers">HTTP API</a>.</p>
 <pre><code class="language-javascript">var e = new Endb();
 var e = new Endb('http://localhost:3803/sql');
-var e = new Endb('http://localhost:3803/sql', {accept: text/csv'});
+var e = new Endb('http://localhost:3803/sql', {accept: 'text/csv'});
 var e = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
 </code></pre>
 <p>NOTE: Choosing accept headers other than LD-JSON will return
@@ -258,7 +258,7 @@ not accept any other parameters to the method:</p>
 <pre><code class="language-javascript">var n = 'Michael';
 e.sql`INSERT INTO USERS (name) VALUES (${n});`;
 </code></pre>
-<p><strong>Data Types</strong></p>
+<h3 id="data-types"><a class="header" href="#data-types">Data Types</a></h3>
 <p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
 <ul>
 <li><code>null</code> - <code>null</code></li>
@@ -268,7 +268,7 @@ e.sql`INSERT INTO USERS (name) VALUES (${n});`;
 <li><code>xsd:integer</code> - <code>BigInt</code></li>
 </ul>
 <p>For more information on Endb data types, see the <a href="data_types.html">Data Types doc</a>.</p>
-<p><strong>Complete Examples</strong></p>
+<h3 id="complete-examples"><a class="header" href="#complete-examples">Complete Examples</a></h3>
 <pre><code class="language-javascript">import { Endb } from '@endatabas/endb';
 
 var e = new Endb();
@@ -293,6 +293,118 @@ var ews2 = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
 await ews2.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
 ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
 console.log(ws_result);
+</code></pre>
+<h3 id="api-reference"><a class="header" href="#api-reference">API Reference</a></h3>
+<h4 id="classes"><a class="header" href="#classes">Classes</a></h4>
+<dl>
+<dt><a href="#Endb">Endb</a></dt>
+<dd><p>Endatabas client for the HTTP API</p>
+</dd>
+<dt><a href="#EndbWebSocket">EndbWebSocket</a></dt>
+<dd><p>Endatabas client for the WebSocket API</p>
+</dd>
+</dl>
+<p><a name="Endb"></a></p>
+<h4 id="endb"><a class="header" href="#endb">Endb</a></h4>
+<p>Endatabas client for the HTTP API</p>
+<p><strong>Kind</strong>: global class</p>
+<ul>
+<li><a href="#Endb">Endb</a>
+<ul>
+<li><a href="#new_Endb_new"><code>new Endb([url], [opt])</code></a></li>
+<li><a href="#Endb+sql"><code>.sql(q, [p], [m], [accept])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_Endb_new"></a></p>
+<h5 id="new-endburl-opt"><a class="header" href="#new-endburl-opt"><code>new Endb([url], [opt])</code></a></h5>
+<p>Create an Endb object (Endatabas client for the HTTP API)</p>
+<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+<tr><td>[url]</td><td><code>string</code></td><td><code>&quot;http://localhost:3803/sql&quot;</code></td><td>HTTP URL to the Endatabas /sql API</td></tr>
+<tr><td>[opt]</td><td><code>Object</code></td><td></td><td>HTTP options</td></tr>
+<tr><td>[opt.accept]</td><td><code>string</code></td><td><code>&quot;application/ld+json&quot;</code></td><td>Accept Header content type</td></tr>
+<tr><td>[opt.username]</td><td><code>string</code></td><td></td><td>username for HTTP Basic Auth</td></tr>
+<tr><td>[opt.password]</td><td><code>string</code></td><td></td><td>password for HTTP Basic Auth</td></tr>
+</tbody></table>
+</div>
+<p><a name="Endb+sql"></a></p>
+<h5 id="endbsqlq-p-m-accept--promisearray"><a class="header" href="#endbsqlq-p-m-accept--promisearray"><code>endb.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h5>
+<p>Execute a SQL statement over HTTP</p>
+<p><strong>Kind</strong>: instance method of <a href="#Endb"><code>Endb</code></a><br />
+<strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
+<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>q</td><td><code>string</code></td><td>SQL query as string or Template Literal</td></tr>
+<tr><td>[p]</td><td><code>Array</code></td><td>Positional parameters, named parameters, or an array of either</td></tr>
+<tr><td>[m]</td><td><code>boolean</code></td><td>many parameters flag</td></tr>
+<tr><td>[accept]</td><td><code>string</code></td><td>Accept Header content type</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example</strong></p>
+<pre><code class="language-js">// Simple query
+sql(&quot;SELECT * FROM users;&quot;);
+// Positional parameters
+sql(&quot;INSERT INTO users (date, name) VALUES (?, ?);&quot;, [new Date(), 'Aaron']);
+// Named parameters
+sql(&quot;INSERT INTO users {date: :d, name: :n};&quot;, {d: new Date(), n: 'Aaron'});
+// Many positional parameters (batches)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
+// Many named parameters (batches)
+sql(&quot;INSERT INTO users {name: :n};&quot;, [{n: 'Judy'}, {n: 'Addis'}], true);
+// All parameters (many parameters and accept header)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+// Named parameters via Template Literals
+sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
+</code></pre>
+<p><a name="EndbWebSocket"></a></p>
+<h4 id="endbwebsocket"><a class="header" href="#endbwebsocket">EndbWebSocket</a></h4>
+<p>Endatabas client for the WebSocket API</p>
+<p><strong>Kind</strong>: global class</p>
+<ul>
+<li><a href="#EndbWebSocket">EndbWebSocket</a>
+<ul>
+<li><a href="#new_EndbWebSocket_new"><code>new EndbWebSocket([url], [opt])</code></a></li>
+<li><a href="#EndbWebSocket+sql"><code>.sql(q, [p], [m], [accept])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_EndbWebSocket_new"></a></p>
+<h5 id="new-endbwebsocketurl-opt"><a class="header" href="#new-endbwebsocketurl-opt"><code>new EndbWebSocket([url], [opt])</code></a></h5>
+<p>Create an EndbWebSocket object (Endatabas client for the WebSocket API)</p>
+<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+<tr><td>[url]</td><td><code>string</code></td><td><code>&quot;ws://localhost:3803/sql&quot;</code></td><td>WebSocket URL to the Endatabas /sql API</td></tr>
+<tr><td>[opt]</td><td><code>Object</code></td><td></td><td>WebSocket options</td></tr>
+<tr><td>[opt.ws]</td><td><code>string</code></td><td></td><td>WebSocket implementation</td></tr>
+<tr><td>[opt.username]</td><td><code>string</code></td><td></td><td>username for Basic Auth</td></tr>
+<tr><td>[opt.password]</td><td><code>string</code></td><td></td><td>password for Basic Auth</td></tr>
+</tbody></table>
+</div>
+<p><a name="EndbWebSocket+sql"></a></p>
+<h5 id="endbwebsocketsqlq-p-m-accept--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m-accept--promisearray"><code>endbWebSocket.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h5>
+<p>Execute a SQL statement over a WebSocket with LD-JSON</p>
+<p><strong>Kind</strong>: instance method of <a href="#EndbWebSocket"><code>EndbWebSocket</code></a><br />
+<strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
+<div class="table-wrapper"><table><thead><tr><th>Param</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>q</td><td><code>string</code></td><td>SQL query as string or Template Literal</td></tr>
+<tr><td>[p]</td><td><code>Array</code></td><td>Positional parameters, named parameters, or an array of either</td></tr>
+<tr><td>[m]</td><td><code>boolean</code></td><td>many parameters flag</td></tr>
+<tr><td>[accept]</td><td><code>string</code></td><td>Accept Header content type</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example</strong></p>
+<pre><code class="language-js">// Simple query
+sql(&quot;SELECT * FROM users;&quot;);
+// Positional parameters
+sql(&quot;INSERT INTO users (date, name) VALUES (?, ?);&quot;, [new Date(), 'Aaron']);
+// Named parameters
+sql(&quot;INSERT INTO users {date: :d, name: :n};&quot;, {d: new Date(), n: 'Aaron'});
+// Many positional parameters (batches)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
+// Many named parameters (batches)
+sql(&quot;INSERT INTO users {name: :n};&quot;, [{n: 'Judy'}, {n: 'Addis'}], true);
+// All parameters (many parameters and accept header)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+// Named parameters via Template Literals
+sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 </code></pre>
 <h2 id="python"><a class="header" href="#python">Python</a></h2>
 <p><a href="https://pypi.org/project/endb/">PyPI Package: <code>endb</code></a></p>
@@ -351,7 +463,7 @@ e.sql(&quot;SELECT * FROM users;&quot;, [], False, 'text/csv')
 e.sql(&quot;SELECT * FROM users;&quot;, accept = 'text/csv')
 e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], True, 'text/csv')
 </code></pre>
-<p><strong>Data Types</strong></p>
+<h3 id="data-types-1"><a class="header" href="#data-types-1">Data Types</a></h3>
 <p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
 <ul>
 <li><code>null</code> - <code>None</code></li>
@@ -361,7 +473,7 @@ e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['
 <li><code>xsd:base64Binary</code> - <code>bytes</code> (from <code>base64</code>)</li>
 <li><code>xsd:integer</code> - <code>int</code></li>
 </ul>
-<p><strong>Complete Examples</strong></p>
+<h3 id="complete-examples-1"><a class="header" href="#complete-examples-1">Complete Examples</a></h3>
 <pre><code class="language-python">from endb import Endb
 from datetime import date, datetime, timezone
 e = Endb()
@@ -386,6 +498,8 @@ await ews2.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['K
 ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, [], False, 'application/json')
 print(ws_result)
 </code></pre>
+<h3 id="api-reference-1"><a class="header" href="#api-reference-1">API Reference</a></h3>
+<p>Pending.</p>
 
                     </main>
 
