@@ -2098,7 +2098,7 @@ objects. For example:</p>
 <p>For other programming languages, it is possible to create
 small client libraries such as these using the
 <a href="reference/http_api.html">HTTP</a> and <a href="reference/websocket_api.html">WebSocket</a> APIs.</p>
-<p>The clients supports both HTTP and WebSocket APIs.
+<p>The clients support both HTTP and WebSocket APIs.
 To access Endb over HTTP, create an <code>Endb</code> instance
 and call the <code>sql</code> method on it.
 To access Endb over WebSockets, create an <code>EndbWebSocket</code>
@@ -2109,7 +2109,7 @@ instance and call the <code>sql</code> method on it.</p>
 <pre><code class="language-sh">npm install @endatabas/endb
 npm install ws
 </code></pre>
-<h3 id="usage-1"><a class="header" href="#usage-1">Usage</a></h3>
+<h3 id="usage-examples"><a class="header" href="#usage-examples">Usage Examples</a></h3>
 <p><strong>Import</strong></p>
 <pre><code class="language-javascript">import { Endb, EndbWebSocket } from '@endatabas/endb';
 </code></pre>
@@ -2147,19 +2147,9 @@ var ews = new EndbWebSocket({ws: WebSocket});
 var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username: 'zig', password: 'zag'});
 </code></pre>
 <p><strong>sql()</strong></p>
-<ul>
-<li>Method Signature: <code>sql(q, p, m, accept)</code>
-<ul>
-<li><code>q</code>: SQL query</li>
-<li><code>p</code>: array of SQL parameters (default: <code>[]</code>)</li>
-<li><code>m</code>: many flag (default: <code>false</code>)</li>
-<li><code>accept</code>: accept header content type (default: <code>application/ld+json</code>)</li>
-</ul>
-</li>
-</ul>
 <p>The <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
 This asynchronous method returns an array of strongly-typed documents.
-To ignore the <code>p</code> or <code>m</code> parameters and supply an accept header,
+To ignore the <code>p</code> or <code>m</code> parameters but still supply an accept header,
 supply the default values or <code>null</code>.</p>
 <pre><code class="language-javascript">e.sql(&quot;SELECT * FROM users;&quot;);
 e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
@@ -2212,6 +2202,8 @@ ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, null, null, 'applic
 console.log(ws_result);
 </code></pre>
 <h3 id="javascript-api-reference"><a class="header" href="#javascript-api-reference">JavaScript API Reference</a></h3>
+<p>NOTE: The following API documentation is generated from source code docstrings in the
+<a href="https://github.com/endatabas/endb/tree/main/clients"><code>endb</code> repository</a>.</p>
 <h4 id="classes"><a class="header" href="#classes">Classes</a></h4>
 <dl>
 <dt><a href="reference/clients.html#Endb">Endb</a></dt>
@@ -2390,7 +2382,7 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 pip install websockets  # optional WebSocket support
 pip install pyarrow     # optional Apache Arrow support
 </code></pre>
-<h3 id="usage-2"><a class="header" href="#usage-2">Usage</a></h3>
+<h3 id="usage-examples-1"><a class="header" href="#usage-examples-1">Usage Examples</a></h3>
 <p><strong>Import</strong></p>
 <pre><code class="language-python">from endb import (Endb, EndbWebSocket)
 </code></pre>
@@ -2416,21 +2408,11 @@ It accepts optional <code>url</code>, <code>username</code>, and <code>password<
 ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
 </code></pre>
 <p><strong>sql()</strong></p>
-<ul>
-<li>Method Signature: <code>sql(q, p, m, accept)</code>
-<ul>
-<li><code>q</code>: SQL query</li>
-<li><code>p</code>: array of SQL parameters (default: <code>[]</code>)</li>
-<li><code>m</code>: many flag (default: <code>false</code>)</li>
-<li><code>accept</code>: accept header content type (defaults to class)</li>
-</ul>
-</li>
-</ul>
 <p>The <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
 This method returns an array of strongly-typed documents.
 It is sychronous for <code>Endb</code> and asynchronous for <code>EndbWebSocket</code>.
-To ignore the <code>p</code> or <code>m</code> parameters and supply an accept header,
-supply the default values or used named parameters.</p>
+To ignore the <code>p</code> or <code>m</code> parameters but still supply an accept header,
+supply the default values or use a named (<code>accept</code>) parameter.</p>
 <pre><code class="language-python">from datetime import date, datetime, timezone
 e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [datetime.now(timezone.utc), 'Aaron', 'aaron@canadahealth.ca'])
 e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], True)
@@ -2474,70 +2456,94 @@ ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, [], False, 'applica
 print(ws_result)
 </code></pre>
 <h3 id="python-api-reference"><a class="header" href="#python-api-reference">Python API Reference</a></h3>
-<p><a id="endb"></a></p>
-<h1 id="endb-1"><a class="header" href="#endb-1">endb</a></h1>
-<p><a id="endb.AbstractEndb"></a></p>
-<h2 id="abstractendb-objects"><a class="header" href="#abstractendb-objects">AbstractEndb Objects</a></h2>
-<pre><code class="language-python">class AbstractEndb()
-</code></pre>
-<p>Abstract class providing LD-JSON de/serialization</p>
-<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
-<p>_from_json_ld(obj)
-Deserializes LD-JSON types into Python types
-_to_json_ld(obj)
-Serializes Python types into LD-JSON types, where possible</p>
-<p><a id="endb.Endb"></a></p>
-<h2 id="endb-objects"><a class="header" href="#endb-objects">Endb Objects</a></h2>
-<pre><code class="language-python">class Endb(AbstractEndb)
-</code></pre>
+<p>NOTE: The following API documentation is generated from source code docstrings in the
+<a href="https://github.com/endatabas/endb/tree/main/clients"><code>endb</code> repository</a>.</p>
+<h1 id="endb-module"><a class="header" href="#endb-module">endb module</a></h1>
+<h3 id="class-endbendburlhttplocalhost3803sql-acceptapplicationldjson-usernamenone-passwordnone"><a class="header" href="#class-endbendburlhttplocalhost3803sql-acceptapplicationldjson-usernamenone-passwordnone"><em>class</em> endb.Endb(url='http://localhost:3803/sql', accept='application/ld+json', username=None, password=None)</a></h3>
+<p>Bases: <code>AbstractEndb</code></p>
 <p>An Endatabas client for the HTTP API</p>
-<h2 id="attributes"><a class="header" href="#attributes">Attributes</a></h2>
-<p>url : str
-HTTP URL of an Endatabas instance
-accept : str
-Accept header content type
-username : str
-Username for HTTP Basic Auth
-password : str
-Password for HTTP Basic Auth</p>
-<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
-<p>sql(q, p=[], m=False, accept=None)
-Executes a SQL statement</p>
-<p><a id="endb.Endb.__init__"></a></p>
-<h4 id="__init__"><a class="header" href="#__init__">__init__</a></h4>
-<pre><code class="language-python">def __init__(url='http://localhost:3803/sql',
-             accept='application/ld+json',
-             username=None,
-             password=None)
-</code></pre>
-<h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
-<p>url : str, default='http://localhost:3803/sql'
-HTTP URL of an Endatabas instance
-accept : str, default='application/ld+json'
-Accept header content type
-username : str, default=None
-Username for HTTP Basic Auth
-password : str, default=None
-Password for HTTP Basic Auth</p>
-<p><a id="endb.Endb.sql"></a></p>
-<h4 id="sql"><a class="header" href="#sql">sql</a></h4>
-<pre><code class="language-python">def sql(q, p=[], m=False, accept=None)
-</code></pre>
+<h4 id="url-1"><a class="header" href="#url-1">url</a></h4>
+<p>HTTP URL of an Endatabas instance</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="accept-1"><a class="header" href="#accept-1">accept</a></h4>
+<p>Accept header content type</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="username-1"><a class="header" href="#username-1">username</a></h4>
+<p>Username for HTTP Basic Auth</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="password-1"><a class="header" href="#password-1">password</a></h4>
+<p>Password for HTTP Basic Auth</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="sqlq-p-mfalse-acceptnone"><a class="header" href="#sqlq-p-mfalse-acceptnone">sql(q, p=[], m=False, accept=None)</a></h4>
 <p>Executes a SQL statement</p>
-<p>The SQL statement is sent to <code>Endb.url</code> over HTTP.</p>
-<h2 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h2>
-<p>q : str
-SQL statement or query to execute
-p : array_like, default=[]
-Positional or named SQL parameters (or an array of either, if using many parameters)
-m : bool, default=False
-Many parameters flag
-accept : str, optional
-Accept header content type (defaults to <code>Endb.accept</code>)</p>
-<h2 id="raises"><a class="header" href="#raises">Raises</a></h2>
-<p>TypeError
-Internal error if attempting to translate an unknown type
-to LD-JSON.</p>
+<p>The SQL statement is sent to Endb.url over HTTP.</p>
+<ul>
+<li><strong>Parameters:</strong>
+<ul>
+<li><strong>q</strong> (<em>str</em>) – SQL statement or query to execute</li>
+<li><strong>p</strong> (<em>array_like</em> <em>,</em> <em>default=</em> <em>[</em> <em>]</em>) – Positional or named SQL parameters (or an array of either, if using many parameters)</li>
+<li><strong>m</strong> (<em>bool</em> <em>,</em> <em>default=False</em>) – Many parameters flag</li>
+<li><strong>accept</strong> (<em>str</em> <em>,</em> <em>optional</em>) – Accept header content type (defaults to Endb.accept)</li>
+</ul>
+</li>
+<li><strong>Raises:</strong>
+<strong>TypeError</strong> – Internal error if attempting to translate an unknown type
+to LD-JSON.</li>
+</ul>
+<h3 id="class-endbendbwebsocketurlwslocalhost3803sql-usernamenone-passwordnone"><a class="header" href="#class-endbendbwebsocketurlwslocalhost3803sql-usernamenone-passwordnone"><em>class</em> endb.EndbWebSocket(url='ws://localhost:3803/sql', username=None, password=None)</a></h3>
+<p>Bases: <code>AbstractEndb</code></p>
+<p>An Endatabas client for the HTTP API</p>
+<h4 id="url-2"><a class="header" href="#url-2">url</a></h4>
+<p>HTTP URL of an Endatabas instance</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="username-2"><a class="header" href="#username-2">username</a></h4>
+<p>Username for HTTP Basic Auth</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="password-2"><a class="header" href="#password-2">password</a></h4>
+<p>Password for HTTP Basic Auth</p>
+<ul>
+<li><strong>Type:</strong>
+str</li>
+</ul>
+<h4 id="async-close"><a class="header" href="#async-close"><em>async</em> close()</a></h4>
+<p>Closes the WebSocket connection</p>
+<h4 id="async-sqlq-p-mfalse-acceptnone"><a class="header" href="#async-sqlq-p-mfalse-acceptnone"><em>async</em> sql(q, p=[], m=False, accept=None)</a></h4>
+<p>Executes a SQL statement</p>
+<p>The SQL statement is sent to Endb.url over WebSockets.</p>
+<ul>
+<li><strong>Parameters:</strong>
+<ul>
+<li><strong>q</strong> (<em>str</em>) – SQL statement or query to execute</li>
+<li><strong>p</strong> (<em>array_like</em> <em>,</em> <em>default=</em> <em>[</em> <em>]</em>) – Positional or named SQL parameters (or an array of either, if using many parameters)</li>
+<li><strong>m</strong> (<em>bool</em> <em>,</em> <em>default=False</em>) – Many parameters flag</li>
+<li><strong>accept</strong> (<em>str</em> <em>,</em> <em>optional</em>) – Ignored. WebSocket communication is always in LD-JSON.</li>
+</ul>
+</li>
+<li><strong>Raises:</strong>
+<ul>
+<li><strong>AssertionError</strong> – If ‘id’ of request and response do not match.</li>
+<li><strong>RuntimeError</strong> – If response from server contains an error.</li>
+</ul>
+</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="monitoring"><a class="header" href="#monitoring">Monitoring</a></h1>
 <p>Endb exposes plaintext logs, Prometheus metrics,
 and optional OpenTelemetry tracing.
@@ -2837,7 +2843,7 @@ Be aware of this to ensure client code is written to detect 401 status codes.</p
 <pre><code class="language-sh">$ curl -i --user zig:wrong -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 HTTP/1.1 401 Authorization Required
 </code></pre>
-<h2 id="parameters-3"><a class="header" href="#parameters-3">Parameters</a></h2>
+<h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
 <p>SQL parameters are available to:</p>
 <ul>
 <li><code>application/json</code> and <code>application/ld+json</code> as part of the <code>POST</code> body</li>
@@ -2982,7 +2988,7 @@ which can be passed to Docker images.)</p>
 may be used.
 It is offered because web browsers do not support the Basic Auth
 header over WebSockets.</p>
-<h2 id="parameters-4"><a class="header" href="#parameters-4">Parameters</a></h2>
+<h2 id="parameters-2"><a class="header" href="#parameters-2">Parameters</a></h2>
 <p>SQL parameters to a WebSocket request are always <a href="https://json-ld.org/">JSON-LD</a>.
 A JSON-LD scalar always has the form: <code>{&quot;@type&quot;: &quot;xsd:TYPE&quot;, &quot;@value&quot;: &quot;DATA&quot;}</code>.
 JSON-LD types are listed under the <a href="reference/data_types.html">Data Types</a> table.</p>

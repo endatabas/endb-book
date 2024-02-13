@@ -10,3 +10,5 @@ output
 # sed:
 *.bak
 
+# pydoc (copy)
+tools/pydoc/input

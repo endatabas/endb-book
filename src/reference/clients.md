@@ -9,7 +9,7 @@ For other programming languages, it is possible to create
 small client libraries such as these using the
 [HTTP](http_api.md) and [WebSocket](websocket_api.md) APIs.
 
-The clients supports both HTTP and WebSocket APIs.
+The clients support both HTTP and WebSocket APIs.
 To access Endb over HTTP, create an `Endb` instance
 and call the `sql` method on it.
 To access Endb over WebSockets, create an `EndbWebSocket`
@@ -26,7 +26,7 @@ npm install @endatabas/endb
 npm install ws
 ```
 
-### Usage
+### Usage Examples
 
 **Import**
 
@@ -78,15 +78,9 @@ var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username:
 
 **sql()**
 
-* Method Signature: `sql(q, p, m, accept)`
-    * `q`: SQL query
-    * `p`: array of SQL parameters (default: `[]`)
-    * `m`: many flag (default: `false`)
-    * `accept`: accept header content type (default: `application/ld+json`)
-
 The `sql` method is available to both `Endb` and `EndbWebSocket`.
 This asynchronous method returns an array of strongly-typed documents.
-To ignore the `p` or `m` parameters and supply an accept header,
+To ignore the `p` or `m` parameters but still supply an accept header,
 supply the default values or `null`.
 
 ```javascript
@@ -153,6 +147,9 @@ console.log(ws_result);
 
 ### JavaScript API Reference
 
+NOTE: The following API documentation is generated from source code docstrings in the
+[`endb` repository](https://github.com/endatabas/endb/tree/main/clients).
+
 {{#include jsdoc.md}}
 
 ## Python
@@ -167,7 +164,7 @@ pip install websockets  # optional WebSocket support
 pip install pyarrow     # optional Apache Arrow support
 ```
 
-### Usage
+### Usage Examples
 
 **Import**
 
@@ -207,17 +204,11 @@ ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
 
 **sql()**
 
-* Method Signature: `sql(q, p, m, accept)`
-    * `q`: SQL query
-    * `p`: array of SQL parameters (default: `[]`)
-    * `m`: many flag (default: `false`)
-    * `accept`: accept header content type (defaults to class)
-
 The `sql` method is available to both `Endb` and `EndbWebSocket`.
 This method returns an array of strongly-typed documents.
 It is sychronous for `Endb` and asynchronous for `EndbWebSocket`.
-To ignore the `p` or `m` parameters and supply an accept header,
-supply the default values or used named parameters.
+To ignore the `p` or `m` parameters but still supply an accept header,
+supply the default values or use a named (`accept`) parameter.
 
 ```python
 from datetime import date, datetime, timezone
@@ -271,5 +262,8 @@ print(ws_result)
 ```
 
 ### Python API Reference
+
+NOTE: The following API documentation is generated from source code docstrings in the
+[`endb` repository](https://github.com/endatabas/endb/tree/main/clients).
 
 {{#include pydoc.md}}

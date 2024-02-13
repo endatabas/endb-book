@@ -10,7 +10,8 @@ Clone the main `endb` repo in a sibling directory with `endb-book`:
 cd .. && git clone git@github.com:endatabas/endb.git && cd endb-book
 ```
 
-Make sure you have `npm` and `cargo` installed. Then run:
+Make sure you have `cargo`, `npm`, and `pip` (Rust, Node, and Python) installed.
+Then run:
 
 ```sh
 cargo install mdbook
@@ -18,6 +19,10 @@ cargo install mdbook-linkcheck
 
 npm install -g jsdoc
 npm install -g jsdoc-to-markdown
+
+pip install sphinx
+pip install sphinx-markdown-builder                                                                                                                                                    │
+pip install sphinx-autodoc-typehints
 ```
 
 ## Build
