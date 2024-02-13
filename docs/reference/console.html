@@ -208,6 +208,34 @@ History does not persist between console sessions.</p>
 <p>Learn more about Endb SQL in the
 <a href="../sql/">SQL Reference</a>.</p>
 <p>To quit, type <code>CTRL+D</code>.</p>
+<h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
+<p>The console comes with a number of special, non-SQL commands.</p>
+<h3 id="url"><a class="header" href="#url">URL</a></h3>
+<p>Set the URL at runtime with the <code>url</code> command.</p>
+<pre><code>-&gt; url https://192.168.1.200:3803/sql
+</code></pre>
+<h3 id="accept"><a class="header" href="#accept">Accept</a></h3>
+<p>Set the accept header content type at runtime with the <code>accept</code> command.</p>
+<pre><code>-&gt; accept text/csv
+</code></pre>
+<h3 id="username"><a class="header" href="#username">Username</a></h3>
+<p>Set the username at runtime with the <code>username</code> command.</p>
+<pre><code>-&gt; username efcodd
+</code></pre>
+<h3 id="password"><a class="header" href="#password">Password</a></h3>
+<p>Set the password at runtime with the <code>password</code> command.</p>
+<pre><code>-&gt; password equ1valenc3
+</code></pre>
+<h3 id="timer"><a class="header" href="#timer">Timer</a></h3>
+<p>All SQL commands can be timed by toggling the timer on: <code>timer on</code>.
+Toggle the timer back off with <code>timer off</code>.</p>
+<pre><code>-&gt; timer on
+-&gt; SELECT * FROM users;
+[{'name': 'Aaron'}
+ {'name': 'Irene'}
+ ... ]
+Elapsed: 0.003904 ms
+</code></pre>
 <h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
 <p>The console communicates with Endb over the <a href="http_api.html">HTTP API</a>.
 Data is returned as LD-JSON documents and marshalled into strongly-typed Python

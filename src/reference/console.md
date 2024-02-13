@@ -52,6 +52,56 @@ Learn more about Endb SQL in the
 
 To quit, type `CTRL+D`.
 
+## Commands
+
+The console comes with a number of special, non-SQL commands.
+
+### URL
+
+Set the URL at runtime with the `url` command.
+
+```
+-> url https://192.168.1.200:3803/sql
+```
+
+### Accept
+
+Set the accept header content type at runtime with the `accept` command.
+
+```
+-> accept text/csv
+```
+
+### Username
+
+Set the username at runtime with the `username` command.
+
+```
+-> username efcodd
+```
+
+### Password
+
+Set the password at runtime with the `password` command.
+
+```
+-> password equ1valenc3
+```
+
+### Timer
+
+All SQL commands can be timed by toggling the timer on: `timer on`.
+Toggle the timer back off with `timer off`.
+
+```
+-> timer on
+-> SELECT * FROM users;
+[{'name': 'Aaron'}
+ {'name': 'Irene'}
+ ... ]
+Elapsed: 0.003904 ms
+```
+
 ## Data Types
 
 The console communicates with Endb over the [HTTP API](http_api.md).
