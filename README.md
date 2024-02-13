@@ -4,9 +4,27 @@ The Endatabas Book
 
 ## Setup
 
+Clone the main `endb` repo in a sibling directory with `endb-book`:
+
+```sh
+cd .. && git clone git@github.com:endatabas/endb.git && cd endb-book
+```
+
+Make sure you have `npm` and `cargo` installed. Then run:
+
 ```sh
 cargo install mdbook
 cargo install mdbook-linkcheck
+
+npm install -g jsdoc
+npm install -g jsdoc-to-markdown
+```
+
+## Build
+
+```sh
+make
+make serve  # to view locally
 ```
 
 ## Limitations
