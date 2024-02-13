@@ -294,7 +294,7 @@ await ews2.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['K
 ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
 console.log(ws_result);
 </code></pre>
-<h3 id="api-reference"><a class="header" href="#api-reference">API Reference</a></h3>
+<h3 id="javascript-api-reference"><a class="header" href="#javascript-api-reference">JavaScript API Reference</a></h3>
 <h4 id="classes"><a class="header" href="#classes">Classes</a></h4>
 <dl>
 <dt><a href="#Endb">Endb</a></dt>
@@ -359,7 +359,7 @@ console.log(ws_result);
     <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
 </td>
     </tr><tr>
-    <td>[p]</td><td><code>Array</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+    <td>[p]</td><td><code>Array</code> | <code>Object</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
@@ -440,7 +440,7 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
     <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
 </td>
     </tr><tr>
-    <td>[p]</td><td><code>Array</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+    <td>[p]</td><td><code>Array</code> | <code>Object</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
@@ -556,8 +556,71 @@ await ews2.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['K
 ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, [], False, 'application/json')
 print(ws_result)
 </code></pre>
-<h3 id="api-reference-1"><a class="header" href="#api-reference-1">API Reference</a></h3>
-<p>Pending.</p>
+<h3 id="python-api-reference"><a class="header" href="#python-api-reference">Python API Reference</a></h3>
+<p><a id="endb"></a></p>
+<h1 id="endb-1"><a class="header" href="#endb-1">endb</a></h1>
+<p><a id="endb.AbstractEndb"></a></p>
+<h2 id="abstractendb-objects"><a class="header" href="#abstractendb-objects">AbstractEndb Objects</a></h2>
+<pre><code class="language-python">class AbstractEndb()
+</code></pre>
+<p>Abstract class providing LD-JSON de/serialization</p>
+<h2 id="methods"><a class="header" href="#methods">Methods</a></h2>
+<p>_from_json_ld(obj)
+Deserializes LD-JSON types into Python types
+_to_json_ld(obj)
+Serializes Python types into LD-JSON types, where possible</p>
+<p><a id="endb.Endb"></a></p>
+<h2 id="endb-objects"><a class="header" href="#endb-objects">Endb Objects</a></h2>
+<pre><code class="language-python">class Endb(AbstractEndb)
+</code></pre>
+<p>An Endatabas client for the HTTP API</p>
+<h2 id="attributes"><a class="header" href="#attributes">Attributes</a></h2>
+<p>url : str
+HTTP URL of an Endatabas instance
+accept : str
+Accept header content type
+username : str
+Username for HTTP Basic Auth
+password : str
+Password for HTTP Basic Auth</p>
+<h2 id="methods-1"><a class="header" href="#methods-1">Methods</a></h2>
+<p>sql(q, p=[], m=False, accept=None)
+Executes a SQL statement</p>
+<p><a id="endb.Endb.__init__"></a></p>
+<h4 id="__init__"><a class="header" href="#__init__">__init__</a></h4>
+<pre><code class="language-python">def __init__(url='http://localhost:3803/sql',
+             accept='application/ld+json',
+             username=None,
+             password=None)
+</code></pre>
+<h2 id="parameters"><a class="header" href="#parameters">Parameters</a></h2>
+<p>url : str, default='http://localhost:3803/sql'
+HTTP URL of an Endatabas instance
+accept : str, default='application/ld+json'
+Accept header content type
+username : str, default=None
+Username for HTTP Basic Auth
+password : str, default=None
+Password for HTTP Basic Auth</p>
+<p><a id="endb.Endb.sql"></a></p>
+<h4 id="sql"><a class="header" href="#sql">sql</a></h4>
+<pre><code class="language-python">def sql(q, p=[], m=False, accept=None)
+</code></pre>
+<p>Executes a SQL statement</p>
+<p>The SQL statement is sent to <code>Endb.url</code> over HTTP.</p>
+<h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
+<p>q : str
+SQL statement or query to execute
+p : array_like, default=[]
+Positional or named SQL parameters (or an array of either, if using many parameters)
+m : bool, default=False
+Many parameters flag
+accept : str, optional
+Accept header content type (defaults to <code>Endb.accept</code>)</p>
+<h2 id="raises"><a class="header" href="#raises">Raises</a></h2>
+<p>TypeError
+Internal error if attempting to translate an unknown type
+to LD-JSON.</p>
 
                     </main>
 

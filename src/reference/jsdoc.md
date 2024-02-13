@@ -68,7 +68,7 @@ Execute a SQL statement over HTTP
     <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
 </td>
     </tr><tr>
-    <td>[p]</td><td><code>Array</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+    <td>[p]</td><td><code>Array</code> | <code>Object</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
@@ -155,7 +155,7 @@ Execute a SQL statement over a WebSocket with LD-JSON
     <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
 </td>
     </tr><tr>
-    <td>[p]</td><td><code>Array</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+    <td>[p]</td><td><code>Array</code> | <code>Object</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>

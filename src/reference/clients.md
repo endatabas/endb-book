@@ -151,7 +151,7 @@ ws_result = await ews2.sql("SELECT * FROM users;", null, null, 'application/json
 console.log(ws_result);
 ```
 
-### API Reference
+### JavaScript API Reference
 
 {{#include jsdoc.md}}
 
@@ -270,6 +270,6 @@ ws_result = await ews2.sql("SELECT * FROM users;", [], False, 'application/json'
 print(ws_result)
 ```
 
-### API Reference
+### Python API Reference
 
-Pending.
+{{#include pydoc.md}}
