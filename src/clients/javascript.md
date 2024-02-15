@@ -112,7 +112,7 @@ var n = 'Michael';
 e.sql`INSERT INTO users (name) VALUES (${n});`;
 
 var u = {name: 'Radha', roles: ['artist', 'marketing']};
-e.sql`INSERT INTO users objects ${u}`;
+e.sql`INSERT INTO users ${u}`;
 ```
 
 ## Data Types

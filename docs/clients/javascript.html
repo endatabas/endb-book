@@ -262,7 +262,7 @@ not accept any other parameters to the method.</p>
 e.sql`INSERT INTO users (name) VALUES (${n});`;
 
 var u = {name: 'Radha', roles: ['artist', 'marketing']};
-e.sql`INSERT INTO users objects ${u}`;
+e.sql`INSERT INTO users ${u}`;
 </code></pre>
 <h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
 <p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
