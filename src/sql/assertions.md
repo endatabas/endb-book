@@ -22,8 +22,8 @@ One sensible approach is given below.
 
 ```sql
 CREATE ASSERTION unique_email CHECK (1 >= (SELECT MAX(c.cnt) FROM (SELECT COUNT(*) AS cnt FROM users GROUP BY email) AS c));
-INSERT INTO users {name: 'Steven', 's@endatabas.com'};
-INSERT INTO users {name: 'Sarah', 's@endatabas.com'};
+INSERT INTO users {name: 'Steven', email: 's@endatabas.com'};
+INSERT INTO users {name: 'Sarah', email: 's@endatabas.com'};
 ```
 
 ### Not Null Constraint
