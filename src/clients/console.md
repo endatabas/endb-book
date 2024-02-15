@@ -102,6 +102,15 @@ Toggle the timer back off with `timer off`.
 Elapsed: 0.003904 ms
 ```
 
+### Quit
+
+Quit the console by typing `quit`.
+
+```
+-> quit
+
+```
+
 ## Data Types
 
 The console communicates with Endb over the [HTTP API](../reference/http_api.md).
