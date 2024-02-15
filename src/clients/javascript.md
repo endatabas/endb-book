@@ -6,6 +6,19 @@ a JavaScript or TypeScript application.
 
 [NPM Package: `@endatabas/endb`](https://www.npmjs.com/package/@endatabas/endb)
 
+## Table of Contents
+
+* [Install](#install)
+* [Usage Examples](#usage-examples)
+    * [Import](#import)
+    * [Endb](#endb)
+    * [EndbWebSocket](#endbwebsocket)
+    * [sql()](#sql)
+    * [Template Literals](#template-literals)
+* [Data Types](#data-types)
+* [Complete Examples](#complete-examples)
+* [JavaScript API Reference](#javascript-api-reference)
+
 ## Install
 
 ```sh
@@ -15,13 +28,13 @@ npm install ws
 
 ## Usage Examples
 
-**Import**
+### Import
 
 ```javascript
 import { Endb, EndbWebSocket } from '@endatabas/endb';
 ```
 
-**Endb**
+### Endb
 
 Use the `Endb` class to communicate with Endb over HTTP.
 It accepts an optional `url` parameter.
@@ -44,7 +57,7 @@ the respective accept header provided to the HTTP API.
 `text/csv` returns comma-delimited strings, `application/json`
 returns tuples as arrays, and so on.
 
-**EndbWebSocket**
+### EndbWebSocket
 
 Use the `EndbWebSocket` class to communicate with Endb over WebSockets.
 It accepts an optional `url` parameter.
@@ -65,7 +78,7 @@ var ews = new EndbWebSocket({ws: WebSocket});
 var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username: 'zig', password: 'zag'});
 ```
 
-**sql()**
+### sql()
 
 The asynchronous `sql` method is available to both `Endb` and `EndbWebSocket`.
 It accepts `q`, and optional `p`, `m`, and `accept` parameters
@@ -84,14 +97,22 @@ e.sql("SELECT * FROM users;", null, null, 'application/json');
 e.sql("INSERT INTO USERS (name) VALUES (?);", [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
 ```
 
+### Template Literals
+
 It is possible to use [Template Literals](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 (string templating) to pass named SQL parameters.
+The parameter passed to the Template Literal is only valid
+when used in a position where a [positional SQL parameter](../reference/http_api.md#positional-parameters)
+is also valid.
 The signature which accepts Template Literals does
-not accept any other parameters to the method:
+not accept any other parameters to the method.
 
 ```javascript
 var n = 'Michael';
-e.sql`INSERT INTO USERS (name) VALUES (${n});`;
+e.sql`INSERT INTO users (name) VALUES (${n});`;
+
+var u = {name: 'Radha', roles: ['artist', 'marketing']};
+e.sql`INSERT INTO users objects ${u}`;
 ```
 
 ## Data Types

@@ -176,15 +176,31 @@
 <p>The JavaScript client library is used to communicate with an Endb instance from
 a JavaScript or TypeScript application.</p>
 <p><a href="https://www.npmjs.com/package/@endatabas/endb">NPM Package: <code>@endatabas/endb</code></a></p>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#install">Install</a></li>
+<li><a href="#usage-examples">Usage Examples</a>
+<ul>
+<li><a href="#import">Import</a></li>
+<li><a href="#endb">Endb</a></li>
+<li><a href="#endbwebsocket">EndbWebSocket</a></li>
+<li><a href="#sql">sql()</a></li>
+<li><a href="#template-literals">Template Literals</a></li>
+</ul>
+</li>
+<li><a href="#data-types">Data Types</a></li>
+<li><a href="#complete-examples">Complete Examples</a></li>
+<li><a href="#javascript-api-reference">JavaScript API Reference</a></li>
+</ul>
 <h2 id="install"><a class="header" href="#install">Install</a></h2>
 <pre><code class="language-sh">npm install @endatabas/endb
 npm install ws
 </code></pre>
 <h2 id="usage-examples"><a class="header" href="#usage-examples">Usage Examples</a></h2>
-<p><strong>Import</strong></p>
+<h3 id="import"><a class="header" href="#import">Import</a></h3>
 <pre><code class="language-javascript">import { Endb, EndbWebSocket } from '@endatabas/endb';
 </code></pre>
-<p><strong>Endb</strong></p>
+<h3 id="endb"><a class="header" href="#endb">Endb</a></h3>
 <p>Use the <code>Endb</code> class to communicate with Endb over HTTP.
 It accepts an optional <code>url</code> parameter.
 Options can be supplied for <code>accept</code>, <code>username</code>, and <code>password</code>.
@@ -202,7 +218,7 @@ JavaScript data structures symmetrical with those returned from
 the respective accept header provided to the HTTP API.
 <code>text/csv</code> returns comma-delimited strings, <code>application/json</code>
 returns tuples as arrays, and so on.</p>
-<p><strong>EndbWebSocket</strong></p>
+<h3 id="endbwebsocket"><a class="header" href="#endbwebsocket">EndbWebSocket</a></h3>
 <p>Use the <code>EndbWebSocket</code> class to communicate with Endb over WebSockets.
 It accepts an optional <code>url</code> parameter.
 Options can be supplied for <code>ws</code> (any implementation of the
@@ -219,7 +235,7 @@ import WebSocket from 'ws';
 var ews = new EndbWebSocket({ws: WebSocket});
 var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username: 'zig', password: 'zag'});
 </code></pre>
-<p><strong>sql()</strong></p>
+<h3 id="sql"><a class="header" href="#sql">sql()</a></h3>
 <p>The asynchronous <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
 It accepts <code>q</code>, and optional <code>p</code>, <code>m</code>, and <code>accept</code> parameters
 and returns an array of strongly-typed documents.
@@ -233,12 +249,19 @@ e.sql(&quot;SELECT * FROM users;&quot;, [], false, 'text/csv');
 e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
 e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
 </code></pre>
+<h3 id="template-literals"><a class="header" href="#template-literals">Template Literals</a></h3>
 <p>It is possible to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">Template Literals</a>
 (string templating) to pass named SQL parameters.
+The parameter passed to the Template Literal is only valid
+when used in a position where a <a href="../reference/http_api.html#positional-parameters">positional SQL parameter</a>
+is also valid.
 The signature which accepts Template Literals does
-not accept any other parameters to the method:</p>
+not accept any other parameters to the method.</p>
 <pre><code class="language-javascript">var n = 'Michael';
-e.sql`INSERT INTO USERS (name) VALUES (${n});`;
+e.sql`INSERT INTO users (name) VALUES (${n});`;
+
+var u = {name: 'Radha', roles: ['artist', 'marketing']};
+e.sql`INSERT INTO users objects ${u}`;
 </code></pre>
 <h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
 <p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
@@ -290,7 +313,7 @@ console.log(ws_result);
 </dd>
 </dl>
 <p><a name="Endb"></a></p>
-<h3 id="endb"><a class="header" href="#endb">Endb</a></h3>
+<h3 id="endb-1"><a class="header" href="#endb-1">Endb</a></h3>
 <p>Endatabas client for the HTTP API</p>
 <p><strong>Kind</strong>: global class</p>
 <ul>
@@ -371,7 +394,7 @@ sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Ci
 sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 </code></pre>
 <p><a name="EndbWebSocket"></a></p>
-<h3 id="endbwebsocket"><a class="header" href="#endbwebsocket">EndbWebSocket</a></h3>
+<h3 id="endbwebsocket-1"><a class="header" href="#endbwebsocket-1">EndbWebSocket</a></h3>
 <p>Endatabas client for the WebSocket API</p>
 <p><strong>Kind</strong>: global class</p>
 <ul>
