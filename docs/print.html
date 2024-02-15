@@ -2340,16 +2340,31 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 <p>The Python client library is used to communicate with an Endb instance
 from a Python application.</p>
 <p><a href="https://pypi.org/project/endb/">PyPI Package: <code>endb</code></a></p>
+<h2 id="table-of-contents-1"><a class="header" href="#table-of-contents-1">Table of Contents</a></h2>
+<ul>
+<li><a href="clients/python.html#install">Install</a></li>
+<li><a href="clients/python.html#usage-examples">Usage Examples</a>
+<ul>
+<li><a href="clients/python.html#import">Import</a></li>
+<li><a href="clients/python.html#endb">Endb</a></li>
+<li><a href="clients/python.html#endbwebsocket">EndbWebSocket</a></li>
+<li><a href="clients/python.html#sql">sql()</a></li>
+</ul>
+</li>
+<li><a href="clients/python.html#data-types">Data Types</a></li>
+<li><a href="clients/python.html#complete-examples">Complete Examples</a></li>
+<li><a href="clients/python.html#python-api-reference">Python API Reference</a></li>
+</ul>
 <h2 id="install-2"><a class="header" href="#install-2">Install</a></h2>
 <pre><code class="language-sh">pip install endb
 pip install websockets  # optional WebSocket support
 pip install pyarrow     # optional Apache Arrow support
 </code></pre>
 <h2 id="usage-examples-1"><a class="header" href="#usage-examples-1">Usage Examples</a></h2>
-<p><strong>Import</strong></p>
+<h3 id="import-1"><a class="header" href="#import-1">Import</a></h3>
 <pre><code class="language-python">from endb import (Endb, EndbWebSocket)
 </code></pre>
-<p><strong>Endb</strong></p>
+<h3 id="endb-2"><a class="header" href="#endb-2">Endb</a></h3>
 <p>Use <code>Endb</code> to communicate with Endb over HTTP.
 It accepts optional <code>url</code>, <code>accept</code>, <code>username</code>, and <code>password</code> parameters.
 Accept headers default to LD-JSON and can be set to any valid
@@ -2366,13 +2381,13 @@ Python data structures symmetrical with those returned from
 the respective accept header provided to the HTTP API.
 <code>text/csv</code> returns comma-delimited strings, <code>application/json</code>
 returns tuples as lists, and so on.</p>
-<p><strong>EndbWebSocket</strong></p>
+<h3 id="endbwebsocket-2"><a class="header" href="#endbwebsocket-2">EndbWebSocket</a></h3>
 <p>Use the <code>EndbWebSocket</code> class to communicate with Endb over WebSockets.
 It accepts optional <code>url</code>, <code>username</code>, and <code>password</code> parameters.</p>
 <pre><code class="language-python">ews = EndbWebSocket()
 ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
 </code></pre>
-<p><strong>sql()</strong></p>
+<h3 id="sql-1"><a class="header" href="#sql-1">sql()</a></h3>
 <p>The <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
 It accepts <code>q</code>, and optional <code>p</code>, <code>m</code>, and <code>accept</code> parameters
 and returns an list of strongly-typed documents.

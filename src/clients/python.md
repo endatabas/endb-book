@@ -5,6 +5,18 @@ from a Python application.
 
 [PyPI Package: `endb`](https://pypi.org/project/endb/)
 
+## Table of Contents
+
+* [Install](#install)
+* [Usage Examples](#usage-examples)
+    * [Import](#import)
+    * [Endb](#endb)
+    * [EndbWebSocket](#endbwebsocket)
+    * [sql()](#sql)
+* [Data Types](#data-types)
+* [Complete Examples](#complete-examples)
+* [Python API Reference](#python-api-reference)
+
 ## Install
 
 ```sh
@@ -15,13 +27,13 @@ pip install pyarrow     # optional Apache Arrow support
 
 ## Usage Examples
 
-**Import**
+### Import
 
 ```python
 from endb import (Endb, EndbWebSocket)
 ```
 
-**Endb**
+### Endb
 
 Use `Endb` to communicate with Endb over HTTP.
 It accepts optional `url`, `accept`, `username`, and `password` parameters.
@@ -43,7 +55,7 @@ the respective accept header provided to the HTTP API.
 `text/csv` returns comma-delimited strings, `application/json`
 returns tuples as lists, and so on.
 
-**EndbWebSocket**
+### EndbWebSocket
 
 Use the `EndbWebSocket` class to communicate with Endb over WebSockets.
 It accepts optional `url`, `username`, and `password` parameters.
@@ -53,7 +65,7 @@ ews = EndbWebSocket()
 ews = EndbWebSocket('ws://localhost:3803/sql', 'zig', 'zag')
 ```
 
-**sql()**
+### sql()
 
 The `sql` method is available to both `Endb` and `EndbWebSocket`.
 It accepts `q`, and optional `p`, `m`, and `accept` parameters
