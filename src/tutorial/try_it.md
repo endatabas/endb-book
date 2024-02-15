@@ -34,7 +34,7 @@ Assuming you inserted a user with curl above, you can query that table directly:
 -> SELECT * FROM users;
 ```
 
-Read more in the [Console doc](../reference/console.md).
+Read more in the [Console doc](../clients/console.md).
 
 ## Client Libraries
 
@@ -45,9 +45,10 @@ pip install endb
 npm install @endatabas/endb
 ```
 
-You can copy and modify their [source code](https://github.com/endatabas/endb/tree/main/clients)
+You can copy and modify their
+[source code](https://github.com/endatabas/endb/tree/main/clients)
 for any purpose.
-Read more about how to use them in the [client libraries docs](../reference/clients.md).
+Read more about how to use them in the [client libraries docs](../clients/).
 
 ## Learning Endb SQL
 

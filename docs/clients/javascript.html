@@ -1,0 +1,505 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>JavaScript - The Endatabas Book</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../index.html">Introduction</a></li><li class="chapter-item expanded "><a href="../tutorial/index.html"><strong aria-hidden="true">1.</strong> Tutorial</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tutorial/quickstart.html"><strong aria-hidden="true">1.1.</strong> Quickstart</a></li><li class="chapter-item expanded "><a href="../tutorial/try_it.html"><strong aria-hidden="true">1.2.</strong> Try It!</a></li><li class="chapter-item expanded "><a href="../tutorial/sql_basics.html"><strong aria-hidden="true">1.3.</strong> Endb SQL Basics</a></li></ol></li><li class="chapter-item expanded "><a href="../sql/index.html"><strong aria-hidden="true">2.</strong> SQL Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../sql/intention.html"><strong aria-hidden="true">2.1.</strong> Intention</a></li><li class="chapter-item expanded "><a href="../sql/data_manipulation.html"><strong aria-hidden="true">2.2.</strong> Data Manipulation</a></li><li class="chapter-item expanded "><a href="../sql/queries.html"><strong aria-hidden="true">2.3.</strong> Queries</a></li><li class="chapter-item expanded "><a href="../sql/data_types.html"><strong aria-hidden="true">2.4.</strong> SQL Data Types</a></li><li class="chapter-item expanded "><a href="../sql/operators.html"><strong aria-hidden="true">2.5.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../sql/functions.html"><strong aria-hidden="true">2.6.</strong> Functions</a></li><li class="chapter-item expanded "><a href="../sql/time_queries.html"><strong aria-hidden="true">2.7.</strong> Time Queries</a></li><li class="chapter-item expanded "><a href="../sql/path_navigation.html"><strong aria-hidden="true">2.8.</strong> Path Navigation</a></li><li class="chapter-item expanded "><a href="../sql/schema.html"><strong aria-hidden="true">2.9.</strong> Schema</a></li><li class="chapter-item expanded "><a href="../sql/views.html"><strong aria-hidden="true">2.10.</strong> Views</a></li><li class="chapter-item expanded "><a href="../sql/assertions.html"><strong aria-hidden="true">2.11.</strong> Assertions</a></li></ol></li><li class="chapter-item expanded "><a href="../clients/index.html"><strong aria-hidden="true">3.</strong> Clients</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../clients/console.html"><strong aria-hidden="true">3.1.</strong> Console</a></li><li class="chapter-item expanded "><a href="../clients/javascript.html" class="active"><strong aria-hidden="true">3.2.</strong> JavaScript</a></li><li class="chapter-item expanded "><a href="../clients/python.html"><strong aria-hidden="true">3.3.</strong> Python</a></li></ol></li><li class="chapter-item expanded "><a href="../reference/index.html"><strong aria-hidden="true">4.</strong> Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../reference/installation.html"><strong aria-hidden="true">4.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="../reference/operation.html"><strong aria-hidden="true">4.2.</strong> Operation</a></li><li class="chapter-item expanded "><a href="../reference/monitoring.html"><strong aria-hidden="true">4.3.</strong> Monitoring</a></li><li class="chapter-item expanded "><a href="../reference/http_api.html"><strong aria-hidden="true">4.4.</strong> HTTP API</a></li><li class="chapter-item expanded "><a href="../reference/websocket_api.html"><strong aria-hidden="true">4.5.</strong> WebSocket API</a></li><li class="chapter-item expanded "><a href="../reference/data_types.html"><strong aria-hidden="true">4.6.</strong> Data Types</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix/index.html"><strong aria-hidden="true">5.</strong> Appendix</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix/what.html"><strong aria-hidden="true">5.1.</strong> What?</a></li><li class="chapter-item expanded "><a href="../appendix/why.html"><strong aria-hidden="true">5.2.</strong> Why?</a></li><li class="chapter-item expanded "><a href="../appendix/architecture.html"><strong aria-hidden="true">5.3.</strong> Architecture</a></li><li class="chapter-item expanded "><a href="../appendix/roadmap.html"><strong aria-hidden="true">5.4.</strong> Roadmap</a></li><li class="chapter-item expanded "><a href="../appendix/license.html"><strong aria-hidden="true">5.5.</strong> License</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Endatabas Book</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/endatabas/endb-book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/endatabas/endb-book/edit/main/src/clients/javascript.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="javascript"><a class="header" href="#javascript">JavaScript</a></h1>
+<p>The JavaScript client library is used to communicate with an Endb instance from
+a JavaScript or TypeScript application.</p>
+<p><a href="https://www.npmjs.com/package/@endatabas/endb">NPM Package: <code>@endatabas/endb</code></a></p>
+<h2 id="install"><a class="header" href="#install">Install</a></h2>
+<pre><code class="language-sh">npm install @endatabas/endb
+npm install ws
+</code></pre>
+<h2 id="usage-examples"><a class="header" href="#usage-examples">Usage Examples</a></h2>
+<p><strong>Import</strong></p>
+<pre><code class="language-javascript">import { Endb, EndbWebSocket } from '@endatabas/endb';
+</code></pre>
+<p><strong>Endb</strong></p>
+<p>Use the <code>Endb</code> class to communicate with Endb over HTTP.
+It accepts an optional <code>url</code> parameter.
+Options can be supplied for <code>accept</code>, <code>username</code>, and <code>password</code>.
+Accept headers default to LD-JSON and can be set to any valid
+content type listed in the <a href="../reference/http_api.html#accept-headers">HTTP API</a>.
+If you choose <code>application/vnd.apache.arrow.file</code> or <code>application/vnd.apache.arrow.stream</code>,
+the raw response body will be be returned from <code>sql()</code>.</p>
+<pre><code class="language-javascript">var e = new Endb();
+var e = new Endb('http://localhost:3803/sql');
+var e = new Endb('http://localhost:3803/sql', {accept: 'text/csv'});
+var e = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
+</code></pre>
+<p>NOTE: Choosing accept headers other than LD-JSON will return
+JavaScript data structures symmetrical with those returned from
+the respective accept header provided to the HTTP API.
+<code>text/csv</code> returns comma-delimited strings, <code>application/json</code>
+returns tuples as arrays, and so on.</p>
+<p><strong>EndbWebSocket</strong></p>
+<p>Use the <code>EndbWebSocket</code> class to communicate with Endb over WebSockets.
+It accepts an optional <code>url</code> parameter.
+Options can be supplied for <code>ws</code> (any implementation of the
+<a href="https://websockets.spec.whatwg.org/#the-websocket-interface">JavaScript WebSocket interface definition</a>),
+<code>username</code>, and <code>password</code>.
+In a web browser, <code>ws</code> will default to the web browser's WebSocket implementation.
+<code>EndbWebSocket</code> only communicates in LD-JSON, so the accept header cannot be set.</p>
+<pre><code class="language-javascript">// in web browser:
+var ews = new EndbWebSocket();
+var ews = new EndbWebSocket('ws://localhost:3803/sql', {username: 'zig', password: 'zag'});
+
+// in node.js:
+import WebSocket from 'ws';
+var ews = new EndbWebSocket({ws: WebSocket});
+var ews = new EndbWebSocket('ws://localhost:3803/sql', {ws: WebSocket, username: 'zig', password: 'zag'});
+</code></pre>
+<p><strong>sql()</strong></p>
+<p>The asynchronous <code>sql</code> method is available to both <code>Endb</code> and <code>EndbWebSocket</code>.
+It accepts <code>q</code>, and optional <code>p</code>, <code>m</code>, and <code>accept</code> parameters
+and returns an array of strongly-typed documents.
+(See <a href="#javascript-api-reference">JavaScript API Reference</a>.)</p>
+<p>To ignore the <code>p</code> or <code>m</code> parameters but still supply an accept header,
+supply the default values or <code>null</code>.</p>
+<pre><code class="language-javascript">e.sql(&quot;SELECT * FROM users;&quot;);
+e.sql(&quot;INSERT INTO USERS (date, name, email) VALUES (?, ?, ?);&quot;, [new Date(), 'Aaron', 'aaron@canadahealth.ca']);
+e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
+e.sql(&quot;SELECT * FROM users;&quot;, [], false, 'text/csv');
+e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
+e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+</code></pre>
+<p>It is possible to use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">Template Literals</a>
+(string templating) to pass named SQL parameters.
+The signature which accepts Template Literals does
+not accept any other parameters to the method:</p>
+<pre><code class="language-javascript">var n = 'Michael';
+e.sql`INSERT INTO USERS (name) VALUES (${n});`;
+</code></pre>
+<h2 id="data-types"><a class="header" href="#data-types">Data Types</a></h2>
+<p>When an LD-JSON (default) accept header is used, strongly typed data is returned according to this mapping:</p>
+<ul>
+<li><code>null</code> - <code>null</code></li>
+<li><code>xsd:date</code> - <code>Date</code></li>
+<li><code>xsd:dateTime</code> - <code>Date</code></li>
+<li><code>xsd:base64Binary</code> - <code>Uint8Array</code></li>
+<li><code>xsd:integer</code> - <code>BigInt</code></li>
+</ul>
+<p>For more information on Endb data types, see the
+<a href="../reference/data_types.html">Data Types doc</a>.</p>
+<h2 id="complete-examples"><a class="header" href="#complete-examples">Complete Examples</a></h2>
+<pre><code class="language-javascript">import { Endb } from '@endatabas/endb';
+
+var e = new Endb();
+await e.sql(&quot;INSERT INTO users {name: 'Thupil'};&quot;);
+var result = await e.sql(&quot;SELECT * FROM users;&quot;);
+console.log(result);
+
+var e2 = new Endb('http://localhost:3803/sql', {accept: 'application/json', username: 'zig', password: 'zag'});
+await e.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+result = await e.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
+console.log(result);
+</code></pre>
+<pre><code class="language-javascript">import WebSocket from 'ws';
+import { EndbWebSocket } from '@endatabas/endb';
+
+var ews = new EndbWebSocket({ws: WebSocket});
+await ews.sql(&quot;insert into users {name: 'Lydia'};&quot;);
+var ws_result = await ews.sql(&quot;select * from users;&quot;);
+console.log(ws_result);
+
+var ews2 = new EndbWebSocket({ws: WebSocket, username: 'zig', password: 'zag'});
+await ews2.sql(&quot;INSERT INTO USERS (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+ws_result = await ews2.sql(&quot;SELECT * FROM users;&quot;, null, null, 'application/json');
+console.log(ws_result);
+</code></pre>
+<h2 id="javascript-api-reference"><a class="header" href="#javascript-api-reference">JavaScript API Reference</a></h2>
+<p>NOTE: The following API documentation is generated from source code docstrings in the
+<a href="https://github.com/endatabas/endb/tree/main/clients/javascript"><code>endb</code> repository</a>.</p>
+<h3 id="classes"><a class="header" href="#classes">Classes</a></h3>
+<dl>
+<dt><a href="#Endb">Endb</a></dt>
+<dd><p>Endatabas client for the HTTP API</p>
+</dd>
+<dt><a href="#EndbWebSocket">EndbWebSocket</a></dt>
+<dd><p>Endatabas client for the WebSocket API</p>
+</dd>
+</dl>
+<p><a name="Endb"></a></p>
+<h3 id="endb"><a class="header" href="#endb">Endb</a></h3>
+<p>Endatabas client for the HTTP API</p>
+<p><strong>Kind</strong>: global class</p>
+<ul>
+<li><a href="#Endb">Endb</a>
+<ul>
+<li><a href="#new_Endb_new"><code>new Endb([url], [opt])</code></a></li>
+<li><a href="#Endb+sql"><code>.sql(q, [p], [m], [accept])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_Endb_new"></a></p>
+<h4 id="new-endburl-opt"><a class="header" href="#new-endburl-opt"><code>new Endb([url], [opt])</code></a></h4>
+<p>Create an Endb object (Endatabas client for the HTTP API)</p>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Default</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>[url]</td><td><code>string</code></td><td><code>&quot;http://localhost:3803/sql&quot;</code></td><td><p>HTTP URL to the Endatabas /sql API</p>
+</td>
+    </tr><tr>
+    <td>[opt]</td><td><code>Object</code></td><td></td><td><p>HTTP options</p>
+</td>
+    </tr><tr>
+    <td>[opt.accept]</td><td><code>string</code></td><td><code>&quot;application/ld+json&quot;</code></td><td><p>Accept Header content type</p>
+</td>
+    </tr><tr>
+    <td>[opt.username]</td><td><code>string</code></td><td></td><td><p>username for HTTP Basic Auth</p>
+</td>
+    </tr><tr>
+    <td>[opt.password]</td><td><code>string</code></td><td></td><td><p>password for HTTP Basic Auth</p>
+</td>
+    </tr>  </tbody>
+</table>
+<p><a name="Endb+sql"></a></p>
+<h4 id="endbsqlq-p-m-accept--promisearray"><a class="header" href="#endbsqlq-p-m-accept--promisearray"><code>endb.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h4>
+<p>Execute a SQL statement over HTTP</p>
+<p><strong>Kind</strong>: instance method of <a href="#Endb"><code>Endb</code></a><br />
+<strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
+</td>
+    </tr><tr>
+    <td>[p]</td><td><code>Array</code> | <code>Object</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+</td>
+    </tr><tr>
+    <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
+</td>
+    </tr><tr>
+    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
+</td>
+    </tr>  </tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code class="language-js">// Simple query
+sql(&quot;SELECT * FROM users;&quot;);
+// Positional parameters
+sql(&quot;INSERT INTO users (date, name) VALUES (?, ?);&quot;, [new Date(), 'Aaron']);
+// Named parameters
+sql(&quot;INSERT INTO users {date: :d, name: :n};&quot;, {d: new Date(), n: 'Aaron'});
+// Many positional parameters (batches)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
+// Many named parameters (batches)
+sql(&quot;INSERT INTO users {name: :n};&quot;, [{n: 'Judy'}, {n: 'Addis'}], true);
+// All parameters (many parameters and accept header)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+// Named parameters via Template Literals
+sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
+</code></pre>
+<p><a name="EndbWebSocket"></a></p>
+<h3 id="endbwebsocket"><a class="header" href="#endbwebsocket">EndbWebSocket</a></h3>
+<p>Endatabas client for the WebSocket API</p>
+<p><strong>Kind</strong>: global class</p>
+<ul>
+<li><a href="#EndbWebSocket">EndbWebSocket</a>
+<ul>
+<li><a href="#new_EndbWebSocket_new"><code>new EndbWebSocket([url], [opt])</code></a></li>
+<li><a href="#EndbWebSocket+sql"><code>.sql(q, [p], [m], [accept])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
+</ul>
+</li>
+</ul>
+<p><a name="new_EndbWebSocket_new"></a></p>
+<h4 id="new-endbwebsocketurl-opt"><a class="header" href="#new-endbwebsocketurl-opt"><code>new EndbWebSocket([url], [opt])</code></a></h4>
+<p>Create an EndbWebSocket object (Endatabas client for the WebSocket API)</p>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Default</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>[url]</td><td><code>string</code></td><td><code>&quot;ws://localhost:3803/sql&quot;</code></td><td><p>WebSocket URL to the Endatabas /sql API</p>
+</td>
+    </tr><tr>
+    <td>[opt]</td><td><code>Object</code></td><td></td><td><p>WebSocket options</p>
+</td>
+    </tr><tr>
+    <td>[opt.ws]</td><td><code>string</code></td><td></td><td><p>WebSocket implementation</p>
+</td>
+    </tr><tr>
+    <td>[opt.username]</td><td><code>string</code></td><td></td><td><p>username for Basic Auth</p>
+</td>
+    </tr><tr>
+    <td>[opt.password]</td><td><code>string</code></td><td></td><td><p>password for Basic Auth</p>
+</td>
+    </tr>  </tbody>
+</table>
+<p><a name="EndbWebSocket+sql"></a></p>
+<h4 id="endbwebsocketsqlq-p-m-accept--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m-accept--promisearray"><code>endbWebSocket.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h4>
+<p>Execute a SQL statement over a WebSocket with LD-JSON</p>
+<p><strong>Kind</strong>: instance method of <a href="#EndbWebSocket"><code>EndbWebSocket</code></a><br />
+<strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
+<table>
+  <thead>
+    <tr>
+      <th>Param</th><th>Type</th><th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+<tr>
+    <td>q</td><td><code>string</code></td><td><p>SQL query as string or Template Literal</p>
+</td>
+    </tr><tr>
+    <td>[p]</td><td><code>Array</code> | <code>Object</code></td><td><p>Positional parameters, named parameters, or an array of either</p>
+</td>
+    </tr><tr>
+    <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
+</td>
+    </tr><tr>
+    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
+</td>
+    </tr>  </tbody>
+</table>
+<p><strong>Example</strong></p>
+<pre><code class="language-js">// Simple query
+sql(&quot;SELECT * FROM users;&quot;);
+// Positional parameters
+sql(&quot;INSERT INTO users (date, name) VALUES (?, ?);&quot;, [new Date(), 'Aaron']);
+// Named parameters
+sql(&quot;INSERT INTO users {date: :d, name: :n};&quot;, {d: new Date(), n: 'Aaron'});
+// Many positional parameters (batches)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true);
+// Many named parameters (batches)
+sql(&quot;INSERT INTO users {name: :n};&quot;, [{n: 'Judy'}, {n: 'Addis'}], true);
+// All parameters (many parameters and accept header)
+sql(&quot;INSERT INTO users (name) VALUES (?);&quot;, [['Aaron'], ['Kurt'], ['Cindy']], true, 'text/csv');
+// Named parameters via Template Literals
+sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../clients/console.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../clients/python.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../clients/console.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../clients/python.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

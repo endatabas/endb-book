@@ -3,7 +3,7 @@
 A small console is provided to learn Endb SQL interactively
 and run experimental queries.
 It is distributed in the same Python package as the
-[Python client](clients.md#python).
+[Python client](python.md).
 
 ## Install
 
@@ -104,7 +104,7 @@ Elapsed: 0.003904 ms
 
 ## Data Types
 
-The console communicates with Endb over the [HTTP API](http_api.md).
+The console communicates with Endb over the [HTTP API](../reference/http_api.md).
 Data is returned as LD-JSON documents and marshalled into strongly-typed Python
 objects. For example:
 
@@ -115,4 +115,4 @@ objects. For example:
   'name': 'Akshay'}]
 ```
 
-The [Data Types](data_types.md) page talks about types in more detail.
+The [Data Types](../reference/data_types.md) page talks about types in more detail.

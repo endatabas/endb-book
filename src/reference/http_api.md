@@ -1,6 +1,6 @@
 # HTTP API
 
-If a [client](clients.md) is
+If a [client](../clients/) is
 not available for your programming language yet, your app can interact
 directly with the Endb HTTP API.
 Any HTTP client may be used but in the examples below we'll use `curl`

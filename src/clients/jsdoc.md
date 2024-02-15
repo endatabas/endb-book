@@ -1,4 +1,4 @@
-#### Classes
+### Classes
 
 <dl>
 <dt><a href="#Endb">Endb</a></dt>
@@ -11,7 +11,7 @@
 
 <a name="Endb"></a>
 
-#### Endb
+### Endb
 Endatabas client for the HTTP API
 
 **Kind**: global class  
@@ -22,7 +22,7 @@ Endatabas client for the HTTP API
 
 <a name="new_Endb_new"></a>
 
-##### `new Endb([url], [opt])`
+#### `new Endb([url], [opt])`
 Create an Endb object (Endatabas client for the HTTP API)
 
 <table>
@@ -52,7 +52,7 @@ Create an Endb object (Endatabas client for the HTTP API)
 
 <a name="Endb+sql"></a>
 
-##### `endb.sql(q, [p], [m], [accept])` ⇒ <code>Promise.&lt;Array&gt;</code>
+#### `endb.sql(q, [p], [m], [accept])` ⇒ <code>Promise.&lt;Array&gt;</code>
 Execute a SQL statement over HTTP
 
 **Kind**: instance method of [<code>Endb</code>](#Endb)  
@@ -98,7 +98,7 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 ```
 <a name="EndbWebSocket"></a>
 
-#### EndbWebSocket
+### EndbWebSocket
 Endatabas client for the WebSocket API
 
 **Kind**: global class  
@@ -109,7 +109,7 @@ Endatabas client for the WebSocket API
 
 <a name="new_EndbWebSocket_new"></a>
 
-##### `new EndbWebSocket([url], [opt])`
+#### `new EndbWebSocket([url], [opt])`
 Create an EndbWebSocket object (Endatabas client for the WebSocket API)
 
 <table>
@@ -139,7 +139,7 @@ Create an EndbWebSocket object (Endatabas client for the WebSocket API)
 
 <a name="EndbWebSocket+sql"></a>
 
-##### `endbWebSocket.sql(q, [p], [m], [accept])` ⇒ <code>Promise.&lt;Array&gt;</code>
+#### `endbWebSocket.sql(q, [p], [m], [accept])` ⇒ <code>Promise.&lt;Array&gt;</code>
 Execute a SQL statement over a WebSocket with LD-JSON
 
 **Kind**: instance method of [<code>EndbWebSocket</code>](#EndbWebSocket)  

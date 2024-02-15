@@ -9,8 +9,8 @@ clean:
 
 jsdoc:
 	mkdir -p tools/jsdoc/output
-	jsdoc2md -c tools/jsdoc/conf.json -f ../endb/clients/javascript/endb.mjs --heading-depth 4 --name-format --no-gfm --no-cache > tools/jsdoc/output/jsdoc.md
-	cp tools/jsdoc/output/jsdoc.md src/reference/jsdoc.md
+	jsdoc2md -c tools/jsdoc/conf.json -f ../endb/clients/javascript/endb.mjs --heading-depth 3 --name-format --no-gfm --no-cache > tools/jsdoc/output/jsdoc.md
+	cp tools/jsdoc/output/jsdoc.md src/clients/jsdoc.md
 
 pydoc:
 	echo "Creating a local copy of the Python client..."
@@ -25,7 +25,7 @@ pydoc:
 	echo "Cleaning up markdown and copying into endb-book..."
 	sed -i.bak 's/\*\[\*/\*\\\[\*/g' tools/pydoc/input/doc/_build/markdown/endb.md
 	sed -i.bak 's/\*\]\*/\*\\\]\*/g' tools/pydoc/input/doc/_build/markdown/endb.md
-	cp tools/pydoc/input/doc/_build/markdown/endb.md src/reference/pydoc.md
+	cp tools/pydoc/input/doc/_build/markdown/endb.md src/clients/pydoc.md
 
 serve:
 	./bin/serve.sh

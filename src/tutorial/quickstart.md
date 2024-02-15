@@ -13,7 +13,7 @@ and build `endb`.
 
 ## Run your first query
 
-You can use the [Console](../reference/console.md):
+You can use the [Console](../clients/console.md):
 
 ```sh
 $ pip install endb
