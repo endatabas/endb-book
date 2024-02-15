@@ -16,7 +16,7 @@ instance and call the `sql` method on it.
 See the language-specific documentation below for further details.
 
 - [Console](./console.md)
-- [JavaScript](./javascript.md)
+- [JavaScript / TypeScript](./javascript.md)
 - [Python](./python.md)
 
 NOTE: For any programming language not listed above, it is possible

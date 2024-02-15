@@ -1,8 +1,8 @@
-
 # JavaScript
 
-The JavaScript client library is used to communicate with an Endb instance from
-a JavaScript or TypeScript application.
+The JavaScript and TypeScript client library is used to communicate
+with an Endb instance from a JavaScript or TypeScript application.
+Type declarations are provided in the package for TypeScript.
 
 [NPM Package: `@endatabas/endb`](https://www.npmjs.com/package/@endatabas/endb)
 
