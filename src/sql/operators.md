@@ -294,3 +294,48 @@ SELECT "Hello" || "World" || "And" || "Friends";
 ```
 
 The Concatenation Operator is equivalent to the [`CONCAT` function](functions.md#concat).
+
+## Vector Operators
+
+{{#include vector_indexing.md}}
+
+### `<->` (L2 or Euclidean Distance)
+
+The L2 Distance operator (`<->`) compares two vectors by
+[Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance).
+It is symmetrical to the [`L2_DISTANCE`](functions.md#l2_distance) function.
+
+```sql
+SELECT * FROM (VALUES ([0,0,0]), ([1,2,3]), ([1,1,1]), (NULL), ([1,2,4])) AS t(val) WHERE val NOT NULL ORDER BY t.val <-> [3,3,3];
+-- [{'val': [1, 2, 3]},
+--  {'val': [1, 2, 4]},
+--  {'val': [1, 1, 1]},
+--  {'val': [0, 0, 0]}]
+```
+
+### `<=>` (Cosine Distance)
+
+The Cosine Distance operator (`<=>`) compares two vectors by the complement of their
+[Cosine Similarity](https://en.wikipedia.org/wiki/Cosine_similarity).
+It is symmetrical to the [`COSINE_DISTANCE`](functions.md#cosine_distance) function.
+
+```sql
+SELECT val FROM (VALUES ([0,0,0]), ([1,2,3]), ([1,1,1]), ([1,2,4])) AS t(val) WHERE t.val <=> [3,3,3] NOT NULL ORDER BY t.val <=> [3,3,3];
+-- [{'val': [1, 1, 1]},
+--  {'val': [1, 2, 3]},
+--  {'val': [1, 2, 4]}]
+```
+
+### `<#>` (Inverse Inner Product)
+
+The Inverse Inner Product operator (`<#>`) compares two vectors by the inverse
+of their [Inner Product](https://mathworld.wolfram.com/InnerProduct.html).
+It is the inverse of the [`INNER_PRODUCT`](functions.md#inner_product) function.
+
+```sql
+SELECT val FROM (VALUES ([0,0,0]), ([1,2,3]), ([1,1,1]), (NULL), ([1,2,4])) AS t(val) WHERE val IS NOT NULL ORDER BY t.val <#> [3,3,3];
+-- [{'val': [1, 2, 4]},
+--  {'val': [1, 2, 3]},
+--  {'val': [1, 1, 1]},
+--  {'val': [0, 0, 0]}]
+```

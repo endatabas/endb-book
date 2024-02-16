@@ -105,7 +105,8 @@ Endatabas client for the WebSocket API
 
 * [EndbWebSocket](#EndbWebSocket)
     * [`new EndbWebSocket([url], [opt])`](#new_EndbWebSocket_new)
-    * [`.sql(q, [p], [m], [accept])`](#EndbWebSocket+sql) ⇒ <code>Promise.&lt;Array&gt;</code>
+    * [`.close()`](#EndbWebSocket+close)
+    * [`.sql(q, [p], [m])`](#EndbWebSocket+sql) ⇒ <code>Promise.&lt;Array&gt;</code>
 
 <a name="new_EndbWebSocket_new"></a>
 
@@ -137,9 +138,15 @@ Create an EndbWebSocket object (Endatabas client for the WebSocket API)
     </tr>  </tbody>
 </table>
 
+<a name="EndbWebSocket+close"></a>
+
+#### `endbWebSocket.close()`
+Close the WebSocket connection
+
+**Kind**: instance method of [<code>EndbWebSocket</code>](#EndbWebSocket)  
 <a name="EndbWebSocket+sql"></a>
 
-#### `endbWebSocket.sql(q, [p], [m], [accept])` ⇒ <code>Promise.&lt;Array&gt;</code>
+#### `endbWebSocket.sql(q, [p], [m])` ⇒ <code>Promise.&lt;Array&gt;</code>
 Execute a SQL statement over a WebSocket with LD-JSON
 
 **Kind**: instance method of [<code>EndbWebSocket</code>](#EndbWebSocket)  
@@ -159,9 +166,6 @@ Execute a SQL statement over a WebSocket with LD-JSON
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
-</td>
-    </tr><tr>
-    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
 </td>
     </tr>  </tbody>
 </table>

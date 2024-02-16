@@ -546,6 +546,34 @@ SELECT UNHEX('3135ZZ', 'Z');
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 </code></pre>
+<h2 id="vector-functions"><a class="header" href="#vector-functions">Vector Functions</a></h2>
+<h3 id="indexing"><a class="header" href="#indexing">Indexing</a></h3>
+<p>At the moment, Endb performs exact nearest neighbor search, which provides perfect recall.
+Endb may support approximate vector indexes in the future, which trade accuracy for speed.</p>
+<h3 id="l2_distance"><a class="header" href="#l2_distance">L2_DISTANCE</a></h3>
+<p>The <code>L2_DISTANCE</code> function returns the
+<a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>
+between two vectors.
+It is symmetrical to the <a href="operators.html#vector-operators"><code>&lt;-&gt;</code></a> operator.</p>
+<pre><code class="language-sql">SELECT L2_DISTANCE([-0.7888,-0.7361,-0.6208,-0.5134,-0.4044], [0.8108,0.6671,0.5565,0.5449,0.4466]);
+-- [{'column1': 2.7853052938591847}]
+</code></pre>
+<h3 id="cosine_distance"><a class="header" href="#cosine_distance">COSINE_DISTANCE</a></h3>
+<p>The <code>COSINE_DISTANCE</code> function returns the complement of
+<a href="https://en.wikipedia.org/wiki/Cosine_similarity">Cosine Similarity</a>
+for two vectors.
+It is symmetrical to the <a href="operators.html#vector-operators"><code>&lt;=&gt;</code></a> operator.</p>
+<pre><code class="language-sql">SELECT COSINE_DISTANCE([-0.7888,-0.7361,-0.6208,-0.5134,-0.4044], [0.8108,0.6671,0.5565,0.5449,0.4466]);
+-- [{'column1': 1.9970250541178656}]
+</code></pre>
+<h3 id="inner_product"><a class="header" href="#inner_product">INNER_PRODUCT</a></h3>
+<p>The <code>INNER_PRODUCT</code> function returns the
+<a href="https://mathworld.wolfram.com/InnerProduct.html">Inner Product</a>
+of two vectors.
+It is inverse of the <a href="operators.html#vector-operators"><code>&lt;#&gt;</code></a> operator.</p>
+<pre><code class="language-sql">SELECT INNER_PRODUCT([1,2], [3,4]);
+-- [{'column1': 11.0}]
+</code></pre>
 
                     </main>
 

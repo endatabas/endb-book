@@ -582,3 +582,43 @@ SELECT UNHEX('3135ZZ', 'Z');
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
 ```
+
+## Vector Functions
+
+{{#include vector_indexing.md}}
+
+### L2_DISTANCE
+
+The `L2_DISTANCE` function returns the
+[Euclidean distance](https://en.wikipedia.org/wiki/Euclidean_distance)
+between two vectors.
+It is symmetrical to the [`<->`](operators.md#vector-operators) operator.
+
+```sql
+SELECT L2_DISTANCE([-0.7888,-0.7361,-0.6208,-0.5134,-0.4044], [0.8108,0.6671,0.5565,0.5449,0.4466]);
+-- [{'column1': 2.7853052938591847}]
+```
+
+### COSINE_DISTANCE
+
+The `COSINE_DISTANCE` function returns the complement of
+[Cosine Similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+for two vectors.
+It is symmetrical to the [`<=>`](operators.md#vector-operators) operator.
+
+```sql
+SELECT COSINE_DISTANCE([-0.7888,-0.7361,-0.6208,-0.5134,-0.4044], [0.8108,0.6671,0.5565,0.5449,0.4466]);
+-- [{'column1': 1.9970250541178656}]
+```
+
+### INNER_PRODUCT
+
+The `INNER_PRODUCT` function returns the
+[Inner Product](https://mathworld.wolfram.com/InnerProduct.html)
+of two vectors.
+It is inverse of the [`<#>`](operators.md#vector-operators) operator.
+
+```sql
+SELECT INNER_PRODUCT([1,2], [3,4]);
+-- [{'column1': 11.0}]
+```

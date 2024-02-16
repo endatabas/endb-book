@@ -1212,6 +1212,39 @@ SELECT [&quot;Hello&quot;] || &quot;World&quot;;
 SELECT &quot;Hello&quot; || &quot;World&quot; || &quot;And&quot; || &quot;Friends&quot;;
 </code></pre>
 <p>The Concatenation Operator is equivalent to the <a href="sql/functions.html#concat"><code>CONCAT</code> function</a>.</p>
+<h2 id="vector-operators"><a class="header" href="#vector-operators">Vector Operators</a></h2>
+<h3 id="indexing"><a class="header" href="#indexing">Indexing</a></h3>
+<p>At the moment, Endb performs exact nearest neighbor search, which provides perfect recall.
+Endb may support approximate vector indexes in the future, which trade accuracy for speed.</p>
+<h3 id="--l2-or-euclidean-distance"><a class="header" href="#--l2-or-euclidean-distance"><code>&lt;-&gt;</code> (L2 or Euclidean Distance)</a></h3>
+<p>The L2 Distance operator (<code>&lt;-&gt;</code>) compares two vectors by
+<a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>.
+It is symmetrical to the <a href="sql/functions.html#l2_distance"><code>L2_DISTANCE</code></a> function.</p>
+<pre><code class="language-sql">SELECT * FROM (VALUES ([0,0,0]), ([1,2,3]), ([1,1,1]), (NULL), ([1,2,4])) AS t(val) WHERE val NOT NULL ORDER BY t.val &lt;-&gt; [3,3,3];
+-- [{'val': [1, 2, 3]},
+--  {'val': [1, 2, 4]},
+--  {'val': [1, 1, 1]},
+--  {'val': [0, 0, 0]}]
+</code></pre>
+<h3 id="-cosine-distance"><a class="header" href="#-cosine-distance"><code>&lt;=&gt;</code> (Cosine Distance)</a></h3>
+<p>The Cosine Distance operator (<code>&lt;=&gt;</code>) compares two vectors by the complement of their
+<a href="https://en.wikipedia.org/wiki/Cosine_similarity">Cosine Similarity</a>.
+It is symmetrical to the <a href="sql/functions.html#cosine_distance"><code>COSINE_DISTANCE</code></a> function.</p>
+<pre><code class="language-sql">SELECT val FROM (VALUES ([0,0,0]), ([1,2,3]), ([1,1,1]), ([1,2,4])) AS t(val) WHERE t.val &lt;=&gt; [3,3,3] NOT NULL ORDER BY t.val &lt;=&gt; [3,3,3];
+-- [{'val': [1, 1, 1]},
+--  {'val': [1, 2, 3]},
+--  {'val': [1, 2, 4]}]
+</code></pre>
+<h3 id="inverse-inner-product"><a class="header" href="#inverse-inner-product"><code>&lt;#&gt;</code> (Inverse Inner Product)</a></h3>
+<p>The Inverse Inner Product operator (<code>&lt;#&gt;</code>) compares two vectors by the inverse
+of their <a href="https://mathworld.wolfram.com/InnerProduct.html">Inner Product</a>.
+It is the inverse of the <a href="sql/functions.html#inner_product"><code>INNER_PRODUCT</code></a> function.</p>
+<pre><code class="language-sql">SELECT val FROM (VALUES ([0,0,0]), ([1,2,3]), ([1,1,1]), (NULL), ([1,2,4])) AS t(val) WHERE val IS NOT NULL ORDER BY t.val &lt;#&gt; [3,3,3];
+-- [{'val': [1, 2, 4]},
+--  {'val': [1, 2, 3]},
+--  {'val': [1, 1, 1]},
+--  {'val': [0, 0, 0]}]
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="functions"><a class="header" href="#functions">Functions</a></h1>
 <h2 id="string-functions"><a class="header" href="#string-functions">String Functions</a></h2>
 <h3 id="character_length"><a class="header" href="#character_length">CHARACTER_LENGTH</a></h3>
@@ -1585,6 +1618,34 @@ SELECT UNHEX('3135ZZ', 'Z');
 
 SELECT UNHEX('3135ZZ', 'M');
 -- NULL
+</code></pre>
+<h2 id="vector-functions"><a class="header" href="#vector-functions">Vector Functions</a></h2>
+<h3 id="indexing-1"><a class="header" href="#indexing-1">Indexing</a></h3>
+<p>At the moment, Endb performs exact nearest neighbor search, which provides perfect recall.
+Endb may support approximate vector indexes in the future, which trade accuracy for speed.</p>
+<h3 id="l2_distance"><a class="header" href="#l2_distance">L2_DISTANCE</a></h3>
+<p>The <code>L2_DISTANCE</code> function returns the
+<a href="https://en.wikipedia.org/wiki/Euclidean_distance">Euclidean distance</a>
+between two vectors.
+It is symmetrical to the <a href="sql/operators.html#vector-operators"><code>&lt;-&gt;</code></a> operator.</p>
+<pre><code class="language-sql">SELECT L2_DISTANCE([-0.7888,-0.7361,-0.6208,-0.5134,-0.4044], [0.8108,0.6671,0.5565,0.5449,0.4466]);
+-- [{'column1': 2.7853052938591847}]
+</code></pre>
+<h3 id="cosine_distance"><a class="header" href="#cosine_distance">COSINE_DISTANCE</a></h3>
+<p>The <code>COSINE_DISTANCE</code> function returns the complement of
+<a href="https://en.wikipedia.org/wiki/Cosine_similarity">Cosine Similarity</a>
+for two vectors.
+It is symmetrical to the <a href="sql/operators.html#vector-operators"><code>&lt;=&gt;</code></a> operator.</p>
+<pre><code class="language-sql">SELECT COSINE_DISTANCE([-0.7888,-0.7361,-0.6208,-0.5134,-0.4044], [0.8108,0.6671,0.5565,0.5449,0.4466]);
+-- [{'column1': 1.9970250541178656}]
+</code></pre>
+<h3 id="inner_product"><a class="header" href="#inner_product">INNER_PRODUCT</a></h3>
+<p>The <code>INNER_PRODUCT</code> function returns the
+<a href="https://mathworld.wolfram.com/InnerProduct.html">Inner Product</a>
+of two vectors.
+It is inverse of the <a href="sql/operators.html#vector-operators"><code>&lt;#&gt;</code></a> operator.</p>
+<pre><code class="language-sql">SELECT INNER_PRODUCT([1,2], [3,4]);
+-- [{'column1': 11.0}]
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="time-queries"><a class="header" href="#time-queries">Time Queries</a></h1>
 <p>To make best use of Time Queries, it is a good idea to review the
@@ -2264,7 +2325,8 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 <li><a href="clients/javascript.html#EndbWebSocket">EndbWebSocket</a>
 <ul>
 <li><a href="clients/javascript.html#new_EndbWebSocket_new"><code>new EndbWebSocket([url], [opt])</code></a></li>
-<li><a href="clients/javascript.html#EndbWebSocket+sql"><code>.sql(q, [p], [m], [accept])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
+<li><a href="clients/javascript.html#EndbWebSocket+close"><code>.close()</code></a></li>
+<li><a href="clients/javascript.html#EndbWebSocket+sql"><code>.sql(q, [p], [m])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -2295,8 +2357,12 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 </td>
     </tr>  </tbody>
 </table>
-<p><a name="EndbWebSocket+sql"></a></p>
-<h4 id="endbwebsocketsqlq-p-m-accept--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m-accept--promisearray"><code>endbWebSocket.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h4>
+<p><a name="EndbWebSocket+close"></a></p>
+<h4 id="endbwebsocketclose"><a class="header" href="#endbwebsocketclose"><code>endbWebSocket.close()</code></a></h4>
+<p>Close the WebSocket connection</p>
+<p><strong>Kind</strong>: instance method of <a href="clients/javascript.html#EndbWebSocket"><code>EndbWebSocket</code></a><br />
+<a name="EndbWebSocket+sql"></a></p>
+<h4 id="endbwebsocketsqlq-p-m--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m--promisearray"><code>endbWebSocket.sql(q, [p], [m])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h4>
 <p>Execute a SQL statement over a WebSocket with LD-JSON</p>
 <p><strong>Kind</strong>: instance method of <a href="clients/javascript.html#EndbWebSocket"><code>EndbWebSocket</code></a><br />
 <strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
@@ -2315,9 +2381,6 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
-</td>
-    </tr><tr>
-    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
 </td>
     </tr>  </tbody>
 </table>

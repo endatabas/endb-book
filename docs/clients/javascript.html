@@ -402,7 +402,8 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 <li><a href="#EndbWebSocket">EndbWebSocket</a>
 <ul>
 <li><a href="#new_EndbWebSocket_new"><code>new EndbWebSocket([url], [opt])</code></a></li>
-<li><a href="#EndbWebSocket+sql"><code>.sql(q, [p], [m], [accept])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
+<li><a href="#EndbWebSocket+close"><code>.close()</code></a></li>
+<li><a href="#EndbWebSocket+sql"><code>.sql(q, [p], [m])</code></a> ⇒ <code>Promise.&lt;Array&gt;</code></li>
 </ul>
 </li>
 </ul>
@@ -433,8 +434,12 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 </td>
     </tr>  </tbody>
 </table>
-<p><a name="EndbWebSocket+sql"></a></p>
-<h4 id="endbwebsocketsqlq-p-m-accept--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m-accept--promisearray"><code>endbWebSocket.sql(q, [p], [m], [accept])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h4>
+<p><a name="EndbWebSocket+close"></a></p>
+<h4 id="endbwebsocketclose"><a class="header" href="#endbwebsocketclose"><code>endbWebSocket.close()</code></a></h4>
+<p>Close the WebSocket connection</p>
+<p><strong>Kind</strong>: instance method of <a href="#EndbWebSocket"><code>EndbWebSocket</code></a><br />
+<a name="EndbWebSocket+sql"></a></p>
+<h4 id="endbwebsocketsqlq-p-m--promisearray"><a class="header" href="#endbwebsocketsqlq-p-m--promisearray"><code>endbWebSocket.sql(q, [p], [m])</code> ⇒ <code>Promise.&lt;Array&gt;</code></a></h4>
 <p>Execute a SQL statement over a WebSocket with LD-JSON</p>
 <p><strong>Kind</strong>: instance method of <a href="#EndbWebSocket"><code>EndbWebSocket</code></a><br />
 <strong>Returns</strong>: <code>Promise.&lt;Array&gt;</code> - - Array of documents</p>
@@ -453,9 +458,6 @@ sql(`INSERT INTO users (name) VALUES (${u});`, [{u: 'Michael'}]);
 </td>
     </tr><tr>
     <td>[m]</td><td><code>boolean</code></td><td><p>many parameters flag</p>
-</td>
-    </tr><tr>
-    <td>[accept]</td><td><code>string</code></td><td><p>Accept Header content type</p>
 </td>
     </tr>  </tbody>
 </table>
