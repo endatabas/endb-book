@@ -227,6 +227,15 @@ The following are legal time literals:</p>
 <li><code>TIME '23:59:12'</code></li>
 <li><code>TIME '23:59:12.12345'</code></li>
 </ul>
+<h2 id="period"><a class="header" href="#period">PERIOD</a></h2>
+<p>A Period is a window of time between two date/time types.
+Periods are used with <a href="time_queries.html#period-predicates">Period Predicates</a>.</p>
+<ul>
+<li><code>{start: 2001-01-01, end: 2001-04-01}</code></li>
+<li><code>[2001-04-01T00:00:00Z, 2001-05-01]</code></li>
+</ul>
+<p>It is also possible to create a Period with the <a href="functions.html#period"><code>PERIOD</code></a>
+constructor function.</p>
 <h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL (DURATION)</a></h2>
 <p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
 <pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;

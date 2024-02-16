@@ -857,6 +857,15 @@ The following are legal time literals:</p>
 <li><code>TIME '23:59:12'</code></li>
 <li><code>TIME '23:59:12.12345'</code></li>
 </ul>
+<h2 id="period"><a class="header" href="#period">PERIOD</a></h2>
+<p>A Period is a window of time between two date/time types.
+Periods are used with <a href="sql/time_queries.html#period-predicates">Period Predicates</a>.</p>
+<ul>
+<li><code>{start: 2001-01-01, end: 2001-04-01}</code></li>
+<li><code>[2001-04-01T00:00:00Z, 2001-05-01]</code></li>
+</ul>
+<p>It is also possible to create a Period with the <a href="sql/functions.html#period"><code>PERIOD</code></a>
+constructor function.</p>
 <h2 id="interval-duration"><a class="header" href="#interval-duration">INTERVAL (DURATION)</a></h2>
 <p>An interval (or <em>duration</em>) is created whenever two times are subtracted.</p>
 <pre><code class="language-sql">SELECT 2001-01-02 - 2001-01-01;
@@ -1482,6 +1491,11 @@ SELECT EXTRACT(SECOND FROM CURRENT_TIME);
 </code></pre>
 <p>NOTE: <code>EXTRACT</code> is a &quot;pseudo-function&quot; because internally it uses custom syntax of the form
 <code>&lt;named-portion&gt; FROM &lt;date&gt;</code>.</p>
+<h3 id="period-1"><a class="header" href="#period-1">PERIOD</a></h3>
+<p>The <code>PERIOD</code> function creates a new <a href="sql/data_types.html#period">Period</a>.
+It is equivalent to using Period literals.</p>
+<pre><code class="language-sql">PERIOD(2001-04-01T00:00:00Z, 2001-05-01)
+</code></pre>
 <h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
 <h3 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h3>
 <p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,

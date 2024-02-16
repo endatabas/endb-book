@@ -71,6 +71,17 @@ The following are legal time literals:
 * `TIME '23:59:12'`
 * `TIME '23:59:12.12345'`
 
+## PERIOD
+
+A Period is a window of time between two date/time types.
+Periods are used with [Period Predicates](time_queries.md#period-predicates).
+
+* `{start: 2001-01-01, end: 2001-04-01}`
+* `[2001-04-01T00:00:00Z, 2001-05-01]`
+
+It is also possible to create a Period with the [`PERIOD`](functions.md#period)
+constructor function.
+
 ## INTERVAL (DURATION)
 
 An interval (or _duration_) is created whenever two times are subtracted.

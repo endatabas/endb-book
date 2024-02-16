@@ -409,6 +409,11 @@ SELECT EXTRACT(SECOND FROM CURRENT_TIME);
 </code></pre>
 <p>NOTE: <code>EXTRACT</code> is a &quot;pseudo-function&quot; because internally it uses custom syntax of the form
 <code>&lt;named-portion&gt; FROM &lt;date&gt;</code>.</p>
+<h3 id="period"><a class="header" href="#period">PERIOD</a></h3>
+<p>The <code>PERIOD</code> function creates a new <a href="data_types.html#period">Period</a>.
+It is equivalent to using Period literals.</p>
+<pre><code class="language-sql">PERIOD(2001-04-01T00:00:00Z, 2001-05-01)
+</code></pre>
 <h2 id="aggregate-functions"><a class="header" href="#aggregate-functions">Aggregate Functions</a></h2>
 <h3 id="min-max"><a class="header" href="#min-max">MIN, MAX</a></h3>
 <p>The <code>MIN</code> and <code>MAX</code> functions return the minimum and maximum values for an expression,

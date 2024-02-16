@@ -362,6 +362,15 @@ SELECT EXTRACT(SECOND FROM CURRENT_TIME);
 NOTE: `EXTRACT` is a "pseudo-function" because internally it uses custom syntax of the form
 `<named-portion> FROM <date>`.
 
+### PERIOD
+
+The `PERIOD` function creates a new [Period](data_types.md#period).
+It is equivalent to using Period literals.
+
+```sql
+PERIOD(2001-04-01T00:00:00Z, 2001-05-01)
+```
+
 ## Aggregate Functions
 
 ### MIN, MAX
