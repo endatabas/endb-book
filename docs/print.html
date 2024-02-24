@@ -207,11 +207,12 @@ docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 </code></pre>
 <p>See <a href="tutorial/../reference/installation.html">Installation</a> for more ways to install
 and build <code>endb</code>.</p>
+<p>See <a href="tutorial/try_it.html">Try It!</a> for methods of connecting to Endb and running queries.</p>
 <h2 id="try-online"><a class="header" href="#try-online">Try Online</a></h2>
 <p>If you do not want to install a full Endb instance, you can try the
 <a href="https://endatabas.com/console.html">Wasm Console</a> instead.</p>
 <p>The Wasm Console runs Endb directly in your web browser,
-so you can ignore the following steps and jump straight to
+so you can ignore the steps in <a href="tutorial/try_it.html">Try It!</a> and jump straight to
 <a href="tutorial/sql_basics.html">Endb SQL Basics</a>.</p>
 <p>NOTE: The Wasm Console is not a full Endb instance.
 It does not provide APIs and has other performance
@@ -221,7 +222,7 @@ and infrastructure limitations.</p>
 Any HTTP or WebSocket client will do, and Endb ships with a console
 and client libraries.</p>
 <h2 id="curl"><a class="header" href="#curl">curl</a></h2>
-<p>Our first couple examples will use <a href="https://everything.curl.dev/get">curl</a>,
+<p>Our first couple examples will use <a href="https://everything.curl.dev/install">curl</a>,
 which you probably already have installed, to send queries directly to the API.</p>
 <pre><code class="language-sh">curl -d &quot;INSERT INTO users (name) VALUES ('Tianyu')&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 curl -d &quot;SELECT * FROM users&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql

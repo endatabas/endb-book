@@ -6,7 +6,7 @@ and client libraries.
 
 ## curl
 
-Our first couple examples will use [curl](https://everything.curl.dev/get),
+Our first couple examples will use [curl](https://everything.curl.dev/install),
 which you probably already have installed, to send queries directly to the API.
 
 ```sh
