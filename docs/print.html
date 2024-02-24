@@ -1776,7 +1776,15 @@ and their derivatives in legacy relational databases.</p>
 <p>You will want to familiarize yourself with Endb's
 <a href="sql/data_types.html">nested data types</a> (arrays and objects)
 before learning about path navigation.</p>
-<p>In the examples below, path examples are shown in the <code>SELECT</code> clause,
+<p>It will also be helpful to learn about other functions and operators
+that are frequently helpful in conjunction with path navigation:</p>
+<ul>
+<li><a href="sql/operators.html#match">MATCH</a> - filter by containment</li>
+<li><a href="sql/functions.html#array_agg">ARRAY_AGG</a> - concatenate results into an array</li>
+<li><a href="sql/functions.html#unnest">UNNEST</a> - pull array elements into separate rows</li>
+<li><a href="sql/queries.html#with-common-table-expressions">WITH</a> - Common Table Expressions</li>
+</ul>
+<p>In the examples below, most path examples are shown in the <code>SELECT</code> clause,
 but they are also valid in the <code>WHERE</code> clause.</p>
 <h2 id="nested-objects"><a class="header" href="#nested-objects">Nested Objects</a></h2>
 <p>If you are familiar with arrays and objects, try adding
@@ -1804,6 +1812,9 @@ represent rows returned, so they are easier to navigate.
 The format of a row literal is <code>{ &lt;table&gt;.* }</code>:</p>
 <pre><code class="language-sql">SELECT { paths.* } FROM paths;
 </code></pre>
+<p>Or the shorthand:</p>
+<pre><code class="language-sql">SELECT paths FROM paths;
+</code></pre>
 <p>See <a href="sql/data_types.html#row-literals">Row Literal Data Type</a></p>
 <h2 id="recursive-paths"><a class="header" href="#recursive-paths">Recursive Paths</a></h2>
 <p>The double dot (<code>..</code>) notation performs a &quot;deep scan&quot; by
@@ -1813,6 +1824,9 @@ recursively walking the document to match the name given.</p>
 
 SELECT b..a FROM paths;
 -- [{'a': [3]}]
+
+SELECT * FROM paths WHERE paths..a MATCH 3; -- finds a match
+SELECT * FROM paths WHERE paths..a MATCH 4; -- does not
 </code></pre>
 <h2 id="named-child"><a class="header" href="#named-child">Named Child</a></h2>
 <p>The square bracket notation (<code>['&lt;NAME&gt;']</code>) performs a lookup

@@ -11,7 +11,15 @@ You will want to familiarize yourself with Endb's
 [nested data types](data_types.md) (arrays and objects)
 before learning about path navigation.
 
-In the examples below, path examples are shown in the `SELECT` clause,
+It will also be helpful to learn about other functions and operators
+that are frequently helpful in conjunction with path navigation:
+
+* [MATCH](operators.md#match) - filter by containment
+* [ARRAY_AGG](functions.md#array_agg) - concatenate results into an array
+* [UNNEST](functions.md#unnest) - pull array elements into separate rows
+* [WITH](queries.md#with-common-table-expressions) - Common Table Expressions
+
+In the examples below, most path examples are shown in the `SELECT` clause,
 but they are also valid in the `WHERE` clause.
 
 ## Nested Objects
@@ -58,6 +66,12 @@ The format of a row literal is `{ <table>.* }`:
 SELECT { paths.* } FROM paths;
 ```
 
+Or the shorthand:
+
+```sql
+SELECT paths FROM paths;
+```
+
 See [Row Literal Data Type](data_types.md#row-literals)
 
 ## Recursive Paths
@@ -71,6 +85,9 @@ SELECT { paths.* }..a FROM paths;
 
 SELECT b..a FROM paths;
 -- [{'a': [3]}]
+
+SELECT * FROM paths WHERE paths..a MATCH 3; -- finds a match
+SELECT * FROM paths WHERE paths..a MATCH 4; -- does not
 ```
 
 ## Named Child
