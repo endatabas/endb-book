@@ -188,13 +188,17 @@ there's plenty of explanatory material in our
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tutorial"><a class="header" href="#tutorial">Tutorial</a></h1>
 <p>This quick tutorial intends to walk you through the core aspects of Endb.
-By the end, you will have <code>endb</code> installed and you will have used it to
-learn some of what it can do.</p>
+By the end, you will have <code>endb</code> installed (if you want) and you will have
+used it to learn some of what it can do.</p>
 <ul>
 <li><a href="tutorial/quickstart.html">Quickstart</a></li>
 <li><a href="tutorial/try_it.html">Try It!</a></li>
 <li><a href="tutorial/sql_basics.html">Endb SQL Basics</a></li>
 </ul>
+<h2 id="warning-early-alpha"><a class="header" href="#warning-early-alpha">Warning: Early Alpha</a></h2>
+<p>Endb is still in early alpha.</p>
+<p>While in alpha, new versions are not guaranteed to have binary-compatible storage with previous versions.
+We encourage you to experiment with Endb but please do not use it in production until a General Availability release.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="quickstart"><a class="header" href="#quickstart">Quickstart</a></h1>
 <h2 id="install-endb"><a class="header" href="#install-endb">Install Endb</a></h2>
 <pre><code class="language-sh">mkdir -p endb_data
@@ -203,19 +207,15 @@ docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 </code></pre>
 <p>See <a href="tutorial/../reference/installation.html">Installation</a> for more ways to install
 and build <code>endb</code>.</p>
-<h2 id="run-your-first-query"><a class="header" href="#run-your-first-query">Run your first query</a></h2>
-<p>You can use the <a href="tutorial/../clients/console.html">Console</a>:</p>
-<pre><code class="language-sh">$ pip install endb
-$ endb_console
--&gt; SELECT 'Hello World';
-</code></pre>
-<p>...or you can send queries to the API directly:</p>
-<pre><code class="language-sh">curl -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
-</code></pre>
-<h2 id="warning-early-alpha"><a class="header" href="#warning-early-alpha">Warning: Early Alpha</a></h2>
-<p>Endb is still in early alpha.</p>
-<p>While in alpha, new versions are not guaranteed to have binary-compatible storage with previous versions.
-We encourage you to experiment with Endb but please do not use it in production until a General Availability release.</p>
+<h2 id="try-online"><a class="header" href="#try-online">Try Online</a></h2>
+<p>If you do not want to install a full Endb instance, you can try the
+<a href="https://endatabas.com/console.html">Wasm Console</a> instead.</p>
+<p>The Wasm Console runs Endb directly in your web browser,
+so you can ignore the following steps and jump straight to
+<a href="tutorial/sql_basics.html">Endb SQL Basics</a>.</p>
+<p>NOTE: The Wasm Console is not a full Endb instance.
+It does not provide APIs and has other performance
+and infrastructure limitations.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="try-it"><a class="header" href="#try-it">Try It!</a></h1>
 <p>You can send SQL statements to <code>endb</code> over HTTP or WebSockets.
 Any HTTP or WebSocket client will do, and Endb ships with a console

@@ -11,20 +11,15 @@ docker run --rm -p 3803:3803 -v endb_data:/app/endb_data docker.io/endatabas/end
 See [Installation](../reference/installation.md) for more ways to install
 and build `endb`.
 
-## Run your first query
+## Try Online
 
-You can use the [Console](../clients/console.md):
+If you do not want to install a full Endb instance, you can try the
+[Wasm Console](https://endatabas.com/console.html) instead.
 
-```sh
-$ pip install endb
-$ endb_console
--> SELECT 'Hello World';
-```
+The Wasm Console runs Endb directly in your web browser,
+so you can ignore the following steps and jump straight to
+[Endb SQL Basics](sql_basics.md).
 
-...or you can send queries to the API directly:
-
-```sh
-curl -d "SELECT 'Hello World';" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
-```
-
-{{#include ../alpha-warning.md}}
+NOTE: The Wasm Console is not a full Endb instance.
+It does not provide APIs and has other performance
+and infrastructure limitations.
