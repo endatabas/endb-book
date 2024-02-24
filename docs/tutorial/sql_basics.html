@@ -181,26 +181,31 @@ Hopefully it is pleasant to use without feeling foreign.</p>
 <p>Endb is a schemaless document database.
 You do not need <code>CREATE TABLE</code> — tables are dynamically created when you insert data.
 The following SQL is valid as soon as you start <code>endb</code>:</p>
-<pre><code class="language-SQL">INSERT INTO posts (id, user_id, text) VALUES (123, 456, 'Hello World');
-
-SELECT * from posts;
+<pre><code class="language-sql">INSERT INTO posts (id, user_id, text) VALUES (123, 456, 'Hello World');
+</code></pre>
+<p>Try querying it out:</p>
+<pre><code class="language-sql">SELECT * FROM posts;
 </code></pre>
 <h2 id="immutable"><a class="header" href="#immutable">Immutable</a></h2>
 <p>Endb is immutable, so it does not permit destructive <code>UPDATE</code> or <code>DELETE</code>.
-For example, if you run an <code>UPDATE</code>, your previous <code>INSERT</code> isn't lost.
-Before we update the record, we'll make note of the current time, according to the database.
+For example, if you run an <code>UPDATE</code>, your previous <code>INSERT</code> isn't lost.</p>
+<p>Before we update the record, we'll make note of the current time, according to the database.
 (Any time after the <code>INSERT</code> and before the <code>UPDATE</code> would suffice.)</p>
-<pre><code class="language-SQL">SELECT CURRENT_TIMESTAMP;
--- for the sake of example, let's say this returns 2023-08-17T00:00:00
-
-UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
+<pre><code class="language-sql">-- make note of this time to use below
+SELECT CURRENT_TIMESTAMP;
+</code></pre>
+<p>Multiple statements can be separated by semicolons.
+This time, we'll update the record and view it at once:</p>
+<pre><code class="language-sql">UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
 
 SELECT * from posts;
 </code></pre>
 <p>You'll note that <code>Hello World</code> from your original insert isn't visible.
 That's because it only exists in the past and, by default, <code>SELECT</code> will show the state of the database <em>as of now</em>.</p>
-<p>To see the old version, you can time-travel back to a time when the old record was visible:</p>
-<pre><code class="language-SQL">SELECT * from posts FOR SYSTEM_TIME AS OF 2023-08-17T00:00:00;
+<p>To see the old version, you can time-travel back to a time when the old record was visible.
+Copy the timestamp you noted, <em>without</em> the quotes, something like
+<code>SELECT * from posts FOR SYSTEM_TIME AS OF 2024-01-01T00:00:00.000000Z;</code>:</p>
+<pre><code class="language-sql">SELECT * from posts FOR SYSTEM_TIME AS OF {YOUR_NOTED_TIMESTAMP};
 </code></pre>
 <p>NOTE: Although there is no <code>DELETE</code> in the traditional sense, there is <code>ERASE</code>,
 which exists to remove data for user safety and compliance with laws like GDPR.</p>
@@ -208,23 +213,25 @@ which exists to remove data for user safety and compliance with laws like GDPR.<
 <p>Relationships are also dynamic.
 You can join any two tables on any two columns.
 Adding a user with id <code>456</code> allows a join with the previous <code>posts</code> table.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name) VALUES (456, 'Vikram');
+<pre><code class="language-sql">INSERT INTO users (id, name) VALUES (456, 'Vikram');
 
 SELECT * from posts p JOIN users u ON p.user_id = u.id;
 </code></pre>
 <h2 id="semi-structured-data"><a class="header" href="#semi-structured-data">Semi-Structured Data</a></h2>
 <p>Endb allows you to insert asymmetrical, jagged data.
 Let's add another user with more columns.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name, email) VALUES (789, 'Daniela', 'daniela@endatabas.com');
+<pre><code class="language-sql">INSERT INTO users (id, name, email) VALUES (789, 'Daniela', 'daniela@endatabas.com');
 
 SELECT * from users;
 </code></pre>
 <p>Note that the <code>SELECT *</code> is an implicitly dynamic query.
-It doesn't have any difficulty with the previous <code>user</code> document, even though it lacked an <code>email</code> column.</p>
+It doesn't have any difficulty with the previous <code>user</code> document, even though it lacked an <code>email</code> column.
+In practice, most applications and SQL queries should specify exactly the columns they want to query.
+<code>SELECT *</code> is really only for exploratory queries, so it shows you everything visible in the table.</p>
 <h2 id="data-migration"><a class="header" href="#data-migration">Data &quot;Migration&quot;</a></h2>
 <p>It may seem strange to leave jagged columns lying around.
 Endb doesn't discourage you from cleaning up your data, if you can:</p>
-<pre><code class="language-SQL">UPDATE users SET email = 'vikram@stockholm.se' WHERE name = 'Vikram';
+<pre><code class="language-sql">UPDATE users SET email = 'vikram@stockholm.se' WHERE name = 'Vikram';
 
 SELECT * from users;
 </code></pre>
@@ -234,20 +241,22 @@ Queries in Endb always default to <em>as-of-now</em>, which is why the results o
 <h2 id="nested-data"><a class="header" href="#nested-data">Nested Data</a></h2>
 <p>Endb eschews <a href="https://www.postgresql.org/docs/current/datatype-json.html">nested json</a>
 in favour of a native, strongly-typed, document-relational model.</p>
-<pre><code class="language-SQL">INSERT INTO users (id, name, friends) VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},{name: 'Amit', country: 'Japan'}]);
+<pre><code class="language-sql">INSERT INTO users (id, name, friends)
+VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},
+                           {name: 'Amit', country: 'Japan'}]);
 
 SELECT users.friends[1] FROM users WHERE id = 123;
 </code></pre>
-<p>The <code>users.friends[1]</code> expression above is one of many path expressions inspired by
-<a href="https://datatracker.ietf.org/doc/draft-ietf-jsonpath-base/">JSONPath</a>,
-<a href="https://www.iso.org/standard/78937.html">SQL/JSON</a>,
-and their derivatives in legacy relational databases.
-A detailed explanation of Endb's arrays and objects is provided in the
-<a href="../sql/path_navigation.html">SQL Reference</a></p>
+<p>The <code>users.friends[1]</code> expression above is a <em>path expression</em>.
+A detailed explanation of Endb's path navigation is provided in the
+SQL Reference <a href="../sql/path_navigation.html">Path Navigation docs</a>.</p>
 <h2 id="documents"><a class="header" href="#documents">Documents</a></h2>
 <p>Because of Endb's native document-relational model, rows are documents and vice-versa.
 You can use an <code>INSERT</code> statement to add a document directly to the database:</p>
-<pre><code class="language-SQL">INSERT INTO users {id: 890, name: 'Aaron', friends: [{name: 'Jeff', country: 'Canada'},{name: 'Kaia', country: 'Japan'}]};
+<pre><code class="language-sql">INSERT INTO users {id: 890,
+                   name: 'Aaron',
+                   friends: [{name: 'Jeff', country: 'Canada'},
+                             {name: 'Kaia', country: 'Japan'}]};
 </code></pre>
 <h2 id="error-messages"><a class="header" href="#error-messages">Error Messages</a></h2>
 <p>Endb will always do its best to provide you with meaningful error messages that point you to a solution:</p>

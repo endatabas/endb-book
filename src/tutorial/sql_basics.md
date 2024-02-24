@@ -11,23 +11,33 @@ Endb is a schemaless document database.
 You do not need `CREATE TABLE` — tables are dynamically created when you insert data.
 The following SQL is valid as soon as you start `endb`:
 
-```SQL
+```sql
 INSERT INTO posts (id, user_id, text) VALUES (123, 456, 'Hello World');
+```
 
-SELECT * from posts;
+Try querying it out:
+
+```sql
+SELECT * FROM posts;
 ```
 
 ## Immutable
 
 Endb is immutable, so it does not permit destructive `UPDATE` or `DELETE`.
 For example, if you run an `UPDATE`, your previous `INSERT` isn't lost.
+
 Before we update the record, we'll make note of the current time, according to the database.
 (Any time after the `INSERT` and before the `UPDATE` would suffice.)
 
-```SQL
+```sql
+-- make note of this time to use below
 SELECT CURRENT_TIMESTAMP;
--- for the sake of example, let's say this returns 2023-08-17T00:00:00
+```
 
+Multiple statements can be separated by semicolons.
+This time, we'll update the record and view it at once:
+
+```sql
 UPDATE posts SET text = 'Hello Immutable World' WHERE id = 123;
 
 SELECT * from posts;
@@ -36,10 +46,12 @@ SELECT * from posts;
 You'll note that `Hello World` from your original insert isn't visible.
 That's because it only exists in the past and, by default, `SELECT` will show the state of the database _as of now_.
 
-To see the old version, you can time-travel back to a time when the old record was visible:
+To see the old version, you can time-travel back to a time when the old record was visible.
+Copy the timestamp you noted, _without_ the quotes, something like
+`SELECT * from posts FOR SYSTEM_TIME AS OF 2024-01-01T00:00:00.000000Z;`:
 
-```SQL
-SELECT * from posts FOR SYSTEM_TIME AS OF 2023-08-17T00:00:00;
+```sql
+SELECT * from posts FOR SYSTEM_TIME AS OF {YOUR_NOTED_TIMESTAMP};
 ```
 
 NOTE: Although there is no `DELETE` in the traditional sense, there is `ERASE`,
@@ -51,7 +63,7 @@ Relationships are also dynamic.
 You can join any two tables on any two columns.
 Adding a user with id `456` allows a join with the previous `posts` table.
 
-```SQL
+```sql
 INSERT INTO users (id, name) VALUES (456, 'Vikram');
 
 SELECT * from posts p JOIN users u ON p.user_id = u.id;
@@ -62,7 +74,7 @@ SELECT * from posts p JOIN users u ON p.user_id = u.id;
 Endb allows you to insert asymmetrical, jagged data.
 Let's add another user with more columns.
 
-```SQL
+```sql
 INSERT INTO users (id, name, email) VALUES (789, 'Daniela', 'daniela@endatabas.com');
 
 SELECT * from users;
@@ -70,13 +82,15 @@ SELECT * from users;
 
 Note that the `SELECT *` is an implicitly dynamic query.
 It doesn't have any difficulty with the previous `user` document, even though it lacked an `email` column.
+In practice, most applications and SQL queries should specify exactly the columns they want to query.
+`SELECT *` is really only for exploratory queries, so it shows you everything visible in the table.
 
 ## Data "Migration"
 
 It may seem strange to leave jagged columns lying around.
 Endb doesn't discourage you from cleaning up your data, if you can:
 
-```SQL
+```sql
 UPDATE users SET email = 'vikram@stockholm.se' WHERE name = 'Vikram';
 
 SELECT * from users;
@@ -91,26 +105,28 @@ Queries in Endb always default to _as-of-now_, which is why the results of the q
 Endb eschews [nested json](https://www.postgresql.org/docs/current/datatype-json.html)
 in favour of a native, strongly-typed, document-relational model.
 
-```SQL
-INSERT INTO users (id, name, friends) VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},{name: 'Amit', country: 'Japan'}]);
+```sql
+INSERT INTO users (id, name, friends)
+VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},
+                           {name: 'Amit', country: 'Japan'}]);
 
 SELECT users.friends[1] FROM users WHERE id = 123;
 ```
 
-The `users.friends[1]` expression above is one of many path expressions inspired by
-[JSONPath](https://datatracker.ietf.org/doc/draft-ietf-jsonpath-base/),
-[SQL/JSON](https://www.iso.org/standard/78937.html),
-and their derivatives in legacy relational databases.
-A detailed explanation of Endb's arrays and objects is provided in the
-[SQL Reference](../sql/path_navigation.md)
+The `users.friends[1]` expression above is a _path expression_.
+A detailed explanation of Endb's path navigation is provided in the
+SQL Reference [Path Navigation docs](../sql/path_navigation.md).
 
 ## Documents
 
 Because of Endb's native document-relational model, rows are documents and vice-versa.
 You can use an `INSERT` statement to add a document directly to the database:
 
-```SQL
-INSERT INTO users {id: 890, name: 'Aaron', friends: [{name: 'Jeff', country: 'Canada'},{name: 'Kaia', country: 'Japan'}]};
+```sql
+INSERT INTO users {id: 890,
+                   name: 'Aaron',
+                   friends: [{name: 'Jeff', country: 'Canada'},
+                             {name: 'Kaia', country: 'Japan'}]};
 ```
 
 ## Error Messages
