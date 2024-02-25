@@ -181,6 +181,25 @@ SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40
 --  {'price': ['original_price', 1.99]}]
 ```
 
+Unnesting nested data from a queried table is done with the form
+`FROM <table>, UNNEST(<table>.<column>) AS foo(new_column)`.
+For example:
+
+```sql
+INSERT INTO msgs
+  {text: "Here is some classic material",
+   user: "George",
+   workday: 2024-02-25,
+   media: [{type: "image", src: "dsm.png"},
+           {type: "video", src: "vldb.mp4"}]};
+
+WITH m AS (SELECT * FROM msgs, UNNEST(msgs.media) AS m(media))
+SELECT media FROM m WHERE media..type MATCH 'video';
+```
+
+NOTE: `UNNEST` is a _table function_ and therefore only valid within
+the `FROM` clause.
+
 #### WITH ORDINALITY
 
 `UNNEST` can be suffixed with `WITH ORDINALITY`

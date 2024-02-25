@@ -1381,6 +1381,21 @@ This behaviour is useful for manipulating collections:</p>
 --  {'price': ['coupon_price', 1.4]},
 --  {'price': ['original_price', 1.99]}]
 </code></pre>
+<p>Unnesting nested data from a queried table is done with the form
+<code>FROM &lt;table&gt;, UNNEST(&lt;table&gt;.&lt;column&gt;) AS foo(new_column)</code>.
+For example:</p>
+<pre><code class="language-sql">INSERT INTO msgs
+  {text: &quot;Here is some classic material&quot;,
+   user: &quot;George&quot;,
+   workday: 2024-02-25,
+   media: [{type: &quot;image&quot;, src: &quot;dsm.png&quot;},
+           {type: &quot;video&quot;, src: &quot;vldb.mp4&quot;}]};
+
+WITH m AS (SELECT * FROM msgs, UNNEST(msgs.media) AS m(media))
+SELECT media FROM m WHERE media..type MATCH 'video';
+</code></pre>
+<p>NOTE: <code>UNNEST</code> is a <em>table function</em> and therefore only valid within
+the <code>FROM</code> clause.</p>
 <h4 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h4>
 <p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
 to append an ordinal column to the results.</p>
