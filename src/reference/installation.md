@@ -1,9 +1,5 @@
 # Installation
 
-At this stage, Endatabas is experimental.
-If you would like to follow development closely, we recommend installing
-nightly Docker builds or building from source.
-
 You only need one of the following installation options.
 If you followed the Quickstart, you already have the Docker Hub version installed.
 
