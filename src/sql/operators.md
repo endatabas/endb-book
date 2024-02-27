@@ -70,7 +70,7 @@ Thus, `IS` and `IS NOT` are not symmetrical for jagged data.
 `IS DISTINCT FROM` is a synonym for `IS NOT`.
 `IS NOT DISTINCT FROM` is a synonym for `IS`.
 
-NOTE: The `IS \[NOT\] DISTINCT FROM` form is provided for SQL specification
+NOTE: The `IS [NOT] DISTINCT FROM` form is provided for SQL specification
 compatibility and is not recommended, as it tends to be verbose and confusing.
 
 ### NOT, AND, OR
