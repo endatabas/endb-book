@@ -427,7 +427,6 @@ Inside the scope of a stateless "transaction" (normally a single HTTP request),
 `ROLLBACK` is used to return to a savepoint.
 `ROLLBACK TO <savepoint>` returns to a named savepoint (by name) or an anonymous savepoint
 (by string UUID).
-When used without a savepoint name, `ROLLBACK` returns to the last anonymous savepoint.
 Queries executed inside such a transaction return results according to the state of the
 database when the savepoint was created.
 The use of `ROLLBACK` renews the lease of the associated savepoint.
@@ -435,7 +434,6 @@ The use of `ROLLBACK` renews the lease of the associated savepoint.
 ```sql
 ROLLBACK TO desert_palace; SELECT * FROM dungeons;
 ROLLBACK TO 'eab07765-de6f-4f74-8052-838dd29ee8e7'; SELECT * FROM dungeons;
-ROLLBACK; SELECT * FROM dungeons;
 ```
 
 ### RELEASE

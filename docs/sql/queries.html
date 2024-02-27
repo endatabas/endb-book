@@ -443,13 +443,11 @@ SAVEPOINT;
 <code>ROLLBACK</code> is used to return to a savepoint.
 <code>ROLLBACK TO &lt;savepoint&gt;</code> returns to a named savepoint (by name) or an anonymous savepoint
 (by string UUID).
-When used without a savepoint name, <code>ROLLBACK</code> returns to the last anonymous savepoint.
 Queries executed inside such a transaction return results according to the state of the
 database when the savepoint was created.
 The use of <code>ROLLBACK</code> renews the lease of the associated savepoint.</p>
 <pre><code class="language-sql">ROLLBACK TO desert_palace; SELECT * FROM dungeons;
 ROLLBACK TO 'eab07765-de6f-4f74-8052-838dd29ee8e7'; SELECT * FROM dungeons;
-ROLLBACK; SELECT * FROM dungeons;
 </code></pre>
 <h3 id="release"><a class="header" href="#release">RELEASE</a></h3>
 <p>The <code>RELEASE</code> keyword expires a savepoint so it can no longer be used.
