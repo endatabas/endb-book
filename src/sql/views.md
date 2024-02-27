@@ -1,7 +1,6 @@
 # Views
 
-Endb provides basic view functionality to support environments
-which require a static schema.
+Endb provides basic view functionality.
 
 ## CREATE VIEW
 

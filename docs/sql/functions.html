@@ -269,6 +269,38 @@ SELECT LENGTH({name: 'Peas', price: 8.99, product_no: 77});
 SELECT LENGTH('josé');
 </code></pre>
 <p>NOTE: <code>CARDINALITY</code> is an synonym for <code>LENGTH</code>.</p>
+<h3 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h3>
+<p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
+<pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
+</code></pre>
+<h3 id="object_values"><a class="header" href="#object_values">OBJECT_VALUES</a></h3>
+<p>An object's values can be selected using <code>OBJECT_VALUES</code>.</p>
+<pre><code class="language-sql">SELECT OBJECT_VALUES({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
+</code></pre>
+<h3 id="object_entries"><a class="header" href="#object_entries">OBJECT_ENTRIES</a></h3>
+<p>Returns an array of key-value pairs representing the given object.</p>
+<pre><code class="language-sql">SELECT OBJECT_ENTRIES({a: 1, b: 2, c: 3});
+-- [['a': 1], ['b': 2], ['c': 3]]
+</code></pre>
+<h3 id="object_from_entries"><a class="header" href="#object_from_entries">OBJECT_FROM_ENTRIES</a></h3>
+<p>Constructs an object from an array of key-value pairs.</p>
+<pre><code class="language-sql">SELECT OBJECT_FROM_ENTRIES([['a', 1], ['b', 2], ['c', 3]]);
+-- {a: 1, b: 2, c: 3}
+</code></pre>
+<h3 id="patch"><a class="header" href="#patch">PATCH</a></h3>
+<p>The <code>PATCH</code> function takes two documents.
+The document returned is the first document &quot;patched&quot; with any fields found in the second document.
+If the second document does not specify a field, that field is left untouched.
+If the second document specifies any fields with values of <code>NULL</code>, those fields are removed.</p>
+<pre><code class="language-sql">SELECT PATCH(
+  {name: 'Salt', nutrition: {sodium: 100, ingredients: 'Kosher Salt'}},
+  {name: 'Sea Salt', nutrition: {ingredients: NULL}}
+);
+</code></pre>
+<p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
+<a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
+<h2 id="table-value-functions"><a class="header" href="#table-value-functions">Table Value Functions</a></h2>
+<p>Table Value Functions are only valid within the <code>FROM</code> clause.</p>
 <h3 id="unnest"><a class="header" href="#unnest">UNNEST</a></h3>
 <p>The <code>UNNEST</code> function can be thought of as the inverse of
 <a href="functions.html#array_agg"><code>ARRAY_AGG</code></a>,
@@ -302,8 +334,6 @@ For example:</p>
 WITH m AS (SELECT * FROM msgs, UNNEST(msgs.media) AS m(media))
 SELECT media FROM m WHERE media..type MATCH 'video';
 </code></pre>
-<p>NOTE: <code>UNNEST</code> is a <em>table function</em> and therefore only valid within
-the <code>FROM</code> clause.</p>
 <h4 id="with-ordinality"><a class="header" href="#with-ordinality">WITH ORDINALITY</a></h4>
 <p><code>UNNEST</code> can be suffixed with <code>WITH ORDINALITY</code>
 to append an ordinal column to the results.</p>
@@ -311,52 +341,22 @@ to append an ordinal column to the results.</p>
 -- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
 </code></pre>
 <p>NOTE: Endb ordinals are zero-indexed.</p>
-<h3 id="object_keys"><a class="header" href="#object_keys">OBJECT_KEYS</a></h3>
-<p>An object's keys can be selected using <code>OBJECT_KEYS</code>.</p>
-<pre><code class="language-sql">SELECT OBJECT_KEYS({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
-</code></pre>
-<h3 id="object_values"><a class="header" href="#object_values">OBJECT_VALUES</a></h3>
-<p>An object's values can be selected using <code>OBJECT_VALUES</code>.</p>
-<pre><code class="language-sql">SELECT OBJECT_VALUES({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40});
-</code></pre>
-<h3 id="object_entries"><a class="header" href="#object_entries">OBJECT_ENTRIES</a></h3>
-<p>Returns an array of key-value pairs representing the given object.</p>
-<pre><code class="language-sql">SELECT OBJECT_ENTRIES({a: 1, b: 2, c: 3});
--- [['a': 1], ['b': 2], ['c': 3]]
-</code></pre>
-<h3 id="object_from_entries"><a class="header" href="#object_from_entries">OBJECT_FROM_ENTRIES</a></h3>
-<p>Constructs an object from an array of key-value pairs.</p>
-<pre><code class="language-sql">SELECT OBJECT_FROM_ENTRIES([['a', 1], ['b', 2], ['c', 3]]);
--- {a: 1, b: 2, c: 3}
-</code></pre>
-<h3 id="patch"><a class="header" href="#patch">PATCH</a></h3>
-<p>The <code>PATCH</code> function takes two documents.
-The document returned is the first document &quot;patched&quot; with any fields found in the second document.
-If the second document does not specify a field, that field is left untouched.
-If the second document specifies any fields with values of <code>NULL</code>, those fields are removed.</p>
-<pre><code class="language-sql">SELECT PATCH(
-  {name: 'Salt', nutrition: {sodium: 100, ingredients: 'Kosher Salt'}},
-  {name: 'Sea Salt', nutrition: {ingredients: NULL}}
-);
-</code></pre>
-<p>The <code>PATCH</code> function has an equivalent operator for data manipulation:
-<a href="data_manipulation.html#update-patch"><code>UPDATE PATCH</code></a></p>
-<h2 id="numeric-functions"><a class="header" href="#numeric-functions">Numeric Functions</a></h2>
-<h3 id="random"><a class="header" href="#random">RANDOM</a></h3>
-<p>The <code>RANDOM</code> function returns a random integer.</p>
-<pre><code class="language-sql">SELECT RANDOM();
-</code></pre>
 <h3 id="generate_series"><a class="header" href="#generate_series">GENERATE_SERIES</a></h3>
 <p>The <code>GENERATE_SERIES</code> function generates an array of numbers within a given interval.
 The first and second parameters are the start and end of the interval.
 The optional third parameter is a step value by which to increment each number.
 The result is returned as a single anonymous column (with the default name, <code>column1</code>)
 containing the array.</p>
-<pre><code class="language-sql">SELECT GENERATE_SERIES(0, 21);
-SELECT GENERATE_SERIES(0, 21, 3);
+<pre><code class="language-sql">SELECT * FROM GENERATE_SERIES(0, 21) AS t(s);
+SELECT * FROM GENERATE_SERIES(0, 21, 3) AS t(s);
 </code></pre>
 <p>It is possible to use the result of <code>GENERATE_SERIES</code> in other SQL expressions, like <code>IN</code>:</p>
 <pre><code class="language-sql">SELECT * FROM products WHERE product_no IN (SELECT column1 FROM generate_series(1000, 20000) AS foo);
+</code></pre>
+<h2 id="numeric-functions"><a class="header" href="#numeric-functions">Numeric Functions</a></h2>
+<h3 id="random"><a class="header" href="#random">RANDOM</a></h3>
+<p>The <code>RANDOM</code> function returns a random integer.</p>
+<pre><code class="language-sql">SELECT RANDOM();
 </code></pre>
 <h3 id="math"><a class="header" href="#math">Math</a></h3>
 <p>Endb provides standard SQL math functions based on SQLite's collection of math functions:</p>

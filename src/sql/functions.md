@@ -151,67 +151,6 @@ SELECT LENGTH('josé');
 
 NOTE: `CARDINALITY` is an synonym for `LENGTH`.
 
-### UNNEST
-
-The `UNNEST` function can be thought of as the inverse of
-[`ARRAY_AGG`](functions.md#array_agg),
-although it offers more power than just unlinking elements.
-It takes an array or object and pulls its elements into separate rows.
-
-```sql
-SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
-```
-
-It is possible to unnest multiple arrays.
-If the arrays do not have the same number of elements, the shorter array(s) will
-have those values filled with `NULL`:
-
-```sql
-SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
-```
-
-When unnesting an object, keys-value pairs will be returned
-as per [object\_entries](functions.md#object_entries).
-This behaviour is useful for manipulating collections:
-
-```sql
-SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
--- [{'price': ['sale_price', 1.5]},
---  {'price': ['coupon_price', 1.4]},
---  {'price': ['original_price', 1.99]}]
-```
-
-Unnesting nested data from a queried table is done with the form
-`FROM <table>, UNNEST(<table>.<column>) AS foo(new_column)`.
-For example:
-
-```sql
-INSERT INTO msgs
-  {text: "Here is some classic material",
-   user: "George",
-   workday: 2024-02-25,
-   media: [{type: "image", src: "dsm.png"},
-           {type: "video", src: "vldb.mp4"}]};
-
-WITH m AS (SELECT * FROM msgs, UNNEST(msgs.media) AS m(media))
-SELECT media FROM m WHERE media..type MATCH 'video';
-```
-
-NOTE: `UNNEST` is a _table function_ and therefore only valid within
-the `FROM` clause.
-
-#### WITH ORDINALITY
-
-`UNNEST` can be suffixed with `WITH ORDINALITY`
-to append an ordinal column to the results.
-
-```sql
-SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
--- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
-```
-
-NOTE: Endb ordinals are zero-indexed.
-
 ### OBJECT_KEYS
 
 An object's keys can be selected using `OBJECT_KEYS`.
@@ -263,16 +202,67 @@ SELECT PATCH(
 The `PATCH` function has an equivalent operator for data manipulation:
 [`UPDATE PATCH`](data_manipulation.html#update-patch)
 
+## Table Value Functions
 
-## Numeric Functions
+Table Value Functions are only valid within the `FROM` clause.
 
-### RANDOM
+### UNNEST
 
-The `RANDOM` function returns a random integer.
+The `UNNEST` function can be thought of as the inverse of
+[`ARRAY_AGG`](functions.md#array_agg),
+although it offers more power than just unlinking elements.
+It takes an array or object and pulls its elements into separate rows.
 
 ```sql
-SELECT RANDOM();
+SELECT * FROM UNNEST([1.99, 2.99, 3.99]) AS products(price);
 ```
+
+It is possible to unnest multiple arrays.
+If the arrays do not have the same number of elements, the shorter array(s) will
+have those values filled with `NULL`:
+
+```sql
+SELECT names.* FROM (VALUES (['Leslie', 'Edgar', 'fiver2'], ['Lamport', 'Codd'])) AS x(first, last), UNNEST(x.first, x.last) AS names(first, last);
+```
+
+When unnesting an object, keys-value pairs will be returned
+as per [object\_entries](functions.md#object_entries).
+This behaviour is useful for manipulating collections:
+
+```sql
+SELECT * FROM UNNEST({original_price: 1.99, sale_price: 1.50, coupon_price: 1.40}) AS prices(price);
+-- [{'price': ['sale_price', 1.5]},
+--  {'price': ['coupon_price', 1.4]},
+--  {'price': ['original_price', 1.99]}]
+```
+
+Unnesting nested data from a queried table is done with the form
+`FROM <table>, UNNEST(<table>.<column>) AS foo(new_column)`.
+For example:
+
+```sql
+INSERT INTO msgs
+  {text: "Here is some classic material",
+   user: "George",
+   workday: 2024-02-25,
+   media: [{type: "image", src: "dsm.png"},
+           {type: "video", src: "vldb.mp4"}]};
+
+WITH m AS (SELECT * FROM msgs, UNNEST(msgs.media) AS m(media))
+SELECT media FROM m WHERE media..type MATCH 'video';
+```
+
+#### WITH ORDINALITY
+
+`UNNEST` can be suffixed with `WITH ORDINALITY`
+to append an ordinal column to the results.
+
+```sql
+SELECT * FROM UNNEST([1.99, 2.99, 3.99]) WITH ORDINALITY AS products(price, n);
+-- [{'n': 0, 'price': 1.99}, {'n': 1, 'price': 2.99}, {'n': 2, 'price': 3.99}]
+```
+
+NOTE: Endb ordinals are zero-indexed.
 
 ### GENERATE_SERIES
 
@@ -283,14 +273,25 @@ The result is returned as a single anonymous column (with the default name, `col
 containing the array.
 
 ```sql
-SELECT GENERATE_SERIES(0, 21);
-SELECT GENERATE_SERIES(0, 21, 3);
+SELECT * FROM GENERATE_SERIES(0, 21) AS t(s);
+SELECT * FROM GENERATE_SERIES(0, 21, 3) AS t(s);
 ```
 
 It is possible to use the result of `GENERATE_SERIES` in other SQL expressions, like `IN`:
 
 ```sql
 SELECT * FROM products WHERE product_no IN (SELECT column1 FROM generate_series(1000, 20000) AS foo);
+```
+
+
+## Numeric Functions
+
+### RANDOM
+
+The `RANDOM` function returns a random integer.
+
+```sql
+SELECT RANDOM();
 ```
 
 ### Math
