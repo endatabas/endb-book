@@ -107,8 +107,7 @@ Tracing data is mostly useful if your Endb instance is not performing in the way
 * `wal_append_entry`
 * `wal_read_next_entry`
 * `wal_fsync`
-
-* `monotonic_counter.websocket_messages_total`
-* `counter.websocket_connections_active`
-* `counter.build_info`, `version`
-* `histogram.websocket_message_duration_seconds`
+* `websocket_messages_total`
+* `websocket_connections_active`
+* `build_info`
+* `websocket_message_duration_seconds`

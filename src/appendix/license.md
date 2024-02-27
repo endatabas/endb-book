@@ -1,6 +1,6 @@
 # License
 
-All Endatabas code is Copyright Håkan Råberg and licensed
+All Endatabas code is Copyright Håkan Råberg and Steven Deobald and licensed
 [GNU Affero General Public License v3.0](https://github.com/endatabas/endb/blob/main/LICENSE),
 unless otherwise specified.
 
