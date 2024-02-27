@@ -2933,8 +2933,7 @@ JSON documents cannot guarantee column order.</p>
 <p>See <a href="https://json-ld.org/">JSON-LD</a>.</p>
 <h3 id="multipartmixed"><a class="header" href="#multipartmixed">multipart/mixed</a></h3>
 <p><code>multipart/mixed</code> returns documents as a valid <code>multipart/mixed</code> response,
-albeit all as LD-JSON.
-This Accept Header exists for compatibility with browsers.</p>
+albeit all as LD-JSON.</p>
 <pre><code class="language-sh">curl -d &quot;SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1&quot; -H &quot;Content-Type: application/sql&quot; -H &quot;Accept: multipart/mixed&quot; -X POST http://localhost:3803/sql
 </code></pre>
 <p>returns:</p>
@@ -2980,6 +2979,7 @@ Be aware of this to ensure client code is written to detect 401 status codes.</p
 <pre><code class="language-sh">$ curl -i --user zig:wrong -d &quot;SELECT 'Hello World';&quot; -H &quot;Content-Type: application/sql&quot; -X POST http://localhost:3803/sql
 HTTP/1.1 401 Authorization Required
 </code></pre>
+<p>NOTE: HTTP Basic Auth is not secure without the additional use of HTTPS.</p>
 <h2 id="parameters-1"><a class="header" href="#parameters-1">Parameters</a></h2>
 <p>SQL parameters are available to:</p>
 <ul>

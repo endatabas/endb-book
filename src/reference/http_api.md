@@ -181,7 +181,6 @@ See [JSON-LD](https://json-ld.org/).
 
 `multipart/mixed` returns documents as a valid `multipart/mixed` response,
 albeit all as LD-JSON.
-This Accept Header exists for compatibility with browsers.
 
 ```sh
 curl -d "SELECT * FROM (VALUES (1,'hello'), (2,DATE('2023-07-22'))) t1" -H "Content-Type: application/sql" -H "Accept: multipart/mixed" -X POST http://localhost:3803/sql
@@ -253,6 +252,8 @@ Be aware of this to ensure client code is written to detect 401 status codes.
 $ curl -i --user zig:wrong -d "SELECT 'Hello World';" -H "Content-Type: application/sql" -X POST http://localhost:3803/sql
 HTTP/1.1 401 Authorization Required
 ```
+
+NOTE: HTTP Basic Auth is not secure without the additional use of HTTPS.
 
 ## Parameters
 
