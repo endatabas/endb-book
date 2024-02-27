@@ -53,10 +53,6 @@ Correlated queries are memoized by building indexes in-memory during query execu
 
 More detailed information about the future of Endb can be found in [the roadmap](roadmap.md).
 
-## Columnar (OLAP) result sets
-
-Endb does not yet support columnar data returned directly to the user.
-
 ## Cloud: Separation of Storage from Compute
 
 If you're not sure what this is, think Amazon Aurora, Google AlloyDB, and Neon.

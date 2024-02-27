@@ -117,6 +117,7 @@ Binary Large Objects can be encoded as hexidecimal literals or cast from strings
 
 ## ARRAY
 
+Endb SQL uses zero-based arrays.
 Arrays can be created with array literals similar to JSON.
 
 * `["one", "two", "three"]`
