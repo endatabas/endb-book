@@ -89,6 +89,7 @@ Endb exposes a variety of tracing spans to OpenTelemetry.
 Tracing data is mostly useful if your Endb instance is not performing in the way you expect.
 
 * `buffer_pool_eviction`
+* `build_info`
 * `commit`
 * `compaction`
 * `constraints`
@@ -107,7 +108,6 @@ Tracing data is mostly useful if your Endb instance is not performing in the way
 * `wal_append_entry`
 * `wal_read_next_entry`
 * `wal_fsync`
-* `websocket_messages_total`
 * `websocket_connections_active`
-* `build_info`
 * `websocket_message_duration_seconds`
+* `websocket_messages_total`
