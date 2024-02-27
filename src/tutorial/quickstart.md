@@ -16,7 +16,7 @@ See [Try It!](try_it.md) for methods of connecting to Endb and running queries.
 ## Try Online
 
 If you do not want to install a full Endb instance, you can try the
-[Live Demo](https://endatabas.com/console.html) instead.
+[Live Demo](https://endatabas.com/demo.html) instead.
 
 The Wasm Console runs Endb directly in your web browser,
 so you can ignore the steps in [Try It!](try_it.md) and jump straight to

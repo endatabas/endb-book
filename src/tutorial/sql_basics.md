@@ -54,7 +54,8 @@ Copy the timestamp you noted, _without_ the quotes, something like
 SELECT * from posts FOR SYSTEM_TIME AS OF {YOUR_NOTED_TIMESTAMP};
 ```
 
-NOTE: Although there is no `DELETE` in the traditional sense, there is `ERASE`,
+NOTE: Although there is no destructive `DELETE` in an immutable database,
+there is `ERASE`,
 which exists to remove data for user safety and compliance with laws like GDPR.
 
 ## Dynamic Joins
@@ -102,7 +103,7 @@ Queries in Endb always default to _as-of-now_, which is why the results of the q
 
 ## Nested Data
 
-Endb eschews [nested json](https://www.postgresql.org/docs/current/datatype-json.html)
+Endb eschews [JSONB columns](https://www.postgresql.org/docs/current/datatype-json.html)
 in favour of a native, strongly-typed, document-relational model.
 
 ```sql

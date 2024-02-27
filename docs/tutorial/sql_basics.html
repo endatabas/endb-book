@@ -207,7 +207,8 @@ Copy the timestamp you noted, <em>without</em> the quotes, something like
 <code>SELECT * from posts FOR SYSTEM_TIME AS OF 2024-01-01T00:00:00.000000Z;</code>:</p>
 <pre><code class="language-sql">SELECT * from posts FOR SYSTEM_TIME AS OF {YOUR_NOTED_TIMESTAMP};
 </code></pre>
-<p>NOTE: Although there is no <code>DELETE</code> in the traditional sense, there is <code>ERASE</code>,
+<p>NOTE: Although there is no destructive <code>DELETE</code> in an immutable database,
+there is <code>ERASE</code>,
 which exists to remove data for user safety and compliance with laws like GDPR.</p>
 <h2 id="dynamic-joins"><a class="header" href="#dynamic-joins">Dynamic Joins</a></h2>
 <p>Relationships are also dynamic.
@@ -239,7 +240,7 @@ SELECT * from users;
 If you query for Vikram's <code>user</code> document as of 2 minutes ago, you will see the old record without an <code>email</code>.
 Queries in Endb always default to <em>as-of-now</em>, which is why the results of the query above shouldn't be surprising.</p>
 <h2 id="nested-data"><a class="header" href="#nested-data">Nested Data</a></h2>
-<p>Endb eschews <a href="https://www.postgresql.org/docs/current/datatype-json.html">nested json</a>
+<p>Endb eschews <a href="https://www.postgresql.org/docs/current/datatype-json.html">JSONB columns</a>
 in favour of a native, strongly-typed, document-relational model.</p>
 <pre><code class="language-sql">INSERT INTO users (id, name, friends)
 VALUES (123, 'Anastasia', [{name: 'Heikki', country: 'Finland'},
