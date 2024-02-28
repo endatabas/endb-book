@@ -8,4 +8,4 @@ used it to learn some of what it can do.
 - [Try It!](try_it.md)
 - [Endb SQL Basics](sql_basics.md)
 
-{{#include ../alpha-warning.md}}
+{{#include ../beta-warning.md}}

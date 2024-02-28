@@ -3,7 +3,7 @@
 You only need one of the following installation options.
 If you followed the Quickstart, you already have the Docker Hub version installed.
 
-{{#include ../alpha-warning.md}}
+{{#include ../beta-warning.md}}
 
 ## Installing from Docker Hub
 
