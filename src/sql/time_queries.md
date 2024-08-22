@@ -64,7 +64,7 @@ named `system_time` (lower case).
 Because `system_time` is invisible by default, it must be retrieved explicitly:
 
 ```sql
-SELECTT *, system_time FROM products;
+SELECT *, system_time FROM products;
 ```
 
 ### AS OF (Time Travel)
